@@ -1,6 +1,6 @@
 package main.java;
 
-import main.java.commandparser.Command;
+import main.java.commandparser.Config;
 import main.java.commandparser.CommandParser;
 import main.java.dotio.DotIO;
 import main.java.dotio.TaskGraph;
@@ -12,14 +12,14 @@ import java.util.HashMap;
 
 public class Driver {
     public static void main(String[] args) {
-        Command command = CommandParser.parse(args);
-        TaskGraph taskGraph = DotIO.read(command.inputFileName);
+        Config config = CommandParser.parse(args);
+        TaskGraph taskGraph = DotIO.read(config.inputFileName);
 
         Scheduler scheduler = new BaseScheduler(taskGraph);
 
         // Uncomment this to force visualisation on
-        command.hasVisualisation = true;
-        if (command.hasVisualisation) {
+        config.hasVisualisation = true;
+        if (config.hasVisualisation) {
             startVisualisationThread(scheduler);
         }
 
@@ -28,7 +28,7 @@ public class Driver {
         HashMap<String, Integer> startTimeMap = scheduler.getStartTimeMap();
         HashMap<String, Integer> processorMap = scheduler.getProcessorMap();
 
-        DotIO.write(command.outputFileName, taskGraph, startTimeMap, processorMap);
+        DotIO.write(config.outputFileName, taskGraph, startTimeMap, processorMap);
     }
 
     public static void startVisualisationThread(Scheduler scheduler) {

@@ -1,6 +1,6 @@
 package main.java.commandparser;
 
-public class Command {
+public class Config {
     public int numProcessors;
     public String inputFileName;
     public boolean isParallelised;
