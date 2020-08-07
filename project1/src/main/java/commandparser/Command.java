@@ -2,9 +2,9 @@ package main.java.commandparser;
 
 public class Command {
     public int numProcessors;
-    String inputFileName;
-    boolean isParallelised;
-    int numParallelCores;
-    boolean hasVirtualisation;
-    String outputFileName;
+    public String inputFileName;
+    public boolean isParallelised;
+    public int numParallelCores;
+    public boolean hasVisualisation;
+    public String outputFileName;
 }
