@@ -6,6 +6,7 @@ import main.java.dotio.DotIO;
 import main.java.dotio.TaskGraph;
 import main.java.scheduler.BaseScheduler;
 import main.java.scheduler.Scheduler;
+import main.java.visualisation.FXController;
 
 import java.util.HashMap;
 
