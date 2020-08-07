@@ -36,13 +36,9 @@ public class FXController extends Application {
 
         Button btn = new Button();
         btn.setText("Say 'Hello World'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
+        btn.setOnAction((ActionEvent event) -> {
                 System.out.println("Our scheduler has " + FXController.sc.numProcessors + " processors!");
                 System.out.println("Hello World!");
-            }
         });
 
         StackPane root = new StackPane();
