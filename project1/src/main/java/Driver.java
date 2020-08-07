@@ -15,7 +15,7 @@ public class Driver {
         Config config = CommandParser.parse(args);
         TaskGraph taskGraph = DotIO.read(config.inputFileName);
 
-        Scheduler scheduler = new BaseScheduler(taskGraph);
+        Scheduler scheduler = new BaseScheduler(taskGraph, config.numProcessors);
 
         // Uncomment this to force visualisation on
         config.hasVisualisation = true;

@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public class BaseScheduler extends Scheduler {
 
-    public BaseScheduler(TaskGraph taskGraph) {
+    public BaseScheduler(TaskGraph taskGraph, int numProcessors) {
         System.out.println("Scheduler created!");
         this.numProcessors = 69;
     }
