@@ -8,8 +8,13 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import main.java.scheduler.Scheduler;
 
+import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ *
+ * @todo update methods
+ */
 public class FXController extends Application {
     public static Scheduler sc = null;
 
@@ -22,14 +27,13 @@ public class FXController extends Application {
     @Override
     public void start(Stage primaryStage) {
         // Setup polling the scheduler
-        java.util.Timer t = new java.util.Timer();
+        Timer t = new Timer();
         t.schedule(new TimerTask() {
             @Override
             public void run() {
                 onRefresh();
             }
         }, 1000, 1000);
-
 
         primaryStage.setTitle("Hello World!");
 

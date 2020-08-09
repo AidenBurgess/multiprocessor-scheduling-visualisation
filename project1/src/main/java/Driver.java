@@ -12,9 +12,14 @@ import java.util.HashMap;
 
 public class Driver {
     public static void main(String[] args) {
+
+        // read the arguments and gets the config object with all attributes
         Config config = CommandParser.parse(args);
+
+        // read the file out from the input frile
         TaskGraph taskGraph = DotIO.read(config.inputFileName);
 
+        // create a scheduler with the number of processors
         Scheduler scheduler = new BaseScheduler(taskGraph, config.numProcessors);
 
         // Uncomment this to force visualisation on
@@ -23,7 +28,7 @@ public class Driver {
             startVisualisationThread(scheduler);
         }
 
-        scheduler.execute();
+        scheduler.execute(); // blocks until finished, can be queried by fxcontroller
 
         HashMap<String, Integer> startTimeMap = scheduler.getStartTimeMap();
         HashMap<String, Integer> processorMap = scheduler.getProcessorMap();
