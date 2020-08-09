@@ -16,7 +16,7 @@ public class Driver {
         // read the arguments and gets the config object with all attributes
         Config config = CommandParser.parse(args);
 
-        // read the file out from the input frile
+        // read the file out from the input file
         TaskGraph taskGraph = DotIO.read(config.inputFileName);
 
         // create a scheduler with the number of processors
