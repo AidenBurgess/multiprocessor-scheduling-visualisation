@@ -1,8 +1,19 @@
 package main.java.dotio;
 
 public class Task {
-    public String name;
-    public int weight;
+    private String _name;
+    private int _communicationTime;
 
-    // @todo constructor
+    public Task(String name, int communicationTime) {
+        _name = name;
+        _communicationTime = communicationTime;
+    }
+
+    public String getName() {
+        return _name;
+    }
+
+    public int getCommunicationTime() {
+        return _communicationTime;
+    }
 }
