@@ -1,5 +1,7 @@
 package main.java.dotio;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 
 /**
@@ -55,17 +57,24 @@ public class DotIO {
      *
      *  writer.close();
      *
-     * @param file
+     * @param outputFile
      * @param taskGraph
      * @param startTimeMap
      * @param processorMap
      *
      * @write to a .dot file
      */
-    public static void write(String file, TaskGraph taskGraph, HashMap<String, Integer> startTimeMap, HashMap<String, Integer> processorMap) {
+    public static void write(String outputFile, TaskGraph taskGraph, HashMap<String, Integer> startTimeMap, HashMap<String, Integer> processorMap) {
 
         // Use the task graph to get the ordering of the nodes and edges
 
         // for each node, check if it has a time in the map and which processor it has been assigned to.
+
+        try {
+            PrintWriter writer = new PrintWriter(outputFile);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 }
