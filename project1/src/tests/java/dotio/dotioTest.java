@@ -4,12 +4,20 @@ import main.java.dotio.Dependency;
 import main.java.dotio.DotIO;
 import main.java.dotio.Task;
 import main.java.dotio.TaskGraph;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
+import static org.junit.Assert.*;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class dotioTest {
+
+    @Rule
+    public TemporaryFolder folder = new TemporaryFolder();
 
     /*      a           [Weight=2];
      *      b           [Weight=3];
@@ -45,6 +53,7 @@ public class dotioTest {
 
         DotIO.write("testOutput.dot", taskGraph, new HashMap<String, Integer>(), new HashMap<String, Integer>());
 
-
+        File expected = new File("expectedOutput.dot");
+        File actual = new File("testOutput.dot");
     }
 }
