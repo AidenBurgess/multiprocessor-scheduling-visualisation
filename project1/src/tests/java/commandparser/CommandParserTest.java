@@ -70,4 +70,17 @@ public class CommandParserTest {
         assertEquals(expectedConfig, resConfig);
     }
 
+    @Test
+    public void allOptionsScrambledParse() {
+        String[] simpleArgs = {"allOptions.dot", "5", "-v", "-p", "15", "-o", "nothing.dot"};
+        Config expectedConfig = new Config();
+        expectedConfig.inputFileName = "allOptions.dot";
+        expectedConfig.numProcessors = 5;
+        expectedConfig.numParallelCores = 15;
+        expectedConfig.isParallelised = true;
+        expectedConfig.hasVisualisation = true;
+        expectedConfig.outputFileName = "nothing.dot";
+        Config resConfig = CommandParser.parse(simpleArgs);
+        assertEquals(expectedConfig, resConfig);
+    }
 }
