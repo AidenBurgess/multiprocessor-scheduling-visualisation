@@ -10,8 +10,9 @@ public class TaskGraph {
     // method to input values to the tasks
 
     // @todo constructor
-    public TaskGraph() {
-
+    public TaskGraph(ArrayList<Task> tasks, ArrayList<Dependency> dependencies) {
+        _tasks = tasks;
+        _dependencies = dependencies;
     }
 
     public void insertTask(Task task) {

@@ -2,6 +2,7 @@ package main.java.dotio;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -30,7 +31,7 @@ public class DotIO {
      */
     public static TaskGraph read(String file) {
 
-        return new TaskGraph();
+        return new TaskGraph(new ArrayList<Task>(), new ArrayList<Dependency>());
     }
 
     /**

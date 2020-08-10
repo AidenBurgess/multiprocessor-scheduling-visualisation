@@ -4,7 +4,6 @@ public class Dependency {
     private String _source, _dest;
     private int _taskTime;
 
-    // @todo constructor
     public Dependency(String source, String dest, int taskTime) {
         _source = source;
         _dest = dest;
