@@ -43,4 +43,17 @@ public class CommandParserTest {
         assertEquals(expectedConfig, resConfig);
     }
 
+    @Test
+    public void parallelParse() {
+        String[] simpleArgs = {"parallel.dot", "10", "-p", "4"};
+        Config expectedConfig = new Config();
+        expectedConfig.inputFileName = "parallel.dot";
+        expectedConfig.numProcessors = 10;
+        expectedConfig.numParallelCores = 4;
+        expectedConfig.isParallelised = true;
+        expectedConfig.outputFileName = "parallel-output.dot";
+        Config resConfig = CommandParser.parse(simpleArgs);
+        assertEquals(expectedConfig, resConfig);
+    }
+
 }
