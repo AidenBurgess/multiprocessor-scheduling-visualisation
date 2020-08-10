@@ -49,7 +49,7 @@ public class dotioTest {
         dependencies.add(new Dependency("b", "d", 2));
         dependencies.add(new Dependency("c", "d", 1));
 
-        TaskGraph taskGraph = new TaskGraph(tasks, dependencies);
+        TaskGraph taskGraph = new TaskGraph("example", tasks, dependencies);
 
         DotIO.write("testOutput.dot", taskGraph, new HashMap<String, Integer>(), new HashMap<String, Integer>());
 
