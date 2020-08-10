@@ -56,4 +56,18 @@ public class CommandParserTest {
         assertEquals(expectedConfig, resConfig);
     }
 
+    @Test
+    public void allOptionsParse() {
+        String[] simpleArgs = {"allOptions.dot", "5", "-o", "none.dot", "-v", "-p", "20"};
+        Config expectedConfig = new Config();
+        expectedConfig.inputFileName = "allOptions.dot";
+        expectedConfig.numProcessors = 5;
+        expectedConfig.numParallelCores = 20;
+        expectedConfig.isParallelised = true;
+        expectedConfig.hasVisualisation = true;
+        expectedConfig.outputFileName = "none.dot";
+        Config resConfig = CommandParser.parse(simpleArgs);
+        assertEquals(expectedConfig, resConfig);
+    }
+
 }
