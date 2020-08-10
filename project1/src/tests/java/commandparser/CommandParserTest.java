@@ -27,9 +27,20 @@ public class CommandParserTest {
         expectedConfig.inputFileName = "visualisation.dot";
         expectedConfig.numProcessors = 10;
         expectedConfig.outputFileName = "visualisation-output.dot";
-        expectedConfig.isParallelised = false;
         expectedConfig.hasVisualisation = true;
         Config resConfig = CommandParser.parse(simpleArgs);
         assertEquals(expectedConfig, resConfig);
     }
+
+    @Test
+    public void outputFileParse() {
+        String[] simpleArgs = {"output.dot", "10", "-o", "different.dot"};
+        Config expectedConfig = new Config();
+        expectedConfig.inputFileName = "output.dot";
+        expectedConfig.numProcessors = 10;
+        expectedConfig.outputFileName = "different.dot";
+        Config resConfig = CommandParser.parse(simpleArgs);
+        assertEquals(expectedConfig, resConfig);
+    }
+
 }
