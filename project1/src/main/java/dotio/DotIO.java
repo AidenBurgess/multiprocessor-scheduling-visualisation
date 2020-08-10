@@ -1,7 +1,11 @@
 package main.java.dotio;
 
+import java.io.StreamTokenizer;
+import java.io.Reader;
+import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -26,13 +30,76 @@ public class DotIO {
      *      c−> d       [Weight=1];
      * }
      *
-     * @param file
+     * @param reader The reader object that encapsulates the stream being read.
      * @return
      */
-    public static TaskGraph read(String file) {
+    public static TaskGraph read(Reader reader){
 
-        return new TaskGraph("example", new ArrayList<Task>(), new ArrayList<Dependency>());
+        StreamTokenizer tk = new StreamTokenizer(reader);
+        //setDotSyntax(tk);
+
+
+        TaskGraph graph = new TaskGraph(tk.sval);
+        try {
+            tk.nextToken();
+            //Check that input graph is a digraph.
+            if ((tk.ttype == StreamTokenizer.TT_WORD) && tk.sval.equalsIgnoreCase("digraph")) {
+                tk.nextToken();
+
+                //Read name of graph, can either be in quotes or without quotes
+                if ((tk.ttype == '"') || (tk.ttype == StreamTokenizer.TT_WORD)) {
+//                    graph.setName(tk.sval);
+                    tk.nextToken();
+                } else {
+                    //Error when we find token other than string or quoted string here
+                }
+
+                //Read the "{" character, and start going through each node/edge until "}" character
+                if (tk.ttype == '{') {
+                    tk.nextToken();
+
+                    //Read each node/edge and add them to TaskGraph object.
+                    while (tk.ttype != '}') {
+                        tk.nextToken();
+                    }
+
+                } else {
+                    //Error when we find character other than { here
+                }
+
+            } else {
+                //Error when first word of dot file is not "digraph"
+            }
+        } catch (IOException e) {
+            //TODO: not sure what to do here, or what cases would cause this exception.
+        }
+
+        return graph;
     }
+
+    /**
+     * Sets the syntax of a StreamTokenizer object so that it is configured to read a .dot file.
+     * @param tk The StreamTokenizer object being configured
+     *
+    private static void setDotSyntax(StreamTokenizer tk) {
+        tk.resetSyntax();
+        tk.eolIsSignificant(false);
+        tk.slashStarComments(true);
+        tk.slashSlashComments(true);
+        tk.whitespaceChars(0, ' ');
+        tk.wordChars(' ' + 1, '\u00ff');
+        tk.ordinaryChar('[');
+        tk.ordinaryChar(']');
+        tk.ordinaryChar('{');
+        tk.ordinaryChar('}');
+        tk.ordinaryChar('-');
+        tk.ordinaryChar('>');
+        tk.ordinaryChar('/');
+        tk.ordinaryChar('*');
+        tk.quoteChar('"');
+        tk.whitespaceChars(';', ';');
+        tk.ordinaryChar('=');
+    }*/
 
     /**
      * Takes in a task graph for the output.

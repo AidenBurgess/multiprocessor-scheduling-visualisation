@@ -4,17 +4,15 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class TaskGraph {
-    private String _taskGraphName;
+    private String _name;
     private ArrayList<Task> _tasks; // name and a taskTime
     private ArrayList<Dependency> _dependencies; // node a, node b, communicationTime
 
     // method to input values to the tasks
-
-    // @todo constructor
-    public TaskGraph(String taskGraphName, ArrayList<Task> tasks, ArrayList<Dependency> dependencies) {
-        _tasks = tasks;
-        _dependencies = dependencies;
-        _taskGraphName = taskGraphName;
+    public TaskGraph(String name) {
+        _name = name;
+        _tasks = new ArrayList<>();
+        _dependencies = new ArrayList<>();
     }
 
     public void insertTask(Task task) {
@@ -25,15 +23,15 @@ public class TaskGraph {
         _dependencies.add(dependency);
     }
 
+    public String getName() {
+        return _name;
+    }
+
     public ArrayList<Task> getTasks() {
         return _tasks;
     }
 
     public ArrayList<Dependency> getDependencies() {
         return _dependencies;
-    }
-
-    public String getName() {
-        return _taskGraphName;
     }
 }

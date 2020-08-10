@@ -8,6 +8,9 @@ import main.java.scheduler.BaseScheduler;
 import main.java.scheduler.Scheduler;
 import main.java.visualisation.FXController;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.HashMap;
 
 public class Driver {
@@ -16,8 +19,13 @@ public class Driver {
         // read the arguments and gets the config object with all attributes
         Config config = CommandParser.parse(args);
 
-        // read the file out from the input frile
-        TaskGraph taskGraph = DotIO.read(config.inputFileName);
+        // read the file out from the input file
+        TaskGraph taskGraph = null;
+        try {
+            taskGraph = DotIO.read(new BufferedReader(new FileReader(config.inputFileName)));
+        } catch (FileNotFoundException e) {
+            System.err.println("nah dawg that ain't it");
+        }
 
         // create a scheduler with the number of processors
         Scheduler scheduler = new BaseScheduler(taskGraph, config.numProcessors);
