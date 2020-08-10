@@ -20,4 +20,16 @@ public class CommandParserTest {
         assertEquals(expectedConfig, resConfig);
     }
 
+    @Test
+    public void hasVisualisationParse() {
+        String[] simpleArgs = {"visualisation.dot", "10", "-v"};
+        Config expectedConfig = new Config();
+        expectedConfig.inputFileName = "visualisation.dot";
+        expectedConfig.numProcessors = 10;
+        expectedConfig.outputFileName = "visualisation-output.dot";
+        expectedConfig.isParallelised = false;
+        expectedConfig.hasVisualisation = true;
+        Config resConfig = CommandParser.parse(simpleArgs);
+        assertEquals(expectedConfig, resConfig);
+    }
 }
