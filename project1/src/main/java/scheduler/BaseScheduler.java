@@ -10,6 +10,9 @@ import java.util.List;
 
 public class BaseScheduler extends Scheduler {
 
+    private List<Task> taskList;
+    private HashMap<String, Node> nodeMap = new HashMap<>();
+
     public BaseScheduler(TaskGraph taskGraph, int numProcessors) {
         System.out.println("Scheduler created!");
         this.numProcessors = 69;
