@@ -15,6 +15,15 @@ public class Node {
         this.name = name;
         this.weight = weight;
     }
+
+    public void addParentNode(Node parentNode) {
+        dependantOn.add(parentNode);
+    }
+
+    public boolean isDependentOn(Node nodeToCheck) {
+        return dependantOn.contains(nodeToCheck);
+    }
+
     public void setStartTime(int startTime) {
         this.startTime = startTime;
     }
