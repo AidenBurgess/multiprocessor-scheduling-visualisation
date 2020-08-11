@@ -89,52 +89,59 @@ public class DotIO {
 
     /**
      * Read an individual graph object (i.e. a node or an edge) from a dot file and add it to the specified graph object
-     * @param tk
-     * @param graph
-     * @throws IOException
+     * @param tk The StreamTokenizer object being used to parse the input file.
+     * @param graph The TaskGraph object being created to encapsulate the graph from the .dot file.
+     * @throws IOException If an IOException is thrown by the StreamTokenizer object.
+     * @throws DotIOException If the .dot syntax is invalid or incorrect.
      */
-    private static void readGraphObject(StreamTokenizer tk, TaskGraph graph) throws IOException {
+    private static void readGraphObject(StreamTokenizer tk, TaskGraph graph) throws IOException, DotIOException {
 
         String srcNode = null;
         String destNode = null;
         int weight = 0;
 
+        //Check for first word: the name of the node, or the name of the source node of the edge
         if (tk.ttype == StreamTokenizer.TT_WORD) {
             srcNode = tk.sval;
             tk.nextToken();
         } else {
-            //Error: First token in the line wasn't a node name
+            throw new DotIOException(); //Error: First token in the line wasn't a node name
         }
 
+        //Check if the element is an edge by checking for the '->' sequence. If it is, then parse the dest node
         if ((tk.ttype == StreamTokenizer.TT_WORD) && (tk.sval.contains("−>"))) {
             tk.nextToken();
             if (tk.ttype == StreamTokenizer.TT_WORD) {
                 destNode = tk.sval;
                 tk.nextToken();
             } else {
-                System.out.println("//Error: destination of edge is not a word");
+                throw new DotIOException(); //Error: destination of edge is not a word"
             }
         }
 
+        //Check for the '[' symbol before the weight property.
         if (tk.ttype == '[') {
             tk.nextToken();
         } else {
-            //Error: found other character when expecting '['
+            throw new DotIOException(); //Error: found other character when expecting '['
         }
 
+        //Check that the weight of the node is correctly notated.
         if ((tk.ttype == StreamTokenizer.TT_WORD) && tk.sval.startsWith("Weight=")) {
             weight = Integer.parseInt(tk.sval.substring(7));
             tk.nextToken();
         } else {
-            //Error: Weight of node/edge not specified.
+            throw new DotIOException(); //Error: Weight of node/edge not specified.
         }
 
+        //Check that there is a ']' character after weight property.
         if (tk.ttype == ']') {
             tk.nextToken();
         } else {
-            //Error: Couldn't find ']' character
+            throw new DotIOException(); //Error: Couldn't find ']' character
         }
 
+        //Determine whether to add task or dependency by checking if destNode has been changed or not.
         if (destNode == null) {
             graph.insertTask(new Task(srcNode, weight));
         } else {
