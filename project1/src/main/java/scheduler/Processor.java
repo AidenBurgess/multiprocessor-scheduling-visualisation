@@ -16,4 +16,9 @@ public class Processor {
         nodes = new ArrayList<>();
     }
 
+    public int getEndTime() {
+        return endTime;
+    }
+
+
 }
