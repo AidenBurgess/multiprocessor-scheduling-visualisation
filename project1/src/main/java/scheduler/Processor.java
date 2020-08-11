@@ -7,7 +7,9 @@ import java.util.List;
 
 public class Processor {
 
-    public List<Task> tasks;
+    private List<Node> nodes;
+    private int processorNum;
+    private int endTime = 0;
 
     public Processor() {
         tasks = new ArrayList<>();

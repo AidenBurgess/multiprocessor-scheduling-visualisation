@@ -1,7 +1,12 @@
 package main.java.scheduler;
 
+import main.java.dotio.Dependency;
+import main.java.dotio.Task;
 import main.java.dotio.TaskGraph;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class BaseScheduler extends Scheduler {
 
