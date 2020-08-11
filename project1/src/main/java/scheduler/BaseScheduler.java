@@ -14,8 +14,13 @@ public class BaseScheduler extends Scheduler {
     private HashMap<String, Node> nodeMap = new HashMap<>();
 
     public BaseScheduler(TaskGraph taskGraph, int numProcessors) {
-        System.out.println("Scheduler created!");
-        this.numProcessors = 69;
+        this.numProcessors = numProcessors;
+        input = taskGraph;
+        taskList = input.tasks;
+
+        for (Task task : taskList) {
+            nodeMap.put(task.name, new Node(task.name, task.weight)); //change to method
+        }
     }
 
     public void execute() {
