@@ -35,88 +35,105 @@ public class DotIO {
      * @param reader The reader object that encapsulates the stream being read.
      * @return
      */
-    public static TaskGraph read(Reader reader){
+    public static TaskGraph read(Reader reader) {
 
         StreamTokenizer tk = new StreamTokenizer(reader);
         tk.wordChars('-','-');
         tk.wordChars('=','>');
         tk.whitespaceChars(';',';');
 
-        TaskGraph graph = new TaskGraph(tk.sval);
+        TaskGraph graph;
         try {
             tk.nextToken();
+
             //Check that input graph is a digraph.
             if ((tk.ttype == StreamTokenizer.TT_WORD) && tk.sval.equalsIgnoreCase("digraph")) {
                 tk.nextToken();
-
-                //Read name of graph, can either be in quotes or without quotes
-                if ((tk.ttype == '"') || (tk.ttype == StreamTokenizer.TT_WORD)) {
-//                    graph.setName(tk.sval);
-                    tk.nextToken();
-                } else {
-                    //Error when we find token other than string or quoted string here
-                }
-
-                //Read the "{" character, and start going through each node/edge until "}" character
-                if (tk.ttype == '{') {
-                    tk.nextToken();
-                    //Read each node/edge and add them to TaskGraph object.
-                    while (tk.ttype != '}') {
-                        if (tk.ttype == StreamTokenizer.TT_EOF) {
-                            //Error: reached end of file before "}"
-                        }
-                        readGraphObject(tk, graph);
-                    }
-
-                } else {
-                    //Error when we find character other than { here
-                }
-
             } else {
-                //Error when first word of dot file is not "digraph"
+                throw new DotIOException(); //Error: input is not digraph
             }
-        } catch (IOException e) {
-            //TODO: not sure what to do here, or what cases would cause this exception.
-        }
 
-        return graph;
+            //Read name of graph, can either be in quotes or without quotes
+            if ((tk.ttype == '"') || (tk.ttype == StreamTokenizer.TT_WORD)) {
+                graph = new TaskGraph(tk.sval);
+                    tk.nextToken();
+            } else {
+                throw new DotIOException(); //Error: graph name is not specified.
+            }
+
+            //Read the "{" character, and start going through each node/edge until "}" character
+            if (tk.ttype == '{') {
+                tk.nextToken();
+            } else {
+                throw new DotIOException(); //Error: no '{' character was found
+            }
+
+            //Read each node/edge and add them to TaskGraph object.
+            while (tk.ttype != '}') {
+                if (tk.ttype == StreamTokenizer.TT_EOF) {
+                    throw new DotIOException(); //Error: reached end of file before "}"
+                }
+                readGraphObject(tk, graph);
+            }
+            return graph;
+
+        } catch (IOException e) {
+            throw new DotIOException();
+        }
     }
 
+    /**
+     * Read an individual graph object (i.e. a node or an edge) from a dot file and add it to the specified graph object
+     * @param tk
+     * @param graph
+     * @throws IOException
+     */
     private static void readGraphObject(StreamTokenizer tk, TaskGraph graph) throws IOException {
 
-        if (tk.ttype == StreamTokenizer.TT_WORD) {
+        String srcNode = null;
+        String destNode = null;
+        int weight = 0;
 
-            String srcNode = tk.sval;
-            String destNode;
-            int weight;
+        if (tk.ttype == StreamTokenizer.TT_WORD) {
+            srcNode = tk.sval;
             tk.nextToken();
-            if ((tk.ttype == StreamTokenizer.TT_WORD) && (tk.sval.contains("−>"))) {
-                tk.nextToken();
-                if (tk.ttype == StreamTokenizer.TT_WORD) {
-                    destNode = tk.sval;
-                    tk.nextToken();
-                } else {
-                    System.out.println("//Error: destination of edge is not a word");
-                }
-            }
-            if (tk.ttype == '[') {
-                tk.nextToken();
-                if ((tk.ttype == StreamTokenizer.TT_WORD) && tk.sval.startsWith("Weight=")) {
-                    weight = Integer.parseInt(tk.sval.substring(7));
-                    tk.nextToken();
-                    if (tk.ttype == ']') {
-                        tk.nextToken();
-                    } else {
-                        System.out.println("Couldn't find ']' character");
-                    }
-                } else {
-                    System.out.println("//Error: Weight of node/edge not specified");
-                }
-            } else {
-                System.out.println("//Error: found other character when expecting '[' ");
-            }
         } else {
-            System.out.println("//Error when first token in line isn't a name of a node");
+            //Error: First token in the line wasn't a node name
+        }
+
+        if ((tk.ttype == StreamTokenizer.TT_WORD) && (tk.sval.contains("−>"))) {
+            tk.nextToken();
+            if (tk.ttype == StreamTokenizer.TT_WORD) {
+                destNode = tk.sval;
+                tk.nextToken();
+            } else {
+                System.out.println("//Error: destination of edge is not a word");
+            }
+        }
+
+        if (tk.ttype == '[') {
+            tk.nextToken();
+        } else {
+            //Error: found other character when expecting '['
+        }
+
+        if ((tk.ttype == StreamTokenizer.TT_WORD) && tk.sval.startsWith("Weight=")) {
+            weight = Integer.parseInt(tk.sval.substring(7));
+            tk.nextToken();
+        } else {
+            //Error: Weight of node/edge not specified.
+        }
+
+        if (tk.ttype == ']') {
+            tk.nextToken();
+        } else {
+            //Error: Couldn't find ']' character
+        }
+
+        if (destNode == null) {
+            graph.insertTask(new Task(srcNode, weight));
+        } else {
+            graph.insertDependency(new Dependency(srcNode, destNode, weight));
         }
     }
 
