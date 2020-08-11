@@ -7,13 +7,15 @@ import main.java.dotio.TaskGraph;
 
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.Assert;
+
 import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import static org.junit.Assert.*;
 
 public class DotIOTest {
 
@@ -22,7 +24,7 @@ public class DotIOTest {
         TaskGraph tg = DotIO.read(new StringReader(
                 "digraph  \"example\" { a [Weight=2]; b [Weight=3]; a −> b [Weight=1]; c [Weight=3]; a −> c [Weight=2]; d [Weight=2]; b −> d [Weight=2]; c −> d [Weight=1];}"
         ));
-        Assert.assertEquals("example", tg.getName());
+        assertEquals("example", tg.getName());
     }
 
     @Rule
@@ -72,6 +74,7 @@ public class DotIOTest {
         File expected = new File("expectedOutput.dot");
         File actual = new File("testOutput.dot");
 
-
+        // @todo create a line by line comparator, or convert to a string
+//        assertEquals(expected, actual);
     }
 }
