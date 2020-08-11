@@ -160,7 +160,7 @@ public class DotIO {
                     int processor = processorMap.get(taskName);
                     writer.println("\t" + taskName + "\t\t[Weight="+taskTime+", Start="+startTime+", Processor="+processor+"];");
                 } else {
-                    throw new Exception("No valid schedule");
+                    throw new DotIOException("No valid schedule");
                 }
             }
 
