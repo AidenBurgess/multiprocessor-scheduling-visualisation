@@ -10,4 +10,9 @@ public class Node {
     private List<Node> dependantOn = new ArrayList<>();
     private int weight;
     private int endTime;
+
+    public Node(String name, int weight) {
+        this.name = name;
+        this.weight = weight;
+    }
 }
