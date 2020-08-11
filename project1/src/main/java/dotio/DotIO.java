@@ -78,8 +78,13 @@ public class DotIO {
             return graph;
 
         } catch (IOException e) {
-            throw new DotIOException();
+            //TODO: Handle default java IOException
+        } catch (DotIOException e) {
+            //TODO: Handle our custom DotIOException, I think it might be best to have this method throw it, and catch
+            // it in the main() method.
         }
+
+        return null;
     }
 
     /**

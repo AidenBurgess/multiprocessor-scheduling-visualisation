@@ -1,4 +1,4 @@
 package main.java.dotio;
 
-public class DotIOException extends RuntimeException {
+public class DotIOException extends Exception {
 }
