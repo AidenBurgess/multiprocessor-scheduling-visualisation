@@ -24,7 +24,6 @@ public class BaseScheduler extends Scheduler {
     }
 
     public void execute() {
-        System.out.println("Execute called!");
         storeDependencies();
 
         int numberOfTaskOrders = 0; //todo
@@ -40,6 +39,13 @@ public class BaseScheduler extends Scheduler {
         }
     }
 
+    private void storeDependencies() {
+        for (Dependency dependency : input.dependencies) {
+            String from = dependency.from;
+            String to = dependency.to;
+            nodeMap.get(to).addParentNode(nodeMap.get(from));
+        }
+    }
     }
 
     @Override
