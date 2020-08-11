@@ -35,8 +35,9 @@ public class DotIO {
     public static TaskGraph read(Reader reader){
 
         StreamTokenizer tk = new StreamTokenizer(reader);
-        //setDotSyntax(tk);
-
+        tk.wordChars('-','-');
+        tk.wordChars('=','>');
+        tk.whitespaceChars(';',';');
 
         TaskGraph graph = new TaskGraph();
         try {
@@ -56,10 +57,12 @@ public class DotIO {
                 //Read the "{" character, and start going through each node/edge until "}" character
                 if (tk.ttype == '{') {
                     tk.nextToken();
-
                     //Read each node/edge and add them to TaskGraph object.
                     while (tk.ttype != '}') {
-                        tk.nextToken();
+                        if (tk.ttype == StreamTokenizer.TT_EOF) {
+                            //Error: reached end of file before "}"
+                        }
+                        readGraphObject(tk, graph);
                     }
 
                 } else {
@@ -76,29 +79,43 @@ public class DotIO {
         return graph;
     }
 
-    /**
-     * Sets the syntax of a StreamTokenizer object so that it is configured to read a .dot file.
-     * @param tk The StreamTokenizer object being configured
-     *
-    private static void setDotSyntax(StreamTokenizer tk) {
-        tk.resetSyntax();
-        tk.eolIsSignificant(false);
-        tk.slashStarComments(true);
-        tk.slashSlashComments(true);
-        tk.whitespaceChars(0, ' ');
-        tk.wordChars(' ' + 1, '\u00ff');
-        tk.ordinaryChar('[');
-        tk.ordinaryChar(']');
-        tk.ordinaryChar('{');
-        tk.ordinaryChar('}');
-        tk.ordinaryChar('-');
-        tk.ordinaryChar('>');
-        tk.ordinaryChar('/');
-        tk.ordinaryChar('*');
-        tk.quoteChar('"');
-        tk.whitespaceChars(';', ';');
-        tk.ordinaryChar('=');
-    }*/
+    private static void readGraphObject(StreamTokenizer tk, TaskGraph graph) throws IOException {
+
+        if (tk.ttype == StreamTokenizer.TT_WORD) {
+
+            String srcNode = tk.sval;
+            String destNode;
+            int weight;
+            tk.nextToken();
+            if ((tk.ttype == StreamTokenizer.TT_WORD) && (tk.sval.contains("−>"))) {
+                tk.nextToken();
+                if (tk.ttype == StreamTokenizer.TT_WORD) {
+                    destNode = tk.sval;
+                    tk.nextToken();
+                } else {
+                    System.out.println("//Error: destination of edge is not a word");
+                }
+            }
+            if (tk.ttype == '[') {
+                tk.nextToken();
+                if ((tk.ttype == StreamTokenizer.TT_WORD) && tk.sval.startsWith("Weight=")) {
+                    weight = Integer.parseInt(tk.sval.substring(7));
+                    tk.nextToken();
+                    if (tk.ttype == ']') {
+                        tk.nextToken();
+                    } else {
+                        System.out.println("Couldn't find ']' character");
+                    }
+                } else {
+                    System.out.println("//Error: Weight of node/edge not specified");
+                }
+            } else {
+                System.out.println("//Error: found other character when expecting '[' ");
+            }
+        } else {
+            System.out.println("//Error when first token in line isn't a name of a node");
+        }
+    }
 
     /**
      * Takes in a task graph for the output.
