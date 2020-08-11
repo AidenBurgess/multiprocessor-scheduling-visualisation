@@ -15,4 +15,15 @@ public class Node {
         this.name = name;
         this.weight = weight;
     }
+    public void setStartTime(int startTime) {
+        this.startTime = startTime;
+    }
+    public void setEndTime(int endTime) {
+        this.endTime = endTime;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
 }
