@@ -76,4 +76,9 @@ public class BaseScheduler extends Scheduler {
         }
 
     }
+
+    public void setBestState(Schedule bestSchedule) {
+        bestState = bestSchedule;
+    }
 }
+
