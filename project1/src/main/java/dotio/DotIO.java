@@ -1,5 +1,7 @@
 package main.java.dotio;
 
+import jdk.jshell.spi.ExecutionControlProvider;
+
 import java.io.StreamTokenizer;
 import java.io.Reader;
 import java.io.IOException;
@@ -153,13 +155,34 @@ public class DotIO {
                 // if there is a start time
                 if (startTimeMap.containsKey(taskName)) {
 
-                    int communicationTime = task.getCommunicationTime();
+                    int taskTime = task.getTaskTime();
                     int startTime = startTimeMap.get(taskName);
-                    writer.println("\t" + taskName + "\t\t");
+                    int processor = processorMap.get(taskName);
+                    writer.println("\t" + taskName + "\t\t[Weight="+taskTime+", Start="+startTime+", Processor="+processor+"];");
+                } else {
+                    throw new Exception("No valid schedule");
                 }
             }
 
+            ArrayList<Dependency> dependencies = taskGraph.getDependencies();
+
+            // add the rest of the dependencies
+            for (Dependency dependency : dependencies) {
+
+                String source = dependency.getSource();
+                String dest = dependency.getDest();
+                int communicationTime = dependency.getCommunicationTime();
+
+                writer.println("\t" + source + " -> " + dest + "\t[Weight=" + communicationTime + "];");
+            }
+
+            writer.println("}");
+
+            writer.close();
+
         } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
