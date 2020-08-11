@@ -25,6 +25,21 @@ public class BaseScheduler extends Scheduler {
 
     public void execute() {
         System.out.println("Execute called!");
+        storeDependencies();
+
+        int numberOfTaskOrders = 0; //todo
+        for (int i = 0; i < numberOfTaskOrders; i++) {
+            List<Node> nodeList = null; //todo generate order
+
+            if (!validOrder(nodeList)) {
+                continue;
+            }
+
+            currentState = new Schedule(numProcessors);
+            dfs();
+        }
+    }
+
     }
 
     @Override
