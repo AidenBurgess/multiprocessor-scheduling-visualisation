@@ -11,7 +11,9 @@ public class Processor {
     private int processorNum;
     private int endTime = 0;
 
-    public Processor() {
-        tasks = new ArrayList<>();
+    public Processor(int processorNum) {
+        this.processorNum = processorNum;
+        nodes = new ArrayList<>();
     }
+
 }
