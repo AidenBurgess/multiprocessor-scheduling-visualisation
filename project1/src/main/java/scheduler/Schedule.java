@@ -16,4 +16,13 @@ public class Schedule {
             processors.add(new Processor(i));
         }
     }
+
+    public int endTime() {
+        int maxProcessorEndTime = Integer.MIN_VALUE;
+        for (Processor processor : processors) {
+            maxProcessorEndTime = Math.max(maxProcessorEndTime, processor.getEndTime());
+        }
+        return maxProcessorEndTime;
+    }
+
 }
