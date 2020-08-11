@@ -46,6 +46,16 @@ public class BaseScheduler extends Scheduler {
             nodeMap.get(to).addParentNode(nodeMap.get(from));
         }
     }
+
+    private boolean validOrder(List<Node> nodeList) {
+        for (int i = 0; i < nodeList.size(); i++) {
+            for (int j = i + 1; j < nodeList.size(); j++) {
+                if (nodeList.get(i).isDependentOn(nodeList.get(j))) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     @Override
