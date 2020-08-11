@@ -9,15 +9,10 @@ public class TaskGraph {
     private ArrayList<Dependency> _dependencies; // node a, node b, communicationTime
 
     // method to input values to the tasks
-
-    // @todo constructor
-    public TaskGraph() {
+    public TaskGraph(String name) {
+        _name = name;
         _tasks = new ArrayList<>();
         _dependencies = new ArrayList<>();
-    }
-
-    public void setName(String name) {
-        _name = name;
     }
 
     public void insertTask(Task task) {

@@ -2,13 +2,12 @@ package main.java.dotio;
 
 public class Dependency {
     private String _source, _dest;
-    private int _taskTime;
+    private int _communicationTime;
 
-    // @todo constructor
-    public Dependency(String source, String dest, int taskTime) {
+    public Dependency(String source, String dest, int communicationTime) {
         _source = source;
         _dest = dest;
-        _taskTime = taskTime;
+        _communicationTime = communicationTime;
     }
 
     public String getSource() {
@@ -19,7 +18,7 @@ public class Dependency {
         return _dest;
     }
 
-    public int getTaskTime() {
-        return _taskTime;
+    public int getCommunicationTime() {
+        return _communicationTime;
     }
 }

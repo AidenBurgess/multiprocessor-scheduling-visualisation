@@ -2,18 +2,18 @@ package main.java.dotio;
 
 public class Task {
     private String _name;
-    private int _communicationTime;
+    private int _taskTime;
 
-    public Task(String name, int communicationTime) {
+    public Task(String name, int taskTime) {
         _name = name;
-        _communicationTime = communicationTime;
+        _taskTime = taskTime;
     }
 
     public String getName() {
         return _name;
     }
 
-    public int getCommunicationTime() {
-        return _communicationTime;
+    public int getTaskTime() {
+        return _taskTime;
     }
 }

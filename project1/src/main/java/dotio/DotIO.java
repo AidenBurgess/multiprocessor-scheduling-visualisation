@@ -1,11 +1,14 @@
 package main.java.dotio;
 
+import jdk.jshell.spi.ExecutionControlProvider;
+
 import java.io.StreamTokenizer;
 import java.io.Reader;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -39,7 +42,7 @@ public class DotIO {
         tk.wordChars('=','>');
         tk.whitespaceChars(';',';');
 
-        TaskGraph graph = new TaskGraph();
+        TaskGraph graph = new TaskGraph(tk.sval);
         try {
             tk.nextToken();
             //Check that input graph is a digraph.
@@ -48,7 +51,7 @@ public class DotIO {
 
                 //Read name of graph, can either be in quotes or without quotes
                 if ((tk.ttype == '"') || (tk.ttype == StreamTokenizer.TT_WORD)) {
-                    graph.setName(tk.sval);
+//                    graph.setName(tk.sval);
                     tk.nextToken();
                 } else {
                     //Error when we find token other than string or quoted string here
@@ -123,12 +126,12 @@ public class DotIO {
      *  digraph  "outputExample" {
      *      a           [Weight=2, Start=0, Processor=1];
      *      b           [Weight=3, Start=2, Processor=1];
-     *      a−> b       [Weight=1];
+     *      a −> b      [Weight=1];
      *      c           [Weight=3, Start=4, Processor=2];
-     *      a−> c       [Weight=2];
+     *      a −> c      [Weight=2];
      *      d           [Weight=2, Start=7, Processor=2];
-     *      b−> d       [Weight=2];
-     *      c−> d       [Weight=1];
+     *      b −> d      [Weight=2];
+     *      c −> d      [Weight=1];
      *  }
      *
      * Some writer example
@@ -156,7 +159,47 @@ public class DotIO {
 
         try {
             PrintWriter writer = new PrintWriter(outputFile);
+
+            // write the first line
+            writer.println("digraph " + taskGraph.getName() + " {");
+
+            // iterate through the task graph tasks
+            ArrayList<Task> tasks = taskGraph.getTasks();
+
+            for (Task task : tasks) {
+                String taskName = task.getName();
+
+                // if there is a start time
+                if (startTimeMap.containsKey(taskName)) {
+
+                    int taskTime = task.getTaskTime();
+                    int startTime = startTimeMap.get(taskName);
+                    int processor = processorMap.get(taskName);
+                    writer.println("\t" + taskName + "\t\t[Weight="+taskTime+", Start="+startTime+", Processor="+processor+"];");
+                } else {
+                    throw new Exception("No valid schedule");
+                }
+            }
+
+            ArrayList<Dependency> dependencies = taskGraph.getDependencies();
+
+            // add the rest of the dependencies
+            for (Dependency dependency : dependencies) {
+
+                String source = dependency.getSource();
+                String dest = dependency.getDest();
+                int communicationTime = dependency.getCommunicationTime();
+
+                writer.println("\t" + source + " -> " + dest + "\t[Weight=" + communicationTime + "];");
+            }
+
+            writer.println("}");
+
+            writer.close();
+
         } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
