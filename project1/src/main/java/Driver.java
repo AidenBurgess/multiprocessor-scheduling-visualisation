@@ -3,6 +3,7 @@ package main.java;
 import main.java.commandparser.Config;
 import main.java.commandparser.CommandParser;
 import main.java.dotio.DotIO;
+import main.java.dotio.DotIOException;
 import main.java.dotio.TaskGraph;
 import main.java.scheduler.BaseScheduler;
 import main.java.scheduler.Scheduler;
@@ -41,7 +42,12 @@ public class Driver {
         HashMap<String, Integer> startTimeMap = scheduler.getStartTimeMap();
         HashMap<String, Integer> processorMap = scheduler.getProcessorMap();
 
-        DotIO.write(config.outputFileName, taskGraph, startTimeMap, processorMap);
+        try {
+            DotIO.write(config.outputFileName, taskGraph, startTimeMap, processorMap);
+        } catch (DotIOException e) {
+            System.err.println(e.getMessage());
+        }
+
     }
 
     public static void startVisualisationThread(Scheduler scheduler) {
