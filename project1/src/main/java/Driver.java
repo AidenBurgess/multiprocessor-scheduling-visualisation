@@ -3,6 +3,7 @@ package main.java;
 import main.java.commandparser.Config;
 import main.java.commandparser.CommandParser;
 import main.java.dotio.DotIO;
+import main.java.dotio.DotIOException;
 import main.java.dotio.TaskGraph;
 import main.java.scheduler.BaseScheduler;
 import main.java.scheduler.Scheduler;
@@ -25,6 +26,8 @@ public class Driver {
             taskGraph = DotIO.read(new BufferedReader(new FileReader(config.inputFileName)));
         } catch (FileNotFoundException e) {
             System.err.println("nah dawg that ain't it");
+        } catch (DotIOException e) {
+            System.err.println("Error with dot syntax: " + e.getMessage());
         }
 
         // create a scheduler with the number of processors

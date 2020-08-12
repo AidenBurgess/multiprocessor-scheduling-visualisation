@@ -35,7 +35,7 @@ public class DotIO {
      * @param reader The reader object that encapsulates the stream being read.
      * @return
      */
-    public static TaskGraph read(Reader reader) {
+    public static TaskGraph read(Reader reader) throws DotIOException {
 
         StreamTokenizer tk = new StreamTokenizer(reader);
         tk.wordChars('-','-');
@@ -78,10 +78,7 @@ public class DotIO {
             return graph;
 
         } catch (IOException e) {
-            //TODO: Handle default java IOException
-        } catch (DotIOException e) {
-            //TODO: Handle our custom DotIOException, I think it might be best to have this method throw it, and catch
-            // it in the main() method.
+            throw new DotIOException("Java IO error occured.");
         }
 
         return null;
