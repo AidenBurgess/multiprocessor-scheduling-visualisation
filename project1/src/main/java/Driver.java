@@ -44,7 +44,12 @@ public class Driver {
         HashMap<String, Integer> startTimeMap = scheduler.getStartTimeMap();
         HashMap<String, Integer> processorMap = scheduler.getProcessorMap();
 
-        DotIO.write(config.outputFileName, taskGraph, startTimeMap, processorMap);
+        try {
+            DotIO.write(config.outputFileName, taskGraph, startTimeMap, processorMap);
+        } catch (DotIOException e) {
+            System.err.println(e.getMessage());
+        }
+
     }
 
     public static void startVisualisationThread(Scheduler scheduler) {

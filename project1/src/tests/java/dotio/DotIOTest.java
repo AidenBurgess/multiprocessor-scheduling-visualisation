@@ -1,9 +1,6 @@
 package tests.java.dotio;
 
-import main.java.dotio.Dependency;
-import main.java.dotio.DotIO;
-import main.java.dotio.Task;
-import main.java.dotio.TaskGraph;
+import main.java.dotio.*;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -68,7 +65,11 @@ public class DotIOTest {
         taskGraph.insertDependency(new Dependency("b", "d", 2));
         taskGraph.insertDependency(new Dependency("c", "d", 1));
 
-        DotIO.write("testOutput.dot", taskGraph, startTimeMap, processorMap);
+        try {
+            DotIO.write("testOutput.dot", taskGraph, startTimeMap, processorMap);
+        } catch (DotIOException e) {
+            System.err.println(e.getMessage());
+        }
 
         File expected = new File("expectedOutput.dot");
         File actual = new File("testOutput.dot");
