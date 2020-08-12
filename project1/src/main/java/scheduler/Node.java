@@ -55,6 +55,10 @@ public class Node {
         return processor;
     }
 
+    public void setProcessor(Processor processor) {
+        this.processor = processor;
+    }
+
     public int getEndTime() {
         return endTime;
     }

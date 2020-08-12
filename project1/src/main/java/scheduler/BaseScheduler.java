@@ -110,14 +110,14 @@ public class BaseScheduler extends Scheduler {
 
             for (Processor processor : currentState.getProcessors()) {
 
-                // todo put node on processor
+                // todo put node on processor - done
                 processor.scheduleTask(node, edgeMap.get(node));
 
-                // todo edit the node, and all the state changes that you need to do
-                // todo maybe change node start/stop time to match
+                // todo edit the node, and all the state changes that you need to do - done inside the scheduleTask method
+                // todo maybe change node start/stop time to match - done inside the scheduleTask method
 
 
-                // todo you are putting task on a processor, you need to know the delay time.
+                // todo you are putting task on a processor, you need to know the delay time. - done inside the scheduleTask method
 
                 dfs();
                 // todo take node off processor

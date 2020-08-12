@@ -45,7 +45,9 @@ public class Processor {
         node.setStartTime(endTime + schedulingDelay);
         endTime += node.getWeight() + schedulingDelay;
         node.setEndTime(endTime);
-        nodes.add(node);;
+        node.turnOn();
+        node.setProcessor(this);
+        nodes.add(node);
     }
 
     public void deleteLastTask() {
