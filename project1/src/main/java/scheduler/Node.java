@@ -10,10 +10,13 @@ public class Node {
     private List<Node> dependantOn = new ArrayList<>();
     private int weight;
     private int endTime;
+    private Processor processor;
+    private boolean isOn;
 
     public Node(String name, int weight) {
         this.name = name;
         this.weight = weight;
+        isOn = false;
     }
 
     public void addParentNode(Node parentNode) {
@@ -27,6 +30,7 @@ public class Node {
     public void setStartTime(int startTime) {
         this.startTime = startTime;
     }
+
     public void setEndTime(int endTime) {
         this.endTime = endTime;
     }
@@ -34,5 +38,26 @@ public class Node {
     public int getWeight() {
         return weight;
     }
+
+    public void turnOn() {
+        isOn = true;
+    }
+
+    public boolean isOn() {
+        return isOn;
+    }
+
+    public List<Node> getDependantOn() {
+        return dependantOn;
+    }
+
+    public Processor getProcessor() {
+        return processor;
+    }
+
+    public int getEndTime() {
+        return endTime;
+    }
+
 
 }
