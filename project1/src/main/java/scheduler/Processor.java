@@ -36,10 +36,19 @@ public class Processor {
             parentEdgeWeightMap.put(edge.getFrom(), edge.getWeight());
         }
 
+        /**
+         * todo schedulingDelay = Math.max(schedulingDelay, parent.getEndTime() + parent.getWeight() - endTime);
+         * todo parent.isOn() is redundant as all the parents have to be on for the control to reach this statement
+         */
         for(Node parent : parents) {
             if(parent.isOn() && parent.getProcessor() == this) {
                 schedulingDelay = Math.max(schedulingDelay, parent.getEndTime() + parentEdgeWeightMap.get(parent) - endTime);
             }
+            /**
+             * todo else {
+             *    schedulingDelay = Math.max(schedulingDelay, parent.getEndTime() + parentEdgeWeightMap.get(parent) - endTime);
+             * }
+             */
         }
 
         node.setStartTime(endTime + schedulingDelay);
