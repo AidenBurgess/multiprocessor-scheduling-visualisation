@@ -25,9 +25,11 @@ public class Driver {
         try {
             taskGraph = DotIO.read(new BufferedReader(new FileReader(config.inputFileName)));
         } catch (FileNotFoundException e) {
-            System.err.println("File does not exist");
+            System.err.println("Error: File " + config.inputFileName + " does not exist");
+            System.exit(1);
         } catch (DotIOException e) {
-            System.err.println("Error with dot syntax: " + e.getMessage());
+            System.err.println("Error with dot syntax of input file: " + e.getMessage());
+            System.exit(1);
         }
 
         // create a scheduler with the number of processors
@@ -47,7 +49,8 @@ public class Driver {
         try {
             DotIO.write(config.outputFileName, taskGraph, startTimeMap, processorMap);
         } catch (DotIOException e) {
-            System.err.println("Error with dot syntax: " + e.getMessage());
+            System.err.println("Error writing output file: " + e.getMessage());
+            System.exit(1);
         }
     }
 
