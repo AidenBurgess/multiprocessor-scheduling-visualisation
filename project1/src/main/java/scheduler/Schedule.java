@@ -25,4 +25,11 @@ public class Schedule {
         return maxProcessorEndTime;
     }
 
+    public boolean isComplete() {
+        return false;
+    }
+
+    public List<Processor> getProcessors() {
+        return processors;
+    }
 }

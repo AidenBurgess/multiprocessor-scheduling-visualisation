@@ -24,19 +24,11 @@ public class BaseScheduler extends Scheduler {
     }
 
     public void execute() {
-        storeDependencies();
+        storeDependencies(); // todo potentailly something different, depneding on how you choose to do stuff later on
 
-        int numberOfTaskOrders = 0; //todo
-        for (int i = 0; i < numberOfTaskOrders; i++) {
-            List<Node> nodeList = null; //todo generate order
+        currentState = new Schedule(numProcessors);
+        dfs();
 
-            if (!validOrder(nodeList)) {
-                continue;
-            }
-
-            currentState = new Schedule(numProcessors);
-            dfs();
-        }
     }
 
     private void storeDependencies() {
@@ -47,6 +39,7 @@ public class BaseScheduler extends Scheduler {
         }
     }
 
+    // todo delete
     private boolean validOrder(List<Node> nodeList) {
         for (int i = 0; i < nodeList.size(); i++) {
             for (int j = i + 1; j < nodeList.size(); j++) {
@@ -69,12 +62,37 @@ public class BaseScheduler extends Scheduler {
     }
 
     private void dfs() {
+        /**
+         * If the current state is full, then that is an answer
+         *
+         * If not, try put any available, free task into any processor
+         */
 
-
-        for (int i = 0; i < numProcessors; i++) {
-
+        if (currentState.isComplete()) {
+            // todo update bound
+            // todo update the beststate = currentstate - this can be an issue with deepcopying. we can leave this line for now.
+            return;
         }
 
+        for (Task task : taskList) { // todo change this to node
+            // todo check if this NODE is on
+            // todo check if this NODE is dependency-free
+
+
+            // if it is free
+            for (Processor processor : currentState.getProcessors()) {
+                // todo put node on processor
+                // todo edit the node, and all the state changes that you need to do
+                // todo maybe change node start/stop time to match
+
+
+                // todo you are putting task on a processor, you need to know the delay time.
+
+                dfs();
+                // todo take node off processor
+                // todo UNDO everything - set to defaults
+            }
+        }
     }
 
     public void setBestState(Schedule bestSchedule) {
