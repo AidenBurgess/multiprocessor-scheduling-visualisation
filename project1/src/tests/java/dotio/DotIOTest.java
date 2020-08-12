@@ -19,9 +19,11 @@ public class DotIOTest {
     public void readDot() {
         try {
             TaskGraph tg = DotIO.read(new StringReader(
-                    "digraph  \"example\" { a [Weight=2]; b [Weight=3]; a −> b [Weight=1]; c [Weight=3]; a −> c [Weight=2]; d [Weight=2]; b −> d [Weight=2]; c −> d [Weight=1];}"
+                    "digraph  \"example\" {\n\ta [Weight=2];\n\tb [Weight=3];\n\ta −> b [Weight=1];\n\tc [Weight=3];\n\ta −> c [Weight=2];\n\td [Weight=2];\n\tb −> d [Weight=2];\n\tc −> d [Weight=1];\n}"
             ));
             assertEquals("example", tg.getName());
+            assertEquals(4, tg.getTasks().size());
+            assertEquals(4, tg.getDependencies().size());
         } catch (DotIOException e) {
             fail();
         }
