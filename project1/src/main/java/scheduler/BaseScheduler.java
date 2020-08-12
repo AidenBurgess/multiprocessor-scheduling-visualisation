@@ -49,8 +49,8 @@ public class BaseScheduler extends Scheduler {
             nodeMap.get(to).addParentNode(nodeMap.get(from));
 
             Node child = nodeMap.get(to);
-            List<Edge> edgeList = edgeMap.get(child);
-            edgeList.add(new Edge(nodeMap.get(from), dependency.weight));
+            List<Edge> incomingEdgesToChild = edgeMap.get(child);
+            incomingEdgesToChild.add(new Edge(nodeMap.get(from), dependency.weight));
         }
     }
 

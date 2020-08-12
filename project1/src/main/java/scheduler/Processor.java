@@ -26,19 +26,19 @@ public class Processor {
      *
      */
 
-    public void scheduleTask(Node node, List<Edge> edgeList) {
+    public void scheduleTask(Node node, List<Edge> incomingEdgesToNode) {
         int schedulingDelay = 0;
 
         List<Node> parents = node.getDependantOn();
-        HashMap<Node, Integer> parentWeightList = new HashMap<>();
+        HashMap<Node, Integer> parentEdgeWeightMap = new HashMap<>();
 
-        for(Edge edge : edgeList) {
-            parentWeightList.put(edge.getFrom(), edge.getWeight());
+        for(Edge edge : incomingEdgesToNode) {
+            parentEdgeWeightMap.put(edge.getFrom(), edge.getWeight());
         }
 
         for(Node parent : parents) {
             if(parent.isOn() && parent.getProcessor() == this) {
-                schedulingDelay = Math.max(schedulingDelay, parent.getEndTime() + parentWeightList.get(parent) - endTime);
+                schedulingDelay = Math.max(schedulingDelay, parent.getEndTime() + parentEdgeWeightMap.get(parent) - endTime);
             }
         }
 
