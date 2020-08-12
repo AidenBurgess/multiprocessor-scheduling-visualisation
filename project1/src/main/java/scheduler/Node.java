@@ -43,6 +43,10 @@ public class Node {
         isOn = true;
     }
 
+    public void turnOff() {
+        isOn = false;
+    }
+
     public boolean isOn() {
         return isOn;
     }

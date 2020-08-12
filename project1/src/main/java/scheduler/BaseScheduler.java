@@ -120,8 +120,9 @@ public class BaseScheduler extends Scheduler {
                 // todo you are putting task on a processor, you need to know the delay time. - done inside the scheduleTask method
 
                 dfs();
-                // todo take node off processor
-                // todo UNDO everything - set to defaults
+                // todo take node off processor - done inside dismountLastNode()
+                // todo UNDO everything - set to defaults - done inside dismountLastNode()
+                processor.dismountLastNode();
             }
         }
     }

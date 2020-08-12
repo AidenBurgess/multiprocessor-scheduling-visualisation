@@ -50,8 +50,14 @@ public class Processor {
         nodes.add(node);
     }
 
-    public void deleteLastTask() {
-        nodes.remove(nodes.size() - 1);
+    // todo ensure that dismounting the last task always works
+    public void dismountLastNode() {
+        Node nodeToRemove = nodes.get(nodes.size() - 1);
+        nodeToRemove.setStartTime(0);
+        nodeToRemove.setEndTime(0);
+        nodeToRemove.turnOff();
+        nodeToRemove.setProcessor(null);
+        nodes.remove(nodeToRemove);
     }
 
     public int getEndTime() {
