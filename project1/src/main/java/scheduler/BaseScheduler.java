@@ -16,7 +16,7 @@ public class BaseScheduler extends Scheduler {
     public BaseScheduler(TaskGraph taskGraph, int numProcessors) {
         this.numProcessors = numProcessors;
         input = taskGraph;
-        taskList = input.tasks;
+        taskList = input.tasks; //todo change to method
 
         for (Task task : taskList) {
             nodeMap.put(task.name, new Node(task.name, task.weight)); //change to method
