@@ -80,8 +80,6 @@ public class DotIO {
         } catch (IOException e) {
             throw new DotIOException("Java IO error occured.");
         }
-
-        return null;
     }
 
     /**
