@@ -87,13 +87,29 @@ public class BaseScheduler extends Scheduler {
         if (ffunction.evaluate(currentState) > bound) return;
 
 
-        for (Task task : taskList) { // todo change this to node
-            // todo check if this NODE is on
-            // todo check if this NODE is dependency-free
+        for (String nodeName : nodeMap.keySet()) {
 
+            boolean dependencyMet = true;
 
-            // if it is free
+            Node node = nodeMap.get(nodeName);
+
+            if(node.isOn()) {
+               continue;
+            }
+
+            for(Node parent : node.getDependantOn()) {
+                if(!parent.isOn()) {
+                    dependencyMet = false;
+                    break;
+                }
+            }
+
+            if(!dependencyMet) {
+                continue;
+            }
+
             for (Processor processor : currentState.getProcessors()) {
+
                 // todo put node on processor
                 // todo edit the node, and all the state changes that you need to do
                 // todo maybe change node start/stop time to match
