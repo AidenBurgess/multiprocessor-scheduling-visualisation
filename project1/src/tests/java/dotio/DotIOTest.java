@@ -7,8 +7,8 @@ import org.junit.Test;
 
 import org.junit.rules.TemporaryFolder;
 
-import java.io.File;
-import java.io.StringReader;
+
+import java.io.*;
 import java.util.HashMap;
 
 import static org.junit.Assert.*;
@@ -37,7 +37,6 @@ public class DotIOTest {
      */
     @Test
     public void testWrite() {
-
         TaskGraph taskGraph = new TaskGraph("example");
         HashMap<String, Integer> startTimeMap = new HashMap<String, Integer>();
         HashMap<String, Integer> processorMap = new HashMap<String, Integer>();
@@ -65,16 +64,57 @@ public class DotIOTest {
         taskGraph.insertDependency(new Dependency("b", "d", 2));
         taskGraph.insertDependency(new Dependency("c", "d", 1));
 
+        // get the current dotio directory
+        String currentDirectory = System.getProperty("user.dir") + "/src/tests/java/dotio";
+
         try {
-            DotIO.write("testOutput.dot", taskGraph, startTimeMap, processorMap);
+            DotIO.write(currentDirectory + "/testOutput.dot", taskGraph, startTimeMap, processorMap);
         } catch (DotIOException e) {
             System.err.println(e.getMessage());
         }
 
-        File expected = new File("expectedOutput.dot");
-        File actual = new File("testOutput.dot");
+        File expected = new File(currentDirectory + "/expected.dot");
+        File actual = new File(currentDirectory + "/testOutput.dot");
 
-        // @todo create a line by line comparator, or convert to a string
-//        assertEquals(expected, actual);
+        try {
+            // reads the expected file
+            FileReader frExpected = new FileReader(expected);
+
+            // creates the buffering character input stream
+            BufferedReader brExpected = new BufferedReader(frExpected);
+
+            // reads the actual file
+            FileReader frActual = new FileReader(actual);
+
+            // creates the buffering character input stream
+            BufferedReader brActual = new BufferedReader(frActual);
+
+            String lineExpected;
+
+            // check each line and if they differ at any point, it will fail
+            while ((lineExpected = brExpected.readLine()) != null) {
+                String lineActual = brActual.readLine();
+
+                System.out.println(lineActual);
+
+                assertEquals(lineExpected, lineActual);
+            }
+
+            // if there is still some content in either file, fail
+            if (brExpected.readLine() != null) {
+                fail();
+            }
+
+            if (brActual.readLine() != null) {
+                fail();
+            }
+
+            // closes the streams and release the resources
+            frExpected.close();
+            frActual.close();
+        } catch(IOException e) {
+
+            e.printStackTrace();
+        }
     }
 }
