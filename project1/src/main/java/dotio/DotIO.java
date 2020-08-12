@@ -180,7 +180,7 @@ public class DotIO {
      *
      * @write to a .dot file
      */
-    public static void write(String outputFile, TaskGraph taskGraph, HashMap<String, Integer> startTimeMap, HashMap<String, Integer> processorMap) {
+    public static void write(String outputFile, TaskGraph taskGraph, HashMap<String, Integer> startTimeMap, HashMap<String, Integer> processorMap) throws DotIOException {
 
         // Use the task graph to get the ordering of the nodes and edges
 
@@ -204,7 +204,7 @@ public class DotIO {
                     int taskTime = task.getTaskTime();
                     int startTime = startTimeMap.get(taskName);
                     int processor = processorMap.get(taskName);
-                    writer.println("\t" + taskName + "\t\t[Weight="+taskTime+", Start="+startTime+", Processor="+processor+"];");
+                    writer.println("\t" + taskName + "\t\t\t[Weight="+taskTime+", Start="+startTime+", Processor="+processor+"];");
                 } else {
                     throw new DotIOException("No valid schedule"); // ERROR: No valid schedule
                 }
@@ -219,7 +219,7 @@ public class DotIO {
                 String dest = dependency.getDest();
                 int communicationTime = dependency.getCommunicationTime();
 
-                writer.println("\t" + source + " -> " + dest + "\t[Weight=" + communicationTime + "];");
+                writer.println("\t" + source + " -> " + dest + "\t\t[Weight=" + communicationTime + "];");
             }
 
             writer.println("}");
@@ -227,8 +227,6 @@ public class DotIO {
             writer.close();
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
             e.printStackTrace();
         }
 
