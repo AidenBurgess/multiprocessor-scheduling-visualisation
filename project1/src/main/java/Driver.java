@@ -25,7 +25,9 @@ public class Driver {
         try {
             taskGraph = DotIO.read(new BufferedReader(new FileReader(config.inputFileName)));
         } catch (FileNotFoundException e) {
-            System.err.println("nah dawg that ain't it");
+            System.err.println("File does not exist");
+        } catch (DotIOException e) {
+            System.err.println("Error with dot syntax: " + e.getMessage());
         }
 
         // create a scheduler with the number of processors
