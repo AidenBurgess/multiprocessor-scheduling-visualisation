@@ -12,11 +12,15 @@ public class BaseScheduler extends Scheduler {
 
     private List<Task> taskList;
     private HashMap<String, Node> nodeMap = new HashMap<>();
+    private FFunction ffunction;
+    int bound;
 
     public BaseScheduler(TaskGraph taskGraph, int numProcessors) {
         this.numProcessors = numProcessors;
         input = taskGraph;
         taskList = input.tasks; //todo change to method
+        ffunction = new SimpleFFunction();
+        bound = Integer.MAX_VALUE;
 
         for (Task task : taskList) {
             nodeMap.put(task.name, new Node(task.name, task.weight)); //change to method
@@ -73,6 +77,15 @@ public class BaseScheduler extends Scheduler {
             // todo update the beststate = currentstate - this can be an issue with deepcopying. we can leave this line for now.
             return;
         }
+
+
+        // todo F-function
+        // the idea is that if we use some heuristic and the schedule is already exceeding the bound, return.
+        // this might not be the end!
+        // this is a prediction! a strict lower bound.
+
+        if (ffunction.evaluate(currentState) > bound) return;
+
 
         for (Task task : taskList) { // todo change this to node
             // todo check if this NODE is on
