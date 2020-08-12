@@ -10,21 +10,27 @@ import java.util.List;
 
 public class BaseScheduler extends Scheduler {
 
-    private List<Task> taskList;
     private HashMap<String, Node> nodeMap = new HashMap<>();
+    private HashMap<Node, List<Edge>> edgeMap = new HashMap<>();
+
     private FFunction ffunction;
     int bound;
 
     public BaseScheduler(TaskGraph taskGraph, int numProcessors) {
         this.numProcessors = numProcessors;
         input = taskGraph;
-        taskList = input.tasks; //todo change to method
         ffunction = new SimpleFFunction();
         bound = Integer.MAX_VALUE;
 
-        for (Task task : taskList) {
-            nodeMap.put(task.name, new Node(task.name, task.weight)); //change to method
+        for (Task task : input.tasks) { // todo change to getter
+            nodeMap.put(task.name, new Node(task.name, task.weight)); //todo change to gettter
         }
+
+        for(String nodeName : nodeMap.keySet()) {
+            Node node = nodeMap.get(nodeName);
+            edgeMap.put(node, new ArrayList<>());
+        }
+
     }
 
     public void execute() {
