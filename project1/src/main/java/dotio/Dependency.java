@@ -1,8 +1,24 @@
 package main.java.dotio;
 
 public class Dependency {
-    public String from, to;
-    public int weight;
+    private String _source, _dest;
+    private int _communicationTime;
 
-    // @todo constructor
+    public Dependency(String source, String dest, int communicationTime) {
+        _source = source;
+        _dest = dest;
+        _communicationTime = communicationTime;
+    }
+
+    public String getSource() {
+        return _source;
+    }
+
+    public String getDest() {
+        return _dest;
+    }
+
+    public int getCommunicationTime() {
+        return _communicationTime;
+    }
 }
