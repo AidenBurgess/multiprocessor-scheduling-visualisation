@@ -50,7 +50,7 @@ public class DotIO {
             if ((tk.ttype == StreamTokenizer.TT_WORD) && tk.sval.equalsIgnoreCase("digraph")) {
                 tk.nextToken();
             } else {
-                throw new DotIOException(); //Error: input is not digraph
+                throw new DotIOException("Input is not digraph"); //Error: input is not digraph
             }
 
             //Read name of graph, can either be in quotes or without quotes
@@ -58,20 +58,20 @@ public class DotIO {
                 graph = new TaskGraph(tk.sval);
                     tk.nextToken();
             } else {
-                throw new DotIOException(); //Error: graph name is not specified.
+                throw new DotIOException("graph name is not specified"); //Error: graph name is not specified.
             }
 
             //Read the "{" character, and start going through each node/edge until "}" character
             if (tk.ttype == '{') {
                 tk.nextToken();
             } else {
-                throw new DotIOException(); //Error: no '{' character was found
+                throw new DotIOException("no '{' character was found"); //Error: no '{' character was found
             }
 
             //Read each node/edge and add them to TaskGraph object.
             while (tk.ttype != '}') {
                 if (tk.ttype == StreamTokenizer.TT_EOF) {
-                    throw new DotIOException(); //Error: reached end of file before "}"
+                    throw new DotIOException("reached end of file before '}'"); //Error: reached end of file before "}"
                 }
                 readGraphObject(tk, graph);
             }
@@ -105,7 +105,7 @@ public class DotIO {
             srcNode = tk.sval;
             tk.nextToken();
         } else {
-            throw new DotIOException(); //Error: First token in the line wasn't a node name
+            throw new DotIOException("First token in the line wasn't a node name"); //Error: First token in the line wasn't a node name
         }
 
         //Check if the element is an edge by checking for the '->' sequence. If it is, then parse the dest node
@@ -115,7 +115,7 @@ public class DotIO {
                 destNode = tk.sval;
                 tk.nextToken();
             } else {
-                throw new DotIOException(); //Error: destination of edge is not a word"
+                throw new DotIOException("destination of edge is not a word"); //Error: destination of edge is not a word"
             }
         }
 
@@ -123,7 +123,7 @@ public class DotIO {
         if (tk.ttype == '[') {
             tk.nextToken();
         } else {
-            throw new DotIOException(); //Error: found other character when expecting '['
+            throw new DotIOException("Found other character when expecting '['"); //Error: found other character when expecting '['
         }
 
         //Check that the weight of the node is correctly notated.
@@ -131,14 +131,14 @@ public class DotIO {
             weight = Integer.parseInt(tk.sval.substring(7));
             tk.nextToken();
         } else {
-            throw new DotIOException(); //Error: Weight of node/edge not specified.
+            throw new DotIOException("Weight of node/edge not specified"); //Error: Weight of node/edge not specified.
         }
 
         //Check that there is a ']' character after weight property.
         if (tk.ttype == ']') {
             tk.nextToken();
         } else {
-            throw new DotIOException(); //Error: Couldn't find ']' character
+            throw new DotIOException("Couldn't find ']' character"); //Error: Couldn't find ']' character
         }
 
         //Determine whether to add task or dependency by checking if destNode has been changed or not.
@@ -206,7 +206,7 @@ public class DotIO {
                     int processor = processorMap.get(taskName);
                     writer.println("\t" + taskName + "\t\t[Weight="+taskTime+", Start="+startTime+", Processor="+processor+"];");
                 } else {
-                    throw new DotIOException("No valid schedule");
+                    throw new DotIOException("No valid schedule"); // ERROR: No valid schedule
                 }
             }
 
