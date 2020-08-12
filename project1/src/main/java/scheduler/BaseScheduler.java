@@ -34,33 +34,27 @@ public class BaseScheduler extends Scheduler {
     }
 
     public void execute() {
-        storeDependencies(); // todo potentailly something different, depneding on how you choose to do stuff later on
+        storeDependenciesAndEdges(); // todo potentailly something different, depneding on how you choose to do stuff later on
 
         currentState = new Schedule(numProcessors);
         dfs();
 
     }
 
-    private void storeDependencies() {
+    private void storeDependenciesAndEdges() {
         for (Dependency dependency : input.dependencies) {
             String from = dependency.from;
             String to = dependency.to;
+
             nodeMap.get(to).addParentNode(nodeMap.get(from));
+
+            Node child = nodeMap.get(to);
+            List<Edge> edgeList = edgeMap.get(child);
+            edgeList.add(new Edge(nodeMap.get(from), dependency.weight));
         }
     }
 
-    // todo delete
-    private boolean validOrder(List<Node> nodeList) {
-        for (int i = 0; i < nodeList.size(); i++) {
-            for (int j = i + 1; j < nodeList.size(); j++) {
-                if (nodeList.get(i).isDependentOn(nodeList.get(j))) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
+    //todo check if needs to be deleted
     @Override
     public HashMap<String, Integer> getStartTimeMap() {
         return null;
