@@ -3,6 +3,7 @@ package main.java.scheduler;
 import main.java.dotio.Task;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Processor {
@@ -24,11 +25,27 @@ public class Processor {
      * }
      *
      */
-    public void scheduleTask(Node nodeToBeScheduled, int schedulingDelay) {
-        nodeToBeScheduled.setStartTime(endTime + schedulingDelay);
-        endTime += nodeToBeScheduled.getWeight() + schedulingDelay;
-        nodeToBeScheduled.setEndTime(endTime);
-        nodes.add(nodeToBeScheduled);
+
+    public void scheduleTask(Node node, List<Edge> edgeList) {
+        int schedulingDelay = 0;
+
+        List<Node> parents = node.getDependantOn();
+        HashMap<Node, Integer> parentWeightList = new HashMap<>();
+
+        for(Edge edge : edgeList) {
+            parentWeightList.put(edge.getFrom(), edge.getWeight());
+        }
+
+        for(Node parent : parents) {
+            if(parent.isOn() && parent.getProcessor() == this) {
+                schedulingDelay = Math.max(schedulingDelay, parent.getEndTime() + parentWeightList.get(parent) - endTime);
+            }
+        }
+
+        node.setStartTime(endTime + schedulingDelay);
+        endTime += node.getWeight() + schedulingDelay;
+        node.setEndTime(endTime);
+        nodes.add(node);;
     }
 
     public void deleteLastTask() {

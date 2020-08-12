@@ -111,6 +111,8 @@ public class BaseScheduler extends Scheduler {
             for (Processor processor : currentState.getProcessors()) {
 
                 // todo put node on processor
+                processor.scheduleTask(node, edgeMap.get(node));
+
                 // todo edit the node, and all the state changes that you need to do
                 // todo maybe change node start/stop time to match
 
