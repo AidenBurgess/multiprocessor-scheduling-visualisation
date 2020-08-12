@@ -105,11 +105,7 @@ public class DotIOTest {
             }
 
             // if there is still some content in either file, fail
-            if (brExpected.readLine() != null) {
-                fail();
-            }
-
-            if (brActual.readLine() != null) {
+            if (brExpected.readLine() != null || brActual.readLine() != null) {
                 fail();
             }
 

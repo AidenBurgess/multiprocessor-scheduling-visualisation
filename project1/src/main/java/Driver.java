@@ -47,9 +47,8 @@ public class Driver {
         try {
             DotIO.write(config.outputFileName, taskGraph, startTimeMap, processorMap);
         } catch (DotIOException e) {
-            System.err.println(e.getMessage());
+            System.err.println("Error with dot syntax: " + e.getMessage());
         }
-
     }
 
     public static void startVisualisationThread(Scheduler scheduler) {
