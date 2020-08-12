@@ -36,7 +36,7 @@ public class Driver {
         Scheduler scheduler = new BaseScheduler(taskGraph, config.numProcessors);
 
         // Uncomment this to force visualisation on
-        config.hasVisualisation = true;
+        // config.hasVisualisation = true;
         if (config.hasVisualisation) {
             startVisualisationThread(scheduler);
         }

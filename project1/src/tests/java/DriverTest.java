@@ -1,12 +1,14 @@
 package tests.java;
 
+import org.junit.Test;
+
 public class DriverTest {
 
-    @org.junit.Test
+    @Test
     public void main() {
     }
 
-    @org.junit.Test
+    @Test
     public void startVisualisationThread() {
     }
 }
