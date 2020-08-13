@@ -58,7 +58,12 @@ public class Config {
         this.outputFileName = outputFileName;
     }
 
-
+    /**
+     * Set the default name of output file to `${InputFileName}-output.dot`
+     */
+    public void setDefaultOutputFileName() {
+        outputFileName = inputFileName.split(".dot")[0] + "-output.dot";
+    }
 
     @Override
     public String toString() {
@@ -88,9 +93,5 @@ public class Config {
     @Override
     public int hashCode() {
         return Objects.hash(numProcessors, inputFileName, isParallelised, numParallelCores, hasVisualisation, outputFileName);
-    }
-
-    public void setDefaultOutputFileName() {
-        outputFileName = inputFileName.split(".dot")[0] + "-output.dot";
     }
 }
