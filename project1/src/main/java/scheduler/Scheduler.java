@@ -11,7 +11,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  */
 public abstract class Scheduler {
     TaskGraph input;
-    int numProcessors;
+    public int numProcessors;
     Schedule currentState;
     Schedule bestState;
     ThreadPoolExecutor threadPool;

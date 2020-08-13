@@ -23,8 +23,8 @@ public class BaseScheduler extends Scheduler {
         ffunction = new SimpleFFunction();
         bound = Integer.MAX_VALUE;
 
-        for (Task task : input.tasks) { // todo change to getter
-            taskNodeMap.put(task.name, new TaskNode(task.name, task.weight)); //todo change to gettter
+        for (Task task : input.getTasks()) {
+            taskNodeMap.put(task.getName(), new TaskNode(task.getName(), task.getTaskTime()));
         }
 
         for(String nodeName : taskNodeMap.keySet()) {
@@ -49,15 +49,15 @@ public class BaseScheduler extends Scheduler {
      * If b depends on a then a is the parent and b is the child.
      */
     private void storeDependenciesAndEdges() {
-        for (Dependency dependency : input.dependencies) {
-            String from = dependency.from;
-            String to = dependency.to;
+        for (Dependency dependency : input.getDependencies()) {
+            String from = dependency.getSource();
+            String to = dependency.getDest();
 
             taskNodeMap.get(to).addParentTaskNode(taskNodeMap.get(from));
 
             TaskNode child = taskNodeMap.get(to);
             List<Edge> incomingEdgesToChild = incomingEdgesMap.get(child);
-            incomingEdgesToChild.add(new Edge(taskNodeMap.get(from), dependency.weight));
+            incomingEdgesToChild.add(new Edge(taskNodeMap.get(from), dependency.getCommunicationTime()));
         }
     }
 
