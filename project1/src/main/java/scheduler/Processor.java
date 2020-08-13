@@ -60,9 +60,15 @@ public class Processor {
         nodes.remove(nodeToRemove);
     }
 
+    public int getProcessorNum() {
+        return processorNum;
+    }
+
     public int getEndTime() {
         return endTime;
     }
 
-
+    public int getScheduledTasksNum() {
+        return nodes.size();
+    }
 }

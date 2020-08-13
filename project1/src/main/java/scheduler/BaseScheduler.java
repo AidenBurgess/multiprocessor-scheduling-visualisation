@@ -58,6 +58,21 @@ public class BaseScheduler extends Scheduler {
          * If not, try put any available, free task into any processor
          */
 
+        // todo think if passing the nodemap as an argument to the isComplete() method is the best thing to do design wise
+        //  (because the method name and this argument are not directly related.
+        if (currentState.isComplete(nodeMap.keySet().size())) {
+            // update bound - done
+            // update the beststate = currentstate - this can be an issue with deepcopying. we can leave this line for now. - done
+
+            if (currentState.endTime() < bound) {
+                bound = currentState.endTime();
+
+                for (String taskNodeName : nodeMap.keySet()) {
+                    startTimeMap.put(taskNodeName, nodeMap.get(taskNodeName).getStartTime());
+                    processorMap.put(taskNodeName, nodeMap.get(taskNodeName).getProcessor().getProcessorNum());
+                }
+            }
+
             return;
         }
 

@@ -25,8 +25,12 @@ public class Schedule {
         return maxProcessorEndTime;
     }
 
-    public boolean isComplete() {
-        return false;
+    public boolean isComplete(int totalTasks) {
+        int totalScheduledTasks = 0;
+        for (Processor processor : processors) {
+            totalScheduledTasks += processor.getScheduledTasksNum();
+        }
+        return totalTasks == totalScheduledTasks;
     }
 
     public List<Processor> getProcessors() {

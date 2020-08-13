@@ -2,7 +2,7 @@ package main.java.scheduler;
 
 import java.util.ArrayList;
 import java.util.List;
-
+// todo rename this class and rename the associated methods
 public class Node {
 
     private String name;
@@ -25,6 +25,10 @@ public class Node {
 
     public boolean isDependentOn(Node nodeToCheck) {
         return dependantOn.contains(nodeToCheck);
+    }
+
+    public int getStartTime() {
+        return startTime;
     }
 
     public void setStartTime(int startTime) {
