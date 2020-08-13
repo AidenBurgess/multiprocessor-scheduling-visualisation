@@ -59,6 +59,8 @@ public class Processor {
         taskNodeToRemove.turnOff();
         taskNodeToRemove.setProcessor(null);
         taskNodes.remove(taskNodeToRemove); // Removing the task from the list maintained in this processor
+
+        endTime = taskNodes.isEmpty() ? 0 : taskNodes.get(taskNodes.size() - 1).getEndTime(); // Sets the endtime to the endtime of the last scheduled task
     }
 
     public int getProcessorNum() {

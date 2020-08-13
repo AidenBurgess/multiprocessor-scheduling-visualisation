@@ -66,7 +66,6 @@ public class BaseScheduler extends Scheduler {
      */
     private void dfs() {
         if (currentState.isComplete(taskNodeMap.keySet().size())) {
-
             // If the current schedule is more optimal:
             // (1) Updating the bound
             if (currentState.endTime() < bound) {

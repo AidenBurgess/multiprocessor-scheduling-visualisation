@@ -26,7 +26,7 @@ public class BaseSchedulerTest {
             assertEquals(4, tg.getTasks().size());
             assertEquals(4, tg.getDependencies().size());
 
-            BaseScheduler sc = new BaseScheduler(tg, 2);
+            BaseScheduler sc = new BaseScheduler(tg, 3);
             sc.execute();
 
             HashMap<String, Integer> startTimeMap = sc.getStartTimeMap();
@@ -34,6 +34,8 @@ public class BaseSchedulerTest {
             for (String key : startTimeMap.keySet()) {
                 System.out.println(key + " " + startTimeMap.get(key) + " " + processorMap.get(key));
             }
+
+            DotIO.write("output.dot", tg, startTimeMap, processorMap);
 
         } catch (DotIOException e) {
             fail();
