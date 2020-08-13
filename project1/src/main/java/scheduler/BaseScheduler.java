@@ -10,7 +10,8 @@ import java.util.List;
 public class BaseScheduler extends Scheduler {
 
     private FFunction ffunction;
-    int bound;
+    private int bound;
+
 
     /**
      * @param taskGraph
@@ -118,6 +119,10 @@ public class BaseScheduler extends Scheduler {
                 processor.dismountLastTaskNode();
             }
         }
+    }
+
+    public int getBound() {
+        return bound;
     }
 }
 
