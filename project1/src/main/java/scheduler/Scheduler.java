@@ -20,8 +20,18 @@ public abstract class Scheduler {
     Schedule currentState;
     Schedule bestState;
     ThreadPoolExecutor threadPool;
-    public abstract void execute();
-    public abstract HashMap<String, Integer> getStartTimeMap();
-    public abstract HashMap<String, Integer> getProcessorMap();
+    HashMap<String, Integer> startTimeMap = new HashMap<>();
+    HashMap<String, Integer> processorMap = new HashMap<>();
+    HashMap<String, Node> nodeMap = new HashMap<>();
+    HashMap<Node, List<Edge>> edgeMap = new HashMap<>();
 
+    public abstract void execute();
+
+    public HashMap<String, Integer> getStartTimeMap() {
+        return startTimeMap;
+    }
+
+    public HashMap<String, Integer> getProcessorMap() {
+        return processorMap;
+    }
 }

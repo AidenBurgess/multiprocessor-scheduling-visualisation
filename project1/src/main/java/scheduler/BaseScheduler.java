@@ -10,9 +10,6 @@ import java.util.List;
 
 public class BaseScheduler extends Scheduler {
 
-    private HashMap<String, Node> nodeMap = new HashMap<>();
-    private HashMap<Node, List<Edge>> edgeMap = new HashMap<>();
-
     private FFunction ffunction;
     int bound;
 
@@ -52,17 +49,6 @@ public class BaseScheduler extends Scheduler {
             List<Edge> incomingEdgesToChild = edgeMap.get(child);
             incomingEdgesToChild.add(new Edge(nodeMap.get(from), dependency.weight));
         }
-    }
-
-    //todo check if needs to be deleted
-    @Override
-    public HashMap<String, Integer> getStartTimeMap() {
-        return null;
-    }
-
-    @Override
-    public HashMap<String, Integer> getProcessorMap() {
-        return null;
     }
 
     private void dfs() {
