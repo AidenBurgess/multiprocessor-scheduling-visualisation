@@ -34,7 +34,7 @@ public class BaseScheduler extends Scheduler {
     }
 
     public void execute() {
-        storeDependenciesAndEdges(); // todo potentailly something different, depneding on how you choose to do stuff later on
+        storeDependenciesAndEdges(); // todo potentailly something different, depneding on how you choose to do stuff later on - looks fine already (Anubhav)
 
         currentState = new Schedule(numProcessors);
         dfs();
@@ -110,18 +110,18 @@ public class BaseScheduler extends Scheduler {
 
             for (Processor processor : currentState.getProcessors()) {
 
-                // todo put node on processor - done
+                //  put node on processor - done
                 processor.scheduleTask(node, edgeMap.get(node));
 
-                // todo edit the node, and all the state changes that you need to do - done inside the scheduleTask method
-                // todo maybe change node start/stop time to match - done inside the scheduleTask method
+                //  edit the node, and all the state changes that you need to do - done inside the scheduleTask method
+                //  maybe change node start/stop time to match - done inside the scheduleTask method
 
 
-                // todo you are putting task on a processor, you need to know the delay time. - done inside the scheduleTask method
+                //  you are putting task on a processor, you need to know the delay time. - done inside the scheduleTask method
 
                 dfs();
-                // todo take node off processor - done inside dismountLastNode()
-                // todo UNDO everything - set to defaults - done inside dismountLastNode()
+                //  take node off processor - done inside dismountLastNode()
+                //  UNDO everything - set to defaults - done inside dismountLastNode()
                 processor.dismountLastNode();
             }
         }
