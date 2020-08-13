@@ -5,7 +5,6 @@ import main.java.dotio.Task;
 import main.java.dotio.TaskGraph;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class BaseScheduler extends Scheduler {
@@ -20,12 +19,12 @@ public class BaseScheduler extends Scheduler {
         bound = Integer.MAX_VALUE;
 
         for (Task task : input.tasks) { // todo change to getter
-            nodeMap.put(task.name, new Node(task.name, task.weight)); //todo change to gettter
+            taskNodeMap.put(task.name, new TaskNode(task.name, task.weight)); //todo change to gettter
         }
 
-        for(String nodeName : nodeMap.keySet()) {
-            Node node = nodeMap.get(nodeName);
-            edgeMap.put(node, new ArrayList<>());
+        for(String nodeName : taskNodeMap.keySet()) {
+            TaskNode taskNode = taskNodeMap.get(nodeName);
+            incomingEdgesMap.put(taskNode, new ArrayList<>());
         }
 
     }
@@ -43,11 +42,11 @@ public class BaseScheduler extends Scheduler {
             String from = dependency.from;
             String to = dependency.to;
 
-            nodeMap.get(to).addParentNode(nodeMap.get(from));
+            taskNodeMap.get(to).addParentTaskNode(taskNodeMap.get(from));
 
-            Node child = nodeMap.get(to);
-            List<Edge> incomingEdgesToChild = edgeMap.get(child);
-            incomingEdgesToChild.add(new Edge(nodeMap.get(from), dependency.weight));
+            TaskNode child = taskNodeMap.get(to);
+            List<Edge> incomingEdgesToChild = incomingEdgesMap.get(child);
+            incomingEdgesToChild.add(new Edge(taskNodeMap.get(from), dependency.weight));
         }
     }
 
@@ -60,16 +59,16 @@ public class BaseScheduler extends Scheduler {
 
         // todo think if passing the nodemap as an argument to the isComplete() method is the best thing to do design wise
         //  (because the method name and this argument are not directly related.
-        if (currentState.isComplete(nodeMap.keySet().size())) {
+        if (currentState.isComplete(taskNodeMap.keySet().size())) {
             // update bound - done
             // update the beststate = currentstate - this can be an issue with deepcopying. we can leave this line for now. - done
 
             if (currentState.endTime() < bound) {
                 bound = currentState.endTime();
 
-                for (String taskNodeName : nodeMap.keySet()) {
-                    startTimeMap.put(taskNodeName, nodeMap.get(taskNodeName).getStartTime());
-                    processorMap.put(taskNodeName, nodeMap.get(taskNodeName).getProcessor().getProcessorNum());
+                for (String taskNodeName : taskNodeMap.keySet()) {
+                    startTimeMap.put(taskNodeName, taskNodeMap.get(taskNodeName).getStartTime());
+                    processorMap.put(taskNodeName, taskNodeMap.get(taskNodeName).getProcessor().getProcessorNum());
                 }
             }
 
@@ -85,17 +84,17 @@ public class BaseScheduler extends Scheduler {
         if (ffunction.evaluate(currentState) > bound) return;
 
 
-        for (String nodeName : nodeMap.keySet()) {
+        for (String nodeName : taskNodeMap.keySet()) {
 
             boolean dependencyMet = true;
 
-            Node node = nodeMap.get(nodeName);
+            TaskNode taskNode = taskNodeMap.get(nodeName);
 
-            if(node.isOn()) {
+            if(taskNode.isOn()) {
                continue;
             }
 
-            for(Node parent : node.getDependantOn()) {
+            for(TaskNode parent : taskNode.getDependantOn()) {
                 if(!parent.isOn()) {
                     dependencyMet = false;
                     break;
@@ -109,7 +108,7 @@ public class BaseScheduler extends Scheduler {
             for (Processor processor : currentState.getProcessors()) {
 
                 //  put node on processor - done
-                processor.scheduleTask(node, edgeMap.get(node));
+                processor.scheduleTask(taskNode, incomingEdgesMap.get(taskNode));
 
                 //  edit the node, and all the state changes that you need to do - done inside the scheduleTask method
                 //  maybe change node start/stop time to match - done inside the scheduleTask method
@@ -120,7 +119,7 @@ public class BaseScheduler extends Scheduler {
                 dfs();
                 //  take node off processor - done inside dismountLastNode()
                 //  UNDO everything - set to defaults - done inside dismountLastNode()
-                processor.dismountLastNode();
+                processor.dismountLastTaskNode();
             }
         }
     }

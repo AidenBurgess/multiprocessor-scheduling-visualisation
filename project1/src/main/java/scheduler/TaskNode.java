@@ -3,28 +3,28 @@ package main.java.scheduler;
 import java.util.ArrayList;
 import java.util.List;
 // todo rename this class and rename the associated methods
-public class Node {
+public class TaskNode {
 
     private String name;
     private int startTime;
-    private List<Node> dependantOn = new ArrayList<>();
+    private List<TaskNode> dependantOn = new ArrayList<>();
     private int weight;
     private int endTime;
     private Processor processor;
     private boolean isOn;
 
-    public Node(String name, int weight) {
+    public TaskNode(String name, int weight) {
         this.name = name;
         this.weight = weight;
         isOn = false;
     }
 
-    public void addParentNode(Node parentNode) {
-        dependantOn.add(parentNode);
+    public void addParentTaskNode(TaskNode parentTaskNode) {
+        dependantOn.add(parentTaskNode);
     }
 
-    public boolean isDependentOn(Node nodeToCheck) {
-        return dependantOn.contains(nodeToCheck);
+    public boolean isDependentOn(TaskNode taskNodeToCheck) {
+        return dependantOn.contains(taskNodeToCheck);
     }
 
     public int getStartTime() {
@@ -55,7 +55,7 @@ public class Node {
         return isOn;
     }
 
-    public List<Node> getDependantOn() {
+    public List<TaskNode> getDependantOn() {
         return dependantOn;
     }
 

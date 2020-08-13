@@ -1,7 +1,5 @@
 package main.java.scheduler;
 
-import main.java.dotio.Dependency;
-import main.java.dotio.Task;
 import main.java.dotio.TaskGraph;
 
 import java.util.HashMap;
@@ -24,8 +22,8 @@ public abstract class Scheduler {
     ThreadPoolExecutor threadPool;
     HashMap<String, Integer> startTimeMap = new HashMap<>();
     HashMap<String, Integer> processorMap = new HashMap<>();
-    HashMap<String, Node> nodeMap = new HashMap<>();
-    HashMap<Node, List<Edge>> edgeMap = new HashMap<>();
+    HashMap<String, TaskNode> taskNodeMap = new HashMap<>();
+    HashMap<TaskNode, List<Edge>> incomingEdgesMap = new HashMap<>();
 
     public abstract void execute();
 

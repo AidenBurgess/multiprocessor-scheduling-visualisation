@@ -1,20 +1,18 @@
 package main.java.scheduler;
 
-import main.java.dotio.Task;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class Processor {
 
-    private List<Node> nodes;
+    private List<TaskNode> taskNodes;
     private int processorNum;
     private int endTime = 0;
 
     public Processor(int processorNum) {
         this.processorNum = processorNum;
-        nodes = new ArrayList<>();
+        taskNodes = new ArrayList<>();
     }
 
     /**
@@ -26,38 +24,38 @@ public class Processor {
      *
      */
 
-    public void scheduleTask(Node node, List<Edge> incomingEdgesToNode) {
+    public void scheduleTask(TaskNode taskNode, List<Edge> incomingEdgesToNode) {
         int schedulingDelay = 0;
 
-        List<Node> parents = node.getDependantOn();
-        HashMap<Node, Integer> parentEdgeWeightMap = new HashMap<>();
+        List<TaskNode> parents = taskNode.getDependantOn();
+        HashMap<TaskNode, Integer> commDelayFromParent = new HashMap<>();
 
         for(Edge edge : incomingEdgesToNode) {
-            parentEdgeWeightMap.put(edge.getFrom(), edge.getWeight());
+            commDelayFromParent.put(edge.getFrom(), edge.getWeight());
         }
 
-        for(Node parent : parents) {
+        for(TaskNode parent : parents) {
             if(parent.getProcessor() != this) {
-                schedulingDelay = Math.max(schedulingDelay, parent.getEndTime() + parentEdgeWeightMap.get(parent) - endTime);
+                schedulingDelay = Math.max(schedulingDelay, parent.getEndTime() + commDelayFromParent.get(parent) - endTime);
             }
         }
 
-        node.setStartTime(endTime + schedulingDelay);
-        endTime += node.getWeight() + schedulingDelay;
-        node.setEndTime(endTime);
-        node.turnOn();
-        node.setProcessor(this);
-        nodes.add(node);
+        taskNode.setStartTime(endTime + schedulingDelay);
+        endTime += taskNode.getWeight() + schedulingDelay;
+        taskNode.setEndTime(endTime);
+        taskNode.turnOn();
+        taskNode.setProcessor(this);
+        taskNodes.add(taskNode);
     }
 
     // todo ensure that dismounting the last task always works
-    public void dismountLastNode() {
-        Node nodeToRemove = nodes.get(nodes.size() - 1);
-        nodeToRemove.setStartTime(0);
-        nodeToRemove.setEndTime(0);
-        nodeToRemove.turnOff();
-        nodeToRemove.setProcessor(null);
-        nodes.remove(nodeToRemove);
+    public void dismountLastTaskNode() {
+        TaskNode taskNodeToRemove = taskNodes.get(taskNodes.size() - 1);
+        taskNodeToRemove.setStartTime(0);
+        taskNodeToRemove.setEndTime(0);
+        taskNodeToRemove.turnOff();
+        taskNodeToRemove.setProcessor(null);
+        taskNodes.remove(taskNodeToRemove);
     }
 
     public int getProcessorNum() {
@@ -69,6 +67,6 @@ public class Processor {
     }
 
     public int getScheduledTasksNum() {
-        return nodes.size();
+        return taskNodes.size();
     }
 }

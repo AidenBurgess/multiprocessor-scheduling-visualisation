@@ -2,16 +2,16 @@ package main.java.scheduler;
 
 public class Edge {
 
-    private Node from;
+    private TaskNode from;
     private int weight;
 
 
-    public Edge(Node from, int weight) {
+    public Edge(TaskNode from, int weight) {
         this.from = from;
         this.weight = weight;
     }
 
-    public Node getFrom() {
+    public TaskNode getFrom() {
         return from;
     }
 
