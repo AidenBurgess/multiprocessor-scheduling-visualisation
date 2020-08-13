@@ -50,14 +50,14 @@ public class BaseScheduler extends Scheduler {
      */
     private void storeDependenciesAndEdges() {
         for (Dependency dependency : input.getDependencies()) {
-            String from = dependency.getSource();
-            String to = dependency.getDest();
+            String source = dependency.getSource();
+            String dest = dependency.getDest();
 
-            taskNodeMap.get(to).addParentTaskNode(taskNodeMap.get(from));
+            taskNodeMap.get(dest).addParentTaskNode(taskNodeMap.get(source));
 
-            TaskNode child = taskNodeMap.get(to);
+            TaskNode child = taskNodeMap.get(dest);
             List<Edge> incomingEdgesToChild = incomingEdgesMap.get(child);
-            incomingEdgesToChild.add(new Edge(taskNodeMap.get(from), dependency.getCommunicationTime()));
+            incomingEdgesToChild.add(new Edge(taskNodeMap.get(source), dependency.getCommunicationTime()));
         }
     }
 
@@ -93,6 +93,7 @@ public class BaseScheduler extends Scheduler {
                continue;
             }
 
+            // Ensuring that this taskNode's dependencies are already "on" some processor
             boolean dependencyMet = true;
             for(TaskNode parent : taskNode.getDependantOn()) {
                 if(!parent.isOn()) {
