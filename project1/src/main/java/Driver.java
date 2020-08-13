@@ -3,11 +3,15 @@ package main.java;
 import main.java.commandparser.Config;
 import main.java.commandparser.CommandParser;
 import main.java.dotio.DotIO;
+import main.java.dotio.DotIOException;
 import main.java.dotio.TaskGraph;
 import main.java.scheduler.BaseScheduler;
 import main.java.scheduler.Scheduler;
 import main.java.visualisation.FXController;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.HashMap;
 
 public class Driver {
@@ -17,7 +21,16 @@ public class Driver {
         Config config = CommandParser.parse(args);
 
         // read the file out from the input file
-        TaskGraph taskGraph = DotIO.read(config.inputFileName);
+        TaskGraph taskGraph = null;
+        try {
+            taskGraph = DotIO.read(new BufferedReader(new FileReader(config.inputFileName)));
+        } catch (FileNotFoundException e) {
+            System.err.println("Error: File " + config.inputFileName + " does not exist");
+            System.exit(1);
+        } catch (DotIOException e) {
+            System.err.println("Error with dot syntax of input file: " + e.getMessage());
+            System.exit(1);
+        }
 
         // create a scheduler with the number of processors
         Scheduler scheduler = new BaseScheduler(taskGraph, config.numProcessors);
@@ -33,7 +46,12 @@ public class Driver {
         HashMap<String, Integer> startTimeMap = scheduler.getStartTimeMap();
         HashMap<String, Integer> processorMap = scheduler.getProcessorMap();
 
-        DotIO.write(config.outputFileName, taskGraph, startTimeMap, processorMap);
+        try {
+            DotIO.write(config.outputFileName, taskGraph, startTimeMap, processorMap);
+        } catch (DotIOException e) {
+            System.err.println("Error writing output file: " + e.getMessage());
+            System.exit(1);
+        }
     }
 
     public static void startVisualisationThread(Scheduler scheduler) {
