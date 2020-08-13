@@ -7,26 +7,26 @@ package main.java.commandparser;
 public class CommandParser {
     public static Config parse(String[] args) {
         Config config = new Config();
-        config.inputFileName = args[0];
-        config.numProcessors = Integer.parseInt(args[1]);
+        config.setInputFileName(args[0]);
+        config.setNumProcessors(Integer.parseInt(args[1]));
 
         int i = 2;
         while (i < args.length) {
-            if (args[i].equals("-v")) config.hasVisualisation = true;
+            if (args[i].equals("-v")) config.setHasVisualisation(true);;
             if (args[i].equals("-p")) {
-                config.isParallelised = true;
-                config.numParallelCores = Integer.parseInt(args[i+1]);
+                config.setParallelised(true);
+                config.setNumParallelCores(Integer.parseInt(args[i+1]));
                 i++;
             }
             if (args[i].equals("-o")) {
-                config.outputFileName = args[i+1];
+                config.setOutputFileName(args[i+1]);
                 i++;
             }
             i++;
         }
 
-        if (config.outputFileName == null) {
-            config.outputFileName = config.inputFileName.split(".dot")[0] + "-output.dot";
+        if (config.getOutputFileName() == null) {
+            config.setDefaultOutputFileName();
         }
 
         System.out.println("Command has been parsed!");
