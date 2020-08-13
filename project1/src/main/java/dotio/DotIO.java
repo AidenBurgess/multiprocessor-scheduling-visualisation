@@ -33,6 +33,7 @@ public class DotIO {
 
         StreamTokenizer tk = new StreamTokenizer(new BufferedReader(new FileReader(inputFile)));
         tk.whitespaceChars(';',';');
+        tk.ordinaryChar('−');
 
         TaskGraph graph;
         try {
@@ -95,8 +96,9 @@ public class DotIO {
             throw new DotIOException("First token in the line wasn't a node name"); //Error: First token in the line wasn't a node name
         }
 
-        //Check if the element is an edge by checking for the '->' sequence. If it is, then parse the dest node
-        if (tk.ttype == '-') {
+        //Check if the element is an edge by checking for the '->' sequence. If it is, then parse the dest node.
+        //Note: also checks for different type of hyphen character: as we're not sure if input is '−' or '-'
+        if ((tk.ttype == '-') || ((tk.ttype == StreamTokenizer.TT_WORD) && tk.sval.equals("−"))) {
             tk.nextToken();
             if (tk.ttype == '>') {
                 tk.nextToken();

@@ -3,12 +3,67 @@ package main.java.commandparser;
 import java.util.Objects;
 
 public class Config {
-    public int numProcessors;
-    public String inputFileName;
-    public boolean isParallelised;
-    public int numParallelCores;
-    public boolean hasVisualisation;
-    public String outputFileName;
+    private int numProcessors;
+    private String inputFileName;
+    private boolean isParallelised;
+    private int numParallelCores;
+    private boolean hasVisualisation;
+    private String outputFileName;
+
+    public int getNumProcessors() {
+        return numProcessors;
+    }
+
+    public void setNumProcessors(int numProcessors) {
+        this.numProcessors = numProcessors;
+    }
+
+    public String getInputFileName() {
+        return inputFileName;
+    }
+
+    public void setInputFileName(String inputFileName) {
+        this.inputFileName = inputFileName;
+    }
+
+    public boolean isParallelised() {
+        return isParallelised;
+    }
+
+    public void setParallelised(boolean parallelised) {
+        isParallelised = parallelised;
+    }
+
+    public int getNumParallelCores() {
+        return numParallelCores;
+    }
+
+    public void setNumParallelCores(int numParallelCores) {
+        this.numParallelCores = numParallelCores;
+    }
+
+    public boolean hasVisualisation() {
+        return hasVisualisation;
+    }
+
+    public void setHasVisualisation(boolean hasVisualisation) {
+        this.hasVisualisation = hasVisualisation;
+    }
+
+    public String getOutputFileName() {
+        return outputFileName;
+    }
+
+    public void setOutputFileName(String outputFileName) {
+        this.outputFileName = outputFileName;
+    }
+
+    /**
+     * Set the default name of output file to `${InputFileName}-output.dot`
+     */
+    public void setDefaultOutputFileName() {
+        outputFileName = inputFileName.split(".dot")[0] + "-output.dot";
+    }
 
     @Override
     public String toString() {
