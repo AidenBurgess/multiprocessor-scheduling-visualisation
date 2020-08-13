@@ -7,13 +7,8 @@ import java.util.List;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
- * Takes the graph from the dotIO.
- * currentState and bestState will be constantly updated
- *
- * @// TODO: 10/08/20 getcurrentstate, getbeststate, dfs methods.
+ * Abstract class allowing for multiple scheduler implementations executing different algorithms
  */
-
-// @// TODO: 13/08/20 add visibility modifiers such as public, protected etc. and think about this for all classes
 public abstract class Scheduler {
     TaskGraph input;
     int numProcessors;

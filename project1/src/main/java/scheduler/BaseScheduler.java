@@ -12,6 +12,11 @@ public class BaseScheduler extends Scheduler {
     private FFunction ffunction;
     int bound;
 
+    /**
+     * @param taskGraph
+     * @param numProcessors
+     * Parsing the supplied TaskGraph object to produce TaskNode and Edge objects
+     */
     public BaseScheduler(TaskGraph taskGraph, int numProcessors) {
         this.numProcessors = numProcessors;
         input = taskGraph;
@@ -26,17 +31,23 @@ public class BaseScheduler extends Scheduler {
             TaskNode taskNode = taskNodeMap.get(nodeName);
             incomingEdgesMap.put(taskNode, new ArrayList<>());
         }
-
     }
 
+    /**
+     * This is the main entry into the scheduling algorithm
+     */
     public void execute() {
-        storeDependenciesAndEdges(); // todo potentailly something different, depneding on how you choose to do stuff later on - looks fine already (Anubhav)
-
+        storeDependenciesAndEdges();
         currentState = new Schedule(numProcessors);
         dfs();
-
     }
 
+    /**
+     * Extracting information from the dependencies and storing them as a list
+     * of parent nodes (these are tasks which need to have been scheduled before
+     * the child task can be scheduled) inside each child node.
+     * If b depends on a then a is the parent and b is the child.
+     */
     private void storeDependenciesAndEdges() {
         for (Dependency dependency : input.dependencies) {
             String from = dependency.from;
@@ -50,28 +61,23 @@ public class BaseScheduler extends Scheduler {
         }
     }
 
+    /**
+     * Recursive dfs method which implements the DFS Branch and Bound algorithm
+     */
     private void dfs() {
-        /**
-         * If the current state is full, then that is an answer
-         *
-         * If not, try put any available, free task into any processor
-         */
-
-        // todo think if passing the nodemap as an argument to the isComplete() method is the best thing to do design wise
-        //  (because the method name and this argument are not directly related.
         if (currentState.isComplete(taskNodeMap.keySet().size())) {
-            // update bound - done
-            // update the beststate = currentstate - this can be an issue with deepcopying. we can leave this line for now. - done
 
+            // If the current schedule is more optimal:
+            // (1) Updating the bound
             if (currentState.endTime() < bound) {
                 bound = currentState.endTime();
 
+                // (2) Storing the schedule information
                 for (String taskNodeName : taskNodeMap.keySet()) {
                     startTimeMap.put(taskNodeName, taskNodeMap.get(taskNodeName).getStartTime());
                     processorMap.put(taskNodeName, taskNodeMap.get(taskNodeName).getProcessor().getProcessorNum());
                 }
             }
-
             return;
         }
 
@@ -83,11 +89,9 @@ public class BaseScheduler extends Scheduler {
 
         if (ffunction.evaluate(currentState) > bound) return;
 
-
+        // Below we try and schedule every unscheduled task on every processor
         for (String nodeName : taskNodeMap.keySet()) {
-
             boolean dependencyMet = true;
-
             TaskNode taskNode = taskNodeMap.get(nodeName);
 
             if(taskNode.isOn()) {
@@ -107,25 +111,16 @@ public class BaseScheduler extends Scheduler {
 
             for (Processor processor : currentState.getProcessors()) {
 
-                //  put node on processor - done
+                //  Scheduling the current task on a processor
                 processor.scheduleTask(taskNode, incomingEdgesMap.get(taskNode));
 
-                //  edit the node, and all the state changes that you need to do - done inside the scheduleTask method
-                //  maybe change node start/stop time to match - done inside the scheduleTask method
-
-
-                //  you are putting task on a processor, you need to know the delay time. - done inside the scheduleTask method
-
+                // Recursive DFS() call
                 dfs();
-                //  take node off processor - done inside dismountLastNode()
-                //  UNDO everything - set to defaults - done inside dismountLastNode()
+
+                // The task is dismounted from the current processor
                 processor.dismountLastTaskNode();
             }
         }
-    }
-
-    public void setBestState(Schedule bestSchedule) {
-        bestState = bestSchedule;
     }
 }
 

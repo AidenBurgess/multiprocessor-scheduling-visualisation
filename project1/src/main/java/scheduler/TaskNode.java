@@ -2,7 +2,10 @@ package main.java.scheduler;
 
 import java.util.ArrayList;
 import java.util.List;
-// todo rename this class and rename the associated methods
+
+/**
+ * Models tasks and records their start time and the processor they are scheduled on.
+ */
 public class TaskNode {
 
     private String name;
@@ -11,7 +14,7 @@ public class TaskNode {
     private int weight;
     private int endTime;
     private Processor processor;
-    private boolean isOn;
+    private boolean isOn; // Refers to whether the task is currently scheduled
 
     public TaskNode(String name, int weight) {
         this.name = name;
@@ -21,10 +24,6 @@ public class TaskNode {
 
     public void addParentTaskNode(TaskNode parentTaskNode) {
         dependantOn.add(parentTaskNode);
-    }
-
-    public boolean isDependentOn(TaskNode taskNodeToCheck) {
-        return dependantOn.contains(taskNodeToCheck);
     }
 
     public int getStartTime() {
@@ -70,6 +69,4 @@ public class TaskNode {
     public int getEndTime() {
         return endTime;
     }
-
-
 }

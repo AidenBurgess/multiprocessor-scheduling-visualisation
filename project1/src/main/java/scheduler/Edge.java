@@ -1,5 +1,9 @@
 package main.java.scheduler;
 
+/**
+ * This class models the communication delay information from a parent task.
+ * TaskNode objects can have a list of edges which they depend on.
+ */
 public class Edge {
 
     private TaskNode from;
@@ -18,6 +22,4 @@ public class Edge {
     public int getWeight() {
         return weight;
     }
-
-
 }
