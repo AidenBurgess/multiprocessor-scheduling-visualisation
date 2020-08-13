@@ -36,13 +36,13 @@ public class Driver {
         writeDotFile(scheduler, taskGraph, config);
     }
 
-    public static void startVisualisationThread(Scheduler scheduler) {
+    private static void startVisualisationThread(Scheduler scheduler) {
         new Thread(() -> {
             FXController.main(scheduler);
         }).start();
     }
 
-    public static TaskGraph readTaskGraph(Config config) {
+    private static TaskGraph readTaskGraph(Config config) {
         TaskGraph taskGraph = null;
         try {
             taskGraph = DotIO.read(new BufferedReader(new FileReader(config.getInputFileName())));
@@ -56,7 +56,7 @@ public class Driver {
         return taskGraph;
     }
 
-    public static void writeDotFile(Scheduler scheduler, TaskGraph taskGraph, Config config) {
+    private static void writeDotFile(Scheduler scheduler, TaskGraph taskGraph, Config config) {
         HashMap<String, Integer> startTimeMap = scheduler.getStartTimeMap();
         HashMap<String, Integer> processorMap = scheduler.getProcessorMap();
 
