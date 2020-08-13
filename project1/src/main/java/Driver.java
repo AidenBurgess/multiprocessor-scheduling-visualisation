@@ -23,10 +23,9 @@ public class Driver {
         // read the file out from the input file
         TaskGraph taskGraph = null;
         try {
-            taskGraph = DotIO.read(new BufferedReader(new FileReader(config.inputFileName)));
+            taskGraph = DotIO.read(config.inputFileName);
         } catch (FileNotFoundException e) {
-            System.err.println("Error: File " + config.inputFileName + " does not exist");
-            System.exit(1);
+            System.err.println("File " + config.inputFileName + "was not found.");
         } catch (DotIOException e) {
             System.err.println("Error with dot syntax of input file: " + e.getMessage());
             System.exit(1);

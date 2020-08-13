@@ -1,10 +1,6 @@
 package main.java.dotio;
 
-import java.io.StreamTokenizer;
-import java.io.Reader;
-import java.io.IOException;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
+import java.io.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,9 +29,9 @@ public class DotIO {
      * @param reader The reader object that encapsulates the stream being read.
      * @return
      */
-    public static TaskGraph read(Reader reader) throws DotIOException {
+    public static TaskGraph read(String inputFile) throws DotIOException, FileNotFoundException {
 
-        StreamTokenizer tk = new StreamTokenizer(reader);
+        StreamTokenizer tk = new StreamTokenizer(new BufferedReader(new FileReader(inputFile)));
         tk.wordChars('-','-');
         tk.wordChars('=','>');
         tk.whitespaceChars(';',';');

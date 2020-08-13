@@ -15,17 +15,21 @@ import static org.junit.Assert.*;
 
 public class DotIOTest {
 
+    private String getTestDir() {
+        return System.getProperty("user.dir") + "/src/tests/java/dotio/";
+    }
+
     @Test
     public void readDot() {
         try {
-            TaskGraph tg = DotIO.read(new StringReader(
-                    "digraph  \"example\" {\n\ta [Weight=2];\n\tb [Weight=3];\n\ta −> b [Weight=1];\n\tc [Weight=3];\n\ta −> c [Weight=2];\n\td [Weight=2];\n\tb −> d [Weight=2];\n\tc −> d [Weight=1];\n}"
-            ));
+            TaskGraph tg = DotIO.read(getTestDir() + "testInput.dot");
             assertEquals("example", tg.getName());
             assertEquals(4, tg.getTasks().size());
             assertEquals(4, tg.getDependencies().size());
         } catch (DotIOException e) {
-            fail();
+            fail("Failed to read syntax: " + e.getMessage());
+        } catch (FileNotFoundException e) {
+            fail("Failed to locate file");
         }
     }
 
