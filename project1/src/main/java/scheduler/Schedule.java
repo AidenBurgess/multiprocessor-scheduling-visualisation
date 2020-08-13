@@ -13,7 +13,7 @@ public class Schedule {
         this.numProcessors = numProcessors;
 
         for(int i = 0; i < numProcessors; i++){
-            processors.add(new Processor(i));
+            processors.add(new Processor(i+1)); // processor number starts from 1 hence the "i+1"
         }
     }
 
