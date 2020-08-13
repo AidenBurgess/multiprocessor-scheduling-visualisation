@@ -7,12 +7,13 @@ import java.util.List;
  * Models tasks and records their start time and the processor they are scheduled on.
  */
 public class TaskNode {
+    private static final int INVALID_TIME = -1;
 
     private String name;
-    private int startTime;
+    private int startTime = INVALID_TIME;
     private List<TaskNode> dependantOn = new ArrayList<>();
     private int weight;
-    private int endTime;
+    private int endTime = INVALID_TIME;
     private Processor processor;
     private boolean isOn; // Refers to whether the task is currently scheduled
 
@@ -68,5 +69,13 @@ public class TaskNode {
 
     public int getEndTime() {
         return endTime;
+    }
+
+    public void clearStartTime() {
+        startTime = INVALID_TIME;
+    }
+
+    public void clearEndTime() {
+        startTime = INVALID_TIME;
     }
 }

@@ -54,8 +54,8 @@ public class Processor {
      */
     public void dismountLastTaskNode() {
         TaskNode taskNodeToRemove = taskNodes.get(taskNodes.size() - 1);
-        taskNodeToRemove.setStartTime(0);
-        taskNodeToRemove.setEndTime(0);
+        taskNodeToRemove.clearStartTime();
+        taskNodeToRemove.clearEndTime();
         taskNodeToRemove.turnOff();
         taskNodeToRemove.setProcessor(null);
         taskNodes.remove(taskNodeToRemove); // Removing the task from the list maintained in this processor

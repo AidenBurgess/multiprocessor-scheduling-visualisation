@@ -82,22 +82,19 @@ public class BaseScheduler extends Scheduler {
         }
 
 
-        // todo F-function
-        // the idea is that if we use some heuristic and the schedule is already exceeding the bound, return.
-        // this might not be the end!
-        // this is a prediction! a strict lower bound.
-
+        // Ffunction will evaluate the best possible finish time for the current state.
+        // If this prediction exceeds bound, prune the branch.
         if (ffunction.evaluate(currentState) > bound) return;
 
         // Below we try and schedule every unscheduled task on every processor
         for (String nodeName : taskNodeMap.keySet()) {
-            boolean dependencyMet = true;
             TaskNode taskNode = taskNodeMap.get(nodeName);
 
             if(taskNode.isOn()) {
                continue;
             }
 
+            boolean dependencyMet = true;
             for(TaskNode parent : taskNode.getDependantOn()) {
                 if(!parent.isOn()) {
                     dependencyMet = false;
@@ -110,7 +107,6 @@ public class BaseScheduler extends Scheduler {
             }
 
             for (Processor processor : currentState.getProcessors()) {
-
                 //  Scheduling the current task on a processor
                 processor.scheduleTask(taskNode, incomingEdgesMap.get(taskNode));
 
