@@ -15,14 +15,12 @@ import static org.junit.Assert.*;
 
 public class DotIOTest {
 
-    private String getTestDir() {
-        return System.getProperty("user.dir") + "/src/tests/java/dotio/";
-    }
+    private static String testDir = System.getProperty("user.dir") + "/src/tests/java/dotio/";
 
     @Test
     public void readDot() {
         try {
-            TaskGraph tg = DotIO.read(getTestDir() + "testInput.dot");
+            TaskGraph tg = DotIO.read(testDir + "testInput.dot");
             assertEquals("example", tg.getName());
             assertEquals(4, tg.getTasks().size());
             assertEquals(4, tg.getDependencies().size());
@@ -74,17 +72,14 @@ public class DotIOTest {
         taskGraph.insertDependency(new Dependency("b", "d", 2));
         taskGraph.insertDependency(new Dependency("c", "d", 1));
 
-        // get the current dotio directory
-        String currentDirectory = System.getProperty("user.dir") + "/src/tests/java/dotio";
-
         try {
-            DotIO.write(currentDirectory + "/testOutput.dot", taskGraph, startTimeMap, processorMap);
+            DotIO.write(testDir + "/testOutput.dot", taskGraph, startTimeMap, processorMap);
         } catch (DotIOException e) {
             System.err.println(e.getMessage());
         }
 
-        File expected = new File(currentDirectory + "/expected.dot");
-        File actual = new File(currentDirectory + "/testOutput.dot");
+        File expected = new File(testDir + "/expected.dot");
+        File actual = new File(testDir + "/testOutput.dot");
 
         try {
             // reads the expected file
