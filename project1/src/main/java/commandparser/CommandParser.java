@@ -12,15 +12,21 @@ public class CommandParser {
 
         int i = 2;
         while (i < args.length) {
-            if (args[i].equals("-v")) config.setHasVisualisation(true);;
-            if (args[i].equals("-p")) {
-                config.setParallelised(true);
-                config.setNumParallelCores(Integer.parseInt(args[i+1]));
-                i++;
-            }
-            if (args[i].equals("-o")) {
-                config.setOutputFileName(args[i+1]);
-                i++;
+            switch (args[i]) {
+                case "-v":
+                    config.setHasVisualisation(true);
+                    break;
+                case "-p":
+                    config.setParallelised(true);
+                    config.setNumParallelCores(Integer.parseInt(args[i+1]));
+                    i++;
+                    break;
+                case "-o":
+                    config.setOutputFileName(args[i+1]);
+                    i++;
+                    break;
+                default:
+                    System.err.println("Unknown configuration: " + args[i]);
             }
             i++;
         }
