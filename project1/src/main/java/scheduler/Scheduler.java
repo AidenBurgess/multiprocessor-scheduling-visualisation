@@ -14,9 +14,11 @@ import java.util.concurrent.ThreadPoolExecutor;
  *
  * @// TODO: 10/08/20 getcurrentstate, getbeststate, dfs methods.
  */
+
+// @// TODO: 13/08/20 add visibility modifiers such as public, protected etc. and think about this for all classes
 public abstract class Scheduler {
     TaskGraph input;
-    public int numProcessors;
+    int numProcessors;
     Schedule currentState;
     Schedule bestState;
     ThreadPoolExecutor threadPool;
