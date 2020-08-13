@@ -89,23 +89,24 @@ public class BaseScheduler extends Scheduler {
         for (String nodeName : taskNodeMap.keySet()) {
             TaskNode taskNode = taskNodeMap.get(nodeName);
 
-            if(taskNode.isOn()) {
+            // If the node is on, it cannot be scheduled again.
+            if (taskNode.isOn()) {
                continue;
             }
 
-            // Ensuring that this taskNode's dependencies are already "on" some processor
+            // If the node has some parent dependency that is not scheduled, this node cannot be scheduled yet.
             boolean dependencyMet = true;
-            for(TaskNode parent : taskNode.getDependantOn()) {
+            for (TaskNode parent : taskNode.getDependantOn()) {
                 if(!parent.isOn()) {
                     dependencyMet = false;
                     break;
                 }
             }
-
-            if(!dependencyMet) {
+            if (!dependencyMet) {
                 continue;
             }
 
+            // The node can be scheduled. Try scheduling it on to any of the processors.
             for (Processor processor : currentState.getProcessors()) {
                 //  Scheduling the current task on a processor
                 processor.scheduleTask(taskNode, incomingEdgesMap.get(taskNode));
@@ -113,7 +114,7 @@ public class BaseScheduler extends Scheduler {
                 // Recursive DFS() call
                 dfs();
 
-                // The task is dismounted from the current processor
+                // The task is dismounted from the processor
                 processor.dismountLastTaskNode();
             }
         }
