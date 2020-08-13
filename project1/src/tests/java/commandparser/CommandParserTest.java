@@ -11,11 +11,11 @@ public class CommandParserTest {
     public void simpleParse() {
         String[] simpleArgs = {"test-input.dot", "5"};
         Config expectedConfig = new Config();
-        expectedConfig.inputFileName = "test-input.dot";
-        expectedConfig.numProcessors = 5;
-        expectedConfig.outputFileName = "test-input-output.dot";
-        expectedConfig.isParallelised = false;
-        expectedConfig.hasVisualisation = false;
+        expectedConfig.setInputFileName("test-input.dot");
+        expectedConfig.setNumProcessors(5);
+        expectedConfig.setOutputFileName("test-input-output.dot");
+        expectedConfig.setParallelised(false);
+        expectedConfig.setHasVisualisation(false);
         Config resConfig = CommandParser.parse(simpleArgs);
         assertEquals(expectedConfig, resConfig);
     }
@@ -24,10 +24,10 @@ public class CommandParserTest {
     public void hasVisualisationParse() {
         String[] simpleArgs = {"visualisation.dot", "10", "-v"};
         Config expectedConfig = new Config();
-        expectedConfig.inputFileName = "visualisation.dot";
-        expectedConfig.numProcessors = 10;
-        expectedConfig.outputFileName = "visualisation-output.dot";
-        expectedConfig.hasVisualisation = true;
+        expectedConfig.setInputFileName("visualisation.dot");
+        expectedConfig.setNumProcessors(10);
+        expectedConfig.setOutputFileName("visualisation-output.dot");
+        expectedConfig.setHasVisualisation(true);
         Config resConfig = CommandParser.parse(simpleArgs);
         assertEquals(expectedConfig, resConfig);
     }
@@ -36,9 +36,9 @@ public class CommandParserTest {
     public void outputFileParse() {
         String[] simpleArgs = {"output.dot", "10", "-o", "different.dot"};
         Config expectedConfig = new Config();
-        expectedConfig.inputFileName = "output.dot";
-        expectedConfig.numProcessors = 10;
-        expectedConfig.outputFileName = "different.dot";
+        expectedConfig.setInputFileName("output.dot");
+        expectedConfig.setNumProcessors(10);
+        expectedConfig.setOutputFileName("different.dot");
         Config resConfig = CommandParser.parse(simpleArgs);
         assertEquals(expectedConfig, resConfig);
     }
@@ -47,11 +47,11 @@ public class CommandParserTest {
     public void parallelParse() {
         String[] simpleArgs = {"parallel.dot", "10", "-p", "4"};
         Config expectedConfig = new Config();
-        expectedConfig.inputFileName = "parallel.dot";
-        expectedConfig.numProcessors = 10;
-        expectedConfig.numParallelCores = 4;
-        expectedConfig.isParallelised = true;
-        expectedConfig.outputFileName = "parallel-output.dot";
+        expectedConfig.setInputFileName("parallel.dot");
+        expectedConfig.setNumProcessors(10);
+        expectedConfig.setNumParallelCores(4);
+        expectedConfig.setParallelised(true);
+        expectedConfig.setOutputFileName("parallel-output.dot");
         Config resConfig = CommandParser.parse(simpleArgs);
         assertEquals(expectedConfig, resConfig);
     }
@@ -60,12 +60,12 @@ public class CommandParserTest {
     public void allOptionsParse() {
         String[] simpleArgs = {"allOptions.dot", "5", "-o", "none.dot", "-v", "-p", "20"};
         Config expectedConfig = new Config();
-        expectedConfig.inputFileName = "allOptions.dot";
-        expectedConfig.numProcessors = 5;
-        expectedConfig.numParallelCores = 20;
-        expectedConfig.isParallelised = true;
-        expectedConfig.hasVisualisation = true;
-        expectedConfig.outputFileName = "none.dot";
+        expectedConfig.setInputFileName("allOptions.dot");
+        expectedConfig.setNumProcessors(5);
+        expectedConfig.setNumParallelCores(20);
+        expectedConfig.setParallelised(true);
+        expectedConfig.setHasVisualisation(true);
+        expectedConfig.setOutputFileName("none.dot");
         Config resConfig = CommandParser.parse(simpleArgs);
         assertEquals(expectedConfig, resConfig);
     }
@@ -74,12 +74,12 @@ public class CommandParserTest {
     public void allOptionsScrambledParse() {
         String[] simpleArgs = {"allOptions.dot", "5", "-v", "-p", "15", "-o", "nothing.dot"};
         Config expectedConfig = new Config();
-        expectedConfig.inputFileName = "allOptions.dot";
-        expectedConfig.numProcessors = 5;
-        expectedConfig.numParallelCores = 15;
-        expectedConfig.isParallelised = true;
-        expectedConfig.hasVisualisation = true;
-        expectedConfig.outputFileName = "nothing.dot";
+        expectedConfig.setInputFileName("allOptions.dot");
+        expectedConfig.setNumProcessors(5);
+        expectedConfig.setNumParallelCores(15);
+        expectedConfig.setParallelised(true);
+        expectedConfig.setHasVisualisation(true);
+        expectedConfig.setOutputFileName("nothing.dot");
         Config resConfig = CommandParser.parse(simpleArgs);
         assertEquals(expectedConfig, resConfig);
     }
