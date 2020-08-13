@@ -58,15 +58,6 @@ public class BaseScheduler extends Scheduler {
          * If not, try put any available, free task into any processor
          */
 
-        if (currentState.isComplete()) {
-            // todo update bound
-            // todo update the beststate = currentstate - this can be an issue with deepcopying. we can leave this line for now.
-            // Option 1 - If we create another class "NodeStateDetails", then how about a hashmap like --> "HashMap <String, NodeStateDetails> bestState"
-            // is made to store the best state?
-            // Option 2 - Otherwise if the Dotio class needs a TaskGraph object for the write() method, then how about we just store a list of
-            // nodes everytime a bestState is found and then just before the termination of the algorithm we cycle through all the
-            // nodes, convert them into tasks, and then create a TaskGraph object. One issue is that right now a Task object stores no info.
-            // about its start time or processor. So the UML diagram will need to be changed.
             return;
         }
 
