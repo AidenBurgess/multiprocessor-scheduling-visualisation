@@ -192,11 +192,14 @@ public class DotIO {
 
         // for each node, check if it has a time in the map and which processor it has been assigned to.
 
+        String writeFile = "";
+
         try {
             PrintWriter writer = new PrintWriter(outputFile);
 
             // write the first line
-            writer.println("digraph " + taskGraph.getName() + " {");
+            writer.println("digraph ".concat(taskGraph.getName()).concat(" {"));
+
 
             // iterate through the task graph tasks
             ArrayList<Task> tasks = taskGraph.getTasks();
@@ -207,10 +210,10 @@ public class DotIO {
                 // if there is a start time
                 if (startTimeMap.containsKey(taskName)) {
 
-                    int taskTime = task.getTaskTime();
-                    int startTime = startTimeMap.get(taskName);
-                    int processor = processorMap.get(taskName);
-                    writer.println("\t" + taskName + "\t\t\t[Weight="+taskTime+", Start="+startTime+", Processor="+processor+"];");
+                    String taskTime = String.valueOf(task.getTaskTime());
+                    String startTime = String.valueOf(startTimeMap.get(taskName));
+                    String processor = String.valueOf(processorMap.get(taskName));
+                    writer.println("\t".concat(taskName).concat("\t\t\t[Weight=").concat(taskTime).concat(", Start=").concat(startTime).concat(", Processor=").concat(processor).concat("];"));
                 } else {
                     throw new DotIOException("No valid schedule"); // ERROR: No valid schedule
                 }
@@ -223,9 +226,9 @@ public class DotIO {
 
                 String source = dependency.getSource();
                 String dest = dependency.getDest();
-                int communicationTime = dependency.getCommunicationTime();
+                String communicationTime = String.valueOf(dependency.getCommunicationTime());
 
-                writer.println("\t" + source + " -> " + dest + "\t\t[Weight=" + communicationTime + "];");
+                writer.println("\t".concat(source).concat(" -> ").concat(dest).concat("\t\t[Weight=").concat(communicationTime).concat("];"));
             }
 
             writer.println("}");
