@@ -1,13 +1,8 @@
 package tests.java.scheduler;
 
 import main.java.dotio.*;
-
 import main.java.scheduler.BaseScheduler;
-import org.junit.Rule;
 import org.junit.Test;
-
-import org.junit.rules.TemporaryFolder;
-
 
 import java.io.*;
 import java.util.HashMap;
@@ -41,6 +36,5 @@ public class BaseSchedulerTest {
             fail();
         }
     }
-
 
 }
