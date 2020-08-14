@@ -40,7 +40,7 @@ public class FXController extends Application {
         Button btn = new Button();
         btn.setText("Say 'Hello World'");
         btn.setOnAction((ActionEvent event) -> {
-                System.out.println("Our scheduler has " + FXController.sc.numProcessors + " processors!");
+                System.out.println("Our scheduler has " + FXController.sc.getNumProcessors() + " processors!");
                 System.out.println("Hello World!");
         });
 

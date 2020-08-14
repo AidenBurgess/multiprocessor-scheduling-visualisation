@@ -11,7 +11,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  */
 public abstract class Scheduler {
     TaskGraph input;
-    public int numProcessors;
+    int numProcessors;
     Schedule currentState;
     Schedule bestState;
     ThreadPoolExecutor threadPool;
@@ -28,5 +28,9 @@ public abstract class Scheduler {
 
     public HashMap<String, Integer> getProcessorMap() {
         return processorMap;
+    }
+
+    public int getNumProcessors() {
+        return numProcessors;
     }
 }
