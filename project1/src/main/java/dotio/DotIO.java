@@ -198,7 +198,7 @@ public class DotIO {
             PrintWriter writer = new PrintWriter(outputFile);
 
             // write the first line
-            sb.append("digraph ".concat(taskGraph.getName()).concat(" {\n"));
+            sb.append("digraph ").append(taskGraph.getName()).append(" {\n");
 
             // iterate through the task graph tasks
             ArrayList<Task> tasks = taskGraph.getTasks();
@@ -212,7 +212,7 @@ public class DotIO {
                     String taskTime = String.valueOf(task.getTaskTime());
                     String startTime = String.valueOf(startTimeMap.get(taskName));
                     String processor = String.valueOf(processorMap.get(taskName));
-                    sb.append("\t".concat(taskName).concat("\t\t\t[Weight=").concat(taskTime).concat(", Start=").concat(startTime).concat(", Processor=").concat(processor).concat("];\n"));
+                    sb.append("\t").append(taskName).append("\t\t\t[Weight=").append(taskTime).append(", Start=").append(startTime).append(", Processor=").append(processor).append("];\n");
                 } else {
                     throw new DotIOException("No valid schedule"); // ERROR: No valid schedule
                 }
@@ -227,7 +227,7 @@ public class DotIO {
                 String dest = dependency.getDest();
                 String communicationTime = String.valueOf(dependency.getCommunicationTime());
 
-                sb.append("\t".concat(source).concat(" -> ").concat(dest).concat("\t\t[Weight=").concat(communicationTime).concat("];\n"));
+                sb.append("\t").append(source).append(" -> ").append(dest).append("\t\t[Weight=").append(communicationTime).append("];\n");
             }
 
             sb.append("}\n");
