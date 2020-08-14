@@ -2,4 +2,4 @@ project1/out
 .idea/
 *.iml
 project1/*output.dot
-dots/*output.dot
+project1/dots/*output.dot
