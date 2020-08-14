@@ -192,14 +192,13 @@ public class DotIO {
 
         // for each node, check if it has a time in the map and which processor it has been assigned to.
 
-        String writeFile = "";
+        StringBuilder sb = new StringBuilder();
 
         try {
             PrintWriter writer = new PrintWriter(outputFile);
 
             // write the first line
-            writer.println("digraph ".concat(taskGraph.getName()).concat(" {"));
-
+            sb.append("digraph ".concat(taskGraph.getName()).concat(" {\n"));
 
             // iterate through the task graph tasks
             ArrayList<Task> tasks = taskGraph.getTasks();
@@ -213,7 +212,7 @@ public class DotIO {
                     String taskTime = String.valueOf(task.getTaskTime());
                     String startTime = String.valueOf(startTimeMap.get(taskName));
                     String processor = String.valueOf(processorMap.get(taskName));
-                    writer.println("\t".concat(taskName).concat("\t\t\t[Weight=").concat(taskTime).concat(", Start=").concat(startTime).concat(", Processor=").concat(processor).concat("];"));
+                    sb.append("\t".concat(taskName).concat("\t\t\t[Weight=").concat(taskTime).concat(", Start=").concat(startTime).concat(", Processor=").concat(processor).concat("];\n"));
                 } else {
                     throw new DotIOException("No valid schedule"); // ERROR: No valid schedule
                 }
@@ -228,10 +227,12 @@ public class DotIO {
                 String dest = dependency.getDest();
                 String communicationTime = String.valueOf(dependency.getCommunicationTime());
 
-                writer.println("\t".concat(source).concat(" -> ").concat(dest).concat("\t\t[Weight=").concat(communicationTime).concat("];"));
+                sb.append("\t".concat(source).concat(" -> ").concat(dest).concat("\t\t[Weight=").concat(communicationTime).concat("];\n"));
             }
 
-            writer.println("}");
+            sb.append("}\n");
+
+            writer.append(sb);
 
             writer.close();
 
