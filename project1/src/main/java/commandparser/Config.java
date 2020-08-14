@@ -62,7 +62,7 @@ public class Config {
      * Set the default name of output file to `${InputFileName}-output.dot`
      */
     public void setDefaultOutputFileName() {
-        outputFileName = inputFileName.split(".dot")[0] + "-output.dot";
+        outputFileName = inputFileName.substring(0, inputFileName.length() - 4).concat("-output.dot");
     }
 
     @Override
