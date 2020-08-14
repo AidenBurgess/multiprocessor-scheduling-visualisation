@@ -32,7 +32,7 @@ import java.util.*;
  * Notice that the processors/delay time constraints is not considered. We are trying to schedule each task as early as
  * we can while satisfying all dependencies.
  */
-public class TopologicalFFunction implements FFunction {
+public class SatisfyDependenciesFFunction implements FFunction {
     private HashMap<String, TaskNode> nodeMap;
     private HashMap<TaskNode, List<Edge>> incomingEdgesMap;
     private HashMap<String, Integer> bestEndingTime;
