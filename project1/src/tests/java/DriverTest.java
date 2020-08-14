@@ -13,7 +13,7 @@ public class DriverTest {
     public void startVisualisationThread() {
     }
 
-    @Test (timeout = 20000)
+    @Test (timeout = 200000)
     public void runtimeTesting() {
         int maxProcessors = 5;
         int maxTasks = 10;

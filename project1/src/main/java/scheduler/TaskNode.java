@@ -78,4 +78,8 @@ public class TaskNode {
     public void clearEndTime() {
         startTime = INVALID_TIME;
     }
+
+    public String getName() {
+        return name;
+    }
 }

@@ -21,7 +21,7 @@ public class BaseScheduler extends Scheduler {
     public BaseScheduler(TaskGraph taskGraph, int numProcessors) {
         this.numProcessors = numProcessors;
         input = taskGraph;
-        ffunction = new SimpleFFunction();
+        ffunction = new TopologicalFFunction();
         bound = Integer.MAX_VALUE;
 
         for (Task task : input.getTasks()) {
@@ -84,7 +84,7 @@ public class BaseScheduler extends Scheduler {
 
         // Ffunction will evaluate the best possible finish time for the current state.
         // If this prediction exceeds bound, prune the branch.
-        if (ffunction.evaluate(currentState) > bound) return;
+        if (ffunction.evaluate(currentState, taskNodeMap, incomingEdgesMap) > bound) return;
 
         // Below we try and schedule every unscheduled task on every processor
         for (String nodeName : taskNodeMap.keySet()) {
