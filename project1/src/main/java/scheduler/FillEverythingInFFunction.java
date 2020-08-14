@@ -27,6 +27,14 @@ import java.util.List;
  * This evaluate method, for this case, will return 8.
  */
 public class FillEverythingInFFunction implements FFunction {
+    /**
+     * Returns the theoretical best possible endTime to complete the Schedule, given the current Schedule state,
+     * taskNodes and dependencies.
+     * @param s Current schedule. May be incomplete.
+     * @param nodeMap All the taskNodes. All the nodes contain relevant information, such as whether it is currently on and its current endTime.
+     * @param incomingEdgesMap An adjacent list that states each taskNode's direct dependencies.
+     * @return A prediction of the best endTime if the Schedule is completed. Must be an underestimate.
+     */
     @Override
     public int evaluate(Schedule s, HashMap<String, TaskNode> nodeMap, HashMap<TaskNode, List<Edge>> incomingEdgesMap) {
         // First, calculate the total time left of the unscheduled tasks.
@@ -47,6 +55,6 @@ public class FillEverythingInFFunction implements FFunction {
         // 13 / 4 results in at least 4 extra time.
         // 20 / 4 results in 5 extra time
         int processors = s.getProcessors().size();
-        return totalTimeLeft % processors == 0 ? totalTimeLeft / processors : totalTimeLeft / processors + 1;
+        return totalTimeLeft % processors == 0 ? s.endTime() + totalTimeLeft / processors : s.endTime() + totalTimeLeft / processors + 1;
     }
 }
