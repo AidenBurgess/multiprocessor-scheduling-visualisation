@@ -43,4 +43,16 @@ public class DriverTest {
             }
         }
     }
+
+    @Test
+    public void singleFileRuntime() {
+        String filename = "dots/N4-M2.dot";
+        String numProcessors = "2";
+
+        String[] input = {filename, numProcessors};
+        long startTime = System.nanoTime();
+        Driver.main(input);
+        long duration = (System.nanoTime() - startTime)/1000;
+        System.out.format("Overall %10d microseconds\n", duration);
+    }
 }
