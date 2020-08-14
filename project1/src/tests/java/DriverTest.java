@@ -15,9 +15,17 @@ public class DriverTest {
 
     @Test (timeout = 20000)
     public void runtimeTesting() {
-        System.out.println("Filename\t\t\tTimes are given in ms");
         int maxProcessors = 5;
         int maxTasks = 10;
+
+        System.out.println("\t\t\t\t Number of processors (time in ms)");
+        System.out.format("Filename");
+        for (int i = 1; i < maxProcessors+1; i++) {
+            System.out.format("%10d", i);
+        }
+        System.out.println();
+        System.out.println("-".repeat(16+10*maxProcessors));
+
         for (int N = 1; N < maxTasks+1; N++) {
             int maxDependencies = (N*(N-1))/2 + 1;
 
