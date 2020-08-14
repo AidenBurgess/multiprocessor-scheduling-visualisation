@@ -34,8 +34,6 @@ public class CommandParser {
         if (config.getOutputFileName() == null) {
             config.setDefaultOutputFileName();
         }
-
-        System.out.println("Command has been parsed!");
         return config;
     }
 
