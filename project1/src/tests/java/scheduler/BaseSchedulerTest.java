@@ -19,9 +19,7 @@ public class BaseSchedulerTest {
     @Test
     public void run() {
         try {
-            TaskGraph tg = DotIO.read(new StringReader(
-                    "digraph  \"example\" {\n\ta [Weight=2];\n\tb [Weight=3];\n\ta −> b [Weight=1];\n\tc [Weight=3];\n\ta −> c [Weight=2];\n\td [Weight=2];\n\tb −> d [Weight=2];\n\tc −> d [Weight=1];\n}"
-            ));
+            TaskGraph tg = DotIO.read(System.getProperty("user.dir") + "/src/tests/java/scheduler/testInput.dot");
             assertEquals("example", tg.getName());
             assertEquals(4, tg.getTasks().size());
             assertEquals(4, tg.getDependencies().size());
@@ -38,6 +36,8 @@ public class BaseSchedulerTest {
             DotIO.write("output.dot", tg, startTimeMap, processorMap);
 
         } catch (DotIOException e) {
+            fail();
+        } catch (FileNotFoundException e) {
             fail();
         }
     }

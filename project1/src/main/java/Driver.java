@@ -9,9 +9,8 @@ import main.java.scheduler.BaseScheduler;
 import main.java.scheduler.Scheduler;
 import main.java.visualisation.FXController;
 
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
+
 import java.util.HashMap;
 
 public class Driver {
@@ -45,7 +44,7 @@ public class Driver {
     private static TaskGraph readTaskGraph(Config config) {
         TaskGraph taskGraph = null;
         try {
-            taskGraph = DotIO.read(new BufferedReader(new FileReader(config.getInputFileName())));
+            taskGraph = DotIO.read(config.getInputFileName());
         } catch (FileNotFoundException e) {
             System.err.println("Error: File " + config.getInputFileName() + " does not exist");
             System.exit(1);

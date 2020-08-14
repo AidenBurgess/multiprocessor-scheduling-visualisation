@@ -1,10 +1,6 @@
 package main.java.dotio;
 
-import java.io.StreamTokenizer;
-import java.io.Reader;
-import java.io.IOException;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
+import java.io.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,15 +26,14 @@ public class DotIO {
      *      c−> d       [Weight=1];
      * }
      *
-     * @param reader The reader object that encapsulates the stream being read.
+     * @param inputFile The name of the file to be read.
      * @return
      */
-    public static TaskGraph read(Reader reader) throws DotIOException {
+    public static TaskGraph read(String inputFile) throws DotIOException, FileNotFoundException {
 
-        StreamTokenizer tk = new StreamTokenizer(reader);
-        tk.wordChars('-','-');
-        tk.wordChars('=','>');
+        StreamTokenizer tk = new StreamTokenizer(new BufferedReader(new FileReader(inputFile)));
         tk.whitespaceChars(';',';');
+        tk.ordinaryChar('−');
 
         TaskGraph graph;
         try {
@@ -101,9 +96,15 @@ public class DotIO {
             throw new DotIOException("First token in the line wasn't a node name"); //Error: First token in the line wasn't a node name
         }
 
-        //Check if the element is an edge by checking for the '->' sequence. If it is, then parse the dest node
-        if ((tk.ttype == StreamTokenizer.TT_WORD) && (tk.sval.contains("−>"))) {
+        //Check if the element is an edge by checking for the '->' sequence. If it is, then parse the dest node.
+        //Note: also checks for different type of hyphen character: as we're not sure if input is '−' or '-'
+        if ((tk.ttype == '-') || ((tk.ttype == StreamTokenizer.TT_WORD) && tk.sval.equals("−"))) {
             tk.nextToken();
+            if (tk.ttype == '>') {
+                tk.nextToken();
+            } else {
+                throw new DotIOException("Found other character when expecting '>'");
+            }
             if (tk.ttype == StreamTokenizer.TT_WORD) {
                 destNode = tk.sval;
                 tk.nextToken();
@@ -120,11 +121,23 @@ public class DotIO {
         }
 
         //Check that the weight of the node is correctly notated.
-        if ((tk.ttype == StreamTokenizer.TT_WORD) && tk.sval.startsWith("Weight=")) {
-            weight = Integer.parseInt(tk.sval.substring(7));
+        if ((tk.ttype == StreamTokenizer.TT_WORD) && tk.sval.equalsIgnoreCase("Weight")) {
             tk.nextToken();
         } else {
             throw new DotIOException("Weight of node/edge not specified"); //Error: Weight of node/edge not specified.
+        }
+
+        if (tk.ttype == '=') {
+            tk.nextToken();
+        } else {
+            throw new DotIOException("Found other character when expecting '='");
+        }
+
+        if (tk.ttype == StreamTokenizer.TT_NUMBER) {
+            weight = (int) tk.nval;
+            tk.nextToken();
+        } else {
+            throw new DotIOException("Weight value for node is not a number.");
         }
 
         //Check that there is a ']' character after weight property.
