@@ -21,7 +21,7 @@ public class BaseScheduler extends Scheduler {
     public BaseScheduler(TaskGraph taskGraph, int numProcessors) {
         this.numProcessors = numProcessors;
         input = taskGraph;
-        ffunction = new TopologicalFFunction();
+        ffunction = new SimpleFFunction();
         bound = Integer.MAX_VALUE;
 
         for (Task task : input.getTasks()) {
