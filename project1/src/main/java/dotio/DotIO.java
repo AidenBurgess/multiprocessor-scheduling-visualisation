@@ -2,6 +2,7 @@ package main.java.dotio;
 
 import java.io.*;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -31,12 +32,11 @@ public class DotIO {
      */
     public static TaskGraph read(String inputFile) throws DotIOException, FileNotFoundException {
 
-        StreamTokenizer tk = new StreamTokenizer(new BufferedReader(new FileReader(inputFile)));
-        tk.whitespaceChars(';',';');
-        tk.ordinaryChar('−');
-
         TaskGraph graph;
         try {
+            //Initialize stream tokenizer to read from the specified file
+            StreamTokenizer tk = new StreamTokenizer(new BufferedReader(new FileReader(inputFile, StandardCharsets.UTF_8)));
+            tk.whitespaceChars(';',';');
             tk.nextToken();
 
             //Check that input graph is a digraph.
