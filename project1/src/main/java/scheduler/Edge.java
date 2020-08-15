@@ -6,20 +6,20 @@ package main.java.scheduler;
  */
 public class Edge {
 
-    private TaskNode from;
-    private int weight;
+    private TaskNode _source;
+    private int _weight;
 
 
-    public Edge(TaskNode from, int weight) {
-        this.from = from;
-        this.weight = weight;
+    public Edge(TaskNode source, int weight) {
+        this._source = source;
+        this._weight = weight;
     }
 
-    public TaskNode getFrom() {
-        return from;
+    public TaskNode getSource() {
+        return _source;
     }
 
     public int getWeight() {
-        return weight;
+        return _weight;
     }
 }
