@@ -15,12 +15,12 @@ public class TaskNode {
     private int weight;
     private int endTime = INVALID_TIME;
     private Processor processor;
-    private boolean isOn; // Refers to whether the task is currently scheduled
+    private boolean isScheduled; // Refers to whether the task is currently scheduled
 
     public TaskNode(String name, int weight) {
         this.name = name;
         this.weight = weight;
-        isOn = false;
+        isScheduled = false;
     }
 
     public void addParentTaskNode(TaskNode parentTaskNode) {
@@ -43,16 +43,16 @@ public class TaskNode {
         return weight;
     }
 
-    public void turnOn() {
-        isOn = true;
+    public void scheduleTask() {
+        isScheduled = true;
     }
 
-    public void turnOff() {
-        isOn = false;
+    public void unscheduleTask() {
+        isScheduled = false;
     }
 
-    public boolean isOn() {
-        return isOn;
+    public boolean isScheduled() {
+        return isScheduled;
     }
 
     public List<TaskNode> getDependantOn() {

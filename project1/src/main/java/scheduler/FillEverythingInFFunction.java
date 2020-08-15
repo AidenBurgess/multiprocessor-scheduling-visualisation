@@ -40,7 +40,7 @@ public class FillEverythingInFFunction implements FFunction {
         // First, calculate the total time left of the unscheduled tasks.
         int totalTimeLeft = 0;
         for (TaskNode taskNode : nodeMap.values()) {
-            if (!taskNode.isOn()) totalTimeLeft += taskNode.getWeight();
+            if (!taskNode.isScheduled()) totalTimeLeft += taskNode.getWeight();
         }
         // 'Stuffing'. For each processor, stuff as much time as you can without exceeding the biggest endTime.
         for (Processor processor : s.getProcessors()) {

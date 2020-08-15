@@ -44,7 +44,7 @@ public class Processor {
         taskNode.setStartTime(endTime + schedulingDelay);
         endTime += taskNode.getWeight() + schedulingDelay; // Updating the end time of this processor to account for the scheduled task
         taskNode.setEndTime(endTime);
-        taskNode.turnOn();
+        taskNode.scheduleTask();
         taskNode.setProcessor(this);
         taskNodes.add(taskNode); // Adding this scheduled task to the list maintained in this processor
     }
@@ -56,7 +56,7 @@ public class Processor {
         TaskNode taskNodeToRemove = taskNodes.get(taskNodes.size() - 1);
         taskNodeToRemove.clearStartTime();
         taskNodeToRemove.clearEndTime();
-        taskNodeToRemove.turnOff();
+        taskNodeToRemove.unscheduleTask();
         taskNodeToRemove.setProcessor(null);
         taskNodes.remove(taskNodeToRemove); // Removing the task from the list maintained in this processor
 

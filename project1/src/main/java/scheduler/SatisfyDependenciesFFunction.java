@@ -46,7 +46,7 @@ public class SatisfyDependenciesFFunction implements FFunction {
         TaskNode taskNode = nodeMap.get(task);
 
         // If the taskNode is already scheduled, return that endTime.
-        if (taskNode.isOn()) return taskNode.getEndTime();
+        if (taskNode.isScheduled()) return taskNode.getEndTime();
         // If the taskNode has no parents, it can be placed at startTime = 0.
         if (!incomingEdgesMap.containsKey(taskNode) || incomingEdgesMap.get(taskNode).size() == 0) return taskNode.getWeight();
         // If the method has calculated this task before, return the previously calculated result (memoisation).
