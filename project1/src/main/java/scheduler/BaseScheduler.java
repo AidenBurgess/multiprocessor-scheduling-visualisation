@@ -84,7 +84,7 @@ public class BaseScheduler extends Scheduler {
 
         // Ffunction will evaluate the best possible finish time for the current state.
         // If this prediction exceeds bound, prune the branch.
-        if (ffunction.evaluate(currentState) > bound) return;
+        if (ffunction.evaluate(currentState, taskNodeMap, incomingEdgesMap) > bound) return;
 
         // Below we try and schedule every unscheduled task on every processor
         for (String nodeName : taskNodeMap.keySet()) {
