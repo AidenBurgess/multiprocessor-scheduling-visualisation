@@ -48,14 +48,14 @@ public class SatisfyDependenciesFFunction implements FFunction {
         // If the taskNode is already scheduled, return that endTime.
         if (taskNode.isScheduled()) return taskNode.getEndTime();
         // If the taskNode has no parents, it can be placed at startTime = 0.
-        if (!incomingEdgesMap.containsKey(taskNode) || incomingEdgesMap.get(taskNode).size() == 0) return taskNode.getWeight();
+        if (!incomingEdgesMap.containsKey(taskNode) || incomingEdgesMap.get(taskNode).size() == 0) return taskNode.getTaskTime();
         // If the method has calculated this task before, return the previously calculated result (memoisation).
         if (bestEndingTime.containsKey(task)) return bestEndingTime.get(task);
 
         // Place the task as early as possible, but consider the parent.
-        int bestTime = taskNode.getWeight();
+        int bestTime = taskNode.getTaskTime();
         for (Edge edge : incomingEdgesMap.get(taskNode)) {
-            bestTime = Math.max(bestTime, getBestEndingTime(edge.getFrom().getName()) + taskNode.getWeight());
+            bestTime = Math.max(bestTime, getBestEndingTime(edge.getFrom().getName()) + taskNode.getTaskTime());
         }
 
         // Memoise

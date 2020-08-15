@@ -6,16 +6,16 @@ import java.util.List;
 
 public class Processor {
 
-    private List<TaskNode> taskNodes;
-    private int processorNum;
-    private int endTime = 0;
+    private List<TaskNode> _taskNodes;
+    private int _processorNum;
+    private int _endTime = 0;
 
     /**
      * @param processorNum : Each processor is identified by a unique processor number
      */
     public Processor(int processorNum) {
-        this.processorNum = processorNum;
-        taskNodes = new ArrayList<>();
+        _processorNum = processorNum;
+        _taskNodes = new ArrayList<>();
     }
 
     /**
@@ -37,41 +37,62 @@ public class Processor {
 
         for(TaskNode parent : parents) {
             if(parent.getProcessor() != this) {
-                schedulingDelay = Math.max(schedulingDelay, parent.getEndTime() + communicationDelayFromParent.get(parent) - endTime);
+                schedulingDelay = Math.max(schedulingDelay, parent.getEndTime() + communicationDelayFromParent.get(parent) - _endTime);
             }
         }
 
-        taskNode.setStartTime(endTime + schedulingDelay);
-        endTime += taskNode.getWeight() + schedulingDelay; // Updating the end time of this processor to account for the scheduled task
-        taskNode.setEndTime(endTime);
+        taskNode.setStartTime(_endTime + schedulingDelay);
+
+        // Updating the end time of this processor to account for the scheduled task
+        _endTime += taskNode.getTaskTime() + schedulingDelay;
+        taskNode.setEndTime(_endTime);
         taskNode.scheduleTask();
         taskNode.setProcessor(this);
-        taskNodes.add(taskNode); // Adding this scheduled task to the list maintained in this processor
+
+        // Adding this scheduled task to the list maintained in this processor
+        _taskNodes.add(taskNode);
     }
 
     /**
      * Removes the last scheduled task from this processor
      */
     public void dismountLastTaskNode() {
-        TaskNode taskNodeToRemove = taskNodes.get(taskNodes.size() - 1);
+        TaskNode taskNodeToRemove = _taskNodes.get(_taskNodes.size() - 1);
+
+        // remove the field values of the node that is to be removed
         taskNodeToRemove.clearStartTime();
         taskNodeToRemove.clearEndTime();
         taskNodeToRemove.unscheduleTask();
         taskNodeToRemove.setProcessor(null);
-        taskNodes.remove(taskNodeToRemove); // Removing the task from the list maintained in this processor
 
-        endTime = taskNodes.isEmpty() ? 0 : taskNodes.get(taskNodes.size() - 1).getEndTime(); // Sets the endtime to the endtime of the last scheduled task
+        // Removing the task from the list maintained in this processor
+        _taskNodes.remove(taskNodeToRemove);
+
+        // Sets the endtime to the endtime of the last scheduled task
+        _endTime = _taskNodes.isEmpty() ? 0 : _taskNodes.get(_taskNodes.size() - 1).getEndTime();
     }
 
+    /**
+     * Getter for the current processor number
+     * @return int, processor number
+     */
     public int getProcessorNum() {
-        return processorNum;
+        return _processorNum;
     }
 
+    /**
+     * Getter for the end time of the current processor
+     * @return int, end time
+     */
     public int getEndTime() {
-        return endTime;
+        return _endTime;
     }
 
+    /**
+     * Getter for the number of scheduled tasks in the processor
+     * @return int, number of scheduled tasks
+     */
     public int getScheduledTasksNum() {
-        return taskNodes.size();
+        return _taskNodes.size();
     }
 }
