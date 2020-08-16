@@ -23,7 +23,7 @@ public class Config {
     }
 
     public void setNumProcessors(int numProcessors) {
-        this._numProcessors = numProcessors;
+        _numProcessors = numProcessors;
     }
 
     public String getInputFileName() {
@@ -31,7 +31,7 @@ public class Config {
     }
 
     public void setInputFileName(String inputFileName) {
-        this._inputFileName = inputFileName;
+        _inputFileName = inputFileName;
     }
 
     public boolean isParallelised() {
@@ -47,7 +47,7 @@ public class Config {
     }
 
     public void setNumParallelCores(int numParallelCores) {
-        this._numParallelCores = numParallelCores;
+        _numParallelCores = numParallelCores;
     }
 
     public boolean hasVisualisation() {
@@ -55,7 +55,7 @@ public class Config {
     }
 
     public void setHasVisualisation(boolean hasVisualisation) {
-        this._hasVisualisation = hasVisualisation;
+        _hasVisualisation = hasVisualisation;
     }
 
     public String getOutputFileName() {
@@ -63,7 +63,7 @@ public class Config {
     }
 
     public void setOutputFileName(String outputFileName) {
-        this._outputFileName = outputFileName;
+        _outputFileName = outputFileName;
     }
 
     /**
