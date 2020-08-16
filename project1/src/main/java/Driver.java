@@ -31,7 +31,7 @@ public class Driver {
             startVisualisationThread(scheduler);
         }
 
-        scheduler.execute(); // blocks until finished, can be queried by fxcontroller
+        scheduler.execute(); // blocks until finished, can be queried by dashboardcontroller
         writeDotFile(scheduler, taskGraph, config);
     }
 

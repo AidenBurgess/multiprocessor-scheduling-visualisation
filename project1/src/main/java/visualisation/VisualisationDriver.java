@@ -18,7 +18,6 @@ public class VisualisationDriver extends Application {
 
     public static void main(Scheduler scheduler) {
         VisualisationDriver.sc = scheduler;
-
         launch();
     }
 
@@ -28,9 +27,5 @@ public class VisualisationDriver extends Application {
         primaryStage.setTitle("Visualisation");
         primaryStage.setScene(new Scene(root, 1280, 720));
         primaryStage.show();
-    }
-
-    public void onRefresh() {
-        System.out.println("This will run every 1 seconds");
     }
 }
