@@ -18,7 +18,7 @@ public class DashboardController {
 
     @FXML
     void initialize() {
-        sc = FXController.sc;
+        sc = VisualisationDriver.sc;
         // Setup polling the scheduler
         Timer t = new Timer();
         t.schedule(new TimerTask() {

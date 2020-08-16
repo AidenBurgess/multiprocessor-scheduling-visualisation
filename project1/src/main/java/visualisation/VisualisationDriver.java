@@ -13,11 +13,11 @@ import java.io.IOException;
  *
  * @todo update methods
  */
-public class FXController extends Application {
+public class VisualisationDriver extends Application {
     public static Scheduler sc = null;
 
     public static void main(Scheduler scheduler) {
-        FXController.sc = scheduler;
+        VisualisationDriver.sc = scheduler;
 
         launch();
     }
