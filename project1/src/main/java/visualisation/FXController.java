@@ -16,10 +16,10 @@ import java.util.TimerTask;
  * @todo update methods
  */
 public class FXController extends Application {
-    public static Scheduler sc = null;
+    public static Scheduler _sc = null;
 
     public static void main(Scheduler scheduler) {
-        FXController.sc = scheduler;
+        FXController._sc = scheduler;
 
         launch();
     }
@@ -40,7 +40,7 @@ public class FXController extends Application {
         Button btn = new Button();
         btn.setText("Say 'Hello World'");
         btn.setOnAction((ActionEvent event) -> {
-                System.out.println("Our scheduler has " + FXController.sc.getNumProcessors() + " processors!");
+                System.out.println("Our scheduler has " + FXController._sc.getNumProcessors() + " processors!");
                 System.out.println("Hello World!");
         });
 
