@@ -2,6 +2,14 @@ package main.java.commandparser;
 
 import java.util.Objects;
 
+/**
+ * Objects of this class store the following information which is essential for running the program:
+ * - the input file name
+ * - the number of processors available to schedule the tasks on
+ * - should visualization be shown
+ * - should the execution of the program be parallelized, and if so how many parallel cores are available
+ * - output file name
+ */
 public class Config {
     private int _numProcessors;
     private String _inputFileName;

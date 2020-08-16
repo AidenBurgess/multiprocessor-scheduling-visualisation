@@ -1,10 +1,15 @@
 package main.java.commandparser;
 
 /**
- * Take a string args from main and will read the number of processors, whether to parallelise
- * and will be try or false.
+ * This class enables parsing of the command and flags passed (if any) when the program is called from the command line
  */
 public class CommandParser {
+
+    /**
+     * This method reads command line arguments and creates a Config object
+     * @param args
+     * @return config - a Config object which has information essential for running the program
+     */
     public static Config parse(String[] args) {
         Config config = new Config();
         config.setInputFileName(args[0]);
