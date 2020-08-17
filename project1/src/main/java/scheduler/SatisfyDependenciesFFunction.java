@@ -55,7 +55,7 @@ public class SatisfyDependenciesFFunction implements FFunction {
         // Place the task as early as possible, but consider the parent.
         int bestTime = taskNode.getTaskTime();
         for (Edge edge : incomingEdgesMap.get(taskNode)) {
-            bestTime = Math.max(bestTime, getBestEndingTime(edge.getFrom().getName()) + taskNode.getTaskTime());
+            bestTime = Math.max(bestTime, getBestEndingTime(edge.getSource().getName()) + taskNode.getTaskTime());
         }
 
         // Memoise

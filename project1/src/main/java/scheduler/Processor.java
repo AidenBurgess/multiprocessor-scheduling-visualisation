@@ -32,7 +32,7 @@ public class Processor {
         HashMap<TaskNode, Integer> communicationDelayFromParent = new HashMap<>();
 
         for(Edge edge : incomingEdgesToNode) {
-            communicationDelayFromParent.put(edge.getFrom(), edge.getWeight());
+            communicationDelayFromParent.put(edge.getSource(), edge.getWeight());
         }
 
         for(TaskNode parent : parents) {
