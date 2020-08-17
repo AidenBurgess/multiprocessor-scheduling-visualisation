@@ -6,7 +6,7 @@ package main.java.commandparser;
 public class CommandParser {
 
     /**
-     * This method reads command line arguments and creates a Config object
+     * Reads command line arguments and creates a Config object
      * @param args
      * @return config - a Config object which has information essential for running the program
      */
