@@ -7,7 +7,7 @@ import main.java.dotio.DotIOException;
 import main.java.dotio.TaskGraph;
 import main.java.scheduler.BaseScheduler;
 import main.java.scheduler.Scheduler;
-import main.java.visualisation.FXController;
+import main.java.visualisation.VisualisationDriver;
 
 import java.io.FileNotFoundException;
 
@@ -31,13 +31,13 @@ public class Driver {
             startVisualisationThread(scheduler);
         }
 
-        scheduler.execute(); // blocks until finished, can be queried by fxcontroller
+        scheduler.execute(); // blocks until finished, can be queried by dashboardcontroller
         writeDotFile(scheduler, taskGraph, config);
     }
 
     private static void startVisualisationThread(Scheduler scheduler) {
         new Thread(() -> {
-            FXController.main(scheduler);
+            VisualisationDriver.main(scheduler);
         }).start();
     }
 
