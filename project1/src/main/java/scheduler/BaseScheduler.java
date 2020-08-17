@@ -9,9 +9,8 @@ import java.util.List;
 
 public class BaseScheduler extends Scheduler {
 
-    private FFunction ffunction;
-    private int bound;
-
+    private FFunction _ffunction;
+    private int _bound;
 
     /**
      * @param taskGraph
@@ -19,18 +18,20 @@ public class BaseScheduler extends Scheduler {
      * Parsing the supplied TaskGraph object to produce TaskNode and Edge objects
      */
     public BaseScheduler(TaskGraph taskGraph, int numProcessors) {
-        this.numProcessors = numProcessors;
-        input = taskGraph;
-        ffunction = new SimpleFFunction();
-        bound = Integer.MAX_VALUE;
+        _numProcessors = numProcessors;
+        _input = taskGraph;
+        _ffunction = new SimpleFFunction();
+        _bound = Integer.MAX_VALUE;
 
-        for (Task task : input.getTasks()) {
-            taskNodeMap.put(task.getName(), new TaskNode(task.getName(), task.getTaskTime()));
+        // Insert the tasks into a node map
+        for (Task task : _input.getTasks()) {
+            _taskNodeMap.put(task.getName(), new TaskNode(task.getName(), task.getTaskTime()));
         }
 
-        for(String nodeName : taskNodeMap.keySet()) {
-            TaskNode taskNode = taskNodeMap.get(nodeName);
-            incomingEdgesMap.put(taskNode, new ArrayList<>());
+        // initialise the adjacency list.
+        for(String nodeName : _taskNodeMap.keySet()) {
+            TaskNode taskNode = _taskNodeMap.get(nodeName);
+            _incomingEdgesMap.put(taskNode, new ArrayList<>());
         }
     }
 
@@ -39,7 +40,7 @@ public class BaseScheduler extends Scheduler {
      */
     public void execute() {
         storeDependenciesAndEdges();
-        currentState = new Schedule(numProcessors);
+        _currentState = new Schedule(_numProcessors);
         dfs();
     }
 
@@ -50,15 +51,18 @@ public class BaseScheduler extends Scheduler {
      * If b depends on a then a is the parent and b is the child.
      */
     private void storeDependenciesAndEdges() {
-        for (Dependency dependency : input.getDependencies()) {
+        for (Dependency dependency : _input.getDependencies()) {
             String source = dependency.getSource();
             String dest = dependency.getDest();
 
-            taskNodeMap.get(dest).addParentTaskNode(taskNodeMap.get(source));
+            // add the parent (source) of the destination node to the destination node.
+            _taskNodeMap.get(dest).addParentTaskNode(_taskNodeMap.get(source));
 
-            TaskNode child = taskNodeMap.get(dest);
-            List<Edge> incomingEdgesToChild = incomingEdgesMap.get(child);
-            incomingEdgesToChild.add(new Edge(taskNodeMap.get(source), dependency.getCommunicationTime()));
+            TaskNode child = _taskNodeMap.get(dest);
+
+            // add the edge and cost to the incoming edges map of the child.
+            List<Edge> incomingEdgesToChild = _incomingEdgesMap.get(child);
+            incomingEdgesToChild.add(new Edge(_taskNodeMap.get(source), dependency.getCommunicationTime()));
         }
     }
 
@@ -66,16 +70,18 @@ public class BaseScheduler extends Scheduler {
      * Recursive dfs method which implements the DFS Branch and Bound algorithm
      */
     private void dfs() {
-        if (currentState.isComplete(taskNodeMap.keySet().size())) {
+
+        // base case: when all the tasks have been scheduled.
+        if (_currentState.isComplete(_taskNodeMap.keySet().size())) {
             // If the current schedule is more optimal:
             // (1) Updating the bound
-            if (currentState.endTime() < bound) {
-                bound = currentState.endTime();
+            if (_currentState.endTime() < _bound) {
+                _bound = _currentState.endTime();
 
                 // (2) Storing the schedule information
-                for (String taskNodeName : taskNodeMap.keySet()) {
-                    startTimeMap.put(taskNodeName, taskNodeMap.get(taskNodeName).getStartTime());
-                    processorMap.put(taskNodeName, taskNodeMap.get(taskNodeName).getProcessor().getProcessorNum());
+                for (String taskNodeName : _taskNodeMap.keySet()) {
+                    _startTimeMap.put(taskNodeName, _taskNodeMap.get(taskNodeName).getStartTime());
+                    _processorMap.put(taskNodeName, _taskNodeMap.get(taskNodeName).getProcessor().getProcessorNum());
                 }
             }
             return;
@@ -84,33 +90,37 @@ public class BaseScheduler extends Scheduler {
 
         // Ffunction will evaluate the best possible finish time for the current state.
         // If this prediction exceeds bound, prune the branch.
-        if (ffunction.evaluate(currentState, taskNodeMap, incomingEdgesMap) > bound) return;
+        if (_ffunction.evaluate(_currentState, _taskNodeMap, _incomingEdgesMap) > _bound) return;
 
         // Below we try and schedule every unscheduled task on every processor
-        for (String nodeName : taskNodeMap.keySet()) {
-            TaskNode taskNode = taskNodeMap.get(nodeName);
+        for (String nodeName : _taskNodeMap.keySet()) {
+            TaskNode taskNode = _taskNodeMap.get(nodeName);
 
             // If the node is on, it cannot be scheduled again.
-            if (taskNode.isOn()) {
+            if (taskNode.isScheduled()) {
                continue;
             }
 
             // If the node has some parent dependency that is not scheduled, this node cannot be scheduled yet.
             boolean dependencyMet = true;
+
+            // get the parent nodes that must be scheduled before the current node can be
             for (TaskNode parent : taskNode.getDependantOn()) {
-                if(!parent.isOn()) {
+                if(!parent.isScheduled()) {
                     dependencyMet = false;
                     break;
                 }
             }
+
+            // if the node cannot be scheduled yet, go to the next node
             if (!dependencyMet) {
                 continue;
             }
 
             // The node can be scheduled. Try scheduling it on to any of the processors.
-            for (Processor processor : currentState.getProcessors()) {
+            for (Processor processor : _currentState.getProcessors()) {
                 //  Scheduling the current task on a processor
-                processor.scheduleTask(taskNode, incomingEdgesMap.get(taskNode));
+                processor.scheduleTask(taskNode, _incomingEdgesMap.get(taskNode));
 
                 // Recursive DFS() call
                 dfs();
@@ -121,8 +131,12 @@ public class BaseScheduler extends Scheduler {
         }
     }
 
+    /**
+     * get the current bound of the best schedule
+     * @return int, value of the bound
+     */
     public int getBound() {
-        return bound;
+        return _bound;
     }
 }
 

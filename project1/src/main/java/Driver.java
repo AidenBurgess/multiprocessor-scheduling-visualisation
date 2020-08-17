@@ -41,6 +41,11 @@ public class Driver {
         }).start();
     }
 
+    /**
+     * Reads the config file and converts it to a task graph to be used by other methods/classes.
+     * @param config
+     * @return TaskGraph
+     */
     private static TaskGraph readTaskGraph(Config config) {
         TaskGraph taskGraph = null;
         try {
@@ -55,6 +60,12 @@ public class Driver {
         return taskGraph;
     }
 
+    /**
+     * Writes the output schedule to a dot file.
+     * @param scheduler
+     * @param taskGraph
+     * @param config
+     */
     private static void writeDotFile(Scheduler scheduler, TaskGraph taskGraph, Config config) {
         HashMap<String, Integer> startTimeMap = scheduler.getStartTimeMap();
         HashMap<String, Integer> processorMap = scheduler.getProcessorMap();
