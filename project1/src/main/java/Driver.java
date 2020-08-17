@@ -35,10 +35,6 @@ public class Driver {
         writeDotFile(scheduler, taskGraph, config);
     }
 
-    /**
-     * Private method to start a new visualisation thread
-     * @param scheduler
-     */
     private static void startVisualisationThread(Scheduler scheduler) {
         new Thread(() -> {
             FXController.main(scheduler);
