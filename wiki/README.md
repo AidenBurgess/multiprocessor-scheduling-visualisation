@@ -20,5 +20,5 @@ This wiki contains documentation regarding the design, architecture, references 
 ## Main Pages
 
 - Architecture & Class Structure
-- Meeting Minutes
+- [Meeting Minutes](wiki/minutes/README.md)
 - References
