@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 public class ImprovedBaseScheduler implements Scheduler {
     int n, p;
-    int bound = Integer.MAX_VALUE;
+    int bound = 1000 * 1000 * 1000;
     TaskGraph input;
 
     ArrayList<ArrayList<Pair<Integer,Integer>>> adjList, revAdjList;
@@ -26,8 +26,8 @@ public class ImprovedBaseScheduler implements Scheduler {
         adjList = new ArrayList<>(n);
         revAdjList = new ArrayList<>(n);
         for (int i = 0; i < n; i++) {
-            adjList.set(i, new ArrayList<>());
-            revAdjList.set(i, new ArrayList<>());
+            adjList.add(new ArrayList<>());
+            revAdjList.add(new ArrayList<>());
         }
 
         HashMap<String, Integer> taskNameToIdMap = new HashMap<>();
@@ -46,7 +46,7 @@ public class ImprovedBaseScheduler implements Scheduler {
 
     @Override
     public void execute() {
-        State state = new  State(n, p);
+        State state = new State(n, p);
         dfs(state);
     }
 
@@ -57,22 +57,29 @@ public class ImprovedBaseScheduler implements Scheduler {
                 for (int processor = 0; processor < p; processor++) {
 
                     State nextState = state.copy();
+                    boolean ok = true;
 
                     int nextTaskStartTime = state.processorEndTime[processor];
                     for (Pair<Integer, Integer> dependency : revAdjList.get(task)) {
                         int parent = dependency.getKey();
                         int delay = dependency.getValue();
 
+                        if (state.assignedProcessorId[parent] == State.UNSCHEDULED) {
+                            ok = false;
+                            break;
+                        }
                         if (state.assignedProcessorId[parent] == processor) continue;
 
                         nextTaskStartTime = Math.max(nextTaskStartTime, state.taskEndTime[parent] + delay);
                     }
+                    if (!ok) continue;
 
                     int nextTaskEndTime = nextTaskStartTime + input.getTasks().get(task).getTaskTime();
 
                     nextState.taskEndTime[task] = nextTaskEndTime;
                     nextState.assignedProcessorId[task] = processor;
                     nextState.processorEndTime[processor] = nextTaskEndTime;
+                    nextState.unassignedTasks--;
 
                     nextStates.add(nextState);
                 }
@@ -95,6 +102,7 @@ public class ImprovedBaseScheduler implements Scheduler {
         }
 
         if (state.endTime >= bound + 1) return;
+
         ArrayList<State> nextStates = getNextStates(state);
 
         for (State nextState : nextStates) {
@@ -115,17 +123,17 @@ public class ImprovedBaseScheduler implements Scheduler {
 
     @Override
     public HashMap<String, Integer> getBestStartTimeMap() {
-        return null;
+        return bestStartTimeMap;
     }
 
     @Override
     public HashMap<String, Integer> getBestProcessorMap() {
-        return null;
+        return bestProcessorMap;
     }
 
     @Override
     public int getCurrentBound() {
-        return 0;
+        return bound;
     }
 
     @Override
@@ -183,6 +191,7 @@ public class ImprovedBaseScheduler implements Scheduler {
             }
 
             next.endTime = endTime;
+            next.unassignedTasks = unassignedTasks;
             return next;
         }
 
