@@ -3,18 +3,41 @@ package main.java.visualisation;
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.chart.AreaChart;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import main.java.scheduler.Scheduler;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class DashboardController {
+public class VisualisationController {
     private Scheduler sc;
+//    @FXML
+//    private JFXButton xd;
+//    @FXML
+//    private TextField text;
+
     @FXML
-    private JFXButton xd;
+    private VBox currentSchedule;
+
     @FXML
-    private TextField text;
+    private VBox bestSchedule;
+
+    @FXML
+    private ListView<?> statistics;
+
+    @FXML
+    private VBox CPUParent;
+
+    @FXML
+    private AreaChart<?, ?> CPUGraph;
+
+    @FXML
+    private VBox RAMParent;
+
+    @FXML
+    private AreaChart<?, ?> RAMGraph;
 
     @FXML
     void initialize() {
@@ -36,6 +59,6 @@ public class DashboardController {
     @FXML
     void exampleHandler(ActionEvent event) {
         System.out.println("You called me?");
-        text.appendText("xd");
+//        text.appendText("xd");
     }
 }
