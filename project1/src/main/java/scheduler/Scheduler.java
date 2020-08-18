@@ -21,5 +21,6 @@ public interface Scheduler {
     // Statistics
     public int getCurrentBound();
     public int getTotalStatesVisited();
+    public int getCompleteStatesVisited();
     public int getActiveBranches();
 }

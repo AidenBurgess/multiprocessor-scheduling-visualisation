@@ -169,6 +169,11 @@ public class BaseScheduler implements Scheduler {
     }
 
     @Override
+    public int getCompleteStatesVisited() {
+        return 0;
+    }
+
+    @Override
     public int getActiveBranches() {
         return 0;
     }
