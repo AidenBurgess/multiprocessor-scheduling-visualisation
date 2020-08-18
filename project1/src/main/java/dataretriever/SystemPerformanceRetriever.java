@@ -4,7 +4,9 @@ import java.lang.management.ManagementFactory;
 import com.sun.management.OperatingSystemMXBean;
 
 public class SystemPerformanceRetriever {
+    // Get OS management object
     private final OperatingSystemMXBean statsRetriever = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
+    // Get total RAM to calculate used RAM later
     private final long totalRAM = statsRetriever.getTotalPhysicalMemorySize();
 
     /**
@@ -26,6 +28,13 @@ public class SystemPerformanceRetriever {
      */
     public long getTimeElapsed() {
         return statsRetriever.getProcessCpuTime();
+    }
+
+    /**
+     * @return long representing the total RAM available in bytes
+     */
+    public long getTotalRAMBytes() {
+        return totalRAM;
     }
 
 }
