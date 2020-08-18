@@ -22,8 +22,8 @@ public class BaseSchedulerTest {
             BaseScheduler sc = new BaseScheduler(tg, 3);
             sc.execute();
 
-            HashMap<String, Integer> startTimeMap = sc.getStartTimeMap();
-            HashMap<String, Integer> processorMap = sc.getProcessorMap();
+            HashMap<String, Integer> startTimeMap = sc.getBestStartTimeMap();
+            HashMap<String, Integer> processorMap = sc.getBestProcessorMap();
             for (String key : startTimeMap.keySet()) {
                 System.out.println(key + " " + startTimeMap.get(key) + " " + processorMap.get(key));
             }
