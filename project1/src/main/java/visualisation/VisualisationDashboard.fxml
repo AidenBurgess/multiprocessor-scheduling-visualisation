@@ -27,15 +27,15 @@
             </HBox>
             <HBox prefHeight="350.0" prefWidth="1200.0">
                <children>
-                  <VBox prefHeight="357.0" prefWidth="600.0" />
-                  <VBox prefHeight="200.0" prefWidth="600.0" />
+                  <VBox fx:id="currentSchedule" prefHeight="357.0" prefWidth="600.0" />
+                  <VBox fx:id="bestSchedule" prefHeight="200.0" prefWidth="600.0" />
                </children>
             </HBox>
             <HBox prefHeight="350.0" prefWidth="1200.0">
                <children>
                   <VBox prefHeight="200.0" prefWidth="400.0">
                      <children>
-                        <ListView prefHeight="350.0" prefWidth="200.0">
+                        <ListView fx:id="statistics" prefHeight="350.0" prefWidth="200.0">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
@@ -45,7 +45,7 @@
                         </ListView>
                      </children>
                   </VBox>
-                  <VBox prefHeight="200.0" prefWidth="400.0">
+                  <VBox fx:id="CPUParent" prefHeight="200.0" prefWidth="400.0">
                      <children>
                         <AreaChart>
                           <xAxis>
@@ -63,7 +63,7 @@
                         </AreaChart>
                      </children>
                   </VBox>
-                  <VBox prefHeight="200.0" prefWidth="400.0">
+                  <VBox fx:id="RAMParent" prefHeight="200.0" prefWidth="400.0">
                      <children>
                         <AreaChart>
                           <xAxis>
