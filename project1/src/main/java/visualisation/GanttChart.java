@@ -22,7 +22,6 @@ public class GanttChart<X,Y> extends XYChart<X,Y> {
         public long length;
         public String styleClass;
 
-
         public ExtraData(long lengthMs, String styleClass) {
             super();
             this.length = lengthMs;
