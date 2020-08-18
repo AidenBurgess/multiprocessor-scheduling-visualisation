@@ -155,7 +155,7 @@ public class ReducedStateScheduler implements Scheduler {
                 bestProcessorMap = new HashMap<>();
                 for (int i = 0; i < n; i++) {
                     Task task = input.getTasks().get(i);
-                    bestStartTimeMap.put(task.getName(), state.taskEndTime[i] - task.getTaskTime());
+                    bestStartTimeMap.put(task.getName(), state.taskEndTime[i] - task.getTaskTime()); // end time - task time = start time
                     bestProcessorMap.put(task.getName(), state.assignedProcessorId[i] + 1); // 1-indexed
                 }
 
@@ -195,6 +195,7 @@ public class ReducedStateScheduler implements Scheduler {
 
                         if (state.assignedProcessorId[parent] == processor) continue;
 
+                        // ensures that the start time is at least the parent's end time + delay IF the parent is on a different processor
                         nextTaskStartTime = Math.max(nextTaskStartTime, state.taskEndTime[parent] + delay);
                     }
 
