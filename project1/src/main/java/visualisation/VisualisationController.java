@@ -1,11 +1,16 @@
 package main.java.visualisation;
 
 import com.jfoenix.controls.JFXButton;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.util.Duration;
 import main.java.scheduler.Scheduler;
 
 import java.util.Timer;
@@ -13,10 +18,9 @@ import java.util.TimerTask;
 
 public class VisualisationController {
     private Scheduler sc;
-//    @FXML
-//    private JFXButton xd;
-//    @FXML
-//    private TextField text;
+
+    private int seconds;
+    private int minutes;
 
     @FXML
     private VBox currentSchedule;
@@ -25,7 +29,7 @@ public class VisualisationController {
     private VBox bestSchedule;
 
     @FXML
-    private ListView<?> statistics;
+    private VBox statistics;
 
     @FXML
     private VBox CPUParent;
@@ -40,7 +44,19 @@ public class VisualisationController {
     private AreaChart<?, ?> RAMGraph;
 
     @FXML
+    private Text timeElapsedFigure;
+
+    @FXML
+    private Text visitedStatesFigure;
+
+    @FXML
+    private Text completedSchedulesFigure;
+
+    @FXML
     void initialize() {
+        seconds = 0;
+        minutes = 0;
+        startTimer();
         sc = VisualisationDriver.sc;
         // Setup polling the scheduler
         Timer t = new Timer();
@@ -56,9 +72,29 @@ public class VisualisationController {
         System.out.println("Updating statistics");
     }
 
-    @FXML
-    void exampleHandler(ActionEvent event) {
-        System.out.println("You called me?");
-//        text.appendText("xd");
+    private void startTimer() {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(0),
+                e -> updateTime()),
+                new KeyFrame(Duration.millis(10)));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+    }
+
+    private void updateTime() {
+        if (seconds < 59) {
+            seconds++;
+        } else {
+            seconds = 0;
+            if (minutes < 59) {
+                minutes++;
+            }
+        }
+        timeElapsedFigure.setText(Integer.toString(minutes).concat(".").concat(Integer.toString(seconds)).concat("s"));
+    }
+
+    private void updateStatistics(double timeElapsed, long visitedStates, long completedSchedules) {
+
+        visitedStatesFigure.setText(Long.toString(visitedStates));
+        completedSchedulesFigure.setText(Long.toString(completedSchedules));
     }
 }
