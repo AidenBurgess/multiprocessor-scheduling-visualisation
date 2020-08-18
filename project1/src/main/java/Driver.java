@@ -5,8 +5,7 @@ import main.java.commandparser.CommandParser;
 import main.java.dotio.DotIO;
 import main.java.dotio.DotIOException;
 import main.java.dotio.TaskGraph;
-import main.java.scheduler.BaseScheduler;
-import main.java.scheduler.ImprovedBaseScheduler;
+import main.java.scheduler.ReducedStateScheduler;
 import main.java.scheduler.Scheduler;
 import main.java.visualisation.VisualisationDriver;
 
@@ -24,7 +23,7 @@ public class Driver {
         TaskGraph taskGraph = readTaskGraph(config);
 
         // create a scheduler with the number of processors
-        Scheduler scheduler = new ImprovedBaseScheduler(taskGraph, config.getNumProcessors());
+        Scheduler scheduler = new ReducedStateScheduler(taskGraph, config.getNumProcessors());
 
         // Uncomment this to force visualisation on
         // config.hasVisualisation = true;
