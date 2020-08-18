@@ -10,4 +10,4 @@
 
 ## Gaant Chart
 
-![Gaant Chart](https://user-images.githubusercontent.com/5440199/90473961-5238ca00-e178-11ea-9eae-62a4577b1c60.png)
+![Gantt Chart](https://user-images.githubusercontent.com/5440199/90473961-5238ca00-e178-11ea-9eae-62a4577b1c60.png)
