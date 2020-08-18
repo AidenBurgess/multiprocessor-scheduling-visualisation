@@ -5,12 +5,19 @@ import main.java.dotio.Task;
 import main.java.dotio.TaskGraph;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-public class BaseScheduler extends Scheduler {
-
+public class BaseScheduler implements Scheduler {
+    private TaskGraph _input;
     private FFunction _ffunction;
     private int _bound;
+    private Schedule _currentState;
+    private int _numProcessors;
+    private HashMap<String, Integer> _startTimeMap = new HashMap<>();
+    private HashMap<String, Integer> _processorMap = new HashMap<>();
+    private HashMap<String, TaskNode> _taskNodeMap = new HashMap<>();
+    private HashMap<TaskNode, List<Edge>> _incomingEdgesMap = new HashMap<>();
 
     /**
      * @param taskGraph
@@ -131,12 +138,39 @@ public class BaseScheduler extends Scheduler {
         }
     }
 
-    /**
-     * get the current bound of the best schedule
-     * @return int, value of the bound
-     */
-    public int getBound() {
-        return _bound;
+    @Override
+    public HashMap<String, Integer> getCurrentStartTimeMap() {
+        return null;
+    }
+
+    @Override
+    public HashMap<String, Integer> getCurrentProcessorMap() {
+        return null;
+    }
+
+    @Override
+    public HashMap<String, Integer> getBestStartTimeMap() {
+        return _startTimeMap;
+    }
+
+    @Override
+    public HashMap<String, Integer> getBestProcessorMap() {
+        return _processorMap;
+    }
+
+    @Override
+    public int getCurrentBound() {
+        return 0;
+    }
+
+    @Override
+    public int getTotalStatesVisited() {
+        return 0;
+    }
+
+    @Override
+    public int getActiveBranches() {
+        return 0;
     }
 }
 
