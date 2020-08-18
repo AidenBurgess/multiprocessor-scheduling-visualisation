@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import main.java.dataretriever.SystemPerformanceRetriever;
 import main.java.scheduler.Scheduler;
 
 import java.util.Timer;
@@ -11,6 +12,8 @@ import java.util.TimerTask;
 
 public class DashboardController {
     private Scheduler sc;
+    private SystemPerformanceRetriever statsRetreiver = new SystemPerformanceRetriever();
+
     @FXML
     private JFXButton xd;
     @FXML
