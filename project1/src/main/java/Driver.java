@@ -67,8 +67,8 @@ public class Driver {
      * @param config
      */
     private static void writeDotFile(Scheduler scheduler, TaskGraph taskGraph, Config config) {
-        HashMap<String, Integer> startTimeMap = scheduler.getStartTimeMap();
-        HashMap<String, Integer> processorMap = scheduler.getProcessorMap();
+        HashMap<String, Integer> startTimeMap = scheduler.getBestStartTimeMap();
+        HashMap<String, Integer> processorMap = scheduler.getBestProcessorMap();
 
         try {
             DotIO.write(config.getOutputFileName(), taskGraph, startTimeMap, processorMap);
