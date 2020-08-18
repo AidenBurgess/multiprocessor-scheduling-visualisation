@@ -17,7 +17,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class VisualisationController {
+
+    private int REFRESH_RATE = 1000;
+
     private Scheduler sc;
+    private Timer t;
 
     private int seconds;
     private int minutes;
@@ -56,20 +60,23 @@ public class VisualisationController {
     void initialize() {
         seconds = 0;
         minutes = 0;
+
+        // start the overall timer
         startTimer();
         sc = VisualisationDriver.sc;
         // Setup polling the scheduler
-        Timer t = new Timer();
+        t = new Timer();
         t.schedule(new TimerTask() {
             @Override
             public void run() {
-                refreshStats();
+                updateStatistics();
             }
-        }, 1000, 1000);
+        }, REFRESH_RATE, 1000);
     }
 
-    private void refreshStats() {
+    private void updateRefreshRate(int refreshRate) {
         System.out.println("Updating statistics");
+
     }
 
     private void startTimer() {
@@ -92,7 +99,10 @@ public class VisualisationController {
         timeElapsedFigure.setText(Integer.toString(minutes).concat(".").concat(Integer.toString(seconds)).concat("s"));
     }
 
-    private void updateStatistics(double timeElapsed, long visitedStates, long completedSchedules) {
+    private void updateStatistics() {
+
+        long visitedStates = sc.getTotalStatesVisited();
+        long completedSchedules = sc.getCompleteStatesVisited();
 
         visitedStatesFigure.setText(Long.toString(visitedStates));
         completedSchedulesFigure.setText(Long.toString(completedSchedules));

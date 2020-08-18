@@ -164,13 +164,13 @@ public class BaseScheduler implements Scheduler {
     }
 
     @Override
-    public int getTotalStatesVisited() {
-        return 0;
+    public long getTotalStatesVisited() {
+        return 10000;
     }
 
     @Override
-    public int getCompleteStatesVisited() {
-        return 0;
+    public long getCompleteStatesVisited() {
+        return 100434;
     }
 
     @Override
