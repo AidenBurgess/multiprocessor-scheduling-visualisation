@@ -21,4 +21,11 @@ public class SystemPerformanceRetriever {
         return totalRAM - statsRetriever.getFreePhysicalMemorySize();
     }
 
+    /**
+     * @return long representing the CPU time in nanoseconds
+     */
+    public long getTimeElapsed() {
+        return statsRetriever.getProcessCpuTime();
+    }
+
 }
