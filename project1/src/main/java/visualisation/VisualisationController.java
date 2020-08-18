@@ -9,7 +9,7 @@ import main.java.scheduler.Scheduler;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class DashboardController {
+public class VisualisationController {
     private Scheduler sc;
     @FXML
     private JFXButton xd;

@@ -15,9 +15,10 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 
-public class GanttChart<X,Y> extends XYChart<X,Y> {
+public class ScheduleChart<X,Y> extends XYChart<X,Y> {
 
     public static class ExtraData {
+
 
         public long length;
         public String styleClass;
@@ -44,11 +45,11 @@ public class GanttChart<X,Y> extends XYChart<X,Y> {
 
     private double blockHeight = 10;
 
-    public GanttChart(@NamedArg("xAxis") Axis<X> xAxis, @NamedArg("yAxis") Axis<Y> yAxis) {
+    public ScheduleChart(@NamedArg("xAxis") Axis<X> xAxis, @NamedArg("yAxis") Axis<Y> yAxis) {
         this(xAxis, yAxis, FXCollections.<Series<X, Y>>observableArrayList());
     }
 
-    public GanttChart(@NamedArg("xAxis") Axis<X> xAxis, @NamedArg("yAxis") Axis<Y> yAxis, @NamedArg("data") ObservableList<Series<X,Y>> data) {
+    public ScheduleChart(@NamedArg("xAxis") Axis<X> xAxis, @NamedArg("yAxis") Axis<Y> yAxis, @NamedArg("data") ObservableList<Series<X,Y>> data) {
         super(xAxis, yAxis);
         if (!(xAxis instanceof ValueAxis && yAxis instanceof CategoryAxis)) {
             throw new IllegalArgumentException("Axis type incorrect, X and Y should both be NumberAxis");
