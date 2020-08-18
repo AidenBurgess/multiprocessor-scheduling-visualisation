@@ -1,7 +1,8 @@
 package tests.java.scheduler;
 
 import main.java.dotio.*;
-import main.java.scheduler.BaseScheduler;
+import main.java.scheduler.ReducedStateScheduler;
+import main.java.scheduler.Scheduler;
 import org.junit.Test;
 
 import java.io.*;
@@ -9,7 +10,7 @@ import java.util.HashMap;
 
 import static org.junit.Assert.*;
 
-public class BaseSchedulerTest {
+public class SchedulerTest {
 
     @Test
     public void run() {
@@ -19,7 +20,7 @@ public class BaseSchedulerTest {
             assertEquals(4, tg.getTasks().size());
             assertEquals(4, tg.getDependencies().size());
 
-            BaseScheduler sc = new BaseScheduler(tg, 3);
+            Scheduler sc = new ReducedStateScheduler(tg, 3);
             sc.execute();
 
             HashMap<String, Integer> startTimeMap = sc.getBestStartTimeMap();
@@ -36,5 +37,7 @@ public class BaseSchedulerTest {
             fail();
         }
     }
+
+
 
 }

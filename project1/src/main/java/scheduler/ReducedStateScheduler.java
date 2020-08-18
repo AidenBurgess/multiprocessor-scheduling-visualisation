@@ -5,13 +5,27 @@ import main.java.dotio.Dependency;
 import main.java.dotio.Task;
 import main.java.dotio.TaskGraph;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * An implementation of Scheduler that uses DFS Branch and Bound.
+ *
+ * The Branch and Bound technique is a brute force strategy. At any 'State', it tries to place any free task onto
+ * any processor. The 'Bound' aspect is that when some complete solution is found with endTime = X, any branch that
+ * exceeds X is "pruned", reducing the search space drastically.
+ *
+ * The implementation reduces memory as it has these properties:
+ * -    No Strings - on construction the Scheduler maps each name to an int.
+ * -    No HashMaps - as there are no Strings, arrays can be used. e.g. array[id] instead of map.get(name)
+ * -    Less Classes - There is no Processor or TaskNode class, favouring performance over OOP.
+ *
+ */
 public class ReducedStateScheduler implements Scheduler {
+    public static final int NO_SOLUTION = -1;
+
     int n, p;
-    int bound = 1000 * 1000 * 1000;
+    int bound = NO_SOLUTION; // The current best solution.
     TaskGraph input;
 
     ArrayList<ArrayList<Pair<Integer,Integer>>> adjList, revAdjList;
@@ -24,6 +38,13 @@ public class ReducedStateScheduler implements Scheduler {
         p = processors;
         input = taskGraph;
 
+        // Mapping each Task object to an integer id. 0-indexed.
+        HashMap<String, Integer> taskNameToIdMap = new HashMap<>();
+        for (int i = 0; i < taskGraph.getTasks().size(); i++) {
+            taskNameToIdMap.put(taskGraph.getTasks().get(i).getName(), i);
+        }
+
+        // Instantiating the adjacency list and reverse adjacency list.
         adjList = new ArrayList<>(n);
         revAdjList = new ArrayList<>(n);
         for (int i = 0; i < n; i++) {
@@ -31,12 +52,8 @@ public class ReducedStateScheduler implements Scheduler {
             revAdjList.add(new ArrayList<>());
         }
 
-        HashMap<String, Integer> taskNameToIdMap = new HashMap<>();
-
-        for (int i = 0; i < taskGraph.getTasks().size(); i++) {
-            taskNameToIdMap.put(taskGraph.getTasks().get(i).getName(), i);
-        }
-
+        // Substantiate the adjList and revAdjList.
+        // The adjLists use the name -> id mapping from taskNameToIdMap
         for (Dependency dependency : taskGraph.getDependencies()) {
             int source = taskNameToIdMap.get(dependency.getSource());
             int dest = taskNameToIdMap.get(dependency.getDest());
@@ -47,9 +64,10 @@ public class ReducedStateScheduler implements Scheduler {
 
     @Override
     public void execute() {
+        // On execute, the Scheduler creates a new, empty state and runs DFS.
         State state = new State(n, p);
         DFS dfs = new DFS(state);
-        dfs.go();
+        dfs.run();
     }
 
     @Override
@@ -92,18 +110,47 @@ public class ReducedStateScheduler implements Scheduler {
         return 0;
     }
 
+    /**
+     * The DFS class is responsible for executing the DFS.
+     * The class holds the State, and on every 'branch', it adjusts State in-place.
+     * -    In-place adjustment = O(1), much better than making a new copy of State
+     *
+     * This class is nested in ReducedStateScheduler as it requires access to fields such as bound, and is
+     * only instantiated within a ReducedStateScheduler context.
+     */
     class DFS {
         State state;
-
 
         public DFS(State state) {
             this.state = state;
         }
 
-        private void go() {
-            if (state.endTime >= bound) return;
+        /**
+         * Performs DFS.
+         *
+         * If the current State is complete, it will update
+         * -    bound,
+         * -    bestProcessorMap,
+         * -    bestStartTimeMap
+         * in the ReducedStateScheduler.
+         *
+         * If the current state is not complete, it will try place each task on each processor, if legal.
+         * The placement is legal if:
+         * -    All the task's dependencies have been met
+         * -    The task is not already assigned
+         * On a successful placement, the current state is updated and run() is called. When run() finishes
+         * executing, the state is restored.
+         *
+         * If at any stage, the current state's endTime exceeds the bound, DFS will "prune" and the current
+         * run() will return.
+         */
+        private void run() {
+            // Prune
+            if (bound != NO_SOLUTION && state.endTime >= bound) return;
 
+            // If current state is complete
             if (state.unassignedTasks == 0) {
+                // Update startTime/processor maps
                 bestStartTimeMap = new HashMap<>();
                 bestProcessorMap = new HashMap<>();
                 for (int i = 0; i < n; i++) {
@@ -111,14 +158,19 @@ public class ReducedStateScheduler implements Scheduler {
                     bestStartTimeMap.put(task.getName(), state.taskEndTime[i] - task.getTaskTime());
                     bestProcessorMap.put(task.getName(), state.assignedProcessorId[i] + 1); // 1-indexed
                 }
-                bound = Math.min(bound, state.endTime);
+
+                // Update bound
+                if (bound == NO_SOLUTION) bound = state.endTime;
+                else bound = Math.min(bound, state.endTime);
                 return;
             }
 
-            if (state.endTime + 1 >= bound) return;
-
+            // For each task,
             for (int task = 0; task < n; task++) {
+                // If the task is scheduled, ignore
                 if (state.assignedProcessorId[task] != State.UNSCHEDULED) continue;
+
+                // If the task still has unscheduled dependencies, ignore
                 boolean dependenciesMet = true;
                 for (Pair<Integer, Integer> dependency : revAdjList.get(task)) {
                     int parent = dependency.getKey();
@@ -129,7 +181,13 @@ public class ReducedStateScheduler implements Scheduler {
                 }
                 if (!dependenciesMet) continue;
 
+                // For each processor,
                 for (int processor = 0; processor < p; processor++) {
+                    // Prune
+                    if (bound != NO_SOLUTION && state.endTime + 1 >= bound) return;
+
+                    // Find the earliest time that task can be placed on processor.
+                    // For each of its dependencies, make sure that there is enough delay.
                     int nextTaskStartTime = state.processorEndTime[processor];
                     for (Pair<Integer, Integer> dependency : revAdjList.get(task)) {
                         int parent = dependency.getKey();
@@ -140,25 +198,27 @@ public class ReducedStateScheduler implements Scheduler {
                         nextTaskStartTime = Math.max(nextTaskStartTime, state.taskEndTime[parent] + delay);
                     }
 
+                    // Save the current state
                     int nextTaskEndTime = nextTaskStartTime + input.getTasks().get(task).getTaskTime();
                     int processorPrevEndTime = state.processorEndTime[processor];
                     int prevEndTime = state.endTime;
 
+                    // Update current state
                     state.taskEndTime[task] = nextTaskEndTime;
                     state.assignedProcessorId[task] = processor;
                     state.processorEndTime[processor] = nextTaskEndTime;
                     state.unassignedTasks--;
                     state.endTime = Math.max(state.endTime, nextTaskEndTime);
 
-                    go();
+                    // Recursive call
+                    run();
 
+                    // Restore current state
                     state.taskEndTime[task] = State.UNSCHEDULED;
                     state.assignedProcessorId[task] = State.UNSCHEDULED;
                     state.processorEndTime[processor] = processorPrevEndTime;
                     state.unassignedTasks++;
                     state.endTime = prevEndTime;
-
-                    if (state.endTime + 1 >= bound) return;
                 }
 
             }
@@ -166,26 +226,26 @@ public class ReducedStateScheduler implements Scheduler {
     }
 }
 
-
-
-// inner private class!
+/**
+ * The State class holds information that defines an allocation of tasks on processors.
+ */
 class State {
     public static final int UNSCHEDULED = -1;
-    private int n, p;
+    private final int n, p;
 
 
-    protected int[] assignedProcessorId;
-    protected int[] taskEndTime;
-    protected int[] processorEndTime;
-//        protected int[] taskInDegree;
+    protected int[] assignedProcessorId; // assignedProcessorId[taskId] -> processorId
+    protected int[] taskEndTime; // taskEndTime[taskId] -> end time of task
+    protected int[] processorEndTime; // processorEndTime[processorId] -> end time of processor
 
-    protected int endTime, unassignedTasks;
+    protected int endTime; // end time of the last processor
+    protected int unassignedTasks; // number of tasks still unassigned
 
     public State(int n, int p) {
         this.n = n;
         this.p = p;
 
-        unassignedTasks = n;
+        unassignedTasks = n; // initially n tasks are unassigned
         endTime = 0;
 
         processorEndTime = new int[p];
@@ -196,8 +256,8 @@ class State {
     }
 
     /**
-     * Deep copy!
-     * @return
+     * Returns a deep copy of the current State
+     * @return a new State instance with the same values.
      */
     public State copy() {
         State next = new State(n, p);
@@ -213,6 +273,4 @@ class State {
         next.unassignedTasks = unassignedTasks;
         return next;
     }
-
-
 }
