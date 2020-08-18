@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import main.java.dataretriever.SystemPerformanceRetriever;
 import main.java.scheduler.Scheduler;
 
 import java.util.Timer;
@@ -11,6 +12,7 @@ import java.util.TimerTask;
 
 public class DashboardController {
     private Scheduler sc;
+    private SystemPerformanceRetriever statsRetreiver = new SystemPerformanceRetriever();
     @FXML
     private JFXButton xd;
     @FXML
@@ -31,6 +33,8 @@ public class DashboardController {
 
     private void refreshStats() {
         System.out.println("Updating statistics");
+        System.out.printf("Current CPU usage: %.2f%%%n", statsRetreiver.getCPUUsagePercent());
+        System.out.printf("Current RAM usage: %dMB%n", (statsRetreiver.getRAMUsageBytes()/(1024*1024)));
     }
 
     @FXML
