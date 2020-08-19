@@ -49,13 +49,32 @@ public class VisualisationController {
                 refreshStats();
             }
         }, 1000, 1000);
-
         chartSetup();
     }
 
     private void chartSetup() {
-        bestScheduleParent.getChildren().add(bestScheduleChart);
-        currentScheduleParent.getChildren().add(currentScheduleChart);
+        // Setting up the x-axis
+        List<String> processorsList = new ArrayList<String>();
+        for (int i=0; i < _numProcessors; i++) {
+            processorsList.add("Processor "+i+1);
+        }
+        CategoryAxis yAxis = new CategoryAxis();
+        yAxis.setCategories(FXCollections.observableArrayList(processorsList));
+        yAxis.setLabel("Processors");
+
+        // Setting up the y-axis
+        NumberAxis xAxis = new NumberAxis();
+        xAxis.setLabel("Time");
+
+        // Setting up the Schedule chart object and their parents (containers)
+        _currentScheduleChart = new ScheduleChart<Number, String>(xAxis, yAxis);
+        _bestScheduleChart = new ScheduleChart<Number, String>(xAxis, yAxis);
+        _bestScheduleParent.getChildren().add(_bestScheduleChart);
+        _currentScheduleParent.getChildren().add(_currentScheduleChart);
+    }
+
+    private void updateScheduleChart() {
+
     }
 
     private void refreshStats() {
