@@ -1,12 +1,25 @@
 package main.java.visualisation;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.layout.VBox;
+import javafx.scene.chart.XYChart.Series;
+import main.java.dotio.TaskGraph;
 import main.java.scheduler.Scheduler;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+//todo Ask the group if we want the GanttChart class named to be
+// changed or we want to retain it. Also whether we want the fields
+// in the GanttChart class should start with underscore
 
 public class VisualisationController {
 
@@ -51,6 +64,5 @@ public class VisualisationController {
     @FXML
     void exampleHandler(ActionEvent event) {
         System.out.println("You called me?");
-        text.appendText("xd");
     }
 }
