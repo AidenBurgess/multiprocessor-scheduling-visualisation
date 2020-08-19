@@ -73,6 +73,8 @@ public class VisualisationController {
         _currentScheduleParent.getChildren().add(_currentScheduleChart);
     }
 
+    //todo make sure that the following case related to this method is handled: When the scheduler has not found a
+    // best schedule yet and this method is called. Either prevent this from happening or handle this situation inside the method
     private void updateScheduleChart() {
 
     }
