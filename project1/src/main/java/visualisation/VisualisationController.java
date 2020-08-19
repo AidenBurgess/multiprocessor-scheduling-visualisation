@@ -24,8 +24,8 @@ public class VisualisationController implements Initializable {
     private int _refreshRate = 1000;
     private SystemPerformanceRetriever _performanceRetriever;
 
-    private XYChart.Series CPUSeries;
-    private XYChart.Series RAMSeries;
+    private XYChart.Series _CPUSeries;
+    private XYChart.Series _RAMSeries;
 
     private Scheduler _sc;
     private Timer _timer;
@@ -116,10 +116,10 @@ public class VisualisationController implements Initializable {
     private void setUpRAMChart() {
 
         // create the series data instance
-        RAMSeries = new XYChart.Series();
+        _RAMSeries = new XYChart.Series();
 
         // add the series data to the chart
-        RAMChart.getData().add(RAMSeries);
+        RAMChart.getData().add(_RAMSeries);
     }
 
     /**
@@ -128,10 +128,10 @@ public class VisualisationController implements Initializable {
     private void setUpCPUChart() {
 
         // create the series data instance
-        CPUSeries = new XYChart.Series();
+        _CPUSeries = new XYChart.Series();
 
         // add the series data to the chart
-        CPUChart.getData().add(CPUSeries);
+        CPUChart.getData().add(_CPUSeries);
     }
 
     /**
@@ -142,7 +142,7 @@ public class VisualisationController implements Initializable {
         // get the machine's CPU Usage data
         long RAMUsageInBytes = _performanceRetriever.getRAMUsageBytes();
 
-        RAMSeries.getData().add(new XYChart.Data(Integer.toString(_seconds), RAMUsageInBytes));
+        _RAMSeries.getData().add(new XYChart.Data(Integer.toString(_seconds), RAMUsageInBytes));
     }
 
     /**
@@ -153,7 +153,7 @@ public class VisualisationController implements Initializable {
         // get the machine's CPU Usage data
         double CPUUsage = _performanceRetriever.getCPUUsagePercent();
 
-        CPUSeries.getData().add(new XYChart.Data(Integer.toString(_seconds), CPUUsage));
+        _CPUSeries.getData().add(new XYChart.Data(Integer.toString(_seconds), CPUUsage));
     }
 
     @Override
