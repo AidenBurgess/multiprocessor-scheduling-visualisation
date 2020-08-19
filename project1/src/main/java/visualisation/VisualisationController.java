@@ -3,6 +3,7 @@ package main.java.visualisation;
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import main.java.scheduler.Scheduler;
