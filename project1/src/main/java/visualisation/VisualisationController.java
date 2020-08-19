@@ -1,18 +1,13 @@
 package main.java.visualisation;
 
-import com.jfoenix.controls.JFXButton;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.AreaChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
@@ -26,17 +21,17 @@ import java.util.TimerTask;
 
 public class VisualisationController implements Initializable {
 
-    private int REFRESH_RATE = 1000;
-    private SystemPerformanceRetriever performanceRetriever;
+    private int _refreshRate = 1000;
+    private SystemPerformanceRetriever _performanceRetriever;
 
     private XYChart.Series CPUSeries;
     private XYChart.Series RAMSeries;
 
-    private Scheduler sc;
-    private Timer t;
+    private Scheduler _sc;
+    private Timer _timer;
 
-    private int seconds;
-    private int milliseconds;
+    private int _seconds;
+    private int _milliseconds;
 
     @FXML
     private VBox currentSchedule;
@@ -68,11 +63,18 @@ public class VisualisationController implements Initializable {
     @FXML
     private Text completedSchedulesFigure;
 
+    /**
+     * Updates the refresh rate, yet to be implemented
+     * @param refreshRate
+     */
     private void updateRefreshRate(int refreshRate) {
-        System.out.println("Updating statistics");
 
+        _refreshRate = refreshRate;
     }
 
+    /**
+     * starts the timer for the total time and updates every 10 milliseconds.
+     */
     private void startTimer() {
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(0),
                 e -> updateTime()),
@@ -81,91 +83,106 @@ public class VisualisationController implements Initializable {
         timeline.play();
     }
 
+    /**
+     * Updates the time from the timer.
+     */
     private void updateTime() {
-        if (milliseconds < 99) {
-            milliseconds++;
+        if (_milliseconds < 99) {
+            _milliseconds++;
         } else {
-            milliseconds = 0;
-            if (seconds < 59) {
-                seconds++;
+            _milliseconds = 0;
+            if (_seconds < 59) {
+                _seconds++;
             }
         }
-        timeElapsedFigure.setText(Integer.toString(seconds).concat(".").concat(Integer.toString(milliseconds)).concat("s"));
+        timeElapsedFigure.setText(Integer.toString(_seconds).concat(".").concat(Integer.toString(_milliseconds)).concat("s"));
     }
 
+    /**
+     * Updates the statistics such as the visited states and the completed schedules
+     */
     private void updateStatistics() {
 
-        long visitedStates = sc.getTotalStatesVisited();
-        long completedSchedules = sc.getCompleteStatesVisited();
+        long visitedStates = _sc.getTotalStatesVisited();
+        long completedSchedules = _sc.getCompleteStatesVisited();
 
         visitedStatesFigure.setText(Long.toString(visitedStates));
         completedSchedulesFigure.setText(Long.toString(completedSchedules));
     }
 
+    /**
+     * Sets up the RAM chart
+     */
     private void setUpRAMChart() {
 
+        // create the series data instance
         RAMSeries = new XYChart.Series();
 
+        // add the series data to the chart
         RAMChart.getData().add(RAMSeries);
     }
 
+    /**
+     * Sets up the CPU chart.
+     */
     private void setUpCPUChart() {
 
-        // create the X and Y axis
+        // create the series data instance
         CPUSeries = new XYChart.Series();
-//        series.setName("CPU Usage");
-//        CPUSeries.getData().add(new XYChart.Data(Integer.toString(minutes * 60 + seconds),1));
-        CPUChart.getData().add(CPUSeries);
 
-//        CPUSeries.getData().add(new XYChart.Data("howdy",10));
+        // add the series data to the chart
+        CPUChart.getData().add(CPUSeries);
     }
 
+    /**
+     * Adds ram data to the series and updates the chart.
+     */
     private void addRAMChartData() {
 
         // get the machine's CPU Usage data
-        long RAMUsageInBytes = performanceRetriever.getRAMUsageBytes();
+        long RAMUsageInBytes = _performanceRetriever.getRAMUsageBytes();
 
-        // get the current time in seconds
-        int time = seconds;
-
-        RAMSeries.getData().add(new XYChart.Data(Integer.toString(time), RAMUsageInBytes));
+        RAMSeries.getData().add(new XYChart.Data(Integer.toString(_seconds), RAMUsageInBytes));
     }
 
+    /**
+     * Adds CPU data to the series and updates the chart.
+     */
     private void addCPUChartData() {
 
         // get the machine's CPU Usage data
-        double CPUUsage = performanceRetriever.getCPUUsagePercent();
+        double CPUUsage = _performanceRetriever.getCPUUsagePercent();
 
-        // get the current time in seconds
-        int time = seconds;
-
-        CPUSeries.getData().add(new XYChart.Data(Integer.toString(time), CPUUsage));
+        CPUSeries.getData().add(new XYChart.Data(Integer.toString(_seconds), CPUUsage));
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        sc = VisualisationDriver.sc;
-        performanceRetriever = new SystemPerformanceRetriever();
+        _sc = VisualisationDriver.sc;
+        _performanceRetriever = new SystemPerformanceRetriever();
 
-        seconds = 0;
-        milliseconds = 0;
+        // initialise the time to 0.00
+        _seconds = 0;
+        _milliseconds = 0;
 
         // start the overall timer
         startTimer();
+
+        // initialise the charts
         setUpCPUChart();
         setUpRAMChart();
 
         // Setup polling the scheduler
-        t = new Timer();
+        _timer = new Timer();
 
-        t.schedule(new TimerTask() {
+        _timer.schedule(new TimerTask() {
 
             @Override
             public void run() {
                 updateStatistics();
-//                addCPUChartData();
 
+                // queue tasks on the other thread
                 Platform.runLater(new Runnable() {
                     @Override public void run() {
 //                        CPUSeries.getData().add(new XYChart.Data<>(Integer.toString(i++),10));
@@ -175,6 +192,6 @@ public class VisualisationController implements Initializable {
                 });
             }
 
-        }, REFRESH_RATE, 1000);
+        }, _refreshRate, 1000);
     }
 }
