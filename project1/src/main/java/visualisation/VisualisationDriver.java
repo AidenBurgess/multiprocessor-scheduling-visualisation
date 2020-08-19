@@ -28,7 +28,9 @@ public class VisualisationDriver extends Application {
     public void start(Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("VisualisationDashboard.fxml"));
         primaryStage.setTitle("Visualisation");
-        primaryStage.setScene(new Scene(root, 1280, 720));
+        Scene scene = new Scene(root, 1280, 720);
+        primaryStage.setScene(scene);
+//        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         primaryStage.show();
     }
 
