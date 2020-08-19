@@ -7,6 +7,7 @@ import main.java.dotio.TaskGraph;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 /**
  * An implementation of Scheduler that uses DFS Branch and Bound.
@@ -28,6 +29,7 @@ public class ReducedStateScheduler implements Scheduler {
     int bound = NO_SOLUTION; // The current best solution.
     TaskGraph input;
 
+    int[] topologicalOrder;
     ArrayList<ArrayList<Pair<Integer,Integer>>> adjList, revAdjList;
 
     HashMap<String, Integer> bestStartTimeMap, bestProcessorMap;
@@ -60,6 +62,41 @@ public class ReducedStateScheduler implements Scheduler {
             adjList.get(source).add(new Pair<>(dest, dependency.getCommunicationTime()));
             revAdjList.get(dest).add(new Pair<>(source, dependency.getCommunicationTime()));
         }
+
+        // Topological Ordering. The below code finds one valid topological ordering.
+        // This also ensures that the TaskGraph input has no cyclic dependencies.
+        topologicalOrder = new int[n];
+        int ind = 0;
+
+        // Queue all tasks that have no initial dependencies, and track the inDegree
+        boolean[] visited = new boolean[n];
+        int[] inDegree = new int[n];
+        LinkedList<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < n; i++) {
+            inDegree[i] = revAdjList.get(i).size();
+            if (inDegree[i] == 0) {
+                topologicalOrder[ind++] = i;
+                queue.push(i);
+                visited[i] = true;
+            }
+        }
+
+        // Take off tasks one by one, and update the inDegree
+        while (!queue.isEmpty()) {
+            int task = queue.poll();
+            for (Pair<Integer, Integer> dependency : adjList.get(task)) {
+                int child = dependency.getKey();
+                inDegree[child]--;
+                if (inDegree[child] == 0 && !visited[child]) {
+                    topologicalOrder[ind++] = child;
+                    visited[child] = true;
+                    queue.push(child);
+                }
+            }
+        }
+
+        // If ind != n, there are some tasks that have dependencies on each other.
+        if (ind != n) throw new RuntimeException("No topological ordering found"); // todo what we want to happen?
     }
 
     @Override
@@ -207,7 +244,9 @@ public class ReducedStateScheduler implements Scheduler {
             }
 
             // For each task,
-            for (int task = 0; task < n; task++) {
+            for (int ordering = 0; ordering < n; ordering++) {
+                int task = ordering; // = topologicalOrder[ordering];
+
                 // If the task is scheduled, ignore
                 if (state.assignedProcessorId[task] != State.UNSCHEDULED) continue;
 
