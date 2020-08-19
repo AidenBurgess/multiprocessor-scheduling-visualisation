@@ -227,7 +227,7 @@ public class VisualisationController implements Initializable {
         // Setting up the y-axis
         List<String> processorsList = new ArrayList<String>();
         for (int i = 0; i < _numProcessors; i++) {
-            processorsList.add("Processor " + i + 1);
+            processorsList.add("Processor ".concat(Integer.toString(i + 1)));
         }
         CategoryAxis yAxis = new CategoryAxis();
         yAxis.setCategories(FXCollections.observableArrayList(processorsList));
@@ -269,16 +269,16 @@ public class VisualisationController implements Initializable {
 //            // Populating the current schedule if the schedule contains the current task
 //            if (currentStartTimeMap.containsKey(task.getName())) {
 //                int taskProcessorCurrent = currentProcessorMap.get(task.getName());
-//                int taskStartTimeCurrent = currentProcessorMap.get(task.getName());
-//                XYChart.Data taskDataCurrent = new XYChart.Data(taskStartTimeCurrent, "Processor " + taskProcessorCurrent, new ExtraData(taskTime));
+//                int taskStartTimeCurrent = currentStartTimeMap.get(task.getName());
+//                XYChart.Data taskDataCurrent = new XYChart.Data(taskStartTimeCurrent, "Processor ".concat(Integer.toString(taskProcessorCurrent)), new ExtraData(taskTime));
 //                // -1 has been used below because the seriesArray is 0 indexed whereas the processor numbers are 1 indexed
 //                seriesArrayBest[taskProcessorCurrent - 1].getData().add(taskDataCurrent);
 //            }
 
             // Populating the best schedule chart
             int taskProcessorBest = bestProcessorMap.get(task.getName());
-            int taskStartTimeBest = bestProcessorMap.get(task.getName());
-            XYChart.Data taskDataBest = new XYChart.Data(taskStartTimeBest, "Processor " + taskProcessorBest, new ExtraData(taskTime));
+            int taskStartTimeBest = bestStartTimeMap.get(task.getName());
+            XYChart.Data taskDataBest = new XYChart.Data(taskStartTimeBest, "Processor ".concat(Integer.toString(taskProcessorBest)), new ExtraData(taskTime));
             // -1 has been used below because the seriesArray is 0 indexed whereas the processor numbers are 1 indexed
             seriesArrayBest[taskProcessorBest - 1].getData().add(taskDataBest);
         }
