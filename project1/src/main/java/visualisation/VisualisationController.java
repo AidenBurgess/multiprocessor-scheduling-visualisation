@@ -91,9 +91,7 @@ public class VisualisationController implements Initializable {
             _milliseconds++;
         } else {
             _milliseconds = 0;
-            if (_seconds < 59) {
-                _seconds++;
-            }
+            _seconds++;
         }
         timeElapsedFigure.setText(Integer.toString(_seconds).concat(".").concat(Integer.toString(_milliseconds)).concat("s"));
     }
