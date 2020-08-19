@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -28,11 +29,14 @@ public class VisualisationController implements Initializable {
     private int REFRESH_RATE = 1000;
     private SystemPerformanceRetriever performanceRetriever;
 
+    private XYChart.Series CPUSeries;
+    private XYChart.Series RAMSeries;
+
     private Scheduler sc;
     private Timer t;
 
     private int seconds;
-    private int minutes;
+    private int milliseconds;
 
     @FXML
     private VBox currentSchedule;
@@ -64,26 +68,6 @@ public class VisualisationController implements Initializable {
     @FXML
     private Text completedSchedulesFigure;
 
-//    @FXML
-//    void initialize() {
-//        seconds = 0;
-//        minutes = 0;
-//
-//        // start the overall timer
-//        startTimer();
-//        setUpCPUChart();
-//
-//        sc = VisualisationDriver.sc;
-//        // Setup polling the scheduler
-//        t = new Timer();
-//        t.schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//                updateStatistics();
-//            }
-//        }, REFRESH_RATE, 1000);
-//    }
-
     private void updateRefreshRate(int refreshRate) {
         System.out.println("Updating statistics");
 
@@ -98,36 +82,64 @@ public class VisualisationController implements Initializable {
     }
 
     private void updateTime() {
-        if (seconds < 59) {
-            seconds++;
+        if (milliseconds < 99) {
+            milliseconds++;
         } else {
-            seconds = 0;
-            if (minutes < 59) {
-                minutes++;
+            milliseconds = 0;
+            if (seconds < 59) {
+                seconds++;
             }
         }
-        timeElapsedFigure.setText(Integer.toString(minutes).concat(".").concat(Integer.toString(seconds)).concat("s"));
+        timeElapsedFigure.setText(Integer.toString(seconds).concat(".").concat(Integer.toString(milliseconds)).concat("s"));
     }
 
-    private void updateStatistics(int i) {
+    private void updateStatistics() {
 
         long visitedStates = sc.getTotalStatesVisited();
         long completedSchedules = sc.getCompleteStatesVisited();
 
-        visitedStatesFigure.setText(Long.toString(visitedStates) + i);
-        completedSchedulesFigure.setText(Long.toString(completedSchedules) + i);
+        visitedStatesFigure.setText(Long.toString(visitedStates));
+        completedSchedulesFigure.setText(Long.toString(completedSchedules));
+    }
+
+    private void setUpRAMChart() {
+
+        RAMSeries = new XYChart.Series();
+
+        RAMChart.getData().add(RAMSeries);
     }
 
     private void setUpCPUChart() {
 
         // create the X and Y axis
-        XYChart.Series series = new XYChart.Series<>();
+        CPUSeries = new XYChart.Series();
 //        series.setName("CPU Usage");
-        series.getData().add(new XYChart.Data("Monday",1));
-        series.getData().add(new XYChart.Data("Tuesday",5));
-        series.getData().add(new XYChart.Data("Wednesday",100));
+//        CPUSeries.getData().add(new XYChart.Data(Integer.toString(minutes * 60 + seconds),1));
+        CPUChart.getData().add(CPUSeries);
 
-        CPUChart.getData().add(series);
+//        CPUSeries.getData().add(new XYChart.Data("howdy",10));
+    }
+
+    private void addRAMChartData() {
+
+        // get the machine's CPU Usage data
+        long RAMUsageInBytes = performanceRetriever.getRAMUsageBytes();
+
+        // get the current time in seconds
+        int time = seconds;
+
+        RAMSeries.getData().add(new XYChart.Data(Integer.toString(time), RAMUsageInBytes));
+    }
+
+    private void addCPUChartData() {
+
+        // get the machine's CPU Usage data
+        double CPUUsage = performanceRetriever.getCPUUsagePercent();
+
+        // get the current time in seconds
+        int time = seconds;
+
+        CPUSeries.getData().add(new XYChart.Data(Integer.toString(time), CPUUsage));
     }
 
     @Override
@@ -137,22 +149,32 @@ public class VisualisationController implements Initializable {
         performanceRetriever = new SystemPerformanceRetriever();
 
         seconds = 0;
-        minutes = 0;
+        milliseconds = 0;
 
         // start the overall timer
         startTimer();
         setUpCPUChart();
+        setUpRAMChart();
 
         // Setup polling the scheduler
         t = new Timer();
 
         t.schedule(new TimerTask() {
-            int i = 1;
+
             @Override
             public void run() {
-                updateStatistics(i);
-                i += 1005;
+                updateStatistics();
+//                addCPUChartData();
+
+                Platform.runLater(new Runnable() {
+                    @Override public void run() {
+//                        CPUSeries.getData().add(new XYChart.Data<>(Integer.toString(i++),10));
+                        addCPUChartData();
+                        addRAMChartData();
+                    }
+                });
             }
+
         }, REFRESH_RATE, 1000);
     }
 }

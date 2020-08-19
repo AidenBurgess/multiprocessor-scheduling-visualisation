@@ -106,12 +106,12 @@
                   </VBox>
                   <VBox fx:id="CPUParent" prefHeight="200.0" prefWidth="400.0">
                      <children>
-                        <AreaChart fx:id="CPUChart" title="CPU Usage">
+                        <AreaChart fx:id="CPUChart" legendVisible="false" title="CPU Usage">
                           <xAxis>
-                            <CategoryAxis side="BOTTOM" />
+                            <CategoryAxis label="Time (s)" side="BOTTOM" />
                           </xAxis>
                           <yAxis>
-                            <NumberAxis side="LEFT" />
+                            <NumberAxis label="\%" side="LEFT" />
                           </yAxis>
                            <VBox.margin>
                               <Insets />
@@ -124,12 +124,12 @@
                   </VBox>
                   <VBox fx:id="RAMParent" prefHeight="200.0" prefWidth="400.0">
                      <children>
-                        <AreaChart fx:id="RAMChart" title="RAM Usage">
+                        <AreaChart fx:id="RAMChart" legendVisible="false" title="RAM Usage">
                           <xAxis>
-                            <CategoryAxis side="BOTTOM" />
+                            <CategoryAxis label="Time (s)" side="BOTTOM" />
                           </xAxis>
                           <yAxis>
-                            <NumberAxis side="LEFT" />
+                            <NumberAxis label="Bytes (B)" side="LEFT" />
                           </yAxis>
                            <VBox.margin>
                               <Insets />
