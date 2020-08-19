@@ -252,10 +252,17 @@ public class VisualisationController implements Initializable {
     //todo make sure that the following case related to this method is handled: When the scheduler has not found a
     // best schedule yet and this method is called. Either prevent this from happening or handle this situation inside the method
     private void updateScheduleChart() {
-        // Create Series objects. Each object will act as a row in the chart
-        Series[] seriesArray = new Series[_numProcessors];
+        // Retrieving the current and the best schedule information
+        HashMap<String, Integer> currentProcessorMap = _sc.getCurrentProcessorMap();
+        HashMap<String, Integer> bestProcessorMap = _sc.getBestProcessorMap();
+        HashMap<String, Integer> currentStartTimeMap = _sc.getCurrentStartTimeMap();
+        HashMap<String, Integer> bestStartTimeMap = _sc.getBestStartTimeMap();
+
+        // Create Series objects. Each object will act as a row in the respective chart
+        Series[] seriesArrayCurrent = new Series[_numProcessors];
+        Series[] seriesArrayBest = new Series[_numProcessors];
         for (int i = 0; i < _numProcessors; i++) {
-            seriesArray[i] = new Series();
+            seriesArrayBest[i] = new Series();
         }
 
         // Run through each task, create an XYChart.Data object and put
