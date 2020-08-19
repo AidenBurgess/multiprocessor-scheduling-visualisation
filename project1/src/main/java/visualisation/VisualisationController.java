@@ -12,6 +12,7 @@ import javafx.scene.chart.XYChart.Series;
 import main.java.dotio.Task;
 import main.java.dotio.TaskGraph;
 import main.java.scheduler.Scheduler;
+import main.java.visualisation.ScheduleChart.ExtraData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,7 @@ public class VisualisationController {
     private ScheduleChart<Number, String> _currentScheduleChart;
     private ScheduleChart<Number, String> _bestScheduleChart;
     private Scheduler _scheduler;
+    private List<Task> _taskList;
     private int _numProcessors;
 
     @FXML
@@ -76,7 +78,30 @@ public class VisualisationController {
     //todo make sure that the following case related to this method is handled: When the scheduler has not found a
     // best schedule yet and this method is called. Either prevent this from happening or handle this situation inside the method
     private void updateScheduleChart() {
+        // Create Series objects. Each object will act as a row in the chart
+        Series[] seriesArray = new Series[_numProcessors];
+        for (int i = 0; i < _numProcessors; i++) {
+            seriesArray[i] = new Series();
+        }
 
+        // Run through each task, create an XYChart.Data object and put
+        // this object in the Series object which corresponds to the processor this task is scheduled on
+        for (Task task : _taskList) {
+            int processorOfTask = _scheduler.getProcessorMap().get(task.getName());
+            int taskStartTime = _scheduler.getStartTimeMap().get(task.getName());
+            int taskTime = task.getTaskTime();
+
+            XYChart.Data taskData = new XYChart.Data(taskStartTime, "Processor "+processorOfTask, new ExtraData(taskTime));
+
+            // -1 has been used below because the seriesArray is 0 indexed whereas the processor numbers are 1 indexed
+            seriesArray[processorOfTask-1].getData().add(taskData);
+        }
+
+        // Put the Series objects generated above in the chart after clearing the chart's existing data
+        _bestScheduleChart.getData().clear();
+        for (Series series : seriesArray) {
+            _bestScheduleChart.getData().add(series);
+        }
     }
 
     private void refreshStats() {
