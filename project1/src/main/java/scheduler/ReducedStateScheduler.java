@@ -27,6 +27,7 @@ public class ReducedStateScheduler implements Scheduler {
 
     int n, p;
     int bound = NO_SOLUTION; // The current best solution.
+    int totalStates = 0, completeStates = 0, activeBranches = 0;
     TaskGraph input;
 
     int[] topologicalOrder;
@@ -175,17 +176,17 @@ public class ReducedStateScheduler implements Scheduler {
 
     @Override
     public int getTotalStatesVisited() {
-        return 0;
+        return totalStates;
     }
 
     @Override
     public int getCompleteStatesVisited() {
-        return 0;
+        return completeStates;
     }
 
     @Override
     public int getActiveBranches() {
-        return 0;
+        return activeBranches;
     }
 
     /**
@@ -223,11 +224,16 @@ public class ReducedStateScheduler implements Scheduler {
          * run() will return.
          */
         private void run() {
+            totalStates++;
+            activeBranches++;
+
             // Prune
             if (bound != NO_SOLUTION && state.endTime >= bound) return;
 
             // If current state is complete
             if (state.unassignedTasks == 0) {
+                completeStates++;
+
                 // Update startTime/processor maps
                 bestStartTimeMap = new HashMap<>();
                 bestProcessorMap = new HashMap<>();
@@ -304,6 +310,8 @@ public class ReducedStateScheduler implements Scheduler {
                 }
 
             }
+
+            activeBranches--;
         }
     }
 }
