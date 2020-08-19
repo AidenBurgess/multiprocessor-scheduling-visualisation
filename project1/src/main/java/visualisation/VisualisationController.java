@@ -1,9 +1,7 @@
 package main.java.visualisation;
 
-import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import main.java.scheduler.Scheduler;
 
@@ -14,22 +12,21 @@ public class VisualisationController {
 
     // FXML Fields
     @FXML
-    private JFXButton xd;
-    @FXML
-    private TextField text;
-    @FXML
-    private VBox bestScheduleParent;
     @FXML
     private VBox currentScheduleParent;
 
     // Non-FXML Fields
-    private ScheduleChart<Number, String> currentScheduleChart;
-    private ScheduleChart<Number, String> bestScheduleChart;
-    private Scheduler sc;
+    private ScheduleChart<Number, String> _currentScheduleChart;
+    private ScheduleChart<Number, String> _bestScheduleChart;
+    private Scheduler _scheduler;
+    private TaskGraph _taskGraph;
+    private int _numProcessors;
 
     @FXML
     void initialize() {
-        sc = VisualisationDriver.sc;
+        _scheduler = VisualisationDriver.getScheduler();
+        _taskGraph = VisualisationDriver.getTaskGraph();
+        _numProcessors = VisualisationDriver.getNumProcessors();
         // Setup polling the scheduler
         Timer t = new Timer();
         t.schedule(new TimerTask() {
