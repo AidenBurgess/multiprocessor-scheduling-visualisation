@@ -57,7 +57,10 @@ public class ReducedStateScheduler implements Scheduler {
 
         // Substantiate the adjList and revAdjList.
         // The adjLists use the name -> id mapping from taskNameToIdMap
-        for (Dependency dependency : taskGraph.getDependencies()) {
+        ArrayList<Dependency> dependencies = taskGraph.getDependencies();
+        int dependenciesSize = dependencies.size();
+        for (int i = 0; i < dependenciesSize; i++) {
+            Dependency dependency = dependencies.get(i);
             int source = taskNameToIdMap.get(dependency.getSource());
             int dest = taskNameToIdMap.get(dependency.getDest());
             adjList.get(source).add(new Pair<>(dest, dependency.getCommunicationTime()));
@@ -85,7 +88,11 @@ public class ReducedStateScheduler implements Scheduler {
         // Take off tasks one by one, and update the inDegree
         while (!queue.isEmpty()) {
             int task = queue.poll();
-            for (Pair<Integer, Integer> dependency : adjList.get(task)) {
+
+            ArrayList<Pair<Integer, Integer>> revTask = adjList.get(task);
+            int numRevTasks = revTask.size();
+            for (int i = 0; i < numRevTasks; i++) {
+                Pair<Integer, Integer> dependency = revTask.get(i);
                 int child = dependency.getKey();
                 inDegree[child]--;
                 if (inDegree[child] == 0 && !visited[child]) {
@@ -284,7 +291,11 @@ public class ReducedStateScheduler implements Scheduler {
 
                 // If the task still has unscheduled dependencies, ignore
                 boolean dependenciesMet = true;
-                for (Pair<Integer, Integer> dependency : revAdjList.get(task)) {
+
+                ArrayList<Pair<Integer, Integer>> revTask = revAdjList.get(task);
+                int numRevTasks = revTask.size();
+                for (int i = 0; i < numRevTasks; i++) {
+                    Pair<Integer, Integer> dependency = revTask.get(i);
                     int parent = dependency.getKey();
                     if (state.assignedProcessorId[parent] == State.UNSCHEDULED) {
                         dependenciesMet = false;
@@ -301,7 +312,11 @@ public class ReducedStateScheduler implements Scheduler {
                     // Find the earliest time that task can be placed on processor.
                     // For each of its dependencies, make sure that there is enough delay.
                     int nextTaskStartTime = state.processorEndTime[processor];
-                    for (Pair<Integer, Integer> dependency : revAdjList.get(task)) {
+
+                    revTask = revAdjList.get(task);
+                    numRevTasks = revTask.size();
+                    for (int i = 0; i < numRevTasks; i++) {
+                        Pair<Integer, Integer> dependency = revTask.get(i);
                         int parent = dependency.getKey();
                         int delay = dependency.getValue();
 
