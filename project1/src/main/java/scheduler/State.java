@@ -5,7 +5,7 @@ package main.java.scheduler;
  */
 public class State {
     public static final int UNSCHEDULED = -1;
-    private final int n, p;
+    protected final int numTasks, numProcessors;
 
 
     protected int[] assignedProcessorId; // assignedProcessorId[taskId] -> processorId
@@ -15,18 +15,18 @@ public class State {
     protected int endTime; // end time of the last processor
     protected int unassignedTasks; // number of tasks still unassigned
 
-    public State(int n, int p) {
-        this.n = n;
-        this.p = p;
+    public State(int numTasks, int numProcessors) {
+        this.numTasks = numTasks;
+        this.numProcessors = numProcessors;
 
-        unassignedTasks = n; // initially n tasks are unassigned
+        unassignedTasks = numTasks; // initially n tasks are unassigned
         endTime = 0;
 
-        processorEndTime = new int[p];
-        assignedProcessorId = new int[n];
-        taskEndTime = new int[n];
+        processorEndTime = new int[numProcessors];
+        assignedProcessorId = new int[numTasks];
+        taskEndTime = new int[numTasks];
 
-        for (int i = 0; i < n; i++) assignedProcessorId[i] = UNSCHEDULED;
+        for (int i = 0; i < numTasks; i++) assignedProcessorId[i] = UNSCHEDULED;
     }
 
     /**
@@ -35,12 +35,12 @@ public class State {
      * @return a new State instance with the same values.
      */
     public State copy() {
-        State next = new State(n, p);
-        for (int i = 0; i < n; i++) {
+        State next = new State(numTasks, numProcessors);
+        for (int i = 0; i < numTasks; i++) {
             next.assignedProcessorId[i] = assignedProcessorId[i];
             next.taskEndTime[i] = taskEndTime[i];
         }
-        for (int i = 0; i < p; i++) {
+        for (int i = 0; i < numProcessors; i++) {
             next.processorEndTime[i] = processorEndTime[i];
         }
 

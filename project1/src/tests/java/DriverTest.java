@@ -46,8 +46,8 @@ public class DriverTest {
 
     @Test
     public void singleFileRuntime() {
-        String filename = "dots/N4-M2.dot";
-        String numProcessors = "2";
+        String filename = "dots/N11-M1.dot";
+        String numProcessors = "3";
 
         String[] input = {filename, numProcessors};
         long startTime = System.nanoTime();
