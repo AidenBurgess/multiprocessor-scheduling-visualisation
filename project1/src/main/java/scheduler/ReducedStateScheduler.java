@@ -25,20 +25,20 @@ import java.util.LinkedList;
 public class ReducedStateScheduler implements Scheduler {
     public static final int NO_SOLUTION = -1;
 
-    int n, p;
-    int bound = NO_SOLUTION; // The current best solution.
-    int totalStates = 0, completeStates = 0, activeBranches = 0;
-    TaskGraph input;
+    private int numTasks, numProcessors;
+    private int bound = NO_SOLUTION; // The current best solution.
+    private int totalStates = 0, completeStates = 0, activeBranches = 0;
+    private TaskGraph input;
 
-    int[] topologicalOrder;
-    ArrayList<ArrayList<Pair<Integer,Integer>>> adjList, revAdjList;
+    private int[] topologicalOrder;
+    private ArrayList<ArrayList<Pair<Integer,Integer>>> adjList, revAdjList;
 
-    HashMap<String, Integer> bestStartTimeMap, bestProcessorMap;
+    private HashMap<String, Integer> bestStartTimeMap, bestProcessorMap;
 
 
     public ReducedStateScheduler(TaskGraph taskGraph, int processors) {
-        n = taskGraph.getTasks().size();
-        p = processors;
+        numTasks = taskGraph.getTasks().size();
+        numProcessors = processors;
         input = taskGraph;
 
         // Mapping each Task object to an integer id. 0-indexed.
@@ -48,9 +48,9 @@ public class ReducedStateScheduler implements Scheduler {
         }
 
         // Instantiating the adjacency list and reverse adjacency list.
-        adjList = new ArrayList<>(n);
-        revAdjList = new ArrayList<>(n);
-        for (int i = 0; i < n; i++) {
+        adjList = new ArrayList<>(numTasks);
+        revAdjList = new ArrayList<>(numTasks);
+        for (int i = 0; i < numTasks; i++) {
             adjList.add(new ArrayList<>());
             revAdjList.add(new ArrayList<>());
         }
@@ -66,14 +66,14 @@ public class ReducedStateScheduler implements Scheduler {
 
         // Topological Ordering. The below code finds one valid topological ordering.
         // This also ensures that the TaskGraph input has no cyclic dependencies.
-        topologicalOrder = new int[n];
+        topologicalOrder = new int[numTasks];
         int ind = 0;
 
         // Queue all tasks that have no initial dependencies, and track the inDegree
-        boolean[] visited = new boolean[n];
-        int[] inDegree = new int[n];
+        boolean[] visited = new boolean[numTasks];
+        int[] inDegree = new int[numTasks];
         LinkedList<Integer> queue = new LinkedList<>();
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < numTasks; i++) {
             inDegree[i] = revAdjList.get(i).size();
             if (inDegree[i] == 0) {
                 topologicalOrder[ind++] = i;
@@ -97,7 +97,7 @@ public class ReducedStateScheduler implements Scheduler {
         }
 
         // If ind != n, there are some tasks that have dependencies on each other.
-        if (ind != n) throw new RuntimeException("No topological ordering found"); // todo what we want to happen?
+        if (ind != numTasks) throw new RuntimeException("No topological ordering found"); // todo what we want to happen?
     }
 
     @Override
@@ -119,21 +119,32 @@ public class ReducedStateScheduler implements Scheduler {
      *
      * Cases such as -1, 21, etc are not re-evaluated. If you consider that 12345 has 5! = 120 permutations,
      * this optimisation "saves" 119 branches from being searched.
+     *
+     * In detail, the dfsCaller goes through each index=ind from 0 to n, and tries setting it on or off.
+     * Bitmask stores whether the previous indices were on or off.
+     * By the time that ind = n, 2^n bitmasks would be generated.
+     *
+     * E.g. if n=3, by the time that ind = 3, bitmask could be 000, 001, 010, 011, 100, 101, 110, 111
+     *
+     * This recursive method is used to generate all possible combinations of bits being on/off.
+     *
+     * @param ind The current index that the recursive method is on.
+     * @param bitmask The state (on/off) of all the indices before ind.
      */
     private void dfsCaller(int ind, int bitmask) {
         // The method recursively enumerates all possible bitmasks where there are <= p on bits.
 
         // If there are more than p on bits, return.
-        if (Integer.bitCount(bitmask) > p) return;
+        if (Integer.bitCount(bitmask) > numProcessors) return;
 
         // At the end of the recursion, of n bits, there are some bits that are on.
         // For example: bitmask = b1011 means that tasks 0, 1, and 3 are on.
         //              bitmask = b1100 means that tasks 2, and 3 are on.
-        if (ind == n) {
-            State state = new State(n, Integer.bitCount(bitmask));
+        if (ind == numTasks) {
+            State state = new State(numTasks, Integer.bitCount(bitmask));
             int processor = 0;
             // For each bit,
-            for (int task = 0; task < n; task++) {
+            for (int task = 0; task < numTasks; task++) {
                 // If the bit is on,
                 if ((bitmask & (1 << task)) != 0) {
                     // Add it to the current state by updating:
@@ -249,9 +260,10 @@ public class ReducedStateScheduler implements Scheduler {
                 completeStates++;
 
                 // Update startTime/processor maps
-                bestStartTimeMap = new HashMap<>();
-                bestProcessorMap = new HashMap<>();
-                for (int i = 0; i < n; i++) {
+                if (bestStartTimeMap == null) bestStartTimeMap = new HashMap<>();
+                if (bestProcessorMap == null) bestProcessorMap = new HashMap<>();
+
+                for (int i = 0; i < numTasks; i++) {
                     Task task = input.getTasks().get(i);
                     bestStartTimeMap.put(task.getName(), state.taskEndTime[i] - task.getTaskTime()); // end time - task time = start time
                     bestProcessorMap.put(task.getName(), state.assignedProcessorId[i] + 1); // 1-indexed
@@ -264,8 +276,8 @@ public class ReducedStateScheduler implements Scheduler {
             }
 
             // For each task,
-            for (int ordering = 0; ordering < n; ordering++) {
-                int task = ordering; // = topologicalOrder[ordering];
+            for (int ordering = 0; ordering < numTasks; ordering++) {
+                int task = ordering; // We have
 
                 // If the task is scheduled, ignore
                 if (state.assignedProcessorId[task] != State.UNSCHEDULED) continue;
@@ -281,9 +293,8 @@ public class ReducedStateScheduler implements Scheduler {
                 }
                 if (!dependenciesMet) continue;
 
-                boolean triedZero = false;
                 // For each processor,
-                for (int processor = 0; processor < state.p; processor++) {
+                for (int processor = 0; processor < state.numProcessors; processor++) {
                     // Prune
                     if (bound != NO_SOLUTION && state.endTime >= bound) return;
 
