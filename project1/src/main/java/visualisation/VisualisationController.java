@@ -3,7 +3,6 @@ package main.java.visualisation;
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.chart.CategoryAxis;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import main.java.scheduler.Scheduler;
@@ -24,8 +23,8 @@ public class VisualisationController {
     private VBox currentScheduleParent;
 
     // Non-FXML Fields
-    private ScheduleChart<Number, String> currentSchedule;
-    private ScheduleChart<Number, String> bestSchedule;
+    private ScheduleChart<Number, String> currentScheduleChart;
+    private ScheduleChart<Number, String> bestScheduleChart;
     private Scheduler sc;
 
     @FXML
@@ -38,15 +37,14 @@ public class VisualisationController {
             public void run() {
                 refreshStats();
             }
-
         }, 1000, 1000);
 
         chartSetup();
     }
 
     private void chartSetup() {
-        bestScheduleParent.getChildren().add(bestSchedule);
-        currentScheduleParent.getChildren().add(currentSchedule);
+        bestScheduleParent.getChildren().add(bestScheduleChart);
+        currentScheduleParent.getChildren().add(currentScheduleChart);
     }
 
     private void refreshStats() {
