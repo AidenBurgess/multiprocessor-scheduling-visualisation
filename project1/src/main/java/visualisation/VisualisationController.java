@@ -1,8 +1,6 @@
 package main.java.visualisation;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
@@ -10,16 +8,12 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.layout.VBox;
 import javafx.scene.chart.XYChart.Series;
 import main.java.dotio.Task;
-import main.java.dotio.TaskGraph;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.AreaChart;
-import javafx.scene.chart.XYChart;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import main.java.dataretriever.SystemPerformanceRetriever;
@@ -203,6 +197,7 @@ public class VisualisationController implements Initializable {
         // initialise the charts
         setUpCPUChart();
         setUpRAMChart();
+        setUpScheduleCharts();
 
         // Setup polling the scheduler
         _timer = new Timer();
@@ -220,15 +215,15 @@ public class VisualisationController implements Initializable {
 //                        CPUSeries.getData().add(new XYChart.Data<>(Integer.toString(i++),10));
                         addCPUChartData();
                         addRAMChartData();
+                        updateScheduleChart();
                     }
                 });
             }
 
         }, _refreshRate, 1000);
-        chartSetup();
     }
 
-    private void chartSetup() {
+    private void setUpScheduleCharts() {
         // Setting up the y-axis
         List<String> processorsList = new ArrayList<String>();
         for (int i = 0; i < _numProcessors; i++) {
@@ -262,26 +257,38 @@ public class VisualisationController implements Initializable {
         Series[] seriesArrayCurrent = new Series[_numProcessors];
         Series[] seriesArrayBest = new Series[_numProcessors];
         for (int i = 0; i < _numProcessors; i++) {
+            seriesArrayCurrent[i] = new Series();
             seriesArrayBest[i] = new Series();
         }
 
         // Run through each task, create an XYChart.Data object and put
         // this object in the Series object which corresponds to the processor this task is scheduled on
         for (Task task : _taskList) {
-            int processorOfTask = bestProcessorMap.get(task.getName());
-            int taskStartTime = bestProcessorMap.get(task.getName());
             int taskTime = task.getTaskTime();
 
-            XYChart.Data taskData = new XYChart.Data(taskStartTime, "Processor " + processorOfTask, new ExtraData(taskTime));
+//            // Populating the current schedule if the schedule contains the current task
+//            if (currentStartTimeMap.containsKey(task.getName())) {
+//                int taskProcessorCurrent = currentProcessorMap.get(task.getName());
+//                int taskStartTimeCurrent = currentProcessorMap.get(task.getName());
+//                XYChart.Data taskDataCurrent = new XYChart.Data(taskStartTimeCurrent, "Processor " + taskProcessorCurrent, new ExtraData(taskTime));
+//                // -1 has been used below because the seriesArray is 0 indexed whereas the processor numbers are 1 indexed
+//                seriesArrayBest[taskProcessorCurrent - 1].getData().add(taskDataCurrent);
+//            }
 
+            // Populating the best schedule chart
+            int taskProcessorBest = bestProcessorMap.get(task.getName());
+            int taskStartTimeBest = bestProcessorMap.get(task.getName());
+            XYChart.Data taskDataBest = new XYChart.Data(taskStartTimeBest, "Processor " + taskProcessorBest, new ExtraData(taskTime));
             // -1 has been used below because the seriesArray is 0 indexed whereas the processor numbers are 1 indexed
-            seriesArrayBest[processorOfTask - 1].getData().add(taskData);
+            seriesArrayBest[taskProcessorBest - 1].getData().add(taskDataBest);
         }
 
-        // Put the Series objects generated above in the chart after clearing the chart's existing data
+        // Put the Series objects in the charts after clearing the charts existing data
+        _currentScheduleChart.getData().clear();
         _bestScheduleChart.getData().clear();
-        for (Series series : seriesArrayBest) {
-            _bestScheduleChart.getData().add(series);
+        for (int i = 0; i < seriesArrayCurrent.length; i++) {
+            _currentScheduleChart.getData().add(seriesArrayCurrent[i]);
+            _bestScheduleChart.getData().add(seriesArrayBest[i]);
         }
     }
 }
