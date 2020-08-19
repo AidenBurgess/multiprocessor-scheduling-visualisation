@@ -15,6 +15,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import main.java.dataretriever.SystemPerformanceRetriever;
 import main.java.scheduler.Scheduler;
 
 import java.net.URL;
@@ -25,6 +26,7 @@ import java.util.TimerTask;
 public class VisualisationController implements Initializable {
 
     private int REFRESH_RATE = 1000;
+    private SystemPerformanceRetriever performanceRetriever;
 
     private Scheduler sc;
     private Timer t;
@@ -132,7 +134,7 @@ public class VisualisationController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         sc = VisualisationDriver.sc;
-//        System.out.println("hello there");
+        performanceRetriever = new SystemPerformanceRetriever();
 
         seconds = 0;
         minutes = 0;
