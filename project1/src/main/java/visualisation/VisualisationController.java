@@ -25,8 +25,9 @@ public class VisualisationController {
 
     // FXML Fields
     @FXML
+    private VBox _bestScheduleParent;
     @FXML
-    private VBox currentScheduleParent;
+    private VBox _currentScheduleParent;
 
     // Non-FXML Fields
     private ScheduleChart<Number, String> _currentScheduleChart;
