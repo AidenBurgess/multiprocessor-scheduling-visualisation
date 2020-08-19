@@ -181,10 +181,12 @@ public class ReducedStateScheduler implements Scheduler {
                 }
                 if (!dependenciesMet) continue;
 
+                boolean triedZero = false;
                 // For each processor,
                 for (int processor = 0; processor < p; processor++) {
                     // Prune
                     if (bound != NO_SOLUTION && state.endTime >= bound) return;
+                    if (state.processorEndTime[processor] == 0 && triedZero) continue;
 
                     // Find the earliest time that task can be placed on processor.
                     // For each of its dependencies, make sure that there is enough delay.
@@ -220,6 +222,8 @@ public class ReducedStateScheduler implements Scheduler {
                     state.processorEndTime[processor] = processorPrevEndTime;
                     state.unassignedTasks++;
                     state.endTime = prevEndTime;
+
+                    if (state.processorEndTime[processor] == 0) triedZero = true;
                 }
 
             }
