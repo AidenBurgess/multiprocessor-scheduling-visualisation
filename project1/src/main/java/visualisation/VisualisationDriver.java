@@ -21,6 +21,8 @@ public class VisualisationDriver extends Application {
 
     public static void main(Scheduler scheduler, TaskGraph taskGraph, int numProcessors) {
         _scheduler = scheduler;
+        _taskGraph = taskGraph;
+        _numProcessors = numProcessors;
         launch();
     }
 
