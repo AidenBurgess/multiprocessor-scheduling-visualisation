@@ -28,7 +28,7 @@ public class Driver {
         // Uncomment this to force visualisation on
         // config.hasVisualisation = true;
         if (config.hasVisualisation()) {
-            startVisualisationThread(scheduler);
+            startVisualisationThread(scheduler, taskGraph, config.getNumProcessors());
             System.out.println("hello");
         }
 
@@ -36,9 +36,9 @@ public class Driver {
         writeDotFile(scheduler, taskGraph, config);
     }
 
-    private static void startVisualisationThread(Scheduler scheduler) {
+    private static void startVisualisationThread(Scheduler scheduler, TaskGraph taskGraph, int numProcessors) {
         new Thread(() -> {
-            VisualisationDriver.main(scheduler);
+            VisualisationDriver.main(scheduler, taskGraph, numProcessors);
         }).start();
     }
 
