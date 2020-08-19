@@ -9,6 +9,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.VBox;
 import javafx.scene.chart.XYChart.Series;
+import main.java.dotio.Task;
 import main.java.dotio.TaskGraph;
 import main.java.scheduler.Scheduler;
 
@@ -33,13 +34,12 @@ public class VisualisationController {
     private ScheduleChart<Number, String> _currentScheduleChart;
     private ScheduleChart<Number, String> _bestScheduleChart;
     private Scheduler _scheduler;
-    private TaskGraph _taskGraph;
     private int _numProcessors;
 
     @FXML
     void initialize() {
         _scheduler = VisualisationDriver.getScheduler();
-        _taskGraph = VisualisationDriver.getTaskGraph();
+        _taskList = VisualisationDriver.getTaskGraph().getTasks();
         _numProcessors = VisualisationDriver.getNumProcessors();
         // Setup polling the scheduler
         Timer t = new Timer();
