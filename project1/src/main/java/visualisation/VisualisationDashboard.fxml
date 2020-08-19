@@ -4,7 +4,7 @@
 <?import javafx.scene.chart.AreaChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -17,7 +17,7 @@
          <children>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Scheduling Statistics">
+                  <Text fx:id="visualisationTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="Scheduling Statistics">
                      <font>
                         <Font size="55.0" />
                      </font>
@@ -32,26 +32,86 @@
             </HBox>
             <HBox prefHeight="350.0" prefWidth="1200.0">
                <children>
-                  <VBox prefHeight="200.0" prefWidth="400.0">
+                  <VBox fx:id="statistics" prefHeight="200.0" prefWidth="400.0">
                      <children>
-                        <ListView fx:id="statistics" prefHeight="350.0" prefWidth="200.0">
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                           <padding>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </padding>
-                        </ListView>
+                        <SplitPane dividerPositions="0.628140703517588" prefHeight="350.0" prefWidth="200.0">
+                          <items>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                 <children>
+                                    <VBox alignment="CENTER_LEFT" layoutX="64.0" layoutY="17.0" prefHeight="348.0" prefWidth="228.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time Elapsed">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets bottom="30.0" left="10.0" top="30.0" />
+                                             </VBox.margin>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Visited States">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets bottom="30.0" left="10.0" top="30.0" />
+                                             </VBox.margin>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Completed Schedules">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets bottom="30.0" left="10.0" top="30.0" />
+                                             </VBox.margin>
+                                          </Text>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="266.0" prefWidth="275.0">
+                                 <children>
+                                    <VBox alignment="CENTER" layoutX="-10.0" layoutY="31.0" prefHeight="348.0" prefWidth="162.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <Text fx:id="timeElapsedFigure" strokeType="OUTSIDE" strokeWidth="0.0" text="0.00s">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets bottom="30.0" top="30.0" />
+                                             </VBox.margin>
+                                          </Text>
+                                          <Text fx:id="visitedStatesFigure" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets bottom="30.0" top="30.0" />
+                                             </VBox.margin>
+                                          </Text>
+                                          <Text fx:id="completedSchedulesFigure" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets bottom="30.0" top="30.0" />
+                                             </VBox.margin>
+                                          </Text>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
+                          </items>
+                        </SplitPane>
                      </children>
                   </VBox>
                   <VBox fx:id="CPUParent" prefHeight="200.0" prefWidth="400.0">
                      <children>
-                        <AreaChart fx:id="CPUGraph">
+                        <AreaChart fx:id="CPUChart" legendVisible="false" title="CPU Usage">
                           <xAxis>
-                            <CategoryAxis side="BOTTOM" />
+                            <CategoryAxis label="Time (s)" side="BOTTOM" />
                           </xAxis>
                           <yAxis>
-                            <NumberAxis side="LEFT" />
+                            <NumberAxis label="\%" side="LEFT" />
                           </yAxis>
                            <VBox.margin>
                               <Insets />
@@ -64,12 +124,12 @@
                   </VBox>
                   <VBox fx:id="RAMParent" prefHeight="200.0" prefWidth="400.0">
                      <children>
-                        <AreaChart>
+                        <AreaChart fx:id="RAMChart" legendVisible="false" title="RAM Usage">
                           <xAxis>
-                            <CategoryAxis side="BOTTOM" />
+                            <CategoryAxis label="Time (s)" side="BOTTOM" />
                           </xAxis>
                           <yAxis>
-                            <NumberAxis side="LEFT" />
+                            <NumberAxis label="Bytes (B)" side="LEFT" />
                           </yAxis>
                            <VBox.margin>
                               <Insets />
