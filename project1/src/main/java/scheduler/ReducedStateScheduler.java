@@ -121,31 +121,45 @@ public class ReducedStateScheduler implements Scheduler {
      * this optimisation "saves" 119 branches from being searched.
      */
     private void dfsCaller(int ind, int bitmask) {
-        if (Integer.bitCount(bitmask) > p) return;
-        if (ind == n) {
+        // The method recursively enumerates all possible bitmasks where there are <= p on bits.
 
+        // If there are more than p on bits, return.
+        if (Integer.bitCount(bitmask) > p) return;
+
+        // At the end of the recursion, of n bits, there are some bits that are on.
+        // For example: bitmask = b1011 means that tasks 0, 1, and 3 are on.
+        //              bitmask = b1100 means that tasks 2, and 3 are on.
+        if (ind == n) {
             State state = new State(n, Integer.bitCount(bitmask));
             int processor = 0;
+            // For each bit,
             for (int task = 0; task < n; task++) {
+                // If the bit is on,
                 if ((bitmask & (1 << task)) != 0) {
+                    // Add it to the current state by updating:
                     int endTime = input.getTasks().get(task).getTaskTime();
-                    state.processorEndTime[processor] = endTime;
-                    state.taskEndTime[task] = endTime;
-                    state.unassignedTasks--;
-                    state.endTime = Math.max(state.endTime, endTime);
-                    state.assignedProcessorId[task] = processor;
+                    state.processorEndTime[processor] = endTime; // processor end time
+                    state.taskEndTime[task] = endTime; // task end time
+                    state.unassignedTasks--; // number of tasks
+                    state.endTime = Math.max(state.endTime, endTime); // overall state end time
+                    state.assignedProcessorId[task] = processor; // the processor that this task is assigned to
 
                     processor++;
                 }
             }
+
+            // By here, we have a State that has those 'on' tasks at start time = 0.
+            // The state is passed to DFS and DFS handles the rest of the searching.
             DFS dfs = new DFS(state);
             dfs.run();
             return;
         }
 
+        // Tries to place the current bit as 'on', only if it has no dependencies
         if (revAdjList.get(ind).size() == 0) {
             dfsCaller(ind+1, bitmask | (1<<ind));
         }
+        // Tries to place the current bit as 'off'.
         dfsCaller(ind+1, bitmask);
     }
 
