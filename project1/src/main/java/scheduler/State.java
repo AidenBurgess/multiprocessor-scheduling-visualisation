@@ -5,7 +5,7 @@ package main.java.scheduler;
  */
 public class State {
     public static final int UNSCHEDULED = -1;
-    private final int n, p;
+    protected final int n, p;
 
 
     protected int[] assignedProcessorId; // assignedProcessorId[taskId] -> processorId

@@ -64,10 +64,51 @@ public class ReducedStateScheduler implements Scheduler {
 
     @Override
     public void execute() {
-        // On execute, the Scheduler creates a new, empty state and runs DFS.
-        State state = new State(n, p);
-        DFS dfs = new DFS(state);
-        dfs.run();
+        dfsCaller(0, 0);
+    }
+
+    /**
+     * The problem is that placing a task on an empty processor is the same as placing it on another
+     * empty processor.
+     *
+     * To overcome this - we choose some subset of tasks as our "starts" (where each one is on an empty processor),
+     * then all the other tasks must go on top of these tasks. This will eliminate ALL symmetry regarding
+     * empty processors.
+     *
+     * For example, if we had 3 tasks and 2 processors, the below code goes through these possible scenarios.
+     * 1-, 2-, 3-, 12, 23, 13
+     * It then calls DFS from these states. In these DFS calls, tasks _cannot_ be placed on an empty processor.
+     *
+     * Cases such as -1, 21, etc are not re-evaluated. If you consider that 12345 has 5! = 120 permutations,
+     * this optimisation "saves" 119 branches from being searched.
+     */
+    private void dfsCaller(int ind, int bitmask) {
+        if (Integer.bitCount(bitmask) > p) return;
+        if (ind == n) {
+
+            State state = new State(n, Integer.bitCount(bitmask));
+            int processor = 0;
+            for (int task = 0; task < n; task++) {
+                if ((bitmask & (1 << task)) != 0) {
+                    int endTime = input.getTasks().get(task).getTaskTime();
+                    state.processorEndTime[processor] = endTime;
+                    state.taskEndTime[task] = endTime;
+                    state.unassignedTasks--;
+                    state.endTime = Math.max(state.endTime, endTime);
+                    state.assignedProcessorId[task] = processor;
+
+                    processor++;
+                }
+            }
+            DFS dfs = new DFS(state);
+            dfs.run();
+            return;
+        }
+
+        if (revAdjList.get(ind).size() == 0) {
+            dfsCaller(ind+1, bitmask | (1<<ind));
+        }
+        dfsCaller(ind+1, bitmask);
     }
 
     @Override
@@ -183,10 +224,9 @@ public class ReducedStateScheduler implements Scheduler {
 
                 boolean triedZero = false;
                 // For each processor,
-                for (int processor = 0; processor < p; processor++) {
+                for (int processor = 0; processor < state.p; processor++) {
                     // Prune
                     if (bound != NO_SOLUTION && state.endTime >= bound) return;
-                    if (state.processorEndTime[processor] == 0 && triedZero) continue;
 
                     // Find the earliest time that task can be placed on processor.
                     // For each of its dependencies, make sure that there is enough delay.
@@ -222,8 +262,6 @@ public class ReducedStateScheduler implements Scheduler {
                     state.processorEndTime[processor] = processorPrevEndTime;
                     state.unassignedTasks++;
                     state.endTime = prevEndTime;
-
-                    if (state.processorEndTime[processor] == 0) triedZero = true;
                 }
 
             }
