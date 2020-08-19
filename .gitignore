@@ -3,3 +3,5 @@ project1/out
 *.iml
 project1/*output.dot
 project1/dots/*output.dot
+project1/src/META_INF
+
