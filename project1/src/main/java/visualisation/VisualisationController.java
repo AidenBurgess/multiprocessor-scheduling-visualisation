@@ -11,7 +11,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class VisualisationController {
-    private Scheduler sc;
+
+    // FXML Fields
     @FXML
     private JFXButton xd;
     @FXML
@@ -20,11 +21,11 @@ public class VisualisationController {
     private VBox bestScheduleParent;
     @FXML
     private VBox currentScheduleParent;
-    @FXML
-    private ScheduleChart<Number, String> currentSchedule;
-    @FXML
-    private ScheduleChart<Number, String> bestSchedule;
 
+    // Non-FXML Fields
+    private ScheduleChart<Number, String> currentSchedule;
+    private ScheduleChart<Number, String> bestSchedule;
+    private Scheduler sc;
 
     @FXML
     void initialize() {
@@ -39,10 +40,10 @@ public class VisualisationController {
 
         }, 1000, 1000);
 
-        setup();
+        chartSetup();
     }
 
-    private void setup() {
+    private void chartSetup() {
         bestScheduleParent.getChildren().add(bestSchedule);
         currentScheduleParent.getChildren().add(currentSchedule);
     }
