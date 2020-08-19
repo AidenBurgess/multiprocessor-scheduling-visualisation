@@ -119,12 +119,6 @@ public class VisualisationController implements Initializable {
     private void setUpCPUChart() {
 
         // create the X and Y axis
-        CategoryAxis xAxis = new CategoryAxis();
-        NumberAxis yAxis = new NumberAxis(0,100,1);
-
-        CPUChart = new AreaChart<String, Number>(xAxis, yAxis);
-//        CPUChart.setTitle("CPU Usage");
-
         XYChart.Series series = new XYChart.Series<>();
 //        series.setName("CPU Usage");
         series.getData().add(new XYChart.Data("Monday",1));
@@ -137,6 +131,7 @@ public class VisualisationController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        sc = VisualisationDriver.sc;
 //        System.out.println("hello there");
 
         seconds = 0;
@@ -146,7 +141,6 @@ public class VisualisationController implements Initializable {
         startTimer();
         setUpCPUChart();
 
-        sc = VisualisationDriver.sc;
         // Setup polling the scheduler
         t = new Timer();
 
@@ -155,7 +149,7 @@ public class VisualisationController implements Initializable {
             @Override
             public void run() {
                 updateStatistics(i);
-                i+= 1005;
+                i += 1005;
             }
         }, REFRESH_RATE, 1000);
     }
