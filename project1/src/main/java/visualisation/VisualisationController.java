@@ -55,7 +55,7 @@ public class VisualisationController {
     }
 
     private void chartSetup() {
-        // Setting up the x-axis
+        // Setting up the y-axis
         List<String> processorsList = new ArrayList<String>();
         for (int i=0; i < _numProcessors; i++) {
             processorsList.add("Processor "+i+1);
@@ -64,7 +64,7 @@ public class VisualisationController {
         yAxis.setCategories(FXCollections.observableArrayList(processorsList));
         yAxis.setLabel("Processors");
 
-        // Setting up the y-axis
+        // Setting up the x-axis
         NumberAxis xAxis = new NumberAxis();
         xAxis.setLabel("Time");
 
