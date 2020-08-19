@@ -106,7 +106,7 @@
                   </VBox>
                   <VBox fx:id="CPUParent" prefHeight="200.0" prefWidth="400.0">
                      <children>
-                        <AreaChart fx:id="CPUGraph">
+                        <AreaChart fx:id="CPUChart" title="CPU Usage">
                           <xAxis>
                             <CategoryAxis side="BOTTOM" />
                           </xAxis>
@@ -124,7 +124,7 @@
                   </VBox>
                   <VBox fx:id="RAMParent" prefHeight="200.0" prefWidth="400.0">
                      <children>
-                        <AreaChart>
+                        <AreaChart fx:id="RAMChart" title="RAM Usage">
                           <xAxis>
                             <CategoryAxis side="BOTTOM" />
                           </xAxis>

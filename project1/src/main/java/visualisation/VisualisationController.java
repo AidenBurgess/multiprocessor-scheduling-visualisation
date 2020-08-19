@@ -6,17 +6,23 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.chart.AreaChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import main.java.scheduler.Scheduler;
 
+import java.net.URL;
+import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class VisualisationController {
+public class VisualisationController implements Initializable {
 
     private int REFRESH_RATE = 1000;
 
@@ -39,13 +45,13 @@ public class VisualisationController {
     private VBox CPUParent;
 
     @FXML
-    private AreaChart<?, ?> CPUGraph;
+    private AreaChart<String, Number> CPUChart;
 
     @FXML
     private VBox RAMParent;
 
     @FXML
-    private AreaChart<?, ?> RAMGraph;
+    private AreaChart<Number, Number> RAMChart;
 
     @FXML
     private Text timeElapsedFigure;
@@ -56,23 +62,25 @@ public class VisualisationController {
     @FXML
     private Text completedSchedulesFigure;
 
-    @FXML
-    void initialize() {
-        seconds = 0;
-        minutes = 0;
-
-        // start the overall timer
-        startTimer();
-        sc = VisualisationDriver.sc;
-        // Setup polling the scheduler
-        t = new Timer();
-        t.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                updateStatistics();
-            }
-        }, REFRESH_RATE, 1000);
-    }
+//    @FXML
+//    void initialize() {
+//        seconds = 0;
+//        minutes = 0;
+//
+//        // start the overall timer
+//        startTimer();
+//        setUpCPUChart();
+//
+//        sc = VisualisationDriver.sc;
+//        // Setup polling the scheduler
+//        t = new Timer();
+//        t.schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                updateStatistics();
+//            }
+//        }, REFRESH_RATE, 1000);
+//    }
 
     private void updateRefreshRate(int refreshRate) {
         System.out.println("Updating statistics");
@@ -99,12 +107,56 @@ public class VisualisationController {
         timeElapsedFigure.setText(Integer.toString(minutes).concat(".").concat(Integer.toString(seconds)).concat("s"));
     }
 
-    private void updateStatistics() {
+    private void updateStatistics(int i) {
 
         long visitedStates = sc.getTotalStatesVisited();
         long completedSchedules = sc.getCompleteStatesVisited();
 
-        visitedStatesFigure.setText(Long.toString(visitedStates));
-        completedSchedulesFigure.setText(Long.toString(completedSchedules));
+        visitedStatesFigure.setText(Long.toString(visitedStates) + i);
+        completedSchedulesFigure.setText(Long.toString(completedSchedules) + i);
+    }
+
+    private void setUpCPUChart() {
+
+        // create the X and Y axis
+        CategoryAxis xAxis = new CategoryAxis();
+        NumberAxis yAxis = new NumberAxis(0,100,1);
+
+        CPUChart = new AreaChart<String, Number>(xAxis, yAxis);
+//        CPUChart.setTitle("CPU Usage");
+
+        XYChart.Series series = new XYChart.Series<>();
+//        series.setName("CPU Usage");
+        series.getData().add(new XYChart.Data("Monday",1));
+        series.getData().add(new XYChart.Data("Tuesday",5));
+        series.getData().add(new XYChart.Data("Wednesday",100));
+
+        CPUChart.getData().add(series);
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+//        System.out.println("hello there");
+
+        seconds = 0;
+        minutes = 0;
+
+        // start the overall timer
+        startTimer();
+        setUpCPUChart();
+
+        sc = VisualisationDriver.sc;
+        // Setup polling the scheduler
+        t = new Timer();
+
+        t.schedule(new TimerTask() {
+            int i = 1;
+            @Override
+            public void run() {
+                updateStatistics(i);
+                i+= 1005;
+            }
+        }, REFRESH_RATE, 1000);
     }
 }
