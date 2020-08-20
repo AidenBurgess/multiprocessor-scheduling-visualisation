@@ -1,5 +1,7 @@
 package main.java.scheduler;
 
+import java.util.HashMap;
+
 public class InformationHolder {
     int activeBranches = 0;
     int totalStates = 0;
@@ -21,5 +23,14 @@ public class InformationHolder {
 
     public void incrementCompleteSchedule() {
         completeSchedules++;
+    }
+
+
+    public HashMap<String, Integer> getBestStartTimeMap() {
+        return null;
+    }
+
+    public HashMap<String, Integer> getBestProcessorMap() {
+        return null;
     }
 }

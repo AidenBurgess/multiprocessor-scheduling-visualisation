@@ -11,16 +11,5 @@ import java.util.concurrent.ThreadPoolExecutor;
  */
 public interface Scheduler {
     public void execute();
-
-    public HashMap<String, Integer> getCurrentStartTimeMap();
-    public HashMap<String, Integer> getCurrentProcessorMap();
-
-    public HashMap<String, Integer> getBestStartTimeMap();
-    public HashMap<String, Integer> getBestProcessorMap();
-
-    // Statistics
-    public int getCurrentBound();
-    public int getTotalStatesVisited();
-    public int getCompleteStatesVisited();
-    public int getActiveBranches();
+    public InformationHolder getInformationHolder();
 }

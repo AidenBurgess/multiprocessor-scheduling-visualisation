@@ -5,8 +5,9 @@ import main.java.commandparser.CommandParser;
 import main.java.dotio.DotIO;
 import main.java.dotio.DotIOException;
 import main.java.dotio.TaskGraph;
+import main.java.scheduler.InformationHolder;
 import main.java.scheduler.Scheduler;
-import main.java.scheduler.StatisticsScheduler;
+import main.java.scheduler.VariableScheduler;
 import main.java.visualisation.VisualisationDriver;
 
 import java.io.FileNotFoundException;
@@ -23,7 +24,7 @@ public class Driver {
         TaskGraph taskGraph = readTaskGraph(config);
 
         // create a scheduler with the number of processors
-        Scheduler scheduler = new StatisticsScheduler(taskGraph, config.getNumProcessors()); // Here is different - a Statistics Scheduler
+        Scheduler scheduler = new VariableScheduler(taskGraph, config.getNumProcessors(), false, false); // Here is different - a Statistics Scheduler
 
         // Uncomment this to force visualisation on
         // config.hasVisualisation = true;
@@ -32,7 +33,9 @@ public class Driver {
         }
 
         scheduler.execute(); // blocks until finished, can be queried by dashboardcontroller
-        writeDotFile(scheduler, taskGraph, config);
+
+        InformationHolder informationHolder = scheduler.getInformationHolder();
+        writeDotFile(informationHolder, taskGraph, config);
     }
 
     private static void startVisualisationThread(Scheduler scheduler) {
@@ -66,9 +69,9 @@ public class Driver {
      * @param taskGraph
      * @param config
      */
-    private static void writeDotFile(Scheduler scheduler, TaskGraph taskGraph, Config config) {
-        HashMap<String, Integer> startTimeMap = scheduler.getBestStartTimeMap();
-        HashMap<String, Integer> processorMap = scheduler.getBestProcessorMap();
+    private static void writeDotFile(InformationHolder informationHolder, TaskGraph taskGraph, Config config) {
+        HashMap<String, Integer> startTimeMap = informationHolder.getBestStartTimeMap();
+        HashMap<String, Integer> processorMap = informationHolder.getBestProcessorMap();
 
         try {
             DotIO.write(config.getOutputFileName(), taskGraph, startTimeMap, processorMap);
