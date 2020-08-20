@@ -1,4 +1,5 @@
 .task {
     -fx-background-color:rgba(128,0,0,0.7);
-    -fx-padding: 10px;
+    -fx-border-width: 2px;
+    -fx-border-color: black;
 }
