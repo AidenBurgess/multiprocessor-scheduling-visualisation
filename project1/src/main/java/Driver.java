@@ -29,7 +29,6 @@ public class Driver {
         // config.hasVisualisation = true;
         if (config.hasVisualisation()) {
             startVisualisationThread(scheduler, taskGraph, config.getNumProcessors());
-            System.out.println("hello");
         }
 
         scheduler.execute(); // blocks until finished, can be queried by dashboardcontroller
