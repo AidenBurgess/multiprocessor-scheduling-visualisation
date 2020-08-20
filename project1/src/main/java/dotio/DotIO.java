@@ -1,5 +1,12 @@
 package main.java.dotio;
 
+import main.java.dotio.antlr.DOTLexer;
+import main.java.dotio.antlr.DOTParser;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
+
 import java.io.*;
 
 import java.nio.charset.StandardCharsets;
@@ -31,48 +38,17 @@ public class DotIO {
      * @return
      */
     public static TaskGraph read(String inputFile) throws DotIOException, FileNotFoundException {
-
-        TaskGraph graph;
+        TaskGraph graph = new TaskGraph();
         try {
-            //Initialize stream tokenizer to read from the specified file
-            StreamTokenizer tk = new StreamTokenizer(new BufferedReader(new FileReader(inputFile, StandardCharsets.UTF_8)));
-            tk.whitespaceChars(';',';');
-            tk.nextToken();
 
-            //Check that input graph is a digraph.
-            if ((tk.ttype == StreamTokenizer.TT_WORD) && tk.sval.equalsIgnoreCase("digraph")) {
-                tk.nextToken();
-            } else {
-                throw new DotIOException("Input is not digraph"); //Error: input is not digraph
-            }
-
-            //Read name of graph, can either be in quotes or without quotes
-            if ((tk.ttype == '"') || (tk.ttype == StreamTokenizer.TT_WORD)) {
-                graph = new TaskGraph(tk.sval);
-                    tk.nextToken();
-            } else {
-                throw new DotIOException("graph name is not specified"); //Error: graph name is not specified.
-            }
-
-            //Read the "{" character, and start going through each node/edge until "}" character
-            if (tk.ttype == '{') {
-                tk.nextToken();
-            } else {
-                throw new DotIOException("no '{' character was found"); //Error: no '{' character was found
-            }
-
-            //Read each node/edge and add them to TaskGraph object.
-            while (tk.ttype != '}') {
-                if (tk.ttype == StreamTokenizer.TT_EOF) {
-                    throw new DotIOException("reached end of file before '}'"); //Error: reached end of file before "}"
-                }
-                readGraphObject(tk, graph);
-            }
-            return graph;
-
-        } catch (IOException e) {
-            throw new DotIOException("Java IO error occured.");
+            DOTLexer lexer = new DOTLexer(new ANTLRInputStream(new FileInputStream(inputFile)));
+            DOTParser parser = new DOTParser(new CommonTokenStream(lexer));
+            ParseTree tree = parser.graph();
+            ParseTreeWalker.DEFAULT.walk(new AdaptedDotListener(graph), tree);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return graph;
     }
 
     /**

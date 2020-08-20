@@ -32,5 +32,6 @@
     <orderEntry type="library" name="lib1" level="project" />
     <orderEntry type="library" name="fileutils" level="project" />
     <orderEntry type="library" name="jfoenix-9.0.10" level="project" />
+    <orderEntry type="library" name="antlr-4.8-complete" level="project" />
   </component>
 </module>

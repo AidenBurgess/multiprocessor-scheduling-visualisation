@@ -14,12 +14,22 @@ public class TaskGraph {
         _dependencies = new ArrayList<>();
     }
 
+    // method to input values to the tasks
+    public TaskGraph() {
+        _tasks = new ArrayList<>();
+        _dependencies = new ArrayList<>();
+    }
+
     public void insertTask(Task task) {
         _tasks.add(task);
     }
 
     public void insertDependency(Dependency dependency) {
         _dependencies.add(dependency);
+    }
+
+    public void setName(String name) {
+        _name = name;
     }
 
     public String getName() {
