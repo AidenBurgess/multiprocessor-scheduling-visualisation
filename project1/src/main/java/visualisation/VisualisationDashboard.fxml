@@ -129,7 +129,7 @@
                             <CategoryAxis label="Time (s)" side="BOTTOM" />
                           </xAxis>
                           <yAxis>
-                            <NumberAxis label="Bytes (B)" side="LEFT" />
+                            <NumberAxis label="GigaBytes (GB)" side="LEFT" />
                           </yAxis>
                            <VBox.margin>
                               <Insets />

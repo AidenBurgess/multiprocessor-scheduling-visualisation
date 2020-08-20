@@ -138,7 +138,7 @@ public class VisualisationController implements Initializable {
     private void addRAMChartData() {
 
         // get the machine's CPU Usage data
-        long RAMUsageInBytes = _performanceRetriever.getRAMUsageBytes();
+        double RAMUsageInBytes = _performanceRetriever.getRAMUsageBytes();
 
         _RAMSeries.getData().add(new XYChart.Data(Integer.toString(_seconds), RAMUsageInBytes));
     }
