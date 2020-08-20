@@ -19,15 +19,13 @@ public class ScheduleChart<X,Y> extends XYChart<X,Y> {
 
     public static class ExtraData {
 
-// Everything to do with styleClass has been disabled for now. Remove "//disabled" to enable (also change the constructor signature)
         public long length;
-//disabled        public String styleClass;
+        public String styleClass;
 
-//disabled        public ExtraData(int taskTime, String styleClass) {
-            public ExtraData(int taskTime) {
+        public ExtraData(int taskTime, String styleClass) {
             super();
             this.length = taskTime;
-//disabled            this.styleClass = styleClass;
+            this.styleClass = styleClass;
         }
         public long getLength() {
             return length;
@@ -35,12 +33,12 @@ public class ScheduleChart<X,Y> extends XYChart<X,Y> {
         public void setLength(long length) {
             this.length = length;
         }
-//disabled        public String getStyleClass() {
-//disabled            return styleClass;
-//disabled        }
-//disabled        public void setStyleClass(String styleClass) {
-//disabled            this.styleClass = styleClass;
-//disabled        }
+        public String getStyleClass() {
+            return styleClass;
+        }
+        public void setStyleClass(String styleClass) {
+            this.styleClass = styleClass;
+        }
 
     }
 
@@ -58,9 +56,9 @@ public class ScheduleChart<X,Y> extends XYChart<X,Y> {
         setData(data);
     }
 
-//disabled    private static String getStyleClass( Object obj) {
-//disabled        return ((ExtraData) obj).getStyleClass();
-//disabled    }
+    private static String getStyleClass( Object obj) {
+        return ((ExtraData) obj).getStyleClass();
+    }
 
     private static double getLength( Object obj) {
         return ((ExtraData) obj).getLength();
@@ -162,7 +160,7 @@ public class ScheduleChart<X,Y> extends XYChart<X,Y> {
             item.setNode(container);
         }
 
-//disabled        container.getStyleClass().add( getStyleClass( item.getExtraValue()));
+        container.getStyleClass().add( getStyleClass( item.getExtraValue()));
 
         return container;
     }

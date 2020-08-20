@@ -245,6 +245,9 @@ public class VisualisationController implements Initializable {
         _bestScheduleChart = new ScheduleChart<Number, String>(xAxis, yAxis);
         _bestScheduleParent.getChildren().add(_bestScheduleChart);
         _currentScheduleParent.getChildren().add(_currentScheduleChart);
+
+        // Setting up the stylesheet for the charts
+        _bestScheduleChart.getStylesheets().add(getClass().getResource("scheduleChart.css").toExternalForm());
     }
 
     //todo make sure that the following case related to this method is handled: When the scheduler has not found a
@@ -281,7 +284,7 @@ public class VisualisationController implements Initializable {
             // Populating the best schedule chart
             int taskProcessorBest = bestProcessorMap.get(task.getName());
             int taskStartTimeBest = bestStartTimeMap.get(task.getName());
-            XYChart.Data taskDataBest = new XYChart.Data(taskStartTimeBest, "Processor ".concat(Integer.toString(taskProcessorBest)), new ExtraData(taskTime));
+            XYChart.Data taskDataBest = new XYChart.Data(taskStartTimeBest, "Processor ".concat(Integer.toString(taskProcessorBest)), new ExtraData(taskTime, "status-red"));
             // -1 has been used below because the seriesArray is 0 indexed whereas the processor numbers are 1 indexed
             seriesArrayBest[taskProcessorBest - 1].getData().add(taskDataBest);
         }
