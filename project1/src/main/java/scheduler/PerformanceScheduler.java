@@ -22,7 +22,7 @@ import java.util.LinkedList;
  * -    Less Classes - There is no Processor or TaskNode class, favouring performance over OOP.
  *
  */
-public class ReducedStateScheduler implements Scheduler {
+public class PerformanceScheduler implements Scheduler {
     public static final int NO_SOLUTION = -1;
 
     private int numTasks, numProcessors;
@@ -36,7 +36,7 @@ public class ReducedStateScheduler implements Scheduler {
     private HashMap<String, Integer> bestStartTimeMap, bestProcessorMap;
 
 
-    public ReducedStateScheduler(TaskGraph taskGraph, int processors) {
+    public PerformanceScheduler(TaskGraph taskGraph, int processors) {
         numTasks = taskGraph.getTasks().size();
         numProcessors = processors;
         input = taskGraph;
@@ -168,7 +168,7 @@ public class ReducedStateScheduler implements Scheduler {
 
             // By here, we have a State that has those 'on' tasks at start time = 0.
             // The state is passed to DFS and DFS handles the rest of the searching.
-            DFS dfs = new DFS(state);
+            DFS dfs = getDFS(state);
             dfs.run();
             return;
         }
@@ -179,6 +179,10 @@ public class ReducedStateScheduler implements Scheduler {
         }
         // Tries to place the current bit as 'off'.
         dfsCaller(ind+1, bitmask);
+    }
+
+    protected DFS getDFS(State state) {
+        return new DFS(state);
     }
 
     @Override
@@ -255,17 +259,18 @@ public class ReducedStateScheduler implements Scheduler {
          * If at any stage, the current state's endTime exceeds the bound, DFS will "prune" and the current
          * run() will return.
          */
-        private void run() {
-            totalStates++;
-            activeBranches++;
+        protected final void run() {
+            onDFSEntry();
 
             // Prune
-            if (bound != NO_SOLUTION && state.endTime >= bound) return;
+            if (bound != NO_SOLUTION && state.endTime >= bound) {
+                onDFSExit();
+                return;
+            }
 
             // If current state is complete
             if (state.unassignedTasks == 0) {
-                completeStates++;
-
+                onCompleteSchedule();
                 // Update startTime/processor maps
                 if (bestStartTimeMap == null) bestStartTimeMap = new HashMap<>();
                 if (bestProcessorMap == null) bestProcessorMap = new HashMap<>();
@@ -276,9 +281,8 @@ public class ReducedStateScheduler implements Scheduler {
                     bestProcessorMap.put(task.getName(), state.assignedProcessorId[i] + 1); // 1-indexed
                 }
 
-                // Update bound
-                if (bound == NO_SOLUTION) bound = state.endTime;
-                else bound = Math.min(bound, state.endTime);
+                updateBound();
+                onDFSExit();
                 return;
             }
 
@@ -307,7 +311,10 @@ public class ReducedStateScheduler implements Scheduler {
                 // For each processor,
                 for (int processor = 0; processor < state.numProcessors; processor++) {
                     // Prune
-                    if (bound != NO_SOLUTION && state.endTime >= bound) return;
+                    if (bound != NO_SOLUTION && state.endTime >= bound) {
+                        onDFSExit();
+                        return;
+                    }
 
                     // Find the earliest time that task can be placed on processor.
                     // For each of its dependencies, make sure that there is enough delay.
@@ -351,7 +358,24 @@ public class ReducedStateScheduler implements Scheduler {
 
             }
 
-            activeBranches--;
+            onDFSExit();
+        }
+
+        protected void onDFSEntry() {
+            // when not collecting data, this should be nothing
+        }
+
+        protected void onDFSExit() {
+            // when not collecting data, this should be nothing
+        }
+
+        protected void onCompleteSchedule() {
+            // when not collecting data, this should be nothing
+        }
+
+        protected void updateBound() {
+            if (bound == NO_SOLUTION) bound = state.endTime;
+            else bound = Math.min(bound, state.endTime);
         }
     }
 }

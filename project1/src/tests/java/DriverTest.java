@@ -46,7 +46,7 @@ public class DriverTest {
 
     @Test
     public void singleFileRuntime() {
-        String filename = "dots/N11-M1.dot";
+        String filename = "dots/N9-M1.dot";
         String numProcessors = "3";
 
         String[] input = {filename, numProcessors};
