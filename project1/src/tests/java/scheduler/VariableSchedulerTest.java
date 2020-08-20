@@ -13,34 +13,27 @@ import static org.junit.Assert.*;
 public class VariableSchedulerTest {
 
     @Test
-    public void runSingleFile() {
-        System.out.println(runTest("N11-M3.dot", 57));
-    }
+    public void runSingleFile() throws FileNotFoundException, DotIOException {
+        String testName = "N11-M1.dot";
+        int expectedResult = 54;
 
-    long runTest(String testName, int answer) {
-        try {
-            TaskGraph tg = DotIO.read(System.getProperty("user.dir") + "/dots/" + testName);
-            long totalTime = 0;
-            long tests = 5;
-            for (int i = 0; i < tests; i++) {
-                Scheduler sc = new VariableScheduler(tg, 3, true);
-                long executionTime = measureExecutionTime(sc);
-                totalTime += executionTime;
-                System.out.println("Time: " + executionTime);
-
-                int bound = sc.getInformationHolder().getCurrentBound();
-                assertEquals(answer, bound);
+        TaskGraph tg = DotIO.read(System.getProperty("user.dir") + "/dots/" + testName);
+        // Statistics, Processors
+        for (boolean stats = false; ; stats = true) {
+            for (int threads = 3; threads >= 1; threads--) {
+                long totalTime = 0;
+                for (int tests = 0; tests < 3; tests++) {
+                    Scheduler sc = new VariableScheduler(tg, 3, stats, threads);
+                    totalTime += measureExecutionTime(sc);
+                    assertEquals(sc.getInformationHolder().getCurrentBound(), expectedResult);
+                }
+                System.out.println(testName + ". Stats: " + stats + ", threads: " + threads + ". Time: " + totalTime/3);
             }
 
-            return totalTime / tests;
-
-        } catch (DotIOException e) {
-            e.printStackTrace();
-            fail();
-        } catch (FileNotFoundException e) {
-            fail();
+            if (stats == true) break;
         }
-        return -1;
+
+
     }
 
     private long measureExecutionTime(Scheduler sc) {

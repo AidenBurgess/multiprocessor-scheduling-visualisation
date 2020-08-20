@@ -43,20 +43,12 @@ public class VariableScheduler implements Scheduler {
         initializeDataStructures();
     }
 
-    public VariableScheduler(TaskGraph taskGraph, int numProcessors, boolean recordStatistics) {
-        this(taskGraph, numProcessors);
-
-        // Determine which implementations
-        statisticToggle = recordStatistics ? new YesStatisticToggle() : new NoStatisticToggle();
-        dfsExecutor = new NormalDFSExecutor();
-    }
-
     public VariableScheduler(TaskGraph taskGraph, int numProcessors, boolean recordStatistics, int numThreads) {
         this(taskGraph, numProcessors);
 
         // Determine which implementations
         statisticToggle = recordStatistics ? new YesStatisticToggle() : new NoStatisticToggle();
-        dfsExecutor = new ParallelDFSExecutor(numThreads);
+        dfsExecutor = numThreads == 1 ? new NormalDFSExecutor() : new ParallelDFSExecutor(numThreads);
     }
 
     private void initializeDataStructures() {

@@ -29,6 +29,5 @@ public class ParallelDFSExecutor implements DFSExecutor {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("Pool closed");
     }
 }

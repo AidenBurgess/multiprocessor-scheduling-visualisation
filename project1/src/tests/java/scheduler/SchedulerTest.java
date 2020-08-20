@@ -20,7 +20,7 @@ public class SchedulerTest {
             assertEquals(4, tg.getTasks().size());
             assertEquals(4, tg.getDependencies().size());
 
-            Scheduler sc = new VariableScheduler(tg, 3, false);
+            Scheduler sc = new VariableScheduler(tg, 3, false, 1);
             sc.execute();
 
             HashMap<String, Integer> startTimeMap = null; // = sc.getBestStartTimeMap();
