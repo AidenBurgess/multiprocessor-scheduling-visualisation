@@ -286,7 +286,7 @@ public class VisualisationController implements Initializable {
             // Populating the best schedule chart
             int taskProcessorBest = bestProcessorMap.get(task.getName());
             int taskStartTimeBest = bestStartTimeMap.get(task.getName());
-            XYChart.Data taskDataBest = new XYChart.Data(taskStartTimeBest, "Processor ".concat(Integer.toString(taskProcessorBest)), new ExtraData(taskTime, "status-red"));
+            XYChart.Data taskDataBest = new XYChart.Data(taskStartTimeBest, "Processor ".concat(Integer.toString(taskProcessorBest)), new ExtraData(taskTime, "task"));
             // -1 has been used below because the seriesArray is 0 indexed whereas the processor numbers are 1 indexed
             seriesArrayBest[taskProcessorBest - 1].getData().add(taskDataBest);
         }
