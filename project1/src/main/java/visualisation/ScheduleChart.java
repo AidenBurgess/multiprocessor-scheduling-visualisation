@@ -19,13 +19,12 @@ public class ScheduleChart<X,Y> extends XYChart<X,Y> {
 
     public static class ExtraData {
 
-
         public long length;
         public String styleClass;
 
-        public ExtraData(long lengthMs, String styleClass) {
+        public ExtraData(int taskTime, String styleClass) {
             super();
-            this.length = lengthMs;
+            this.length = taskTime;
             this.styleClass = styleClass;
         }
         public long getLength() {

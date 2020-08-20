@@ -27,7 +27,7 @@ public class ReducedStateScheduler implements Scheduler {
 
     private int numTasks, numProcessors;
     private int bound = NO_SOLUTION; // The current best solution.
-    private int totalStates = 0, completeStates = 0, activeBranches = 0;
+    private long totalStates = 0, completeStates = 0, activeBranches = 0;
     private TaskGraph input;
 
     private int[] topologicalOrder;
@@ -211,7 +211,7 @@ public class ReducedStateScheduler implements Scheduler {
 
     @Override
     public int getActiveBranches() {
-        return activeBranches;
+        return (int)activeBranches;
     }
 
     /**
