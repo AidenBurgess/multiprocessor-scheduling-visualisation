@@ -38,7 +38,7 @@ public class VariableScheduler implements Scheduler {
     InformationHolder informationHolder;
 
     public VariableScheduler(TaskGraph taskGraph, int processors, boolean recordStatistics, boolean isParallelised) {
-        informationHolder = new InformationHolder();
+        informationHolder = new InformationHolder(taskGraph);
         numTasks = taskGraph.getTasks().size();
         numProcessors = processors;
         input = taskGraph;
@@ -176,7 +176,7 @@ public class VariableScheduler implements Scheduler {
             // By here, we have a State that has those 'on' tasks at start time = 0.
             // The state is passed to DFS and DFS handles the rest of the searching.
 
-            dfsExecutor.runDFS(statisticToggle.getDFS(state, bound, revAdjList, taskTimes));
+            dfsExecutor.runDFS(statisticToggle.getDFS(state, bound, revAdjList, taskTimes, informationHolder));
             return;
         }
 

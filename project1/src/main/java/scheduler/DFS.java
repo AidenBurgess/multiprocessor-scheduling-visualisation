@@ -15,23 +15,22 @@ import java.util.HashMap;
  * only instantiated within a ReducedStateScheduler context.
  */
 
-public class DFS {
+public abstract class DFS {
         int numTasks;
         State state;
         Bound bound;
         ArrayList<ArrayList<Pair<Integer, Integer>>>  revAdjList;
         ArrayList<Integer> taskTimes;
+        InformationHolder informationHolder;
 
-        /*
-        revadjlist
-         */
 
-        public DFS(State state, Bound bound, ArrayList<ArrayList<Pair<Integer, Integer>>> revAdjList, ArrayList<Integer> taskTimes) {
+        public DFS(State state, Bound bound, ArrayList<ArrayList<Pair<Integer, Integer>>> revAdjList, ArrayList<Integer> taskTimes, InformationHolder informationHolder) {
             this.state = state;
             this.bound = bound;
             this.revAdjList = revAdjList;
             this.taskTimes = taskTimes;
-            this.numTasks = revAdjList.size();
+            this.numTasks = state.numTasks;
+            this.informationHolder = informationHolder;
         }
 
         /**
@@ -64,11 +63,13 @@ public class DFS {
 
             // If current state is complete
             if (state.unassignedTasks == 0) {
-                onCompleteSchedule();
+
                 // Update startTime/processor maps
 
 
                 bound.reduceBound(state.endTime);
+
+                onCompleteSchedule();
                 onDFSExit();
                 return;
             }
@@ -148,15 +149,9 @@ public class DFS {
             onDFSExit();
         }
 
-        protected void onDFSEntry() {
-            // when not collecting data, this should be nothing
-        }
+        protected abstract void onDFSEntry();
 
-        protected void onDFSExit() {
-            // when not collecting data, this should be nothing
-        }
+        protected abstract void onDFSExit();
 
-        protected void onCompleteSchedule() {
-            // when not collecting data, this should be nothing
-        }
+        protected abstract void onCompleteSchedule();
 }
