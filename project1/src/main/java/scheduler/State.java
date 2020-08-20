@@ -4,7 +4,7 @@ package main.java.scheduler;
  * The State class holds information that defines an allocation of tasks on processors.
  */
 public class State {
-    public static final int UNSCHEDULED = -1;
+    protected static final int UNSCHEDULED = -1;
     protected final int numTasks, numProcessors;
 
 

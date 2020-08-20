@@ -24,7 +24,7 @@ public class Driver {
         TaskGraph taskGraph = readTaskGraph(config);
 
         // create a scheduler with the number of processors
-        Scheduler scheduler = new VariableScheduler(taskGraph, config.getNumProcessors(), false, false); // Here is different - a Statistics Scheduler
+        Scheduler scheduler = new VariableScheduler(taskGraph, config.getNumProcessors(), false); // Here is different - a Statistics Scheduler
 
         // Uncomment this to force visualisation on
         // config.hasVisualisation = true;

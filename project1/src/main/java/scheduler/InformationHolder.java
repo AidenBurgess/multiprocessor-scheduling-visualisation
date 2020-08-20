@@ -5,23 +5,28 @@ import main.java.dotio.TaskGraph;
 
 import java.util.HashMap;
 
+/**
+ * Provides a way for other classes to access the Scheduler's information.
+ * Acts as a middle-ground. Scheduler class will update this holder's information, and external classes
+ * can retrieve information from this holder.
+ *
+ * Responsible for managing thread-safety if relevant.
+ *
+ */
 public class InformationHolder {
     int activeBranches = 0;
     int totalStates = 0;
     int completeSchedules = 0;
+    int currentBound = 0;
     TaskGraph taskGraph;
-    boolean bestMapsAreGood = false;
-    HashMap<String, Integer> bestStartTimeMap = null, bestProcessorMap = null;
+    State currentState, bestState;
 
     public InformationHolder(TaskGraph taskGraph) {
         this.taskGraph = taskGraph;
     }
 
-    State currentState, bestState;
-
     public void incrementActiveBranches() {
         activeBranches++;
-        if (activeBranches % 3 == 0) System.out.println(activeBranches);
     }
 
     public void incrementTotalStates() {
@@ -30,40 +35,39 @@ public class InformationHolder {
 
     public void decrementActiveBranches() {
         activeBranches--;
-        if (activeBranches % 3 == 0) System.out.println(activeBranches);
     }
 
     public void incrementCompleteSchedule() {
         completeSchedules++;
     }
 
+    public void setCurrentBound(int bound) {
+        currentBound = bound;
+    }
+
+    public int getCurrentBound() {
+        return currentBound;
+    }
 
     public void setBestState(State state) {
-        bestMapsAreGood = false;
         bestState = state;
     }
 
-    private void setBestMaps() {
-        if (!bestMapsAreGood) {
-            if (bestStartTimeMap == null) bestStartTimeMap = new HashMap<>();
-            if (bestProcessorMap == null) bestProcessorMap = new HashMap<>();
-
-            for (int i = 0; i < bestState.numTasks; i++) {
-                Task task = taskGraph.getTasks().get(i);
-                bestStartTimeMap.put(task.getName(), bestState.taskEndTime[i] - task.getTaskTime());
-                bestProcessorMap.put(task.getName(), bestState.assignedProcessorId[i]);
-            }
-        }
-        bestMapsAreGood = true;
-    }
-
     public HashMap<String, Integer> getBestStartTimeMap() {
-        setBestMaps();
+        HashMap<String, Integer> bestStartTimeMap = new HashMap<>();
+        for (int i = 0; i < bestState.numTasks; i++) {
+            Task task = taskGraph.getTasks().get(i);
+            bestStartTimeMap.put(task.getName(), bestState.taskEndTime[i] - task.getTaskTime());
+        }
         return bestStartTimeMap;
     }
 
     public HashMap<String, Integer> getBestProcessorMap() {
-        setBestMaps();
+        HashMap<String, Integer> bestProcessorMap = new HashMap<>();
+        for (int i = 0; i < bestState.numTasks; i++) {
+            Task task = taskGraph.getTasks().get(i);
+            bestProcessorMap.put(task.getName(), bestState.assignedProcessorId[i]);
+        }
         return bestProcessorMap;
     }
 }

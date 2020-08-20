@@ -2,7 +2,6 @@ package main.java.scheduler;
 
 import javafx.util.Pair;
 import main.java.dotio.Dependency;
-import main.java.dotio.Task;
 import main.java.dotio.TaskGraph;
 
 import java.util.ArrayList;
@@ -23,26 +22,44 @@ import java.util.LinkedList;
  *
  */
 public class VariableScheduler implements Scheduler {
-    public static final int NO_SOLUTION = -1;
-
-    private int numTasks, numProcessors;
-    protected Bound bound = new Bound();
-    private TaskGraph input;
+    private final int numTasks, numProcessors;
+    private final Bound bound = new Bound();
+    private final TaskGraph taskGraph;
 
     private int[] topologicalOrder;
     private ArrayList<ArrayList<Pair<Integer,Integer>>> adjList, revAdjList;
-    private ArrayList<Integer> taskTimes = new ArrayList<>();
+    private final ArrayList<Integer> taskTimes = new ArrayList<>();
 
-    private DFSExecutor dfsExecutor = new NormalDFSExecutor();
-    private StatisticToggle statisticToggle = new NoStatisticToggle();
-    InformationHolder informationHolder;
+    private DFSExecutor dfsExecutor;
+    private StatisticToggle statisticToggle;
+    private final InformationHolder informationHolder;
 
-    public VariableScheduler(TaskGraph taskGraph, int processors, boolean recordStatistics, boolean isParallelised) {
+    private VariableScheduler(TaskGraph taskGraph, int numProcessors) {
         informationHolder = new InformationHolder(taskGraph);
         numTasks = taskGraph.getTasks().size();
-        numProcessors = processors;
-        input = taskGraph;
+        this.numProcessors = numProcessors;
+        this.taskGraph = taskGraph;
 
+        initializeDataStructures();
+    }
+
+    public VariableScheduler(TaskGraph taskGraph, int numProcessors, boolean recordStatistics) {
+        this(taskGraph, numProcessors);
+
+        // Determine which implementations
+        statisticToggle = recordStatistics ? new YesStatisticToggle() : new NoStatisticToggle();
+        dfsExecutor = new NormalDFSExecutor();
+    }
+
+    public VariableScheduler(TaskGraph taskGraph, int numProcessors, boolean recordStatistics, int numThreads) {
+        this(taskGraph, numProcessors);
+
+        // Determine which implementations
+        statisticToggle = recordStatistics ? new YesStatisticToggle() : new NoStatisticToggle();
+        dfsExecutor = new ParallelDFSExecutor(numThreads);
+    }
+
+    private void initializeDataStructures() {
         // Mapping each Task object to an integer id. 0-indexed.
         HashMap<String, Integer> taskNameToIdMap = new HashMap<>();
         for (int i = 0; i < taskGraph.getTasks().size(); i++) {
@@ -117,6 +134,7 @@ public class VariableScheduler implements Scheduler {
     @Override
     public void execute() {
         dfsCaller(0, 0);
+        dfsExecutor.finish(); // This is called to let the executor clean up
     }
 
     /**
@@ -162,7 +180,7 @@ public class VariableScheduler implements Scheduler {
                 // If the bit is on,
                 if ((bitmask & (1 << task)) != 0) {
                     // Add it to the current state by updating:
-                    int endTime = input.getTasks().get(task).getTaskTime();
+                    int endTime = taskGraph.getTasks().get(task).getTaskTime();
                     state.processorEndTime[processor] = endTime; // processor end time
                     state.taskEndTime[task] = endTime; // task end time
                     state.unassignedTasks--; // number of tasks
