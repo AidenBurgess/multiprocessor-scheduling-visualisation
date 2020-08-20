@@ -38,10 +38,25 @@ AreaChart {
     -fx-background-color: #565656
 }
 
-.axis:bottom .axis-label .text {
+.axis:bottom .axis-label .text,
+.axis:left .axis-label .text {
     -fx-fill: white;
 }
 
-.axis:left .axis-label .text {
-    -fx-fill: white;
+#RAMParent .chart-series-area-fill {
+    -fx-fill: green;
+    -fx-opacity: 30%;
+}
+
+#RAMParent .chart-series-area-line {
+    -fx-stroke: green;
+}
+
+#RAMParent .chart-area-symbol {
+    -fx-background-color: green, white;
+}
+
+.chart-vertical-grid-lines,
+.chart-horizontal-grid-lines {
+    -fx-stroke: #565656;
 }
