@@ -218,6 +218,7 @@ public class VisualisationController implements Initializable {
                         addRAMChartData();
                         if (i++ == 5) {
                             updateScheduleChart();
+                            i = 0;
                         }
                     }
                 });
@@ -258,6 +259,7 @@ public class VisualisationController implements Initializable {
         HashMap<String, Integer> bestProcessorMap = _sc.getBestProcessorMap();
         HashMap<String, Integer> currentStartTimeMap = _sc.getCurrentStartTimeMap();
         HashMap<String, Integer> bestStartTimeMap = _sc.getBestStartTimeMap();
+
 
         // Create Series objects. Each object will act as a row in the respective chart
         Series[] seriesArrayCurrent = new Series[_numProcessors];
