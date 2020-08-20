@@ -200,12 +200,12 @@ public class ReducedStateScheduler implements Scheduler {
     }
 
     @Override
-    public int getTotalStatesVisited() {
+    public long getTotalStatesVisited() {
         return totalStates;
     }
 
     @Override
-    public int getCompleteStatesVisited() {
+    public long getCompleteStatesVisited() {
         return completeStates;
     }
 

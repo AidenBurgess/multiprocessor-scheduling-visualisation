@@ -1,0 +1,47 @@
+.root {
+    -fx-background-color: #121212 !important;
+}
+
+#titleBackground {
+    -fx-background-color: #272727;
+}
+
+Text {
+    -fx-fill: white;
+}
+
+.root VBox {
+    -fx-background-color: #121212;
+}
+
+HBox {
+    -fx-background-color: #272727;
+}
+
+AreaChart {
+    -fx-background-color: #272727;
+}
+
+.chart {
+    -fx-background-color: #121212;
+}
+
+.chart-plot-background {
+    -fx-background-color: #272727;
+}
+
+.chart .chart-title .text {
+    -fx-fill: white;
+}
+
+.split-pane:horizontal .split-pane-divider {
+    -fx-background-color: #565656
+}
+
+.axis:bottom .axis-label .text {
+    -fx-fill: white;
+}
+
+.axis:left .axis-label .text {
+    -fx-fill: white;
+}
