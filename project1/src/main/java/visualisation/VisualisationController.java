@@ -210,12 +210,15 @@ public class VisualisationController implements Initializable {
 
                 // queue tasks on the other thread
                 Platform.runLater(new Runnable() {
+                    int i = 0;
                     @Override
                     public void run() {
 //                        CPUSeries.getData().add(new XYChart.Data<>(Integer.toString(i++),10));
                         addCPUChartData();
                         addRAMChartData();
-                        updateScheduleChart();
+                        if (i++ == 5) {
+                            updateScheduleChart();
+                        }
                     }
                 });
             }
