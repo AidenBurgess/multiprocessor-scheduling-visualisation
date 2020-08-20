@@ -216,10 +216,11 @@ public class VisualisationController implements Initializable {
 //                        CPUSeries.getData().add(new XYChart.Data<>(Integer.toString(i++),10));
                         addCPUChartData();
                         addRAMChartData();
-                        if (i++ == 5) {
-                            updateScheduleChart();
-                            i = 0;
-                        }
+                        updateScheduleChart();
+//                        if (i++ == 5) {
+//
+//                            i = 0;
+//                        }
                     }
                 });
             }
