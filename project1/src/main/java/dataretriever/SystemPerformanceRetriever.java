@@ -17,7 +17,7 @@ public class SystemPerformanceRetriever {
     }
 
     /**
-     * @return long representing the RAM usage in bytes
+     * @return double representing the RAM usage in gigabytes
      */
     public double getRAMUsageGigaBytes() {
         return ((totalRAM - statsRetriever.getFreePhysicalMemorySize()) / (double)1e9);
