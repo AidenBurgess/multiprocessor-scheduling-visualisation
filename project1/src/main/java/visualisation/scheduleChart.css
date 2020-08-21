@@ -10,3 +10,7 @@
 .axis:left .axis-label .text {
     -fx-fill: yellow;
 }
+
+.chart {
+    -fx-legend-visible: false;
+}
