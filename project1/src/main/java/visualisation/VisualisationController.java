@@ -70,6 +70,9 @@ public class VisualisationController implements Initializable {
     private Text timeElapsedFigure;
 
     @FXML
+    private Text activeBranchFigure;
+
+    @FXML
     private Text visitedStatesFigure;
 
     @FXML
@@ -163,7 +166,7 @@ public class VisualisationController implements Initializable {
     private void addRAMChartData() {
 
         // get the machine's CPU Usage data
-        double RAMUsageInBytes = _performanceRetriever.getRAMUsageBytes();
+        double RAMUsageInBytes = _performanceRetriever.getRAMUsageGigaBytes();
 
         _RAMSeries.getData().add(new XYChart.Data(Integer.toString(_seconds), RAMUsageInBytes));
     }
