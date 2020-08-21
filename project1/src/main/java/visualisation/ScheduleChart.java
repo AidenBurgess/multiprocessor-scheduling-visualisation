@@ -15,6 +15,12 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * Source code credit to 'Roland' from StackOverflow. Link: https://stackoverflow.com/questions/27975898/gantt-chart-from-scratch
+ * The source code was slightly modified to match the requirements of our application.
+ * Original class name: GanttChart
+ * Modified class name: ScheduleChart
+ */
 public class ScheduleChart<X,Y> extends XYChart<X,Y> {
 
     public static class ExtraData {
