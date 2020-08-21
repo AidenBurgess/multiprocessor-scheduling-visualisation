@@ -52,7 +52,8 @@ public class AdaptedDotListener extends DOTBaseListener {
     @Override
     public void exitEdge_stmt(DOTParser.Edge_stmtContext ctx) {
         if (ctx.edgeRHS().node_id().size() != 1) {
-            //Skip this edge, maybe throw exception?
+            //If an edge involves more than 2 nodes,
+            throw new DotIOException("Can only accept edges between 2 nodes.");
         } else {
             DOTParser.Node_idContext nodeList = ctx.node_id();
             String src = ctx.node_id().id().getText();
@@ -68,11 +69,15 @@ public class AdaptedDotListener extends DOTBaseListener {
      * @return The weight of the graph element, parsed to an integer.
      */
     private int getWeightFromAttrList(DOTParser.Attr_listContext ctx) {
-        for (DOTParser.A_listContext attr : ctx.a_list()) {
-            if (attr.id(0).getText().equalsIgnoreCase("WEIGHT")) {
-                return Integer.parseInt(attr.id(1).getText());
+        try {
+            for (DOTParser.A_listContext attr : ctx.a_list()) {
+                if (attr.id(0).getText().equalsIgnoreCase("WEIGHT")) {
+                    return Integer.parseInt(attr.id(1).getText());
+                }
             }
+        } catch (NullPointerException e) {
+            throw new DotIOException("Found node/edge with no attributes.");
         }
-        return -1;
+        throw new DotIOException("Found node/edge without a specified weight attribute.");
     }
 }

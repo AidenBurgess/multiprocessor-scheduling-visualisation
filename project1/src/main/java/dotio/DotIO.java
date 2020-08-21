@@ -37,18 +37,17 @@ public class DotIO {
      * @param inputFile The name of the file to be read.
      * @return The TaskGraph object
      * @throws DotIOException If there is an issue with reading the file, or an issue with the .dot syntax of the file.
-     * @throws FileNotFoundException If the given file is... not found...
      */
-    public static TaskGraph read(String inputFile) throws DotIOException, FileNotFoundException {
+    public static TaskGraph read(String inputFile) throws DotIOException {
         TaskGraph graph = new TaskGraph();
         try {
-
+            //Instantiate ANTLR lexer and parser, and parse through file with adapted dot listener.
             DOTLexer lexer = new DOTLexer(new ANTLRInputStream(new FileInputStream(inputFile)));
             DOTParser parser = new DOTParser(new CommonTokenStream(lexer));
             ParseTree tree = parser.graph();
             ParseTreeWalker.DEFAULT.walk(new AdaptedDotListener(graph), tree);
         } catch (IOException e) {
-            throw new DotIOException("Java IO error when reading input file.");
+            throw new DotIOException("Ensure that the file \"" + inputFile + "\" exists and is a valid text file.");
         }
         return graph;
     }

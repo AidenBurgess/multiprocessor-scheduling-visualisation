@@ -32,9 +32,7 @@ public class DotIOTest {
             assertEquals(expectedTaskNo, tg.getTasks().size());
             assertEquals(expectedDependencyNo, tg.getDependencies().size());
         } catch (DotIOException e) {
-            fail("Failed to read syntax: " + e.getMessage());
-        } catch (FileNotFoundException e) {
-            fail("Failed to locate file");
+            fail("Error: " + e.getMessage());
         }
     }
 
@@ -91,6 +89,22 @@ public class DotIOTest {
                 11,
                 10
         );
+    }
+
+    @Test
+    public void testNoWeightSpecified() {
+        try {
+            TaskGraph tg = DotIO.read(testDir + "noWeightInput.dot");
+            fail();
+        } catch (DotIOException e) {}
+    }
+
+    @Test
+    public void testIllegalEdge() {
+        try {
+            TaskGraph tg = DotIO.read(testDir + "illegalEdgeInput.dot");
+            fail();
+        } catch (DotIOException e) {}
     }
 
     @Rule

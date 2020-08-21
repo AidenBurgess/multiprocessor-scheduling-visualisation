@@ -33,8 +33,6 @@ public class SchedulerTest {
 
         } catch (DotIOException e) {
             fail();
-        } catch (FileNotFoundException e) {
-            fail();
         }
     }
 

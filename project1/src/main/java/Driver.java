@@ -50,9 +50,6 @@ public class Driver {
         TaskGraph taskGraph = null;
         try {
             taskGraph = DotIO.read(config.getInputFileName());
-        } catch (FileNotFoundException e) {
-            System.err.println("Error: File " + config.getInputFileName() + " does not exist");
-            System.exit(1);
         } catch (DotIOException e) {
             System.err.println("Error with dot syntax of input file: " + e.getMessage());
             System.exit(1);
