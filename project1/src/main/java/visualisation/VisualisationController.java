@@ -245,6 +245,7 @@ public class VisualisationController implements Initializable {
         // Setting up the Schedule chart object and their parents (containers)
         _currentScheduleChart = new ScheduleChart<Number, String>(xAxis, yAxis);
         _bestScheduleChart = new ScheduleChart<Number, String>(xAxis, yAxis);
+        _bestScheduleChart.setBlockHeight(200/_numProcessors);
 
 
         _bestScheduleParent.getChildren().add(_bestScheduleChart);
