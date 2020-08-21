@@ -3,6 +3,8 @@ package tests.java;
 import main.java.Driver;
 import org.junit.Test;
 
+import java.util.Collections;
+
 public class DriverTest {
 
     @Test
@@ -24,7 +26,7 @@ public class DriverTest {
             System.out.format("%10d", i);
         }
         System.out.println();
-        System.out.println("-".repeat(16+10*maxProcessors));
+        System.out.println(String.join("", Collections.nCopies(16+10*maxProcessors, "-")));
 
         for (int N = 1; N < maxTasks+1; N++) {
             int maxDependencies = (N*(N-1))/2 + 1;
