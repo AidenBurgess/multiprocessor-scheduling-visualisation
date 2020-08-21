@@ -57,7 +57,15 @@
                                                 <Font size="24.0" />
                                              </font>
                                              <VBox.margin>
-                                                <Insets bottom="30.0" left="10.0" top="30.0" />
+                                                <Insets bottom="15.0" left="10.0" top="30.0" />
+                                             </VBox.margin>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Active Branches">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets bottom="15.0" left="10.0" top="15.0" />
                                              </VBox.margin>
                                           </Text>
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Visited States">
@@ -65,7 +73,7 @@
                                                 <Font size="24.0" />
                                              </font>
                                              <VBox.margin>
-                                                <Insets bottom="30.0" left="10.0" top="30.0" />
+                                                <Insets bottom="15.0" left="10.0" top="15.0" />
                                              </VBox.margin>
                                           </Text>
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Completed Schedules">
@@ -73,7 +81,7 @@
                                                 <Font size="24.0" />
                                              </font>
                                              <VBox.margin>
-                                                <Insets bottom="30.0" left="10.0" top="30.0" />
+                                                <Insets bottom="30.0" left="10.0" top="15.0" />
                                              </VBox.margin>
                                           </Text>
                                        </children>
@@ -89,7 +97,15 @@
                                                 <Font size="24.0" />
                                              </font>
                                              <VBox.margin>
-                                                <Insets bottom="30.0" top="30.0" />
+                                                <Insets bottom="15.0" top="30.0" />
+                                             </VBox.margin>
+                                          </Text>
+                                          <Text fx:id="activeBranchesFigure" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets bottom="15.0" top="15.0" />
                                              </VBox.margin>
                                           </Text>
                                           <Text fx:id="visitedStatesFigure" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
@@ -97,7 +113,7 @@
                                                 <Font size="24.0" />
                                              </font>
                                              <VBox.margin>
-                                                <Insets bottom="30.0" top="30.0" />
+                                                <Insets bottom="15.0" top="15.0" />
                                              </VBox.margin>
                                           </Text>
                                           <Text fx:id="completedSchedulesFigure" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
@@ -105,7 +121,7 @@
                                                 <Font size="24.0" />
                                              </font>
                                              <VBox.margin>
-                                                <Insets bottom="30.0" top="30.0" />
+                                                <Insets bottom="30.0" top="15.0" />
                                              </VBox.margin>
                                           </Text>
                                        </children>

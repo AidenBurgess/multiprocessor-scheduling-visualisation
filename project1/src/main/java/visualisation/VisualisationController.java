@@ -70,6 +70,9 @@ public class VisualisationController implements Initializable {
     private Text timeElapsedFigure;
 
     @FXML
+    private Text activeBranchFigure;
+
+    @FXML
     private Text visitedStatesFigure;
 
     @FXML
