@@ -2,6 +2,7 @@
   <library name="javafx">
     <CLASSES>
       <root url="file://$PROJECT_DIR$/resources/javafx/lib" />
+      <root url="jar://$PROJECT_DIR$/resources/jfoenix-9.0.10.jar!/" />
     </CLASSES>
     <JAVADOC />
     <NATIVE>
