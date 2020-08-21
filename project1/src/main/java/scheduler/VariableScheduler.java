@@ -165,7 +165,7 @@ public class VariableScheduler implements Scheduler {
         // For example: bitmask = b1011 means that tasks 0, 1, and 3 are on.
         //              bitmask = b1100 means that tasks 2, and 3 are on.
         if (ind == numTasks) {
-            State state = new State(numTasks, Integer.bitCount(bitmask));
+            State state = new State(numTasks, numProcessors);
             int processor = 0;
             // For each bit,
             for (int task = 0; task < numTasks; task++) {
