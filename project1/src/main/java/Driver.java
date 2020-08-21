@@ -24,12 +24,12 @@ public class Driver {
         TaskGraph taskGraph = readTaskGraph(config);
 
         // create a scheduler with the number of processors
-        Scheduler scheduler = new VariableScheduler(taskGraph, config.getNumProcessors(), false, 1); // Here is different - a Statistics Scheduler
+        Scheduler scheduler = new VariableScheduler(taskGraph, config.getNumProcessors(), true, 1); // Here is different - a Statistics Scheduler
 
         // Uncomment this to force visualisation on
         // config.hasVisualisation = true;
         if (config.hasVisualisation()) {
-            startVisualisationThread(scheduler);
+            startVisualisationThread(scheduler.getInformationHolder(), taskGraph, config.getNumProcessors());
         }
 
         scheduler.execute(); // blocks until finished, can be queried by dashboardcontroller
@@ -38,9 +38,9 @@ public class Driver {
         writeDotFile(informationHolder, taskGraph, config);
     }
 
-    private static void startVisualisationThread(Scheduler scheduler) {
+    private static void startVisualisationThread(InformationHolder informationHolder, TaskGraph taskGraph, int numProcessors) {
         new Thread(() -> {
-            VisualisationDriver.main(scheduler);
+            VisualisationDriver.main(informationHolder, taskGraph, numProcessors);
         }).start();
     }
 

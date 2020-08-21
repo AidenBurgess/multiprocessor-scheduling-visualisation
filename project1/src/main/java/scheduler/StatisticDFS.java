@@ -16,6 +16,8 @@ public class StatisticDFS extends MinimalDFS {
     protected void onDFSEntry() {
         informationHolder.incrementActiveBranches();
         informationHolder.incrementTotalStates();
+
+//        informationHolder.setCurrentState(state.copy());
     }
 
     @Override
@@ -27,6 +29,7 @@ public class StatisticDFS extends MinimalDFS {
     protected void onCompleteSchedule() {
         super.onCompleteSchedule(); // this method updates the best state in the InformationHolder
 
-        informationHolder.incrementCompleteSchedule();
+        informationHolder.setCurrentState(state.copy());
+        informationHolder.incrementCompleteStates();
     }
 }
