@@ -15,7 +15,7 @@ Text {
 }
 
 HBox {
-    -fx-background-color: #272727;
+    -fx-background-color: #121212;
 }
 
 AreaChart {
@@ -35,7 +35,12 @@ AreaChart {
 }
 
 .split-pane:horizontal .split-pane-divider {
-    -fx-background-color: #565656
+    -fx-background-color: #121212;
+}
+
+.split-pane {
+    -fx-border-color: #121212;
+    -fx-background-color: #121212;
 }
 
 .axis:bottom .axis-label .text,
@@ -59,4 +64,9 @@ AreaChart {
 .chart-vertical-grid-lines,
 .chart-horizontal-grid-lines {
     -fx-stroke: #565656;
+}
+
+.jfx-button {
+
+    -fx-background-color: #565656;
 }
