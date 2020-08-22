@@ -1,53 +1,51 @@
 package main.java.scheduler;
 
 import javafx.util.Pair;
-import main.java.dotio.Task;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * The DFS class is responsible for executing the DFS.
- * The class holds the State, and on every 'branch', it adjusts State in-place.
+ * The class holds a state, and on every 'branch', it adjusts the state in-place.
  * -    In-place adjustment = O(1), much better than making a new copy of State
- * <p>
- * This class is nested in ReducedStateScheduler as it requires access to fields such as bound, and is
- * only instantiated within a ReducedStateScheduler context.
+ *
+ * The class has a copy of the revAdjList and taskTimes from the VariableScheduler to provide
+ * context to determine the next possible moves.
  */
 
 public abstract class DFS {
-    int numTasks;
-    State state;
-    Bound bound;
-    ArrayList<ArrayList<Pair<Integer, Integer>>> revAdjList;
-    ArrayList<Integer> taskTimes;
-    InformationHolder informationHolder;
+    private int _numTasks;
+    protected State _state;
+    protected Bound _bound;
+    private ArrayList<ArrayList<Pair<Integer, Integer>>> _revAdjList;
+    private ArrayList<Integer> _taskTimes;
+    protected InformationHolder _informationHolder;
 
     public DFS(State state, Bound bound, ArrayList<ArrayList<Pair<Integer, Integer>>> revAdjList, ArrayList<Integer> taskTimes, InformationHolder informationHolder) {
-        this.state = state;
-        this.bound = bound;
-        this.revAdjList = revAdjList;
-        this.taskTimes = taskTimes;
-        this.numTasks = state.numTasks;
-        this.informationHolder = informationHolder;
+        this._state = state;
+        this._bound = bound;
+        this._revAdjList = revAdjList;
+        this._taskTimes = taskTimes;
+        this._numTasks = _state._numTasks;
+        this._informationHolder = informationHolder;
     }
 
     /**
      * Performs DFS.
-     * <p>
+     *
      * If the current State is complete, it will update
      * -    bound,
      * -    bestProcessorMap,
      * -    bestStartTimeMap
      * in the ReducedStateScheduler.
-     * <p>
+     *
      * If the current state is not complete, it will try place each task on each processor, if legal.
      * The placement is legal if:
      * -    All the task's dependencies have been met
      * -    The task is not already assigned
      * On a successful placement, the current state is updated and run() is called. When run() finishes
      * executing, the state is restored.
-     * <p>
+     *
      * If at any stage, the current state's endTime exceeds the bound, DFS will "prune" and the current
      * run() will return.
      */
@@ -55,14 +53,14 @@ public abstract class DFS {
         onDFSEntry();
 
         // Prune
-        if (bound.canPrune(state.endTime)) {
+        if (_bound.canPrune(_state._endTime)) {
             onDFSExit();
             return;
         }
 
         // If current state is complete
-        if (state.unassignedTasks == 0) {
-            bound.reduceBound(state.endTime);
+        if (_state._unassignedTasks == 0) {
+            _bound.reduceBound(_state._endTime);
 
             onCompleteSchedule();
             onDFSExit();
@@ -70,19 +68,19 @@ public abstract class DFS {
         }
 
         // For each task,
-        for (int task = 0; task < numTasks; task++) {
+        for (int task = 0; task < _numTasks; task++) {
             // If the task is scheduled, ignore
-            if (state.assignedProcessorId[task] != State.UNSCHEDULED) continue;
+            if (_state._assignedProcessorId[task] != State.UNSCHEDULED) continue;
 
             // If the task still has unscheduled dependencies, ignore
             boolean dependenciesMet = true;
 
-            ArrayList<Pair<Integer, Integer>> revTask = revAdjList.get(task);
+            ArrayList<Pair<Integer, Integer>> revTask = _revAdjList.get(task);
             int numRevTasks = revTask.size();
             for (int i = 0; i < numRevTasks; i++) {
                 Pair<Integer, Integer> dependency = revTask.get(i);
                 int parent = dependency.getKey();
-                if (state.assignedProcessorId[parent] == State.UNSCHEDULED) {
+                if (_state._assignedProcessorId[parent] == State.UNSCHEDULED) {
                     dependenciesMet = false;
                     break;
                 }
@@ -90,51 +88,51 @@ public abstract class DFS {
             if (!dependenciesMet) continue;
 
             // For each processor,
-            for (int processor = 0; processor < state.numProcessors; processor++) {
+            for (int processor = 0; processor < _state._numProcessors; processor++) {
                 // Prune
-                if (bound.canPrune(state.endTime)) {
+                if (_bound.canPrune(_state._endTime)) {
                     onDFSExit();
                     return;
                 }
 
                 // Find the earliest time that task can be placed on processor.
                 // For each of its dependencies, make sure that there is enough delay.
-                int nextTaskStartTime = state.processorEndTime[processor];
+                int nextTaskStartTime = _state._processorEndTime[processor];
 
-                revTask = revAdjList.get(task);
+                revTask = _revAdjList.get(task);
                 numRevTasks = revTask.size();
                 for (int i = 0; i < numRevTasks; i++) {
                     Pair<Integer, Integer> dependency = revTask.get(i);
                     int parent = dependency.getKey();
                     int delay = dependency.getValue();
 
-                    if (state.assignedProcessorId[parent] == processor) continue;
+                    if (_state._assignedProcessorId[parent] == processor) continue;
 
                     // ensures that the start time is at least the parent's end time + delay IF the parent is on a different processor
-                    nextTaskStartTime = Math.max(nextTaskStartTime, state.taskEndTime[parent] + delay);
+                    nextTaskStartTime = Math.max(nextTaskStartTime, _state._taskEndTime[parent] + delay);
                 }
 
                 // Save the current state
-                int nextTaskEndTime = nextTaskStartTime + taskTimes.get(task);
-                int processorPrevEndTime = state.processorEndTime[processor];
-                int prevEndTime = state.endTime;
+                int nextTaskEndTime = nextTaskStartTime + _taskTimes.get(task);
+                int processorPrevEndTime = _state._processorEndTime[processor];
+                int prevEndTime = _state._endTime;
 
                 // Update current state
-                state.taskEndTime[task] = nextTaskEndTime;
-                state.assignedProcessorId[task] = processor;
-                state.processorEndTime[processor] = nextTaskEndTime;
-                state.unassignedTasks--;
-                state.endTime = Math.max(state.endTime, nextTaskEndTime);
+                _state._taskEndTime[task] = nextTaskEndTime;
+                _state._assignedProcessorId[task] = processor;
+                _state._processorEndTime[processor] = nextTaskEndTime;
+                _state._unassignedTasks--;
+                _state._endTime = Math.max(_state._endTime, nextTaskEndTime);
 
                 // Recursive call
                 run();
 
                 // Restore current state
-                state.taskEndTime[task] = State.UNSCHEDULED;
-                state.assignedProcessorId[task] = State.UNSCHEDULED;
-                state.processorEndTime[processor] = processorPrevEndTime;
-                state.unassignedTasks++;
-                state.endTime = prevEndTime;
+                _state._taskEndTime[task] = State.UNSCHEDULED;
+                _state._assignedProcessorId[task] = State.UNSCHEDULED;
+                _state._processorEndTime[processor] = processorPrevEndTime;
+                _state._unassignedTasks++;
+                _state._endTime = prevEndTime;
             }
         }
 

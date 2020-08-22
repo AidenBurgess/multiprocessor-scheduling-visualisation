@@ -14,91 +14,91 @@ import java.util.HashMap;
  *
  */
 public class InformationHolder {
-    private long activeBranches = 0;
-    private long totalStates = 0;
-    private long completeStates = 0;
-    private long currentBound = 0;
-    private TaskGraph taskGraph;
-    private State currentState, bestState;
+    private long _activeBranches = 0;
+    private long _totalStates = 0;
+    private long _completeStates = 0;
+    private long _currentBound = 0;
+    private TaskGraph _taskGraph;
+    private State _currentState, _bestState;
 
     public InformationHolder(TaskGraph taskGraph) {
-        this.taskGraph = taskGraph;
+        this._taskGraph = taskGraph;
     }
 
     public long getActiveBranches() {
-        return activeBranches;
+        return _activeBranches;
     }
 
     public long getTotalStates() {
-        return totalStates;
+        return _totalStates;
     }
 
     public long getCompleteStates() {
-        return completeStates;
+        return _completeStates;
     }
 
     public void incrementActiveBranches() {
-        activeBranches++;
+        _activeBranches++;
     }
 
     public void incrementTotalStates() {
-        totalStates++;
+        _totalStates++;
     }
 
     public void decrementActiveBranches() {
-        activeBranches--;
+        _activeBranches--;
     }
 
     public void incrementCompleteStates() {
-        completeStates++;
+        _completeStates++;
     }
 
     public void setCurrentBound(int bound) {
-        currentBound = bound;
+        _currentBound = bound;
     }
 
     public long getCurrentBound() {
-        return currentBound;
+        return _currentBound;
     }
 
     public void setBestState(State state) {
-        bestState = state;
+        _bestState = state;
     }
 
     public void setCurrentState(State state) {
-        currentState = state;
+        _currentState = state;
     }
 
     public HashMap<String, Integer> getCurrentStartTimeMap() {
-        return getStartTimeMap(currentState);
+        return getStartTimeMap(_currentState);
     }
 
     public HashMap<String, Integer> getBestStartTimeMap() {
-        return getStartTimeMap(bestState);
+        return getStartTimeMap(_bestState);
     }
 
     private HashMap<String, Integer> getStartTimeMap(State state) {
         HashMap<String, Integer> currentStartTimeMap = new HashMap<>();
-        for (int i = 0; i < state.numTasks; i++) {
-            Task task = taskGraph.getTasks().get(i);
-            currentStartTimeMap.put(task.getName(), state.taskEndTime[i] - task.getTaskTime());
+        for (int i = 0; i < state._numTasks; i++) {
+            Task task = _taskGraph.getTasks().get(i);
+            currentStartTimeMap.put(task.getName(), state._taskEndTime[i] - task.getTaskTime());
         }
         return currentStartTimeMap;
     }
 
     public HashMap<String, Integer> getCurrentProcessorMap() {
-        return getProcessorMap(currentState);
+        return getProcessorMap(_currentState);
     }
 
     public HashMap<String, Integer> getBestProcessorMap() {
-        return getProcessorMap(bestState);
+        return getProcessorMap(_bestState);
     }
 
     private HashMap<String, Integer> getProcessorMap(State state) {
         HashMap<String, Integer> currentProcessorMap = new HashMap<>();
-        for (int i = 0; i < state.numTasks; i++) {
-            Task task = taskGraph.getTasks().get(i);
-            currentProcessorMap.put(task.getName(), state.assignedProcessorId[i] + 1); // 1-indexed
+        for (int i = 0; i < state._numTasks; i++) {
+            Task task = _taskGraph.getTasks().get(i);
+            currentProcessorMap.put(task.getName(), state._assignedProcessorId[i] + 1); // 1-indexed
         }
         return currentProcessorMap;
     }

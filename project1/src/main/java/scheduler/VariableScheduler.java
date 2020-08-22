@@ -22,23 +22,23 @@ import java.util.LinkedList;
  *
  */
 public class VariableScheduler implements Scheduler {
-    private final int numTasks, numProcessors;
-    private final Bound bound = new Bound();
-    private final TaskGraph taskGraph;
+    private final int _numTasks, _numProcessors;
+    private final Bound _bound = new Bound();
+    private final TaskGraph _taskGraph;
 
-    private int[] topologicalOrder;
-    private ArrayList<ArrayList<Pair<Integer,Integer>>> adjList, revAdjList;
-    private final ArrayList<Integer> taskTimes = new ArrayList<>();
+    private int[] _topologicalOrder;
+    private ArrayList<ArrayList<Pair<Integer,Integer>>> _adjList, _revAdjList;
+    private final ArrayList<Integer> _taskTimes = new ArrayList<>();
 
-    private DFSExecutor dfsExecutor;
-    private StatisticToggle statisticToggle;
-    private final InformationHolder informationHolder;
+    private DFSExecutor _dfsExecutor;
+    private StatisticToggle _statisticToggle;
+    private final InformationHolder _informationHolder;
 
     private VariableScheduler(TaskGraph taskGraph, int numProcessors) {
-        informationHolder = new InformationHolder(taskGraph);
-        numTasks = taskGraph.getTasks().size();
-        this.numProcessors = numProcessors;
-        this.taskGraph = taskGraph;
+        _informationHolder = new InformationHolder(taskGraph);
+        _numTasks = taskGraph.getTasks().size();
+        this._numProcessors = numProcessors;
+        this._taskGraph = taskGraph;
 
         initializeDataStructures();
     }
@@ -47,55 +47,55 @@ public class VariableScheduler implements Scheduler {
         this(taskGraph, numProcessors);
 
         // Determine which implementations
-        statisticToggle = recordStatistics ? new YesStatisticToggle() : new NoStatisticToggle();
-        dfsExecutor = numParallelThreads == 0 ? new NormalDFSExecutor() : new ParallelDFSExecutor(numParallelThreads);
+        _statisticToggle = recordStatistics ? new YesStatisticToggle() : new NoStatisticToggle();
+        _dfsExecutor = numParallelThreads == 0 ? new NormalDFSExecutor() : new ParallelDFSExecutor(numParallelThreads);
     }
 
     private void initializeDataStructures() {
         // Mapping each Task object to an integer id. 0-indexed.
         HashMap<String, Integer> taskNameToIdMap = new HashMap<>();
-        for (int i = 0; i < taskGraph.getTasks().size(); i++) {
-            taskNameToIdMap.put(taskGraph.getTasks().get(i).getName(), i);
+        for (int i = 0; i < _taskGraph.getTasks().size(); i++) {
+            taskNameToIdMap.put(_taskGraph.getTasks().get(i).getName(), i);
         }
 
         // Instantiating taskTimes
-        for (int i = 0; i < taskGraph.getTasks().size(); i++) {
-            taskTimes.add(taskGraph.getTasks().get(i).getTaskTime());
+        for (int i = 0; i < _taskGraph.getTasks().size(); i++) {
+            _taskTimes.add(_taskGraph.getTasks().get(i).getTaskTime());
         }
 
         // Instantiating the adjacency list and reverse adjacency list.
-        adjList = new ArrayList<>(numTasks);
-        revAdjList = new ArrayList<>(numTasks);
-        for (int i = 0; i < numTasks; i++) {
-            adjList.add(new ArrayList<>());
-            revAdjList.add(new ArrayList<>());
+        _adjList = new ArrayList<>(_numTasks);
+        _revAdjList = new ArrayList<>(_numTasks);
+        for (int i = 0; i < _numTasks; i++) {
+            _adjList.add(new ArrayList<>());
+            _revAdjList.add(new ArrayList<>());
         }
 
         // Substantiate the adjList and revAdjList.
         // The adjLists use the name -> id mapping from taskNameToIdMap
-        ArrayList<Dependency> dependencies = taskGraph.getDependencies();
+        ArrayList<Dependency> dependencies = _taskGraph.getDependencies();
         int dependenciesSize = dependencies.size();
         for (int i = 0; i < dependenciesSize; i++) {
             Dependency dependency = dependencies.get(i);
             int source = taskNameToIdMap.get(dependency.getSource());
             int dest = taskNameToIdMap.get(dependency.getDest());
-            adjList.get(source).add(new Pair<>(dest, dependency.getCommunicationTime()));
-            revAdjList.get(dest).add(new Pair<>(source, dependency.getCommunicationTime()));
+            _adjList.get(source).add(new Pair<>(dest, dependency.getCommunicationTime()));
+            _revAdjList.get(dest).add(new Pair<>(source, dependency.getCommunicationTime()));
         }
 
         // Topological Ordering. The below code finds one valid topological ordering.
         // This also ensures that the TaskGraph input has no cyclic dependencies.
-        topologicalOrder = new int[numTasks];
+        _topologicalOrder = new int[_numTasks];
         int ind = 0;
 
         // Queue all tasks that have no initial dependencies, and track the inDegree
-        boolean[] visited = new boolean[numTasks];
-        int[] inDegree = new int[numTasks];
+        boolean[] visited = new boolean[_numTasks];
+        int[] inDegree = new int[_numTasks];
         LinkedList<Integer> queue = new LinkedList<>();
-        for (int i = 0; i < numTasks; i++) {
-            inDegree[i] = revAdjList.get(i).size();
+        for (int i = 0; i < _numTasks; i++) {
+            inDegree[i] = _revAdjList.get(i).size();
             if (inDegree[i] == 0) {
-                topologicalOrder[ind++] = i;
+                _topologicalOrder[ind++] = i;
                 queue.push(i);
                 visited[i] = true;
             }
@@ -105,14 +105,14 @@ public class VariableScheduler implements Scheduler {
         while (!queue.isEmpty()) {
             int task = queue.poll();
 
-            ArrayList<Pair<Integer, Integer>> revTask = adjList.get(task);
+            ArrayList<Pair<Integer, Integer>> revTask = _adjList.get(task);
             int numRevTasks = revTask.size();
             for (int i = 0; i < numRevTasks; i++) {
                 Pair<Integer, Integer> dependency = revTask.get(i);
                 int child = dependency.getKey();
                 inDegree[child]--;
                 if (inDegree[child] == 0 && !visited[child]) {
-                    topologicalOrder[ind++] = child;
+                    _topologicalOrder[ind++] = child;
                     visited[child] = true;
                     queue.push(child);
                 }
@@ -120,13 +120,13 @@ public class VariableScheduler implements Scheduler {
         }
 
         // If ind != n, there are some tasks that have dependencies on each other.
-        if (ind != numTasks) throw new RuntimeException("No topological ordering found"); // todo what we want to happen?
+        if (ind != _numTasks) throw new RuntimeException("No topological ordering found"); // todo what we want to happen?
     }
 
     @Override
     public void execute() {
         dfsCaller(0, 0);
-        dfsExecutor.finish(); // This is called to let the executor clean up
+        _dfsExecutor.finish(); // This is called to let the executor clean up
     }
 
     /**
@@ -159,25 +159,25 @@ public class VariableScheduler implements Scheduler {
         // The method recursively enumerates all possible bitmasks where there are <= p on bits.
 
         // If there are more than p on bits, return.
-        if (Integer.bitCount(bitmask) > numProcessors) return;
+        if (Integer.bitCount(bitmask) > _numProcessors) return;
 
         // At the end of the recursion, of n bits, there are some bits that are on.
         // For example: bitmask = b1011 means that tasks 0, 1, and 3 are on.
         //              bitmask = b1100 means that tasks 2, and 3 are on.
-        if (ind == numTasks) {
-            State state = new State(numTasks, numProcessors);
+        if (ind == _numTasks) {
+            State state = new State(_numTasks, _numProcessors);
             int processor = 0;
             // For each bit,
-            for (int task = 0; task < numTasks; task++) {
+            for (int task = 0; task < _numTasks; task++) {
                 // If the bit is on,
                 if ((bitmask & (1 << task)) != 0) {
                     // Add it to the current state by updating:
-                    int endTime = taskGraph.getTasks().get(task).getTaskTime();
-                    state.processorEndTime[processor] = endTime; // processor end time
-                    state.taskEndTime[task] = endTime; // task end time
-                    state.unassignedTasks--; // number of tasks
-                    state.endTime = Math.max(state.endTime, endTime); // overall state end time
-                    state.assignedProcessorId[task] = processor; // the processor that this task is assigned to
+                    int endTime = _taskGraph.getTasks().get(task).getTaskTime();
+                    state._processorEndTime[processor] = endTime; // processor end time
+                    state._taskEndTime[task] = endTime; // task end time
+                    state._unassignedTasks--; // number of tasks
+                    state._endTime = Math.max(state._endTime, endTime); // overall state end time
+                    state._assignedProcessorId[task] = processor; // the processor that this task is assigned to
 
                     processor++;
                 }
@@ -186,12 +186,12 @@ public class VariableScheduler implements Scheduler {
             // By here, we have a State that has those 'on' tasks at start time = 0.
             // The state is passed to DFS and DFS handles the rest of the searching.
 
-            dfsExecutor.runDFS(statisticToggle.getDFS(state, bound, revAdjList, taskTimes, informationHolder));
+            _dfsExecutor.runDFS(_statisticToggle.getDFS(state, _bound, _revAdjList, _taskTimes, _informationHolder));
             return;
         }
 
         // Tries to place the current bit as 'on', only if it has no dependencies
-        if (revAdjList.get(ind).size() == 0) {
+        if (_revAdjList.get(ind).size() == 0) {
             dfsCaller(ind+1, bitmask | (1<<ind));
         }
         // Tries to place the current bit as 'off'.
@@ -200,7 +200,7 @@ public class VariableScheduler implements Scheduler {
 
     @Override
     public InformationHolder getInformationHolder() {
-        return informationHolder;
+        return _informationHolder;
     }
 }
 

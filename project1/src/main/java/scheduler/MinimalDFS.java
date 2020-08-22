@@ -26,7 +26,7 @@ public class MinimalDFS extends DFS {
     @Override
     protected void onCompleteSchedule() {
         // A minimal DFS would update the best schedule only
-        informationHolder.setBestState(state.copy());
-        informationHolder.setCurrentBound(bound.getBound());
+        _informationHolder.setBestState(_state.copy());
+        _informationHolder.setCurrentBound(_bound.getBound());
     }
 }

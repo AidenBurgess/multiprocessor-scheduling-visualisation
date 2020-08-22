@@ -10,22 +10,22 @@ import java.util.concurrent.TimeUnit;
  * Responsible for waiting for all the Runnables to be executed and handles thread exceptions.
  */
 public class ParallelDFSExecutor implements DFSExecutor {
-    ExecutorService pool;
+    ExecutorService _pool;
     public ParallelDFSExecutor(int numThreads) {
-        pool = Executors.newFixedThreadPool(numThreads);
+        _pool = Executors.newFixedThreadPool(numThreads);
     }
     @Override
     public void runDFS(DFS dfs) {
-        pool.execute(() -> {
+        _pool.execute(() -> {
             dfs.run();
         });
     }
 
     @Override
     public void finish()  {
-        pool.shutdown();
+        _pool.shutdown();
         try {
-            pool.awaitTermination(1000, TimeUnit.SECONDS);
+            _pool.awaitTermination(1000, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
