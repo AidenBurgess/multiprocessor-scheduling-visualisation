@@ -11,8 +11,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class ParallelDFSExecutor implements DFSExecutor {
     ExecutorService _pool;
-    public ParallelDFSExecutor(int numThreads) {
-        _pool = Executors.newFixedThreadPool(numThreads);
+    public ParallelDFSExecutor(int numParallelCores) {
+        _pool = Executors.newFixedThreadPool(numParallelCores);
     }
     @Override
     public void runDFS(DFS dfs) {
@@ -23,7 +23,7 @@ public class ParallelDFSExecutor implements DFSExecutor {
     public void waitForFinish()  {
         _pool.shutdown();
         try {
-            _pool.awaitTermination(1000, TimeUnit.SECONDS);
+            _pool.awaitTermination(1000, TimeUnit.SECONDS); // todo timeout?
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

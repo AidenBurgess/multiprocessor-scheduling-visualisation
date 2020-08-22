@@ -23,15 +23,12 @@ public class Driver {
         // read the file out from the input file
         TaskGraph taskGraph = readTaskGraph(config);
 
-        // create a scheduler with the number of processors
-        Scheduler scheduler;
+        // create a scheduler with correct statistics/processors arguments
+        Scheduler scheduler = new VariableScheduler(taskGraph, config.getNumProcessors(), config.hasVisualisation(), config.getNumParallelCores());
 
-        // if the config has visualisation, recordStatistics = true for the VariableScheduler.
+        // if the config has visualisation, run the FX thread
         if (config.hasVisualisation()) {
-            scheduler = new VariableScheduler(taskGraph, config.getNumProcessors(), true, config.getNumParallelCores());
             startVisualisationThread(scheduler.getInformationHolder(), taskGraph, config.getNumProcessors());
-        } else {
-            scheduler = new VariableScheduler(taskGraph, config.getNumProcessors(), false, config.getNumParallelCores());
         }
 
         scheduler.execute(); // blocks until finished. the information can be retrieved from scheduler.getInformationHolder().
