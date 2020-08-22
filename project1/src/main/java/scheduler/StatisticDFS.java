@@ -17,7 +17,11 @@ public class StatisticDFS extends MinimalDFS {
         _informationHolder.incrementActiveBranches();
         _informationHolder.incrementTotalStates();
 
-//        informationHolder.setCurrentState(state.copy());
+        /**
+         * todo this line currently sets the current state on every new DFS entry.
+         * this is INCREDIBLY inefficient.
+         */
+        _informationHolder.setCurrentState(_state.copy());
     }
 
     @Override
@@ -29,7 +33,6 @@ public class StatisticDFS extends MinimalDFS {
     protected void onCompleteSchedule() {
         super.onCompleteSchedule(); // this method updates the best state in the InformationHolder
 
-        _informationHolder.setCurrentState(_state.copy());
         _informationHolder.incrementCompleteStates();
     }
 }

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
- * Abstract class allowing for multiple scheduler implementations executing different algorithms
+ * Defines responsibilities of a Scheduler instance.
  */
 public interface Scheduler {
     /**
