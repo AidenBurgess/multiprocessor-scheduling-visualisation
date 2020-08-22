@@ -14,15 +14,19 @@ import java.util.HashMap;
  *
  */
 public class InformationHolder {
-    private long _activeBranches = 0;
-    private long _totalStates = 0;
-    private long _completeStates = 0;
-    private long _currentBound = 0;
+    private long _activeBranches;
+    private long _totalStates;
+    private long _completeStates;
+    private long _currentBound;
     private TaskGraph _taskGraph;
     private State _currentState, _bestState;
 
     public InformationHolder(TaskGraph taskGraph) {
         this._taskGraph = taskGraph;
+        _activeBranches = 0;
+        _totalStates = 0;
+        _completeStates = 0;
+        _currentBound = 0;
     }
 
     public long getActiveBranches() {

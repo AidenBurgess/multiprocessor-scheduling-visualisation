@@ -6,7 +6,11 @@ package main.java.scheduler;
  */
 public class Bound {
     public static final int NO_BOUND = -1;
-    private int _bound = NO_BOUND;
+    private int _bound;
+
+    public Bound() {
+        _bound = NO_BOUND;
+    }
 
     /**
      * Returns the current bound

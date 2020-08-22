@@ -28,7 +28,7 @@ public class VariableScheduler implements Scheduler {
 
     private int[] _topologicalOrder;
     private ArrayList<ArrayList<Pair<Integer,Integer>>> _adjList, _revAdjList;
-    private final ArrayList<Integer> _taskTimes = new ArrayList<>();
+    private ArrayList<Integer> _taskTimes;
 
     private DFSExecutor _dfsExecutor;
     private StatisticToggle _statisticToggle;
@@ -37,8 +37,10 @@ public class VariableScheduler implements Scheduler {
     private VariableScheduler(TaskGraph taskGraph, int numProcessors) {
         _informationHolder = new InformationHolder(taskGraph);
         _numTasks = taskGraph.getTasks().size();
+        _taskTimes = new ArrayList<>();
         this._numProcessors = numProcessors;
         this._taskGraph = taskGraph;
+
 
         initializeDataStructures();
     }
