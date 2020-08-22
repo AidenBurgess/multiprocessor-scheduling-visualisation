@@ -82,12 +82,15 @@ public class InformationHolder {
     }
 
     private HashMap<String, Integer> getStartTimeMap(State state) {
-        HashMap<String, Integer> currentStartTimeMap = new HashMap<>();
+        HashMap<String, Integer> startTimeMap = new HashMap<>();
         for (int i = 0; i < state._numTasks; i++) {
+            // Do not put a task that is unassigned on this map.
+            if (state._assignedProcessorId[i] == State.UNSCHEDULED) continue;
+
             Task task = _taskGraph.getTasks().get(i);
-            currentStartTimeMap.put(task.getName(), state._taskEndTime[i] - task.getTaskTime());
+            startTimeMap.put(task.getName(), state._taskEndTime[i] - task.getTaskTime());
         }
-        return currentStartTimeMap;
+        return startTimeMap;
     }
 
     public HashMap<String, Integer> getCurrentProcessorMap() {
@@ -99,12 +102,15 @@ public class InformationHolder {
     }
 
     private HashMap<String, Integer> getProcessorMap(State state) {
-        HashMap<String, Integer> currentProcessorMap = new HashMap<>();
+        HashMap<String, Integer> processorMap = new HashMap<>();
         for (int i = 0; i < state._numTasks; i++) {
+            // Do not put a task that is unassigned on this map.
+            if (state._assignedProcessorId[i] == State.UNSCHEDULED) continue;
+
             Task task = _taskGraph.getTasks().get(i);
-            currentProcessorMap.put(task.getName(), state._assignedProcessorId[i] + 1); // 1-indexed
+            processorMap.put(task.getName(), state._assignedProcessorId[i] + 1); // 1-indexed
         }
-        return currentProcessorMap;
+        return processorMap;
     }
 
 

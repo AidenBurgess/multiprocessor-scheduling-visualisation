@@ -286,13 +286,17 @@ public class VisualisationController implements Initializable {
             int taskTime = task.getTaskTime();
 
             // Populating the current schedule if the schedule contains the current task
-            if (currentStartTimeMap.containsKey(task.getName())) {
-                int taskProcessorCurrent = currentProcessorMap.get(task.getName());
-                int taskStartTimeCurrent = currentStartTimeMap.get(task.getName());
-                XYChart.Data taskDataCurrent = new XYChart.Data(taskStartTimeCurrent, "Processor ".concat(Integer.toString(taskProcessorCurrent)), new ExtraData(taskTime, "task"));
-                // -1 has been used below because the seriesArray is 0 indexed whereas the processor numbers are 1 indexed
-                seriesArrayBest[taskProcessorCurrent - 1].getData().add(taskDataCurrent);
-            }
+            /**
+             * todo When current state is provided by the InformationHolder, both task-blocks show up on the
+             * same side. I commented this out for now.
+             */
+//            if (currentStartTimeMap.containsKey(task.getName())) {
+//                int taskProcessorCurrent = currentProcessorMap.get(task.getName());
+//                int taskStartTimeCurrent = currentStartTimeMap.get(task.getName());
+//                XYChart.Data taskDataCurrent = new XYChart.Data(taskStartTimeCurrent, "Processor ".concat(Integer.toString(taskProcessorCurrent)), new ExtraData(taskTime, "task"));
+//                // -1 has been used below because the seriesArray is 0 indexed whereas the processor numbers are 1 indexed
+//                seriesArrayBest[taskProcessorCurrent - 1].getData().add(taskDataCurrent);
+//            }
 
             // Populating the best schedule chart
             int taskProcessorBest = bestProcessorMap.get(task.getName());
