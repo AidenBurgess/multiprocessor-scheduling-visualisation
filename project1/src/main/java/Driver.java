@@ -66,10 +66,10 @@ public class Driver {
     }
 
     /**
-     * Writes the output schedule to a dot file.
-     * @param scheduler
-     * @param taskGraph
-     * @param config
+     * Writes the output information to a DOT file.
+     * @param informationHolder the information instance from the Scheduler.
+     * @param taskGraph the original taskGraph from the input.
+     * @param config the original config settings.
      */
     private static void writeDotFile(InformationHolder informationHolder, TaskGraph taskGraph, Config config) {
         HashMap<String, Integer> startTimeMap = informationHolder.getBestStartTimeMap();
