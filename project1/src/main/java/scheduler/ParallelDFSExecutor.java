@@ -16,13 +16,11 @@ public class ParallelDFSExecutor implements DFSExecutor {
     }
     @Override
     public void runDFS(DFS dfs) {
-        _pool.execute(() -> {
-            dfs.run();
-        });
+        _pool.execute(dfs::run);
     }
 
     @Override
-    public void finish()  {
+    public void waitForFinish()  {
         _pool.shutdown();
         try {
             _pool.awaitTermination(1000, TimeUnit.SECONDS);

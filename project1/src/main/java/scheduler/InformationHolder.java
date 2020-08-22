@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 /**
  * Provides a way for other classes to access the Scheduler's information.
- * Acts as a middle-ground. Scheduler class will update this holder's information, and external classes
+ * Acts as a middle-man. Scheduler class will update this holder's information, and external classes
  * can retrieve information from this holder.
  *
  * Responsible for managing thread-safety if relevant.

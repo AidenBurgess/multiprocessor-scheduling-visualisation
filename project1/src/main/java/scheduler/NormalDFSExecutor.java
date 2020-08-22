@@ -11,7 +11,7 @@ public class NormalDFSExecutor implements DFSExecutor {
     }
 
     @Override
-    public void finish() {
-
+    public void waitForFinish() {
+        // In this implementation, no cleanup is required.
     }
 }

@@ -12,8 +12,9 @@ public interface DFSExecutor {
     void runDFS(DFS dfs);
 
     /**
-     * Responsible for any cleanups if necessary.
+     * Responsible for waiting for DFS#run to finish.
+     * Control will block in this method until DFS#run has completed and returned.
      * Called at the end of Scheduler#execute.
      */
-    void finish();
+    void waitForFinish();
 }

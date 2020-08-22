@@ -128,7 +128,7 @@ public class VariableScheduler implements Scheduler {
     @Override
     public void execute() {
         dfsCaller(0, 0);
-        _dfsExecutor.finish(); // This is called to let the executor clean up
+        _dfsExecutor.waitForFinish(); // This is called to let the executor clean up
     }
 
     /**
