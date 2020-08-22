@@ -22,7 +22,7 @@ public class InformationHolder {
     private State _currentState, _bestState;
 
     public InformationHolder(TaskGraph taskGraph) {
-        this._taskGraph = taskGraph;
+        _taskGraph = taskGraph;
         _activeBranches = 0;
         _totalStates = 0;
         _completeStates = 0;

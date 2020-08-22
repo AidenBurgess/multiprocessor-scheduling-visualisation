@@ -16,8 +16,8 @@ public class State {
     protected int _unassignedTasks; // number of tasks still unassigned
 
     public State(int numTasks, int numProcessors) {
-        this._numTasks = numTasks;
-        this._numProcessors = numProcessors;
+        _numTasks = numTasks;
+        _numProcessors = numProcessors;
 
         _unassignedTasks = numTasks; // initially n tasks are unassigned
         _endTime = 0;

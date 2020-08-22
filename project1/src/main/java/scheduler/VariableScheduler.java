@@ -38,8 +38,8 @@ public class VariableScheduler implements Scheduler {
         _informationHolder = new InformationHolder(taskGraph);
         _numTasks = taskGraph.getTasks().size();
         _taskTimes = new ArrayList<>();
-        this._numProcessors = numProcessors;
-        this._taskGraph = taskGraph;
+        _numProcessors = numProcessors;
+        _taskGraph = taskGraph;
 
 
         initializeDataStructures();

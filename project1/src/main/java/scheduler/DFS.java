@@ -22,12 +22,12 @@ public abstract class DFS {
     protected InformationHolder _informationHolder;
 
     public DFS(State state, Bound bound, ArrayList<ArrayList<Pair<Integer, Integer>>> revAdjList, ArrayList<Integer> taskTimes, InformationHolder informationHolder) {
-        this._state = state;
-        this._bound = bound;
-        this._revAdjList = revAdjList;
-        this._taskTimes = taskTimes;
-        this._numTasks = _state._numTasks;
-        this._informationHolder = informationHolder;
+        _state = state;
+        _bound = bound;
+        _revAdjList = revAdjList;
+        _taskTimes = taskTimes;
+        _numTasks = _state._numTasks;
+        _informationHolder = informationHolder;
     }
 
     /**
