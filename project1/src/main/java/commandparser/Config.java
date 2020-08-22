@@ -16,7 +16,7 @@ public class Config {
     private String _outputFileName;
     // Optional parameters get default values
     private boolean _isParallelised = false;
-    private int _numParallelCores = 1;
+    private int _numParallelCores = 0;
     private boolean _hasVisualisation = false;
 
     public int getNumProcessors() {
