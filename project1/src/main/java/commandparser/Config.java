@@ -14,10 +14,20 @@ public class Config {
     private int _numProcessors;
     private String _inputFileName;
     private String _outputFileName;
-    // Optional parameters get default values
-    private boolean _isParallelised = false;
-    private int _numParallelCores = 0;
-    private boolean _hasVisualisation = false;
+
+    public static final int SEQUENTIAL_EXECUTION = -1;
+
+    // Optional parameters
+    private boolean _isParallelised;
+    private int _numParallelCores;
+    private boolean _hasVisualisation;
+
+    public Config() {
+        // Default values
+        _isParallelised = false;
+        _numParallelCores = SEQUENTIAL_EXECUTION;
+        _hasVisualisation = false;
+    }
 
     public int getNumProcessors() {
         return _numProcessors;

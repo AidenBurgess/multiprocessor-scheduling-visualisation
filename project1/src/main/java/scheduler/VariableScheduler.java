@@ -1,6 +1,7 @@
 package main.java.scheduler;
 
 import javafx.util.Pair;
+import main.java.commandparser.Config;
 import main.java.dotio.Dependency;
 import main.java.dotio.TaskGraph;
 
@@ -50,7 +51,7 @@ public class VariableScheduler implements Scheduler {
 
         // Determine which implementations
         _statisticToggle = recordStatistics ? new YesStatisticToggle() : new NoStatisticToggle();
-        _dfsExecutor = numParallelCores == 0 ? new NormalDFSExecutor() : new ParallelDFSExecutor(numParallelCores);
+        _dfsExecutor = numParallelCores == Config.SEQUENTIAL_EXECUTION ? new NormalDFSExecutor() : new ParallelDFSExecutor(numParallelCores);
     }
 
     private void initializeDataStructures() {
