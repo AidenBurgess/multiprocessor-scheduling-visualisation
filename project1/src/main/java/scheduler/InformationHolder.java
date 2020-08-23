@@ -14,10 +14,13 @@ import java.util.HashMap;
  *
  */
 public class InformationHolder {
+    public static int READY = 0, RUNNING = 1, FINISHED = 2, ABORTED = 3;
+
     private long _activeBranches;
     private long _totalStates;
     private long _completeStates;
     private long _currentBound;
+    private int _schedulerStatus;
     private TaskGraph _taskGraph;
     private State _currentState, _bestState;
 
@@ -27,6 +30,15 @@ public class InformationHolder {
         _totalStates = 0;
         _completeStates = 0;
         _currentBound = 0;
+        _schedulerStatus = READY;
+    }
+
+    public int getSchedulerStatus() {
+        return _schedulerStatus;
+    }
+
+    public void setSchedulerStatus(int status) {
+        _schedulerStatus = status;
     }
 
     public long getActiveBranches() {
