@@ -13,10 +13,21 @@ import java.util.Objects;
 public class Config {
     private int _numProcessors;
     private String _inputFileName;
+    private String _outputFileName;
+
+    public static final int SEQUENTIAL_EXECUTION = -1;
+
+    // Optional parameters
     private boolean _isParallelised;
     private int _numParallelCores;
     private boolean _hasVisualisation;
-    private String _outputFileName;
+
+    public Config() {
+        // Default values
+        _isParallelised = false;
+        _numParallelCores = SEQUENTIAL_EXECUTION;
+        _hasVisualisation = false;
+    }
 
     public int getNumProcessors() {
         return _numProcessors;
