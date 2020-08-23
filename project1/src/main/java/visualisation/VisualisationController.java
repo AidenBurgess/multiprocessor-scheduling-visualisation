@@ -17,6 +17,7 @@ import javafx.scene.chart.AreaChart;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import main.java.dataretriever.SystemPerformanceRetriever;
+import main.java.scheduler.InformationHolder;
 import main.java.scheduler.Scheduler;
 import main.java.visualisation.ScheduleChart.ExtraData;
 
@@ -38,7 +39,7 @@ public class VisualisationController implements Initializable {
     private XYChart.Series _CPUSeries;
     private XYChart.Series _RAMSeries;
 
-    private Scheduler _sc;
+    private InformationHolder _informationHolder;
     private Timer _timer;
 
     private int _seconds;
@@ -129,11 +130,13 @@ public class VisualisationController implements Initializable {
      */
     private void updateStatistics() {
 
-        long visitedStates = _sc.getTotalStatesVisited();
-        long completedSchedules = _sc.getCompleteStatesVisited();
+        long visitedStates = _informationHolder.getTotalStates();
+        long completedSchedules = _informationHolder.getCompleteStates();
+        long activeBranches = _informationHolder.getActiveBranches();
 
         visitedStatesFigure.setText(Long.toString(visitedStates));
         completedSchedulesFigure.setText(Long.toString(completedSchedules));
+        // activeBranchFigure.setText(Long.toString(activeBranches));
     }
 
     /**
@@ -184,8 +187,7 @@ public class VisualisationController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        _sc = VisualisationDriver.getScheduler();
+        _informationHolder = VisualisationDriver.getInformationHolder();
         _performanceRetriever = new SystemPerformanceRetriever();
         _taskList = VisualisationDriver.getTaskGraph().getTasks();
         _numProcessors = VisualisationDriver.getNumProcessors();
@@ -248,7 +250,9 @@ public class VisualisationController implements Initializable {
         // Setting up the Schedule chart object and their parents (containers)
         _currentScheduleChart = new ScheduleChart<Number, String>(xAxis, yAxis);
         _bestScheduleChart = new ScheduleChart<Number, String>(xAxis, yAxis);
+
         _bestScheduleChart.setBlockHeight(200/_numProcessors);
+        _currentScheduleChart.setBlockHeight(200/_numProcessors);
 
 
         _bestScheduleParent.getChildren().add(_bestScheduleChart);
@@ -262,10 +266,10 @@ public class VisualisationController implements Initializable {
     // best schedule yet and this method is called. Either prevent this from happening or handle this situation inside the method
     private void updateScheduleChart() {
         // Retrieving the current and the best schedule information
-        HashMap<String, Integer> currentProcessorMap = _sc.getCurrentProcessorMap();
-        HashMap<String, Integer> bestProcessorMap = _sc.getBestProcessorMap();
-        HashMap<String, Integer> currentStartTimeMap = _sc.getCurrentStartTimeMap();
-        HashMap<String, Integer> bestStartTimeMap = _sc.getBestStartTimeMap();
+        HashMap<String, Integer> currentProcessorMap = _informationHolder.getCurrentProcessorMap();
+        HashMap<String, Integer> bestProcessorMap = _informationHolder.getBestProcessorMap();
+        HashMap<String, Integer> currentStartTimeMap = _informationHolder.getCurrentStartTimeMap();
+        HashMap<String, Integer> bestStartTimeMap = _informationHolder.getBestStartTimeMap();
 
 
         // Create Series objects. Each object will act as a row in the respective chart
@@ -281,11 +285,15 @@ public class VisualisationController implements Initializable {
         for (Task task : _taskList) {
             int taskTime = task.getTaskTime();
 
-//            // Populating the current schedule if the schedule contains the current task
+            // Populating the current schedule if the schedule contains the current task
+            /**
+             * todo When current state is provided by the InformationHolder, both task-blocks show up on the
+             * same side. I commented this out for now.
+             */
 //            if (currentStartTimeMap.containsKey(task.getName())) {
 //                int taskProcessorCurrent = currentProcessorMap.get(task.getName());
 //                int taskStartTimeCurrent = currentStartTimeMap.get(task.getName());
-//                XYChart.Data taskDataCurrent = new XYChart.Data(taskStartTimeCurrent, "Processor ".concat(Integer.toString(taskProcessorCurrent)), new ExtraData(taskTime));
+//                XYChart.Data taskDataCurrent = new XYChart.Data(taskStartTimeCurrent, "Processor ".concat(Integer.toString(taskProcessorCurrent)), new ExtraData(taskTime, "task"));
 //                // -1 has been used below because the seriesArray is 0 indexed whereas the processor numbers are 1 indexed
 //                seriesArrayBest[taskProcessorCurrent - 1].getData().add(taskDataCurrent);
 //            }

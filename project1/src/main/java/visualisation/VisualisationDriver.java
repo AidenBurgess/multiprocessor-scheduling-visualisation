@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import main.java.dotio.TaskGraph;
+import main.java.scheduler.InformationHolder;
 import main.java.scheduler.Scheduler;
 import java.io.IOException;
 
@@ -15,12 +16,12 @@ import java.io.IOException;
  * @todo update methods
  */
 public class VisualisationDriver extends Application {
-    private static Scheduler _scheduler = null;
+    private static InformationHolder _informationHolder = null;
     private static TaskGraph _taskGraph = null;
     private static int _numProcessors = 0;
 
-    public static void main(Scheduler scheduler, TaskGraph taskGraph, int numProcessors) {
-        _scheduler = scheduler;
+    public static void main(InformationHolder informationHolder, TaskGraph taskGraph, int numProcessors) {
+        _informationHolder = informationHolder;
         _taskGraph = taskGraph;
         _numProcessors = numProcessors;
         launch();
@@ -36,8 +37,8 @@ public class VisualisationDriver extends Application {
         primaryStage.show();
     }
 
-    public static Scheduler getScheduler() {
-        return _scheduler;
+    public static InformationHolder getInformationHolder() {
+        return _informationHolder;
     }
 
     public static TaskGraph getTaskGraph() {

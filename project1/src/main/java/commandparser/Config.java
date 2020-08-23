@@ -13,10 +13,11 @@ import java.util.Objects;
 public class Config {
     private int _numProcessors;
     private String _inputFileName;
-    private boolean _isParallelised;
-    private int _numParallelCores;
-    private boolean _hasVisualisation;
     private String _outputFileName;
+    // Optional parameters get default values
+    private boolean _isParallelised = false;
+    private int _numParallelCores = 0;
+    private boolean _hasVisualisation = false;
 
     public int getNumProcessors() {
         return _numProcessors;

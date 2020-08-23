@@ -5,8 +5,9 @@ import main.java.commandparser.CommandParser;
 import main.java.dotio.DotIO;
 import main.java.dotio.DotIOException;
 import main.java.dotio.TaskGraph;
-import main.java.scheduler.ReducedStateScheduler;
+import main.java.scheduler.InformationHolder;
 import main.java.scheduler.Scheduler;
+import main.java.scheduler.VariableScheduler;
 import main.java.visualisation.VisualisationDriver;
 
 import java.io.FileNotFoundException;
@@ -22,22 +23,23 @@ public class Driver {
         // read the file out from the input file
         TaskGraph taskGraph = readTaskGraph(config);
 
-        // create a scheduler with the number of processors
-        Scheduler scheduler = new ReducedStateScheduler(taskGraph, config.getNumProcessors());
+        // create a scheduler with correct statistics/processors arguments
+        Scheduler scheduler = new VariableScheduler(taskGraph, config.getNumProcessors(), config.hasVisualisation(), config.getNumParallelCores());
 
-        // Uncomment this to force visualisation on
-        // config.hasVisualisation = true;
+        // if the config has visualisation, run the FX thread
         if (config.hasVisualisation()) {
-            startVisualisationThread(scheduler, taskGraph, config.getNumProcessors());
+            startVisualisationThread(scheduler.getInformationHolder(), taskGraph, config.getNumProcessors());
         }
 
-        scheduler.execute(); // blocks until finished, can be queried by dashboardcontroller
-        writeDotFile(scheduler, taskGraph, config);
+        scheduler.execute(); // blocks until finished. the information can be retrieved from scheduler.getInformationHolder().
+
+        InformationHolder informationHolder = scheduler.getInformationHolder();
+        writeDotFile(informationHolder, taskGraph, config);
     }
 
-    private static void startVisualisationThread(Scheduler scheduler, TaskGraph taskGraph, int numProcessors) {
+    private static void startVisualisationThread(InformationHolder informationHolder, TaskGraph taskGraph, int numProcessors) {
         new Thread(() -> {
-            VisualisationDriver.main(scheduler, taskGraph, numProcessors);
+            VisualisationDriver.main(informationHolder, taskGraph, numProcessors);
         }).start();
     }
 
@@ -61,14 +63,14 @@ public class Driver {
     }
 
     /**
-     * Writes the output schedule to a dot file.
-     * @param scheduler
-     * @param taskGraph
-     * @param config
+     * Writes the output information to a DOT file.
+     * @param informationHolder the information instance from the Scheduler.
+     * @param taskGraph the original taskGraph from the input.
+     * @param config the original config settings.
      */
-    private static void writeDotFile(Scheduler scheduler, TaskGraph taskGraph, Config config) {
-        HashMap<String, Integer> startTimeMap = scheduler.getBestStartTimeMap();
-        HashMap<String, Integer> processorMap = scheduler.getBestProcessorMap();
+    private static void writeDotFile(InformationHolder informationHolder, TaskGraph taskGraph, Config config) {
+        HashMap<String, Integer> startTimeMap = informationHolder.getBestStartTimeMap();
+        HashMap<String, Integer> processorMap = informationHolder.getBestProcessorMap();
 
         try {
             DotIO.write(config.getOutputFileName(), taskGraph, startTimeMap, processorMap);

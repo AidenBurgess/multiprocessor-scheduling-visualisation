@@ -35,7 +35,7 @@ public class DotIO {
         TaskGraph graph;
         try {
             //Initialize stream tokenizer to read from the specified file
-            StreamTokenizer tk = new StreamTokenizer(new BufferedReader(new FileReader(inputFile, StandardCharsets.UTF_8)));
+            StreamTokenizer tk = new StreamTokenizer(new BufferedReader(new FileReader(inputFile)));
             tk.whitespaceChars(';',';');
             tk.nextToken();
 
