@@ -35,6 +35,8 @@ public class VisualisationDriver extends Application {
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         stage.setScene(scene);
+        // Make window a fixed size
+        stage.setResizable(false);
         stage.setOnHidden(e -> controller.shutdown());
         stage.show();
     }
