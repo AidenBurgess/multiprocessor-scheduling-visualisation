@@ -31,7 +31,8 @@ public class CommandParser {
                     i++;
                     break;
                 default:
-                    System.err.println("Unknown configuration: " + args[i]);
+                    String helpMessage = "\nIllegal option: ".concat(args[i]).concat("\nusage: java -jar schedular.jar inputFile.dot P [-o outputFile.dot | -v | -p]");
+                    throw new CommandParserException(helpMessage);
             }
             i++;
         }
