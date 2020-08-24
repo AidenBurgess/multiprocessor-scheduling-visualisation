@@ -8,6 +8,7 @@ import main.java.dotio.TaskGraph;
 import main.java.scheduler.InformationHolder;
 import main.java.scheduler.Scheduler;
 import main.java.scheduler.VariableScheduler;
+import main.java.validitychecker.ValidityChecker;
 import main.java.visualisation.VisualisationDriver;
 
 import java.io.FileNotFoundException;
@@ -37,6 +38,10 @@ public class Driver {
         scheduler.execute(); // blocks until finished. the information can be retrieved from scheduler.getInformationHolder().
 
         InformationHolder informationHolder = scheduler.getInformationHolder();
+
+        // check for the validity.
+//        ValidityChecker.check(taskGraph.getDependencies(), informationHolder.getBestProcessorMap(), informationHolder.getBestStartTimeMap());
+
         writeDotFile(informationHolder, taskGraph, config);
     }
 
