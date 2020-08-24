@@ -1,5 +1,7 @@
 package main.java.commandparser;
 
+import sun.util.resources.cldr.ca.CalendarData_ca_ES;
+
 import java.util.Objects;
 
 /**
@@ -21,12 +23,14 @@ public class Config {
     private boolean _isParallelised;
     private int _numParallelCores;
     private boolean _hasVisualisation;
+    private boolean _checkValid;
 
     public Config() {
         // Default values
         _isParallelised = false;
         _numParallelCores = SEQUENTIAL_EXECUTION;
         _hasVisualisation = false;
+        _checkValid = false;
     }
 
     public int getNumProcessors() {
@@ -51,6 +55,14 @@ public class Config {
 
     public void setParallelised(boolean parallelised) {
         _isParallelised = parallelised;
+    }
+
+    public void setCheckValid(boolean checkValid) {
+        _checkValid = checkValid;
+    }
+
+    public boolean isCheckValid() {
+        return _checkValid;
     }
 
     public int getNumParallelCores() {
