@@ -30,8 +30,16 @@ public class CommandParser {
                     config.setOutputFileName(args[i+1]);
                     i++;
                     break;
+                case "-cv":
+                    // check if the output is valid
+                    config.setCheckValid(true);
+                    break;
+                case "--help":
+                    String helpMessage = "Help Menu: \nusage: java -jar schedular.jar inputFile.dot P [-o outputFile.dot | -v | -p | --help]";
+                    throw new CommandParserException(helpMessage);
                 default:
-                    System.err.println("Unknown configuration: " + args[i]);
+                    helpMessage = "Illegal option: You entered '".concat(args[i]).concat("'\nusage: java -jar schedular.jar inputFile.dot P [-o outputFile.dot | -v | -p | --help]");
+                    throw new CommandParserException(helpMessage);
             }
             i++;
         }
