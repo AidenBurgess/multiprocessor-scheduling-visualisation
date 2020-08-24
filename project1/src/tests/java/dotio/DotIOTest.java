@@ -16,19 +16,91 @@ import static org.junit.Assert.*;
 public class DotIOTest {
 
     private static String testDir = System.getProperty("user.dir") + "/src/tests/java/dotio/";
+    private static String dotExampleDir = System.getProperty("user.dir") + "/example-dots/";
+
+    /**
+     * Helper method developed to make testing files easier.
+     * @param filename Name of dot file being tested
+     * @param expectedName Expected name of graph in dot file
+     * @param expectedTaskNo Expected number of tasks/nodes in dot file graph
+     * @param expectedDependencyNo Expected number of dependencies/edges in dot file graph
+     */
+    private void testInputGraph(String filename, String expectedName, int expectedTaskNo, int expectedDependencyNo) {
+        TaskGraph tg = DotIO.read(filename);
+        assertEquals(expectedName, tg.getName());
+        assertEquals(expectedTaskNo, tg.getTasks().size());
+        assertEquals(expectedDependencyNo, tg.getDependencies().size());
+    }
 
     @Test
     public void readDot() {
+        testInputGraph(testDir + "testInput.dot", "example", 4, 4);
+    }
+
+    @Test
+    public void readNodes7OutTree() {
+        testInputGraph(
+                dotExampleDir + "Nodes_7_OutTree.dot",
+                "OutTree-Balanced-MaxBf-3_Nodes_7_CCR_2.0_WeightType_Random",
+                7,
+                6
+        );
+    }
+
+    @Test
+    public void readNodes8Random() {
+        testInputGraph(
+                dotExampleDir + "Nodes_8_Random.dot",
+                "Random_Nodes_8_Density_2.0_CCR_0.1_WeightType_Random",
+                8,
+                16
+        );
+    }
+
+    @Test
+    public void readNodes9SeriesParallel() {
+        testInputGraph(
+                dotExampleDir + "Nodes_9_SeriesParallel.dot",
+                "SeriesParallel-MaxBf-3_Nodes_9_CCR_10.0_WeightType_Random",
+                9,
+                12
+        );
+    }
+
+    @Test
+    public void readNodes10Random() {
+        testInputGraph(
+                dotExampleDir + "Nodes_10_Random.dot",
+                "Random_Nodes_10_Density_1.90_CCR_10.00_WeightType_Random",
+                10,
+                19
+        );
+    }
+
+    @Test
+    public void readNodes11OutTree() {
+        testInputGraph(
+                dotExampleDir + "Nodes_11_OutTree.dot",
+                "OutTree-Balanced-MaxBf-3_Nodes_11_CCR_0.1_WeightType_Random",
+                11,
+                10
+        );
+    }
+
+    @Test
+    public void testNoWeightSpecified() {
         try {
-            TaskGraph tg = DotIO.read(testDir + "testInput.dot");
-            assertEquals("example", tg.getName());
-            assertEquals(4, tg.getTasks().size());
-            assertEquals(4, tg.getDependencies().size());
-        } catch (DotIOException e) {
-            fail("Failed to read syntax: " + e.getMessage());
-        } catch (FileNotFoundException e) {
-            fail("Failed to locate file");
-        }
+            TaskGraph tg = DotIO.read(testDir + "noWeightInput.dot");
+            fail();
+        } catch (DotIOException e) {}
+    }
+
+    @Test
+    public void testIllegalEdge() {
+        try {
+            TaskGraph tg = DotIO.read(testDir + "illegalEdgeInput.dot");
+            fail();
+        } catch (DotIOException e) {}
     }
 
     @Rule
