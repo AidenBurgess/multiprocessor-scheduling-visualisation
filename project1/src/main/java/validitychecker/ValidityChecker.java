@@ -27,6 +27,10 @@ public class ValidityChecker {
         }
     }
 
+    /**
+     * checks if a final schedule is valid.
+     * @return boolean, true if it is valid, false otherwise
+     */
     public boolean check() {
 
         for (Dependency dependency : _dependencies) {
