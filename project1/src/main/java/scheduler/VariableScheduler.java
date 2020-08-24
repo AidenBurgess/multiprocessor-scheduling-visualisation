@@ -27,7 +27,6 @@ public class VariableScheduler implements Scheduler {
     private final Bound _bound = new Bound();
     private final TaskGraph _taskGraph;
 
-    private int[] _topologicalOrder;
     private ArrayList<ArrayList<Pair<Integer,Integer>>> _adjList, _revAdjList;
     private ArrayList<Integer> _taskTimes;
 
@@ -84,42 +83,6 @@ public class VariableScheduler implements Scheduler {
             int dest = taskNameToIdMap.get(dependency.getDest());
             _adjList.get(source).add(new Pair<>(dest, dependency.getCommunicationTime()));
             _revAdjList.get(dest).add(new Pair<>(source, dependency.getCommunicationTime()));
-        }
-
-        // Topological Ordering. The below code finds one valid topological ordering.
-        // This also ensures that the TaskGraph input has no cyclic dependencies.
-        _topologicalOrder = new int[_numTasks];
-        int ind = 0;
-
-        // Queue all tasks that have no initial dependencies, and track the inDegree
-        boolean[] visited = new boolean[_numTasks];
-        int[] inDegree = new int[_numTasks];
-        LinkedList<Integer> queue = new LinkedList<>();
-        for (int i = 0; i < _numTasks; i++) {
-            inDegree[i] = _revAdjList.get(i).size();
-            if (inDegree[i] == 0) {
-                _topologicalOrder[ind++] = i;
-                queue.push(i);
-                visited[i] = true;
-            }
-        }
-
-        // Take off tasks one by one, and update the inDegree
-        while (!queue.isEmpty()) {
-            int task = queue.poll();
-
-            ArrayList<Pair<Integer, Integer>> revTask = _adjList.get(task);
-            int numRevTasks = revTask.size();
-            for (int i = 0; i < numRevTasks; i++) {
-                Pair<Integer, Integer> dependency = revTask.get(i);
-                int child = dependency.getKey();
-                inDegree[child]--;
-                if (inDegree[child] == 0 && !visited[child]) {
-                    _topologicalOrder[ind++] = child;
-                    visited[child] = true;
-                    queue.push(child);
-                }
-            }
         }
 
         // If ind != n, there are some tasks that have dependencies on each other.
@@ -187,7 +150,6 @@ public class VariableScheduler implements Scheduler {
                     processor++;
                 }
             }
-
             // By here, we have a State that has those 'on' tasks at start time = 0.
             // The state is passed to DFS and DFS handles the rest of the searching.
 
@@ -195,12 +157,8 @@ public class VariableScheduler implements Scheduler {
             return;
         }
 
-        // Tries to place the current bit as 'on', only if it has no dependencies
-        if (_revAdjList.get(ind).size() == 0) {
-            dfsCaller(ind+1, bitmask | (1<<ind));
-        }
-        // Tries to place the current bit as 'off'.
-        dfsCaller(ind+1, bitmask);
+        _dfsExecutor.waitForFinish(); // This is called to let the executor clean up
+        _informationHolder.setSchedulerStatus(InformationHolder.FINISHED);
     }
 
     @Override
