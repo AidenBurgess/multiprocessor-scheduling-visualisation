@@ -40,7 +40,8 @@ public class Driver {
         InformationHolder informationHolder = scheduler.getInformationHolder();
 
         // check for the validity.
-//        ValidityChecker.check(taskGraph.getDependencies(), informationHolder.getBestProcessorMap(), informationHolder.getBestStartTimeMap());
+        ValidityChecker validityChecker = new ValidityChecker(taskGraph.getTasks(), taskGraph.getDependencies(), informationHolder.getBestProcessorMap(), informationHolder.getBestStartTimeMap());
+        validityChecker.check();
 
         writeDotFile(informationHolder, taskGraph, config);
     }
