@@ -2,8 +2,8 @@ package main.java.dotio;
 
 import main.java.dotio.antlr.DOTLexer;
 import main.java.dotio.antlr.DOTParser;
+import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
@@ -42,10 +42,9 @@ public class DotIO {
         TaskGraph graph = new TaskGraph();
         try {
             //Instantiate ANTLR lexer and parser, and parse through file with adapted dot listener.
-            DOTLexer lexer = new DOTLexer(new ANTLRInputStream(new FileInputStream(inputFile)));
+            DOTLexer lexer = new DOTLexer(CharStreams.fromStream(new FileInputStream(inputFile)));
             DOTParser parser = new DOTParser(new CommonTokenStream(lexer));
-            ParseTree tree = parser.graph();
-            ParseTreeWalker.DEFAULT.walk(new AdaptedDotListener(graph), tree);
+            ParseTreeWalker.DEFAULT.walk(new AdaptedDotListener(graph), parser.graph());
         } catch (IOException e) {
             throw new DotIOException("Ensure that the file \"" + inputFile + "\" exists and is a valid text file.");
         }
