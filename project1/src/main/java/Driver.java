@@ -15,6 +15,9 @@ import java.io.FileNotFoundException;
 import java.util.HashMap;
 
 public class Driver {
+
+    private final static int EXIT_FAILURE = 1;
+
     public static void main(String[] args) {
 
         // read the arguments and gets the config object with all attributes
@@ -44,9 +47,9 @@ public class Driver {
     }
 
     /**
-     * Reads the config file and converts it to a task graph to be used by other methods/classes.
-     * @param config
-     * @return TaskGraph
+     * Reads the config file and converts the input file to a task graph to be used by other methods/classes.
+     * @param config The Config object that should include the input file name.
+     * @return TaskGraph The TaskGraph object that has been read and parsed from the input file.
      */
     private static TaskGraph readTaskGraph(Config config) {
         TaskGraph taskGraph = null;
@@ -54,7 +57,7 @@ public class Driver {
             taskGraph = DotIO.read(config.getInputFileName());
         } catch (DotIOException e) {
             System.err.println("Error with dot syntax of input file: " + e.getMessage());
-            System.exit(1);
+            System.exit(EXIT_FAILURE);
         }
         return taskGraph;
     }

@@ -26,14 +26,10 @@ public class DotIOTest {
      * @param expectedDependencyNo Expected number of dependencies/edges in dot file graph
      */
     private void testInputGraph(String filename, String expectedName, int expectedTaskNo, int expectedDependencyNo) {
-        try {
-            TaskGraph tg = DotIO.read(filename);
-            assertEquals(expectedName, tg.getName());
-            assertEquals(expectedTaskNo, tg.getTasks().size());
-            assertEquals(expectedDependencyNo, tg.getDependencies().size());
-        } catch (DotIOException e) {
-            fail("Error: " + e.getMessage());
-        }
+        TaskGraph tg = DotIO.read(filename);
+        assertEquals(expectedName, tg.getName());
+        assertEquals(expectedTaskNo, tg.getTasks().size());
+        assertEquals(expectedDependencyNo, tg.getDependencies().size());
     }
 
     @Test
