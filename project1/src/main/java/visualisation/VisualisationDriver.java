@@ -29,12 +29,14 @@ public class VisualisationDriver extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("VisualisationDashboard.fxml"));
-        primaryStage.setTitle("Visualisation");
-        Scene scene = new Scene(root, 1280, 720);
-        primaryStage.setScene(scene);
-//        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-        primaryStage.show();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("VisualisationDashboard.fxml"));
+        Parent root = loader.load();
+        VisualisationController controller = loader.getController();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setOnHidden(e -> controller.shutdown());
+        stage.show();
     }
 
     public static InformationHolder getInformationHolder() {

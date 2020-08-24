@@ -314,4 +314,8 @@ public class VisualisationController implements Initializable {
             _bestScheduleChart.getData().add(seriesArrayBest[i]);
         }
     }
+
+    public void shutdown() {
+        System.exit(0);
+    }
 }
