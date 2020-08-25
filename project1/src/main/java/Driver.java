@@ -1,6 +1,5 @@
 package main.java;
 
-import main.java.commandparser.CommandParserException;
 import main.java.commandparser.Config;
 import main.java.commandparser.CommandParser;
 import main.java.dotio.DotIO;
@@ -23,14 +22,7 @@ public class Driver {
     public static void main(String[] args) {
 
         // read the arguments and gets the config object with all attributes
-        Config config;
-        try {
-            config = CommandParser.parse(args);
-        } catch (CommandParserException e) {
-            // displays the output to the console for the user to read.
-            System.out.println(e.getMessage());
-            return;
-        }
+        Config config = CommandParser.parse(args);
 
         // read the file out from the input file
         TaskGraph taskGraph = readTaskGraph(config);
