@@ -1,4 +1,13 @@
-package main.java.visualisation;
+/*
+ * Source code credit to user 'Roland' from StackOverflow. This code is licensed under the  Attribution-ShareAlike
+ * 4.0 International license. It is free to be used and adapted for any purposes.
+ * Link: https://stackoverflow.com/questions/27975898/gantt-chart-from-scratch
+ * The source code was modified to match the requirements of our application.
+ * Original class name: GanttChart
+ * Modified class name: ScheduleChart
+ */
+
+package main.java.visualisation.ganttchart;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -16,10 +25,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 
 /**
- * Source code credit to 'Roland' from StackOverflow. Link: https://stackoverflow.com/questions/27975898/gantt-chart-from-scratch
- * The source code was slightly modified to match the requirements of our application.
- * Original class name: GanttChart
- * Modified class name: ScheduleChart
+ * Modified version of a Gantt chart used to display the schedule of tasks on processors.
  */
 public class ScheduleChart<X,Y> extends XYChart<X,Y> {
 
