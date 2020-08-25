@@ -17,20 +17,13 @@ public abstract class DFS {
     private int _numTasks;
     protected State _state;
     protected Bound _bound;
-    private ArrayList<ArrayList<Pair<Integer, Integer>>> _adjList, _revAdjList;
-    private ArrayList<Integer> _taskTimes;
+    protected DataStructures _dataStructures;
     protected InformationHolder _informationHolder;
 
-    public DFS(State state, Bound bound,
-               ArrayList<ArrayList<Pair<Integer, Integer>>> adjList,
-               ArrayList<ArrayList<Pair<Integer, Integer>>> revAdjList,
-               ArrayList<Integer> taskTimes,
-               InformationHolder informationHolder) {
+    public DFS(State state, Bound bound, DataStructures dataStructures, InformationHolder informationHolder) {
         _state = state;
         _bound = bound;
-        _adjList = adjList;
-        _revAdjList = revAdjList;
-        _taskTimes = taskTimes;
+        _dataStructures = dataStructures;
         _numTasks = _state._numTasks;
         _informationHolder = informationHolder;
     }
@@ -85,7 +78,7 @@ public abstract class DFS {
             boolean dependenciesMet = true;
             boolean isPrevTasksChild = false;
 
-            ArrayList<Pair<Integer, Integer>> revTask = _revAdjList.get(task);
+            ArrayList<Pair<Integer, Integer>> revTask = _dataStructures.getRevAdjList().get(task);
             int numRevTasks = revTask.size();
             for (int i = 0; i < numRevTasks; i++) {
                 Pair<Integer, Integer> dependency = revTask.get(i);
@@ -109,11 +102,24 @@ public abstract class DFS {
                 // Duplicate state.... ?
                 if (processor < prevProcessor && !isPrevTasksChild) continue;
 
+                // You can only put a task on an empty processor if the currentTask is larger than
+                // the firstTask of the previous processor
+                // todo check if tasks are allowed to be weight 0
+                if (_state._processorEndTime[processor] == 0) {
+                    if (processor != _state._freeProcessor) break; // if this is not the freeProcessor
+                    if (processor != 0) {
+                        int curTopologicalIndex = _dataStructures.getTopologicalIndex().get(task);
+                        int prevTopologicalIndex = _dataStructures.getTopologicalIndex().get(_state._prevProcessorFirstTask);
+
+                        if (curTopologicalIndex < prevTopologicalIndex) continue;
+                    }
+                }
+
                 // Find the earliest time that task can be placed on processor.
                 // For each of its dependencies, make sure that there is enough delay.
                 int nextTaskStartTime = _state._processorEndTime[processor];
 
-                revTask = _revAdjList.get(task);
+                revTask = _dataStructures.getRevAdjList().get(task);
                 numRevTasks = revTask.size();
                 for (int i = 0; i < numRevTasks; i++) {
                     Pair<Integer, Integer> dependency = revTask.get(i);
@@ -127,9 +133,12 @@ public abstract class DFS {
                 }
 
                 // Save the current state
-                int nextTaskEndTime = nextTaskStartTime + _taskTimes.get(task);
+                int nextTaskEndTime = nextTaskStartTime + _dataStructures.getTaskWeights().get(task);
                 int processorPrevEndTime = _state._processorEndTime[processor];
                 int prevEndTime = _state._endTime;
+                int prevFreeProcessor = _state._freeProcessor;
+                int prevPrevProcessorFirstTask = _state._prevProcessorFirstTask;
+
 
                 // Update current state
                 _state._taskEndTime[task] = nextTaskEndTime;
@@ -138,6 +147,11 @@ public abstract class DFS {
                 _state._processorEndTime[processor] = nextTaskEndTime;
                 _state._unassignedTasks--;
                 _state._endTime = Math.max(_state._endTime, nextTaskEndTime);
+
+                if (processor == _state._freeProcessor) {
+                    _state._freeProcessor++;
+                    _state._prevProcessorFirstTask = task;
+                }
 
                 // Recursive call
                 run(task, processor);
@@ -149,6 +163,8 @@ public abstract class DFS {
                 _state._processorEndTime[processor] = processorPrevEndTime;
                 _state._unassignedTasks++;
                 _state._endTime = prevEndTime;
+                _state._freeProcessor = prevFreeProcessor;
+                _state._prevProcessorFirstTask = prevPrevProcessorFirstTask;
             }
         }
 

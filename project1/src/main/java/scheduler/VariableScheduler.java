@@ -27,8 +27,7 @@ public class VariableScheduler implements Scheduler {
     private final Bound _bound = new Bound();
     private final TaskGraph _taskGraph;
 
-    private ArrayList<ArrayList<Pair<Integer,Integer>>> _adjList, _revAdjList;
-    private ArrayList<Integer> _taskTimes;
+    private DataStructures _dataStructures;
 
     private DFSExecutor _dfsExecutor;
     private StatisticToggle _statisticToggle;
@@ -37,10 +36,8 @@ public class VariableScheduler implements Scheduler {
     private VariableScheduler(TaskGraph taskGraph, int numProcessors) {
         _informationHolder = new InformationHolder(taskGraph);
         _numTasks = taskGraph.getTasks().size();
-        _taskTimes = new ArrayList<>();
         _numProcessors = numProcessors;
         _taskGraph = taskGraph;
-
 
         initializeDataStructures();
     }
@@ -54,23 +51,22 @@ public class VariableScheduler implements Scheduler {
     }
 
     private void initializeDataStructures() {
+        _dataStructures = new DataStructures();
+
         // Mapping each Task object to an integer id. 0-indexed.
         HashMap<String, Integer> taskNameToIdMap = new HashMap<>();
         for (int i = 0; i < _taskGraph.getTasks().size(); i++) {
             taskNameToIdMap.put(_taskGraph.getTasks().get(i).getName(), i);
         }
 
-        // Instantiating taskTimes
-        for (int i = 0; i < _taskGraph.getTasks().size(); i++) {
-            _taskTimes.add(_taskGraph.getTasks().get(i).getTaskTime());
-        }
+        ArrayList<ArrayList<Pair<Integer, Integer>>> adjList, revAdjList;
 
         // Instantiating the adjacency list and reverse adjacency list.
-        _adjList = new ArrayList<>(_numTasks);
-        _revAdjList = new ArrayList<>(_numTasks);
+        adjList = new ArrayList<>(_numTasks);
+        revAdjList = new ArrayList<>(_numTasks);
         for (int i = 0; i < _numTasks; i++) {
-            _adjList.add(new ArrayList<>());
-            _revAdjList.add(new ArrayList<>());
+            adjList.add(new ArrayList<>());
+            revAdjList.add(new ArrayList<>());
         }
 
         // Substantiate the adjList and revAdjList.
@@ -81,17 +77,72 @@ public class VariableScheduler implements Scheduler {
             Dependency dependency = dependencies.get(i);
             int source = taskNameToIdMap.get(dependency.getSource());
             int dest = taskNameToIdMap.get(dependency.getDest());
-            _adjList.get(source).add(new Pair<>(dest, dependency.getCommunicationTime()));
-            _revAdjList.get(dest).add(new Pair<>(source, dependency.getCommunicationTime()));
+            adjList.get(source).add(new Pair<>(dest, dependency.getCommunicationTime()));
+            revAdjList.get(dest).add(new Pair<>(source, dependency.getCommunicationTime()));
         }
+
+        // Topological Ordering. The below code finds one valid topological ordering.
+        // This also ensures that the TaskGraph input has no cyclic dependencies.
+        ArrayList<Integer> topologicalOrder = new ArrayList<>();
+
+        // Queue all tasks that have no initial dependencies, and track the inDegree
+        boolean[] visited = new boolean[_numTasks];
+        int[] inDegree = new int[_numTasks];
+        LinkedList<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < _numTasks; i++) {
+            inDegree[i] = revAdjList.get(i).size();
+            if (inDegree[i] == 0) {
+                topologicalOrder.add(i);
+                queue.push(i);
+                visited[i] = true;
+            }
+        }
+
+        // Take off tasks one by one, and update the inDegree
+        while (!queue.isEmpty()) {
+            int task = queue.poll();
+
+            ArrayList<Pair<Integer, Integer>> revTask = adjList.get(task);
+            int numRevTasks = revTask.size();
+            for (int i = 0; i < numRevTasks; i++) {
+                Pair<Integer, Integer> dependency = revTask.get(i);
+                int child = dependency.getKey();
+                inDegree[child]--;
+                if (inDegree[child] == 0 && !visited[child]) {
+                    topologicalOrder.add(child);
+                    visited[child] = true;
+                    queue.push(child);
+                }
+            }
+        }
+
+        // If ind != n, there are some tasks that have dependencies on each other.
+        if (topologicalOrder.size() != _numTasks) throw new RuntimeException("No topological ordering found"); // todo what we want to happen?
+
+        ArrayList<Integer> topologicalIndex = new ArrayList<>();
+        for (int i = 0; i < _numTasks; i++) topologicalIndex.add(0);
+
+        for (int i = 0; i < _numTasks; i++) {
+            topologicalIndex.set(topologicalOrder.get(i), i);
+        }
+
+        ArrayList<Integer> taskWeights = new ArrayList<>();
+        for (int i = 0; i < _numTasks; i++) {
+            taskWeights.add(_taskGraph.getTasks().get(i).getTaskTime());
+        }
+
+        _dataStructures.setTopologicalIndex(topologicalIndex);
+        _dataStructures.setAdjList(adjList);
+        _dataStructures.setRevAdjList(revAdjList);
+        _dataStructures.setTaskWeights(taskWeights);
     }
 
     @Override
     public void execute() {
         _informationHolder.setSchedulerStatus(InformationHolder.RUNNING);
-        State state = new State(_numTasks, _numProcessors, _revAdjList);
+        State state = new State(_numTasks, _numProcessors, _dataStructures);
 
-        _dfsExecutor.runDFS(_statisticToggle.getDFS(state, _bound, _adjList, _revAdjList, _taskTimes, _informationHolder));
+        _dfsExecutor.runDFS(_statisticToggle.getDFS(state, _bound, _dataStructures, _informationHolder));
 
         _dfsExecutor.waitForFinish(); // This is called to let the executor clean up
         _informationHolder.setSchedulerStatus(InformationHolder.FINISHED);

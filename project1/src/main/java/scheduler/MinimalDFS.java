@@ -9,8 +9,8 @@ import java.util.ArrayList;
  * Only responsible for updating the best found state.
  */
 public class MinimalDFS extends DFS {
-    public MinimalDFS(State state, Bound bound, ArrayList<ArrayList<Pair<Integer, Integer>>> adjList, ArrayList<ArrayList<Pair<Integer, Integer>>> revAdjList, ArrayList<Integer> taskTimes, InformationHolder informationHolder) {
-        super(state, bound, adjList, revAdjList, taskTimes, informationHolder);
+    public MinimalDFS(State state, Bound bound, DataStructures dataStructures, InformationHolder informationHolder) {
+        super(state, bound, dataStructures, informationHolder);
     }
 
     @Override

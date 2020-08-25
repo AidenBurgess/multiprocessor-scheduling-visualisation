@@ -19,6 +19,7 @@ public class State {
 
     protected int _endTime; // end time of the last processor
     protected int _unassignedTasks; // number of tasks still unassigned
+    protected int _freeProcessor, _prevProcessorFirstTask;
 
     private State(int numTasks, int numProcessors) {
         _numTasks = numTasks;
@@ -26,6 +27,8 @@ public class State {
 
         _unassignedTasks = numTasks; // initially n tasks are unassigned
         _endTime = 0;
+        _freeProcessor = 0;
+        _prevProcessorFirstTask = UNSCHEDULED;
 
         _processorEndTime = new int[numProcessors];
         _assignedProcessorId = new int[numTasks];
@@ -42,10 +45,10 @@ public class State {
         }
     }
 
-    public State(int numTasks, int numProcessors, ArrayList<ArrayList<Pair<Integer, Integer>>> revAdjList) {
+    public State(int numTasks, int numProcessors, DataStructures dataStructures) {
         this(numTasks, numProcessors);
         for (int i = 0; i < numTasks; i++) {
-            _taskInDegree[i] = revAdjList.get(i).size();
+            _taskInDegree[i] = dataStructures.getRevAdjList().get(i).size();
         }
     }
 
