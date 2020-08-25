@@ -89,9 +89,9 @@ public class VariableScheduler implements Scheduler {
     @Override
     public void execute() {
         _informationHolder.setSchedulerStatus(InformationHolder.RUNNING);
-        State state = new State(_numTasks, _numProcessors);
+        State state = new State(_numTasks, _numProcessors, _revAdjList);
 
-        _dfsExecutor.runDFS(_statisticToggle.getDFS(state, _bound, _revAdjList, _taskTimes, _informationHolder));
+        _dfsExecutor.runDFS(_statisticToggle.getDFS(state, _bound, _adjList, _revAdjList, _taskTimes, _informationHolder));
 
         _dfsExecutor.waitForFinish(); // This is called to let the executor clean up
         _informationHolder.setSchedulerStatus(InformationHolder.FINISHED);

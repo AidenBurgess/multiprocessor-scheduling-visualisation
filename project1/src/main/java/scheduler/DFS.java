@@ -17,13 +17,18 @@ public abstract class DFS {
     private int _numTasks;
     protected State _state;
     protected Bound _bound;
-    private ArrayList<ArrayList<Pair<Integer, Integer>>> _revAdjList;
+    private ArrayList<ArrayList<Pair<Integer, Integer>>> _adjList, _revAdjList;
     private ArrayList<Integer> _taskTimes;
     protected InformationHolder _informationHolder;
 
-    public DFS(State state, Bound bound, ArrayList<ArrayList<Pair<Integer, Integer>>> revAdjList, ArrayList<Integer> taskTimes, InformationHolder informationHolder) {
+    public DFS(State state, Bound bound,
+               ArrayList<ArrayList<Pair<Integer, Integer>>> adjList,
+               ArrayList<ArrayList<Pair<Integer, Integer>>> revAdjList,
+               ArrayList<Integer> taskTimes,
+               InformationHolder informationHolder) {
         _state = state;
         _bound = bound;
+        _adjList = adjList;
         _revAdjList = revAdjList;
         _taskTimes = taskTimes;
         _numTasks = _state._numTasks;
@@ -50,6 +55,10 @@ public abstract class DFS {
      * run() will return.
      */
     protected final void run() {
+        run(-1, -1);
+    }
+
+    private final void run(int prevTask, int prevProcessor) { // try this for now
         onDFSEntry();
 
         // Prune
@@ -74,6 +83,7 @@ public abstract class DFS {
 
             // If the task still has unscheduled dependencies, ignore
             boolean dependenciesMet = true;
+            boolean isPrevTasksChild = false;
 
             ArrayList<Pair<Integer, Integer>> revTask = _revAdjList.get(task);
             int numRevTasks = revTask.size();
@@ -84,6 +94,7 @@ public abstract class DFS {
                     dependenciesMet = false;
                     break;
                 }
+                if (parent == prevTask) isPrevTasksChild = true;
             }
             if (!dependenciesMet) continue;
 
@@ -94,6 +105,9 @@ public abstract class DFS {
                     onDFSExit();
                     return;
                 }
+
+                // Duplicate state.... ?
+                if (processor < prevProcessor && !isPrevTasksChild) continue;
 
                 // Find the earliest time that task can be placed on processor.
                 // For each of its dependencies, make sure that there is enough delay.
@@ -120,16 +134,18 @@ public abstract class DFS {
                 // Update current state
                 _state._taskEndTime[task] = nextTaskEndTime;
                 _state._assignedProcessorId[task] = processor;
+                _state._taskInDegree[task]--;
                 _state._processorEndTime[processor] = nextTaskEndTime;
                 _state._unassignedTasks--;
                 _state._endTime = Math.max(_state._endTime, nextTaskEndTime);
 
                 // Recursive call
-                run();
+                run(task, processor);
 
                 // Restore current state
                 _state._taskEndTime[task] = State.UNSCHEDULED;
                 _state._assignedProcessorId[task] = State.UNSCHEDULED;
+                _state._taskInDegree[task]++;
                 _state._processorEndTime[processor] = processorPrevEndTime;
                 _state._unassignedTasks++;
                 _state._endTime = prevEndTime;

@@ -1,5 +1,9 @@
 package main.java.scheduler;
 
+import javafx.util.Pair;
+
+import java.util.ArrayList;
+
 /**
  * The State class holds information that defines an allocation of tasks on processors.
  */
@@ -10,12 +14,13 @@ public class State {
 
     protected int[] _assignedProcessorId; // assignedProcessorId[taskId] -> processorId
     protected int[] _taskEndTime; // taskEndTime[taskId] -> end time of task
+    protected int[] _taskInDegree; // taskInDegree[taskId] -> how many dependencies task is waiting on
     protected int[] _processorEndTime; // processorEndTime[processorId] -> end time of processor
 
     protected int _endTime; // end time of the last processor
     protected int _unassignedTasks; // number of tasks still unassigned
 
-    public State(int numTasks, int numProcessors) {
+    private State(int numTasks, int numProcessors) {
         _numTasks = numTasks;
         _numProcessors = numProcessors;
 
@@ -25,6 +30,7 @@ public class State {
         _processorEndTime = new int[numProcessors];
         _assignedProcessorId = new int[numTasks];
         _taskEndTime = new int[numTasks];
+        _taskInDegree = new int[numTasks];
 
         for (int i = 0; i < numTasks; i++) {
             _taskEndTime[i] = UNSCHEDULED;
@@ -33,6 +39,13 @@ public class State {
 
         for (int i = 0; i < numProcessors; i++) {
             _processorEndTime[i] = 0;
+        }
+    }
+
+    public State(int numTasks, int numProcessors, ArrayList<ArrayList<Pair<Integer, Integer>>> revAdjList) {
+        this(numTasks, numProcessors);
+        for (int i = 0; i < numTasks; i++) {
+            _taskInDegree[i] = revAdjList.get(i).size();
         }
     }
 

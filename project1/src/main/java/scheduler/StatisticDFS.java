@@ -8,8 +8,8 @@ import java.util.ArrayList;
  * An implementation of DFS where statistics are measured and updated in the InformationHolder instance.
  */
 public class StatisticDFS extends MinimalDFS {
-    public StatisticDFS(State state, Bound bound, ArrayList<ArrayList<Pair<Integer, Integer>>> revAdjList, ArrayList<Integer> taskTimes, InformationHolder informationHolder) {
-        super(state, bound, revAdjList, taskTimes, informationHolder);
+    public StatisticDFS(State state, Bound bound, ArrayList<ArrayList<Pair<Integer, Integer>>> adjList, ArrayList<ArrayList<Pair<Integer, Integer>>> revAdjList, ArrayList<Integer> taskTimes, InformationHolder informationHolder) {
+        super(state, bound, adjList, revAdjList, taskTimes, informationHolder);
     }
 
     @Override

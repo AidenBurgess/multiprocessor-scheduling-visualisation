@@ -29,6 +29,8 @@ public class OptimalityTest {
             String lengthFileName = "test-result/" + fileNameNoDot + "-result.txt";
             File lengthFile = new File(lengthFileName);
 
+            // Some condition, if you only want to test some inputs
+            // if (!fileNameNoDot.contains("Nodes_")) continue;
 
             int processors = 0, tens = 1;
             for (int i = fileNameNoDot.length() - 1; i >= 0; i--) {
@@ -68,7 +70,7 @@ public class OptimalityTest {
     @Test(timeout=1000)
     public void test() {
         Scheduler scheduler = new VariableScheduler(_taskGraph, _processors, false, Config.SEQUENTIAL_EXECUTION);
-        System.out.println(_taskGraph.getName() + "," + _processors);
+        System.out.println(_file.getName());
         scheduler.execute();
         long actual = scheduler.getInformationHolder().getCurrentBound();
 

@@ -9,5 +9,5 @@ import java.util.ArrayList;
  * wishes for Statistics to be recorded.
  */
 public interface StatisticToggle {
-    DFS getDFS(State state, Bound bound, ArrayList<ArrayList<Pair<Integer, Integer>>> revAdjList, ArrayList<Integer> taskTimes, InformationHolder informationHolder);
+    DFS getDFS(State state, Bound bound, ArrayList<ArrayList<Pair<Integer, Integer>>> adjList, ArrayList<ArrayList<Pair<Integer, Integer>>> revAdjList, ArrayList<Integer> taskTimes, InformationHolder informationHolder);
 }
