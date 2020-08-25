@@ -1,9 +1,13 @@
 package main.java.visualisation;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.chart.XYChart;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import main.java.dotio.Task;
-import main.java.scheduler.InformationHolder;
+import main.java.visualisation.ganttchart.ScheduleChart;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +20,7 @@ public class DisplayUpdater {
     private XYChart.Series _RAMSeries;
     private Text _visitedStatesFigure;
     private Text _completedSchedulesFigure;
+    private Text _activeBranchFigure;
     private Text _timeElapsedFigure;
     private int _numProcessors = VisualisationDriver.getNumProcessors();
     private List<Task> _taskList = VisualisationDriver.getTaskGraph().getTasks();
@@ -23,18 +28,28 @@ public class DisplayUpdater {
     private int _seconds = 0;
 
 
-    public DisplayUpdater(Text visitedStatesFigure, Text completedSchedulesFigure, Text timeElapsedFigure,
+    public DisplayUpdater(Text visitedStatesFigure, Text completedSchedulesFigure, Text activeBranchFigure, Text timeElapsedFigure,
                           ScheduleChart<Number, String> currentScheduleChart, ScheduleChart<Number, String> bestScheduleChart,
                           XYChart.Series CPUSeries, XYChart.Series RAMSeries) {
 
         _visitedStatesFigure = visitedStatesFigure;
         _completedSchedulesFigure = completedSchedulesFigure;
+        _activeBranchFigure = activeBranchFigure;
         _timeElapsedFigure = timeElapsedFigure;
         _currentScheduleChart = currentScheduleChart;
         _bestScheduleChart = bestScheduleChart;
         _CPUSeries = CPUSeries;
         _RAMSeries = RAMSeries;
+        startTimer();
 
+    }
+
+    private void startTimer() {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(0),
+                e -> updateTime()),
+                new KeyFrame(Duration.millis(10)));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
     }
 
     protected void updateTime() {
@@ -54,7 +69,7 @@ public class DisplayUpdater {
 
         _visitedStatesFigure.setText(Long.toString(visitedStates));
         _completedSchedulesFigure.setText(Long.toString(completedSchedules));
-        // activeBranchFigure.setText(Long.toString(activeBranches));
+        _activeBranchFigure.setText(Long.toString(activeBranches));
     }
 
     /**

@@ -9,6 +9,8 @@ import javafx.scene.layout.VBox;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.text.Text;
+import main.java.visualisation.ganttchart.ScheduleChart;
+
 import java.util.*;
 import java.net.URL;
 
@@ -47,16 +49,16 @@ public class VisualisationController implements Initializable {
     private AreaChart<Number, Number> RAMChart;
 
     @FXML
-    private Text timeElapsedFigure;
+    private Text _timeElapsedFigure;
 
     @FXML
-    private Text activeBranchFigure;
+    private Text _activeBranchFigure;
 
     @FXML
-    private Text visitedStatesFigure;
+    private Text _visitedStatesFigure;
 
     @FXML
-    private Text completedSchedulesFigure;
+    private Text _completedSchedulesFigure;
 
     @FXML
     private VBox _bestScheduleParent;
@@ -80,8 +82,8 @@ public class VisualisationController implements Initializable {
         setUpRAMChart();
         setUpScheduleCharts();
 
-        DisplayUpdater displayUpdater = new DisplayUpdater(visitedStatesFigure, completedSchedulesFigure, timeElapsedFigure,
-                                                        _currentScheduleChart, _bestScheduleChart, _CPUSeries, _RAMSeries);
+        DisplayUpdater displayUpdater = new DisplayUpdater(_visitedStatesFigure, _completedSchedulesFigure, _activeBranchFigure, _timeElapsedFigure,
+                                                           _currentScheduleChart, _bestScheduleChart, _CPUSeries, _RAMSeries);
 
         InformationPoller informationPoller = new InformationPoller(displayUpdater);
     }
@@ -138,7 +140,7 @@ public class VisualisationController implements Initializable {
         _currentScheduleParent.getChildren().add(_currentScheduleChart);
 
         // Setting up the stylesheet for the charts
-        _bestScheduleChart.getStylesheets().add(getClass().getResource("scheduleChart.css").toExternalForm());
+        _bestScheduleChart.getStylesheets().add(getClass().getResource("ganttchart/scheduleChart.css").toExternalForm());
     }
 
 

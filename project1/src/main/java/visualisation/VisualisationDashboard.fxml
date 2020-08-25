@@ -92,7 +92,7 @@
                                  <children>
                                     <VBox alignment="CENTER" layoutX="-10.0" layoutY="31.0" prefHeight="348.0" prefWidth="162.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <Text fx:id="timeElapsedFigure" strokeType="OUTSIDE" strokeWidth="0.0" text="0.00s">
+                                          <Text fx:id="_timeElapsedFigure" strokeType="OUTSIDE" strokeWidth="0.0" text="0.00s">
                                              <font>
                                                 <Font size="24.0" />
                                              </font>
@@ -100,7 +100,7 @@
                                                 <Insets bottom="15.0" top="30.0" />
                                              </VBox.margin>
                                           </Text>
-                                          <Text fx:id="activeBranchesFigure" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+                                          <Text fx:id="_activeBranchFigure" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
                                              <font>
                                                 <Font size="24.0" />
                                              </font>
@@ -108,7 +108,7 @@
                                                 <Insets bottom="15.0" top="15.0" />
                                              </VBox.margin>
                                           </Text>
-                                          <Text fx:id="visitedStatesFigure" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+                                          <Text fx:id="_visitedStatesFigure" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
                                              <font>
                                                 <Font size="24.0" />
                                              </font>
@@ -116,7 +116,7 @@
                                                 <Insets bottom="15.0" top="15.0" />
                                              </VBox.margin>
                                           </Text>
-                                          <Text fx:id="completedSchedulesFigure" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+                                          <Text fx:id="_completedSchedulesFigure" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
                                              <font>
                                                 <Font size="24.0" />
                                              </font>
