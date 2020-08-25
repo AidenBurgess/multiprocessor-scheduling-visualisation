@@ -25,4 +25,16 @@ public class InformationPoller {
         startTimer();
     }
 
+    /**
+     * starts the timer for the total time and updates every 10 milliseconds.
+     */
+    private void startTimer() {
+
+        _timer = new Timer();
+        _timer.schedule(new ScheduleUpdateTask(), _scheduleRefreshRate, 1000);
+        _timer.schedule(new GraphUpdateTask(), _graphRefreshRate, 1000);
+        _timer.schedule(new StatsUpdateTask(), _statsRefreshRate, 1000);
+
+    }
+
 }

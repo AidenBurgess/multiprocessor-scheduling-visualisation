@@ -6,26 +6,11 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.VBox;
-import javafx.scene.chart.XYChart.Series;
-import main.java.dotio.Task;
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.application.Platform;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.text.Text;
-import javafx.util.Duration;
-import main.java.dataretriever.SystemPerformanceRetriever;
-import main.java.scheduler.InformationHolder;
-import main.java.scheduler.Scheduler;
-import main.java.visualisation.ScheduleChart.ExtraData;
-
 import java.util.*;
-
 import java.net.URL;
-import java.util.Timer;
-import java.util.TimerTask;
 
 //todo Ask the group if we want the GanttChart class named to be
 // changed or we want to retain it. Also whether we want the fields
@@ -33,17 +18,11 @@ import java.util.TimerTask;
 
 public class VisualisationController implements Initializable {
 
-    private int _refreshRate = 1000;
-    private SystemPerformanceRetriever _performanceRetriever;
 
     private XYChart.Series _CPUSeries;
     private XYChart.Series _RAMSeries;
 
-    private InformationHolder _informationHolder;
-    private Timer _timer;
 
-    private int _seconds;
-    private int _milliseconds;
 
     // FXML Fields
     @FXML
@@ -88,8 +67,6 @@ public class VisualisationController implements Initializable {
     // Non-FXML Fields
     private ScheduleChart<Number, String> _currentScheduleChart;
     private ScheduleChart<Number, String> _bestScheduleChart;
-    private List<Task> _taskList;
-    private int _numProcessors;
 
     /**
      * Updates the refresh rate, yet to be implemented
@@ -101,16 +78,6 @@ public class VisualisationController implements Initializable {
         _refreshRate = refreshRate;
     }
 
-    /**
-     * starts the timer for the total time and updates every 10 milliseconds.
-     */
-    private void startTimer() {
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(0),
-                e -> updateTime()),
-                new KeyFrame(Duration.millis(10)));
-        timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.play();
-    }
 
 
     /**
