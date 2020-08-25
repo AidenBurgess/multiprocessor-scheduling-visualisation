@@ -209,58 +209,6 @@ public class VisualisationController implements Initializable {
         _bestScheduleChart.getStylesheets().add(getClass().getResource("scheduleChart.css").toExternalForm());
     }
 
-    //todo make sure that the following case related to this method is handled: When the scheduler has not found a
-    // best schedule yet and this method is called. Either prevent this from happening or handle this situation inside the method
-    private void updateScheduleChart() {
-        // Retrieving the current and the best schedule information
-        HashMap<String, Integer> currentProcessorMap = _informationHolder.getCurrentProcessorMap();
-        HashMap<String, Integer> bestProcessorMap = _informationHolder.getBestProcessorMap();
-        HashMap<String, Integer> currentStartTimeMap = _informationHolder.getCurrentStartTimeMap();
-        HashMap<String, Integer> bestStartTimeMap = _informationHolder.getBestStartTimeMap();
-
-
-        // Create Series objects. Each object will act as a row in the respective chart
-        Series[] seriesArrayCurrent = new Series[_numProcessors];
-        Series[] seriesArrayBest = new Series[_numProcessors];
-        for (int i = 0; i < _numProcessors; i++) {
-            seriesArrayCurrent[i] = new Series();
-            seriesArrayBest[i] = new Series();
-        }
-
-        // Run through each task, create an XYChart.Data object and put
-        // this object in the Series object which corresponds to the processor this task is scheduled on
-        for (Task task : _taskList) {
-            int taskTime = task.getTaskTime();
-
-            // Populating the current schedule if the schedule contains the current task
-            /**
-             * todo When current state is provided by the InformationHolder, both task-blocks show up on the
-             * same side. I commented this out for now.
-             */
-//            if (currentStartTimeMap.containsKey(task.getName())) {
-//                int taskProcessorCurrent = currentProcessorMap.get(task.getName());
-//                int taskStartTimeCurrent = currentStartTimeMap.get(task.getName());
-//                XYChart.Data taskDataCurrent = new XYChart.Data(taskStartTimeCurrent, "Processor ".concat(Integer.toString(taskProcessorCurrent)), new ExtraData(taskTime, "task"));
-//                // -1 has been used below because the seriesArray is 0 indexed whereas the processor numbers are 1 indexed
-//                seriesArrayBest[taskProcessorCurrent - 1].getData().add(taskDataCurrent);
-//            }
-
-            // Populating the best schedule chart
-            int taskProcessorBest = bestProcessorMap.get(task.getName());
-            int taskStartTimeBest = bestStartTimeMap.get(task.getName());
-            XYChart.Data taskDataBest = new XYChart.Data(taskStartTimeBest, "Processor ".concat(Integer.toString(taskProcessorBest)), new ExtraData(taskTime, "task"));
-            // -1 has been used below because the seriesArray is 0 indexed whereas the processor numbers are 1 indexed
-            seriesArrayBest[taskProcessorBest - 1].getData().add(taskDataBest);
-        }
-
-        // Put the Series objects in the charts after clearing the charts existing data
-        _currentScheduleChart.getData().clear();
-        _bestScheduleChart.getData().clear();
-        for (int i = 0; i < seriesArrayCurrent.length; i++) {
-            _currentScheduleChart.getData().add(seriesArrayCurrent[i]);
-            _bestScheduleChart.getData().add(seriesArrayBest[i]);
-        }
-    }
 
     public void shutdown() {
         System.exit(0);
