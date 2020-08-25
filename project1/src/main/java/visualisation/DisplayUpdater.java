@@ -37,4 +37,13 @@ public class DisplayUpdater {
 
     }
 
+    protected void updateTime() {
+        if (_milliseconds < 99) {
+            _milliseconds++;
+        } else {
+            _milliseconds = 0;
+            _seconds++;
+        }
+        _timeElapsedFigure.setText(Integer.toString(_seconds).concat(".").concat(Integer.toString(_milliseconds)).concat("s"));
+    }
 }

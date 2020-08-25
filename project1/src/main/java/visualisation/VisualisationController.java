@@ -112,18 +112,6 @@ public class VisualisationController implements Initializable {
         timeline.play();
     }
 
-    /**
-     * Updates the time from the timer.
-     */
-    private void updateTime() {
-        if (_milliseconds < 99) {
-            _milliseconds++;
-        } else {
-            _milliseconds = 0;
-            _seconds++;
-        }
-        timeElapsedFigure.setText(Integer.toString(_seconds).concat(".").concat(Integer.toString(_milliseconds)).concat("s"));
-    }
 
     /**
      * Updates the statistics such as the visited states and the completed schedules
