@@ -37,4 +37,48 @@ public class InformationPoller {
 
     }
 
+
+    private class ScheduleUpdateTask extends TimerTask {
+
+        @Override
+        public void run() {
+            Platform.runLater(() -> {
+                // Retrieving the current and the best schedule information
+                HashMap<String, Integer> currentProcessorMap = _informationHolder.getCurrentProcessorMap();
+                HashMap<String, Integer> bestProcessorMap = _informationHolder.getBestProcessorMap();
+                HashMap<String, Integer> currentStartTimeMap = _informationHolder.getCurrentStartTimeMap();
+                HashMap<String, Integer> bestStartTimeMap = _informationHolder.getBestStartTimeMap();
+
+                _displayUpdater.refreshScheduleCharts(currentProcessorMap, bestProcessorMap, currentStartTimeMap, bestStartTimeMap);
+
+            });
+
+        }
+    }
+
+
+    private class GraphUpdateTask extends TimerTask {
+
+        @Override
+        public void run() {
+            // queue tasks on the other thread
+            Platform.runLater(() -> {
+                _displayUpdater.refreshCPUChart(_performanceRetriever.getCPUUsagePercent());
+                _displayUpdater.refreshRAMChart(_performanceRetriever.getRAMUsageGigaBytes());
+            });
+        }
+    }
+
+
+    private class StatsUpdateTask extends TimerTask {
+
+        @Override
+        public void run() {
+            long visitedBranches =  _informationHolder.getTotalStates();
+            long completedSchedules = _informationHolder.getCompleteStates();
+            long activeBranches = _informationHolder.getActiveBranches();
+            _displayUpdater.updateStatistics(visitedBranches, completedSchedules, activeBranches);
+
+        }
+    }
 }
