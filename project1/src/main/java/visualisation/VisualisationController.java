@@ -71,10 +71,21 @@ public class VisualisationController implements Initializable {
     private int _numProcessors;
 
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        _numProcessors = VisualisationDriver.getNumProcessors();
+        // initialise the charts
+        setUpCPUChart();
+        setUpRAMChart();
+        setUpScheduleCharts();
 
+        DisplayUpdater displayUpdater = new DisplayUpdater(visitedStatesFigure, completedSchedulesFigure, timeElapsedFigure,
+                                                        _currentScheduleChart, _bestScheduleChart, _CPUSeries, _RAMSeries);
 
+        InformationPoller informationPoller = new InformationPoller(displayUpdater);
     }
+
 
     /**
      * Sets up the RAM chart
@@ -100,53 +111,6 @@ public class VisualisationController implements Initializable {
         CPUChart.getData().add(_CPUSeries);
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        _informationHolder = VisualisationDriver.getInformationHolder();
-        _performanceRetriever = new SystemPerformanceRetriever();
-        _taskList = VisualisationDriver.getTaskGraph().getTasks();
-        _numProcessors = VisualisationDriver.getNumProcessors();
-
-        // initialise the time to 0.00
-        _seconds = 0;
-        _milliseconds = 0;
-
-        // start the overall timer
-        startTimer();
-
-        // initialise the charts
-        setUpCPUChart();
-        setUpRAMChart();
-        setUpScheduleCharts();
-
-        // Setup polling the scheduler
-        _timer = new Timer();
-
-        _timer.schedule(new TimerTask() {
-
-            @Override
-            public void run() {
-                updateStatistics();
-
-                // queue tasks on the other thread
-                Platform.runLater(new Runnable() {
-                    int i = 0;
-                    @Override
-                    public void run() {
-//                        CPUSeries.getData().add(new XYChart.Data<>(Integer.toString(i++),10));
-                        addCPUChartData();
-                        addRAMChartData();
-                        updateScheduleChart();
-//                        if (i++ == 5) {
-//
-//                            i = 0;
-//                        }
-                    }
-                });
-            }
-
-        }, _refreshRate, 1000);
-    }
 
     private void setUpScheduleCharts() {
         // Setting up the y-axis
