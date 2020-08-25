@@ -27,23 +27,9 @@ public class VisualisationController implements Initializable {
 
 
     // FXML Fields
-    @FXML
-    private VBox currentSchedule;
-
-    @FXML
-    private VBox bestSchedule;
-
-    @FXML
-    private VBox statistics;
-
-    @FXML
-    private VBox CPUParent;
 
     @FXML
     private AreaChart<String, Number> CPUChart;
-
-    @FXML
-    private VBox RAMParent;
 
     @FXML
     private AreaChart<Number, Number> RAMChart;
