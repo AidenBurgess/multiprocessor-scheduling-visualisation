@@ -1,0 +1,35 @@
+digraph "Random_N22_EdgeDensity5%_P22.dot" {
+	1	[Weight=28];
+	2	[Weight=34];
+	3	[Weight=14];
+	4	[Weight=22];
+	5	[Weight=16];
+	6	[Weight=16];
+	7	[Weight=32];
+	8	[Weight=14];
+	9	[Weight=31];
+	10	[Weight=32];
+	11	[Weight=10];
+	12	[Weight=24];
+	13	[Weight=24];
+	14	[Weight=37];
+	15	[Weight=24];
+	16	[Weight=27];
+	17	[Weight=21];
+	18	[Weight=25];
+	19	[Weight=36];
+	20	[Weight=25];
+	21	[Weight=24];
+	22	[Weight=12];
+	2 -> 14 [Weight=20];
+	2 -> 18 [Weight=7];
+	4 -> 6 [Weight=18];
+	5 -> 18 [Weight=6];
+	9 -> 2 [Weight=11];
+	9 -> 18 [Weight=9];
+	10 -> 16 [Weight=16];
+	13 -> 11 [Weight=17];
+	15 -> 11 [Weight=19];
+	20 -> 10 [Weight=17];
+	22 -> 17 [Weight=4];
+}

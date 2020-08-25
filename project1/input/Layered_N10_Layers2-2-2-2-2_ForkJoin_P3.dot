@@ -1,0 +1,24 @@
+digraph "Layered_N10_Layers2-2-2-2-2_ForkJoin_P3.dot" {
+	1	[Weight=38];
+	2	[Weight=30];
+	3	[Weight=12];
+	4	[Weight=12];
+	5	[Weight=15];
+	6	[Weight=14];
+	7	[Weight=36];
+	8	[Weight=29];
+	9	[Weight=18];
+	10	[Weight=25];
+	1 -> 3 [Weight=7];
+	1 -> 4 [Weight=16];
+	2 -> 4 [Weight=3];
+	3 -> 5 [Weight=1];
+	4 -> 5 [Weight=4];
+	4 -> 6 [Weight=0];
+	5 -> 7 [Weight=8];
+	6 -> 7 [Weight=4];
+	6 -> 8 [Weight=18];
+	7 -> 9 [Weight=0];
+	8 -> 9 [Weight=11];
+	8 -> 10 [Weight=8];
+}
