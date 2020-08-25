@@ -64,7 +64,7 @@ public class OptimalityTest {
         _expected = expected;
     }
 
-    @Test(timeout=5000)
+    @Test(timeout=10000)
     public void test() {
         Scheduler scheduler = new VariableScheduler(_taskGraph, _processors, false, Config.SEQUENTIAL_EXECUTION);
         System.out.println(_taskGraph.getName() + "," + _processors);

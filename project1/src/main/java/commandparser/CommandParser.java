@@ -1,7 +1,5 @@
 package main.java.commandparser;
 
-import java.io.File;
-
 /**
  * This class enables parsing of the command and flags passed (if any) when the program is called from the command line
  */
