@@ -68,15 +68,7 @@ public class VisualisationController implements Initializable {
     private ScheduleChart<Number, String> _currentScheduleChart;
     private ScheduleChart<Number, String> _bestScheduleChart;
 
-    /**
-     * Updates the refresh rate, yet to be implemented
-     *
-     * @param refreshRate
-     */
-    private void updateRefreshRate(int refreshRate) {
-
-        _refreshRate = refreshRate;
-    }
+    private int _numProcessors;
 
 
 
