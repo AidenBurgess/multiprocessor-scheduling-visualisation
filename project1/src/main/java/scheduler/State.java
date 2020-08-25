@@ -26,7 +26,14 @@ public class State {
         _assignedProcessorId = new int[numTasks];
         _taskEndTime = new int[numTasks];
 
-        for (int i = 0; i < numTasks; i++) _assignedProcessorId[i] = UNSCHEDULED;
+        for (int i = 0; i < numTasks; i++) {
+            _taskEndTime[i] = UNSCHEDULED;
+            _assignedProcessorId[i] = UNSCHEDULED;
+        }
+
+        for (int i = 0; i < numProcessors; i++) {
+            _processorEndTime[i] = 0;
+        }
     }
 
     /**
