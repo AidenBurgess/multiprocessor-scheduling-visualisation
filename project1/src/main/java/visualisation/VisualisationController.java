@@ -20,39 +20,30 @@ import java.net.URL;
 
 public class VisualisationController implements Initializable {
 
-
-    private XYChart.Series _CPUSeries;
-    private XYChart.Series _RAMSeries;
-
-
-
     // FXML Fields
 
     @FXML
     private AreaChart<String, Number> CPUChart;
-
     @FXML
     private AreaChart<Number, Number> RAMChart;
-
     @FXML
     private Text _timeElapsedFigure;
-
     @FXML
     private Text _activeBranchFigure;
-
     @FXML
     private Text _visitedStatesFigure;
-
     @FXML
     private Text _completedSchedulesFigure;
-
     @FXML
     private VBox _bestScheduleParent;
-
     @FXML
     private VBox _currentScheduleParent;
 
     // Non-FXML Fields
+
+    private XYChart.Series _CPUSeries;
+    private XYChart.Series _RAMSeries;
+
     private ScheduleChart<Number, String> _currentScheduleChart;
     private ScheduleChart<Number, String> _bestScheduleChart;
 

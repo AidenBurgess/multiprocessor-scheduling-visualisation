@@ -79,6 +79,10 @@ public class InformationPoller {
             long activeBranches = _informationHolder.getActiveBranches();
             _displayUpdater.updateStatistics(visitedBranches, completedSchedules, activeBranches);
 
+            if ((_informationHolder.getSchedulerStatus() == _informationHolder.FINISHED)) {
+                _displayUpdater.stopTimer();
+            }
+
         }
     }
 }
