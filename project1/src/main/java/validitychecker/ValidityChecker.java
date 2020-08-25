@@ -14,11 +14,17 @@ public class ValidityChecker {
     private HashMap<String, Integer> _bestProcessorMap;
     private HashMap<String, Integer> _taskStartTime;
 
-    public ValidityChecker(ArrayList<Task> tasks, ArrayList<Dependency> dependencies, HashMap<String, Integer> bestStartTimeMap, HashMap<String, Integer> bestProcessorMap) {
+    public ValidityChecker(ArrayList<Task> tasks, ArrayList<Dependency> dependencies, HashMap<String, Integer> bestProcessorMap, HashMap<String, Integer> bestStartTimeMap) {
         _tasks = tasks;
         _dependencies = dependencies;
         _bestStartTimeMap = bestStartTimeMap;
         _bestProcessorMap = bestProcessorMap;
+
+        System.out.println(tasks);
+        System.out.println(dependencies);
+        System.out.println(bestProcessorMap);
+        System.out.println(bestStartTimeMap);
+
         _taskStartTime = new HashMap<String, Integer>();
 
         // intialise the task start time
@@ -47,7 +53,7 @@ public class ValidityChecker {
             int parentEndTime = _bestStartTimeMap.get(source) + _taskStartTime.get(source) + delay;
             int childStartTime = _bestStartTimeMap.get(dest);
 
-            // check if the destination starts before the parent finishes
+            // check if the child starts before the parent finishes
             if (childStartTime < parentEndTime) {
                 // invalid
                 return false;
@@ -64,6 +70,10 @@ public class ValidityChecker {
 
                 String nameA = taskA.getName();
                 String nameB = taskB.getName();
+
+                if (!_bestProcessorMap.get(nameA).equals(_bestProcessorMap.get(nameB))) {
+                    continue;
+                }
 
                 // check if start time overlaps end time and vice versa
                 int taskAStartTime = _bestStartTimeMap.get(nameA);

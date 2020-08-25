@@ -47,8 +47,19 @@ public class Driver {
         InformationHolder informationHolder = scheduler.getInformationHolder();
 
         // check for the validity.
-        ValidityChecker validityChecker = new ValidityChecker(taskGraph.getTasks(), taskGraph.getDependencies(), informationHolder.getBestProcessorMap(), informationHolder.getBestStartTimeMap());
-        validityChecker.check();
+        if (config.isCheckValid()) {
+            ValidityChecker validityChecker = new ValidityChecker(taskGraph.getTasks(), taskGraph.getDependencies(), informationHolder.getBestProcessorMap(), informationHolder.getBestStartTimeMap());
+            boolean isValid = validityChecker.check();
+
+            if (!isValid) {
+                // throw an exception or output and sout
+//                throw new RuntimeException("output schedule is not valid");
+                System.out.println("the output schedule is not valid");
+                return;
+            } else {
+                System.out.println("Output schedule is valid");
+            }
+        }
 
         writeDotFile(informationHolder, taskGraph, config);
     }
