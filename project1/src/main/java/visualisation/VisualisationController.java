@@ -118,6 +118,7 @@ public class VisualisationController implements Initializable {
 
         // Setting up the stylesheet for the charts
         _bestScheduleChart.getStylesheets().add(getClass().getResource("ganttchart/scheduleChart.css").toExternalForm());
+        _currentScheduleChart.getStylesheets().add(getClass().getResource("ganttchart/scheduleChart.css").toExternalForm());
     }
 
 

@@ -112,7 +112,7 @@ public class DisplayUpdater {
                                          HashMap<String, Integer> currentStartTimeMap, HashMap<String, Integer> bestStartTimeMap) {
 
         refreshScheduleChart(_bestScheduleChart, bestProcessorMap, bestStartTimeMap);
-        //refreshScheduleChart(_currentScheduleChart, currentProcessorMap, currentStartTimeMap);
+        refreshScheduleChart(_currentScheduleChart, currentProcessorMap, currentStartTimeMap);
 
     }
 
@@ -129,7 +129,7 @@ public class DisplayUpdater {
         for (Task task : _taskList) {
             int taskTime = task.getTaskTime();
             // Populating the best schedule chart
-            if (startTimeMap.containsKey(task.getName())) {
+            if (startTimeMap.containsKey(task.getName()) && processorMap.containsKey(task.getName())) {
                 int taskProcessor = processorMap.get(task.getName());
                 int taskStartTime = startTimeMap.get(task.getName());
                 XYChart.Data taskData = new XYChart.Data(taskStartTime, "Processor ".concat(Integer.toString(taskProcessor)), new ScheduleChart.ExtraData(taskTime, "task"));
@@ -140,8 +140,7 @@ public class DisplayUpdater {
 
         scheduleChart.getData().clear();
         for (int i = 0; i < seriesArray.length; i++) {
-            _currentScheduleChart.getData().add(seriesArray[i]);
-            _bestScheduleChart.getData().add(seriesArray[i]);
+            scheduleChart.getData().add(seriesArray[i]);
         }
     }
 
