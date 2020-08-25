@@ -46,6 +46,38 @@ public class DisplayUpdater {
         }
         _timeElapsedFigure.setText(Integer.toString(_seconds).concat(".").concat(Integer.toString(_milliseconds)).concat("s"));
     }
+
+    /**
+     * Updates the statistics such as the visited states and the completed schedules
+     */
+    protected void updateStatistics(long visitedStates, long completedSchedules, long activeBranches) {
+
+        _visitedStatesFigure.setText(Long.toString(visitedStates));
+        _completedSchedulesFigure.setText(Long.toString(completedSchedules));
+        // activeBranchFigure.setText(Long.toString(activeBranches));
+    }
+
+    /**
+     * Adds ram data to the series and updates the chart.
+     */
+    protected void refreshRAMChart(double RAMUsageInBytes) {
+
+        // get the machine's CPU Usage data
+        _RAMSeries.getData().add(new XYChart.Data(Integer.toString(_seconds), RAMUsageInBytes));
+    }
+
+
+    /**
+     * Adds CPU data to the series and updates the chart.
+     */
+    protected void refreshCPUChart(double CPUUsage) {
+
+        // get the machine's CPU Usage data
+
+        _CPUSeries.getData().add(new XYChart.Data(Integer.toString(_seconds), CPUUsage));
+    }
+
+
     //todo make sure that the following case related to this method is handled: When the scheduler has not found a
     // best schedule yet and this method is called. Either prevent this from happening or handle this situation inside the method
     protected void refreshScheduleCharts(HashMap<String, Integer> currentProcessorMap, HashMap<String, Integer> bestProcessorMap,

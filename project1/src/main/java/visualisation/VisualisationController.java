@@ -72,18 +72,8 @@ public class VisualisationController implements Initializable {
 
 
 
-    /**
-     * Updates the statistics such as the visited states and the completed schedules
-     */
-    private void updateStatistics() {
 
-        long visitedStates = _informationHolder.getTotalStates();
-        long completedSchedules = _informationHolder.getCompleteStates();
-        long activeBranches = _informationHolder.getActiveBranches();
 
-        visitedStatesFigure.setText(Long.toString(visitedStates));
-        completedSchedulesFigure.setText(Long.toString(completedSchedules));
-        // activeBranchFigure.setText(Long.toString(activeBranches));
     }
 
     /**
@@ -108,28 +98,6 @@ public class VisualisationController implements Initializable {
 
         // add the series data to the chart
         CPUChart.getData().add(_CPUSeries);
-    }
-
-    /**
-     * Adds ram data to the series and updates the chart.
-     */
-    private void addRAMChartData() {
-
-        // get the machine's CPU Usage data
-        double RAMUsageInBytes = _performanceRetriever.getRAMUsageGigaBytes();
-
-        _RAMSeries.getData().add(new XYChart.Data(Integer.toString(_seconds), RAMUsageInBytes));
-    }
-
-    /**
-     * Adds CPU data to the series and updates the chart.
-     */
-    private void addCPUChartData() {
-
-        // get the machine's CPU Usage data
-        double CPUUsage = _performanceRetriever.getCPUUsagePercent();
-
-        _CPUSeries.getData().add(new XYChart.Data(Integer.toString(_seconds), CPUUsage));
     }
 
     @Override
