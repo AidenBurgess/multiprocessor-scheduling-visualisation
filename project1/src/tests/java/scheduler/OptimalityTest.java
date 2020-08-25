@@ -21,13 +21,32 @@ public class OptimalityTest {
     @Parameterized.Parameters
     public static Collection<Object[]> data() {
         Collection<Object[]> params = new ArrayList<>();
-        File folder = new File("input-dots");
+        File folder = new File("test-input");
         System.out.println(folder.getAbsoluteFile());
         for (final File file : folder.listFiles()) {
-            TaskGraph taskGraph = DotIO.read("input-dots/" + file.getName());
+            TaskGraph taskGraph = DotIO.read("test-input/" + file.getName());
+            String fileNameNoDot = file.getName().substring(0, file.getName().length() - 4);
+            String lengthFileName = "test-result/" + fileNameNoDot + "-result.txt";
+            File lengthFile = new File(lengthFileName);
 
-            for (int p = 1; p <= 5; p++) {
-                params.add(new Object[]{taskGraph, file, p});
+            int processors = 0, tens = 1;
+            for (int i = fileNameNoDot.length() - 1; i >= 0; i--) {
+                char c = fileNameNoDot.charAt(i);
+                if (c >= '0' && c <= '9') {
+                    processors += tens * (c - '0');
+                    tens *= 10;
+                } else {
+                    break;
+                }
+            }
+
+            try {
+                Scanner scanner = new Scanner(lengthFile);
+                long expectedLength = scanner.nextLong();
+                params.add(new Object[]{taskGraph, file, processors, expectedLength});
+
+            } catch (FileNotFoundException e) {
+                // If file not found, ignore this case
             }
         }
         return params;
@@ -35,32 +54,24 @@ public class OptimalityTest {
 
     TaskGraph _taskGraph;
     File _file;
-    int _p;
+    int _processors;
+    long _expected;
 
-
-    public OptimalityTest(TaskGraph taskGraph, File file, int p) {
+    public OptimalityTest(TaskGraph taskGraph, File file, int processors, long expected) {
         _taskGraph = taskGraph;
         _file = file;
-        _p = p;
+        _processors = processors;
+        _expected = expected;
     }
 
     @Test(timeout=5000)
     public void test() {
-        Scheduler scheduler = new VariableScheduler(_taskGraph, _p, false, Config.SEQUENTIAL_EXECUTION);
+        Scheduler scheduler = new VariableScheduler(_taskGraph, _processors, false, Config.SEQUENTIAL_EXECUTION);
+        System.out.println(_taskGraph.getName() + "," + _processors);
         scheduler.execute();
-        long actualLength = scheduler.getInformationHolder().getCurrentBound();
+        long actual = scheduler.getInformationHolder().getCurrentBound();
 
-        String fileNameNoDot = _file.getName().substring(0, _file.getName().length() - 4);
-        String lengthFileName = "output-dots/" + fileNameNoDot + "-P" + _p + "-length.txt";
-        File lengthFile = new File(lengthFileName);
-
-        try {
-            Scanner scanner = new Scanner(lengthFile);
-            long expectedLength = scanner.nextLong();
-            assertEquals(expectedLength, actualLength);
-        } catch (FileNotFoundException e) {
-            System.out.println("I found a solution but he didn't?");
-        }
+        assertEquals(_expected, actual);
     }
 
 
