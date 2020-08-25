@@ -29,7 +29,6 @@ public class OptimalityTest {
             String lengthFileName = "test-result/" + fileNameNoDot + "-result.txt";
             File lengthFile = new File(lengthFileName);
 
-
             int processors = 0, tens = 1;
             for (int i = fileNameNoDot.length() - 1; i >= 0; i--) {
                 char c = fileNameNoDot.charAt(i);
@@ -65,7 +64,7 @@ public class OptimalityTest {
         _expected = expected;
     }
 
-    @Test(timeout=1000)
+    @Test(timeout=10000)
     public void test() {
         Scheduler scheduler = new VariableScheduler(_taskGraph, _processors, false, Config.SEQUENTIAL_EXECUTION);
         System.out.println(_taskGraph.getName() + "," + _processors);
