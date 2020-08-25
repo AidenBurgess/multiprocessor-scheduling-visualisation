@@ -27,6 +27,7 @@ public class Driver {
         try {
             config = CommandParser.parse(args);
         } catch (CommandParserException e) {
+            // displays the output to the console for the user to read.
             System.out.println(e.getMessage());
             return;
         }
