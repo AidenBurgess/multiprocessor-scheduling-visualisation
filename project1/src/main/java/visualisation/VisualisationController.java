@@ -114,7 +114,7 @@ public class VisualisationController implements Initializable {
 
     private void setUpScheduleCharts() {
         // Setting up the y-axis
-        List<String> processorsList = new ArrayList<String>();
+        List<String> processorsList = new ArrayList<>();
         for (int i = 0; i < _numProcessors; i++) {
             processorsList.add("Processor ".concat(Integer.toString(i + 1)));
         }
@@ -127,11 +127,11 @@ public class VisualisationController implements Initializable {
         xAxis.setLabel("Time");
 
         // Setting up the Schedule chart object and their parents (containers)
-        _currentScheduleChart = new ScheduleChart<Number, String>(xAxis, yAxis);
-        _bestScheduleChart = new ScheduleChart<Number, String>(xAxis, yAxis);
+        _currentScheduleChart = new ScheduleChart<>(xAxis, yAxis);
+        _bestScheduleChart = new ScheduleChart<>(xAxis, yAxis);
 
-        _bestScheduleChart.setBlockHeight(200/_numProcessors);
-        _currentScheduleChart.setBlockHeight(200/_numProcessors);
+        _bestScheduleChart.setBlockHeight(200 / _numProcessors);
+        _currentScheduleChart.setBlockHeight(200 / _numProcessors);
 
 
         _bestScheduleParent.getChildren().add(_bestScheduleChart);
