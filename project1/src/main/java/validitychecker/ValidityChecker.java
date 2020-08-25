@@ -20,11 +20,6 @@ public class ValidityChecker {
         _bestStartTimeMap = bestStartTimeMap;
         _bestProcessorMap = bestProcessorMap;
 
-        System.out.println(tasks);
-        System.out.println(dependencies);
-        System.out.println(bestProcessorMap);
-        System.out.println(bestStartTimeMap);
-
         _taskStartTime = new HashMap<String, Integer>();
 
         // intialise the task start time
