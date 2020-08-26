@@ -22,14 +22,14 @@
                   <Insets left="20.0" right="20.0" />
                </HBox.margin>
             </VBox>
-            <VBox fx:id="_bestScheduleParent" prefHeight="200.0" prefWidth="640.0">
+            <VBox fx:id="_bestScheduleParent" prefHeight="357.0" prefWidth="640.0">
                <HBox.margin>
                   <Insets left="20.0" right="20.0" />
                </HBox.margin>
             </VBox>
          </children>
       </HBox>
-      <HBox fx:id="titleBackground" alignment="CENTER" layoutX="-69.0" layoutY="-10.0" prefHeight="85.0" prefWidth="1386.0">
+      <HBox fx:id="titleBackground" alignment="CENTER" layoutX="-1.0" prefHeight="75.0" prefWidth="1283.0">
          <children>
             <Text fx:id="visualisationTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="Scheduling Statistics">
                <font>
@@ -43,9 +43,9 @@
       </HBox>
       <HBox layoutY="409.0" prefHeight="313.0" prefWidth="1280.0">
          <children>
-            <VBox fx:id="statistics" prefHeight="291.0" prefWidth="397.0">
+            <VBox fx:id="statistics" alignment="CENTER" prefHeight="253.0" prefWidth="397.0">
                <children>
-                  <SplitPane dividerPositions="0.628140703517588" prefHeight="350.0" prefWidth="200.0">
+                  <SplitPane dividerPositions="0.628140703517588" prefHeight="231.0" prefWidth="397.0">
                     <items>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                            <children>
