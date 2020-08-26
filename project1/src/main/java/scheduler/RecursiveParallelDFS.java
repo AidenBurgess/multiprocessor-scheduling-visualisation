@@ -11,7 +11,7 @@ public class RecursiveParallelDFS extends ParallelDFS {
 
     @Override
     protected void run(int prevTask, int prevProcessor) {
-        if (_state._unassignedTasks >= 9 && _taskCount.get() < _numParallelCores) {
+        if (_state._unassignedTasks >= (_state._numTasks/2) && _taskCount.get() < _numParallelCores) {
             _taskCount.incrementAndGet();
             DFS dfs = new RecursiveParallelDFS(_state.copy(), _bound, _dataStructures, _dfsListener);
             _pool.submit(() -> {

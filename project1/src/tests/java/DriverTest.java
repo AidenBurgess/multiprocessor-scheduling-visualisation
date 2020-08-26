@@ -51,7 +51,7 @@ public class DriverTest {
         String filename = "dots/N9-M1.dot";
         String numProcessors = "3";
 
-        String[] input = {filename, numProcessors};
+        String[] input = {filename, numProcessors, "-p", "3"};
         long startTime = System.nanoTime();
         Driver.main(input);
         long duration = (System.nanoTime() - startTime)/1000;
