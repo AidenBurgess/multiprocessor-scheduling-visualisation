@@ -77,10 +77,10 @@
       <HBox layoutX="1.0" layoutY="446.0" prefHeight="360.0" prefWidth="1440.0">
          <children>
             <VBox prefHeight="360.0" prefWidth="35.0" />
-            <VBox fx:id="statistics" alignment="CENTER" prefHeight="360.0" prefWidth="370.0">
+            <VBox fx:id="statistics" alignment="CENTER" prefHeight="360.0" prefWidth="390.0">
 
                <children>
-                  <SplitPane dividerPositions="0.5584905660377358" prefHeight="317.0" prefWidth="506.0">
+                  <SplitPane dividerPositions="0.6204379562043795" prefHeight="317.0" prefWidth="506.0">
                     <items>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                            <children>
@@ -191,7 +191,7 @@
                   <Insets left="20.0" />
                </HBox.margin>
             </VBox>
-            <VBox prefHeight="360.0" prefWidth="50.0" />
+            <VBox prefHeight="360.0" prefWidth="30.0" />
             <VBox fx:id="CPUParent" alignment="CENTER" prefHeight="360.0" prefWidth="470.0">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="CPU Usage">
@@ -210,7 +210,7 @@
                            </tickLabelFont></CategoryAxis>
                     </xAxis>
                     <yAxis>
-                      <NumberAxis label="Usage %" prefHeight="245.0" prefWidth="60.0" side="LEFT">
+                      <NumberAxis label="Usage %" prefHeight="231.0" prefWidth="58.0" side="LEFT">
                            <tickLabelFont>
                               <Font size="11.0" />
                            </tickLabelFont></NumberAxis>
