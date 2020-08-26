@@ -145,6 +145,16 @@ public class VisualisationController extends DraggableWindow implements Initiali
         _themeSwitcher.switchTheme();
     }
 
+    @FXML
+    public void minimise() {
+        _themeSwitcher.switchTheme();
+    }
+
+    @FXML
+    public void close() {
+        shutdown();
+    }
+
     public void shutdown() {
         System.exit(0);
     }
