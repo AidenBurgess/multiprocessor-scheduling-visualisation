@@ -1,10 +1,12 @@
 package main.java.visualisation;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.AreaChart;
@@ -18,10 +20,11 @@ import java.net.URL;
 // changed or we want to retain it. Also whether we want the fields
 // in the GanttChart class should start with underscore
 
-public class VisualisationController implements Initializable {
+public class VisualisationController extends DraggableWindow implements Initializable{
 
     // FXML Fields
-
+    @FXML
+    private AnchorPane root;
     @FXML
     private AreaChart<String, Number> CPUChart;
     @FXML
@@ -52,6 +55,8 @@ public class VisualisationController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        Platform.runLater(() -> {
+        });
 
         _numProcessors = VisualisationDriver.getNumProcessors();
         // initialise the charts

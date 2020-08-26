@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import main.java.dotio.TaskGraph;
 import main.java.scheduler.InformationHolder;
-import main.java.scheduler.Scheduler;
+
 import java.io.IOException;
 
 
@@ -32,6 +32,7 @@ public class VisualisationDriver extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("VisualisationDashboard.fxml"));
         Parent root = loader.load();
         VisualisationController controller = loader.getController();
+        controller.makeStageDraggable();
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         stage.setScene(scene);
