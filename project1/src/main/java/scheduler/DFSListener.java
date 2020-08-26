@@ -19,5 +19,9 @@ public interface DFSListener {
      */
     void onCompleteSchedule(State state, Bound bound);
 
+    /**
+     * Hook method that is called on every partial schedule that is found
+     * Responsible for updating information in the InformationHolder, if necessary
+     */
     void onPartialSchedule(State state, Bound bound);
 }
