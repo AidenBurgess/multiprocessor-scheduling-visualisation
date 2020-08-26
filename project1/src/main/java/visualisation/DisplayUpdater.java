@@ -120,12 +120,14 @@ public class DisplayUpdater {
                                          HashMap<String, Integer> currentStartTimeMap, HashMap<String, Integer> bestStartTimeMap) {
 
         refreshScheduleChart(_bestScheduleChart, bestProcessorMap, bestStartTimeMap);
-        refreshScheduleChart(_currentScheduleChart, currentProcessorMap, currentStartTimeMap);
-
+        if (_schedulerDone) {
+            _currentScheduleChart.getData().clear();
+        } else {
+            refreshScheduleChart(_currentScheduleChart, currentProcessorMap, currentStartTimeMap);
+        }
     }
 
     private void refreshScheduleChart(ScheduleChart<Number, String> scheduleChart, HashMap<String, Integer> processorMap, HashMap<String, Integer> startTimeMap) {
-
         // Create Series object. The object will act as a row in the respective chart
         XYChart.Series[] seriesArray = new XYChart.Series[_numProcessors];
         for (int i = 0; i < _numProcessors; i++) {
