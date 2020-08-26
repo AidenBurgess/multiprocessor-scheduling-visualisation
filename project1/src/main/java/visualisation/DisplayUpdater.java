@@ -31,8 +31,7 @@ public class DisplayUpdater {
 
     //Fields used for timing purposes
     Timeline _timeline;
-    private int _milliseconds = 0;
-    private int _seconds = 0;
+    private float _timeElapsed = 0;
     private boolean _schedulerDone = false;
 
 
@@ -64,15 +63,11 @@ public class DisplayUpdater {
     }
 
     protected void updateTime() {
-        if (_milliseconds < 99) {
-            _milliseconds++;
-        } else {
-            _milliseconds = 0;
-            _seconds++;
-        }
+
+        _timeElapsed += 0.01;
 
         if (!_schedulerDone)
-            _timeElapsedFigure.setText(Integer.toString(_seconds).concat(".").concat(Integer.toString(_milliseconds)).concat("s"));
+            _timeElapsedFigure.setText(String.format("%2.2f", _timeElapsed));
     }
 
     /**
@@ -89,9 +84,8 @@ public class DisplayUpdater {
      * Adds ram data to the series and updates the chart.
      */
     protected void refreshRAMChart(double RAMUsageInBytes) {
-
         // get the machine's CPU Usage data
-        _RAMSeries.getData().add(new XYChart.Data(Integer.toString(_seconds), RAMUsageInBytes));
+        _RAMSeries.getData().add(new XYChart.Data(String.format("%.2f", _timeElapsed), RAMUsageInBytes));
     }
 
 
@@ -99,10 +93,8 @@ public class DisplayUpdater {
      * Adds CPU data to the series and updates the chart.
      */
     protected void refreshCPUChart(double CPUUsage) {
-
         // get the machine's CPU Usage data
-
-        _CPUSeries.getData().add(new XYChart.Data(Integer.toString(_seconds), CPUUsage));
+        _CPUSeries.getData().add(new XYChart.Data(String.format("%.2f", _timeElapsed), CPUUsage));
     }
 
 

@@ -27,7 +27,7 @@ public class VisualisationController implements Initializable {
     // FXML Fields
 
     @FXML
-    private AreaChart<String, Number> _CPUChart;
+    private AreaChart<Number, Number> _CPUChart;
     @FXML
     private AreaChart<Number, Number> _RAMChart;
     @FXML
