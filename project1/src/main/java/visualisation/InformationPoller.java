@@ -12,9 +12,9 @@ public class InformationPoller {
 
     private Timer _timer;
     private DisplayUpdater _displayUpdater;
-    private long _scheduleRefreshRate = 1000;
-    private long _statsRefreshRate = 1000;
-    private long _graphRefreshRate = 1000;
+    private long _displayUpdateDelay = 0;
+    private long _graphsUpdatePeriod = 500;
+    private long _statsUpdatePeriod = 25;
     private SystemPerformanceRetriever _performanceRetriever;
     private InformationHolder _informationHolder = VisualisationDriver.getInformationHolder();
 
@@ -31,9 +31,9 @@ public class InformationPoller {
     private void startTimer() {
 
         _timer = new Timer();
-        _timer.schedule(new ScheduleUpdateTask(), _scheduleRefreshRate, 1000);
-        _timer.schedule(new GraphUpdateTask(), _graphRefreshRate, 1000);
-        _timer.schedule(new StatsUpdateTask(), _statsRefreshRate, 1000);
+        _timer.schedule(new ScheduleUpdateTask(), _displayUpdateDelay, _graphsUpdatePeriod);
+        _timer.schedule(new GraphUpdateTask(), _displayUpdateDelay, _graphsUpdatePeriod);
+        _timer.schedule(new StatsUpdateTask(), _displayUpdateDelay, _statsUpdatePeriod);
 
     }
 
