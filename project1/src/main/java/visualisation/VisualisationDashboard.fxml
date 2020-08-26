@@ -14,6 +14,8 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="1440.0" styleClass="root" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.visualisation.VisualisationController">
    <children>
       <HBox layoutY="90.0" prefHeight="335.0" prefWidth="1440.0">
@@ -183,7 +185,23 @@
          </children>
       </HBox>
       <JFXToggleButton fx:id="_switchThemeButton" focusTraversable="false" layoutX="32.0" layoutY="9.0" onAction="#switchTheme" text="Switch Theme" toggleColor="#00c5d4" toggleLineColor="#75dde6" />
-      <JFXButton buttonType="RAISED" layoutX="1059.0" layoutY="17.0" onAction="#minimise" prefHeight="39.0" prefWidth="91.0" text="Minimise" />
-      <JFXButton buttonType="RAISED" layoutX="1170.0" layoutY="17.0" onAction="#close" prefHeight="39.0" prefWidth="91.0" text="Close" />
+      <JFXButton buttonType="RAISED" layoutX="1059.0" layoutY="17.0" onAction="#minimise" prefHeight="39.0" prefWidth="39.0">
+         <graphic>
+            <ImageView fitHeight="15.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@minimise.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" layoutX="1170.0" layoutY="17.0" onAction="#close" prefHeight="39.0" prefWidth="39.0">
+         <graphic>
+            <ImageView fitHeight="15.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@close.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
    </children>
 </AnchorPane>
