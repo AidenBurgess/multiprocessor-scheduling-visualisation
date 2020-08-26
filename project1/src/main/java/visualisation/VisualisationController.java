@@ -102,7 +102,24 @@ public class VisualisationController implements Initializable {
     }
 
 
+    /**
+     * Set up both schedule charts and add the charts to their parent components.
+     */
     private void setUpScheduleCharts() {
+
+        _currentScheduleChart = setUpScheduleChart();
+        _currentScheduleParent.getChildren().add(_currentScheduleChart);
+
+        _bestScheduleChart = setUpScheduleChart();
+        _bestScheduleParent.getChildren().add(_bestScheduleChart);
+    }
+
+    /**
+     * Initialise a schedule chart with x-axis and y-axis values and titles.
+     * @return The generated ScheduleChart object.
+     */
+    private ScheduleChart<Number, String> setUpScheduleChart() {
+
         // Setting up the y-axis
         List<String> processorsList = new ArrayList<>();
         for (int i = 0; i < _numProcessors; i++) {
@@ -117,14 +134,9 @@ public class VisualisationController implements Initializable {
         xAxis.setLabel("Time");
 
         // Setting up the Schedule chart object and their parents (containers)
-        _currentScheduleChart = new ScheduleChart<>(xAxis, yAxis);
-        _bestScheduleChart = new ScheduleChart<>(xAxis, yAxis);
-
-        _bestScheduleChart.setBlockHeight(200 / _numProcessors);
-        _currentScheduleChart.setBlockHeight(200 / _numProcessors);
-
-        _bestScheduleParent.getChildren().add(_bestScheduleChart);
-        _currentScheduleParent.getChildren().add(_currentScheduleChart);
+        ScheduleChart<Number, String> scheduleChart = new ScheduleChart<>(xAxis, yAxis);
+        scheduleChart.setBlockHeight(200 / _numProcessors);
+        return scheduleChart;
     }
 
     @FXML
