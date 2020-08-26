@@ -3,6 +3,7 @@ package main.java.visualisation;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -20,15 +21,15 @@ import java.net.URL;
 // changed or we want to retain it. Also whether we want the fields
 // in the GanttChart class should start with underscore
 
-public class VisualisationController extends DraggableWindow implements Initializable{
+public class VisualisationController extends DraggableWindow implements Initializable {
 
     // FXML Fields
     @FXML
     private AnchorPane root;
     @FXML
-    private AreaChart<String, Number> CPUChart;
+    private AreaChart<String, Number> _CPUChart;
     @FXML
-    private AreaChart<Number, Number> RAMChart;
+    private AreaChart<Number, Number> _RAMChart;
     @FXML
     private Text _timeElapsedFigure;
     @FXML
@@ -41,6 +42,8 @@ public class VisualisationController extends DraggableWindow implements Initiali
     private VBox _bestScheduleParent;
     @FXML
     private VBox _currentScheduleParent;
+    @FXML
+    private JFXToggleButton _switchThemeButton;
 
     // Non-FXML Fields
 
@@ -51,11 +54,14 @@ public class VisualisationController extends DraggableWindow implements Initiali
     private ScheduleChart<Number, String> _bestScheduleChart;
 
     private int _numProcessors;
-
+    private ThemeSwitcher _themeSwitcher;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Set initial theme when scene is loaded
         Platform.runLater(() -> {
+            Scene scene = _switchThemeButton.getScene();
+            _themeSwitcher = new ThemeSwitcher(scene, "light-style.css");
         });
 
         _numProcessors = VisualisationDriver.getNumProcessors();
@@ -64,12 +70,12 @@ public class VisualisationController extends DraggableWindow implements Initiali
         setUpRAMChart();
         setUpScheduleCharts();
 
-        DisplayUpdater displayUpdater = new DisplayUpdater(_visitedStatesFigure, _completedSchedulesFigure, _activeBranchFigure, _timeElapsedFigure,
-                                                           _currentScheduleChart, _bestScheduleChart, _CPUSeries, _RAMSeries);
+        DisplayUpdater displayUpdater = new DisplayUpdater(_visitedStatesFigure, _completedSchedulesFigure,
+                _activeBranchFigure, _timeElapsedFigure, _currentScheduleChart, _bestScheduleChart, _CPUSeries,
+                _RAMSeries);
 
         InformationPoller informationPoller = new InformationPoller(displayUpdater);
     }
-
 
     /**
      * Sets up the RAM chart
@@ -80,7 +86,7 @@ public class VisualisationController extends DraggableWindow implements Initiali
         _RAMSeries = new XYChart.Series();
 
         // add the series data to the chart
-        RAMChart.getData().add(_RAMSeries);
+        _RAMChart.getData().add(_RAMSeries);
     }
 
     /**
@@ -92,11 +98,28 @@ public class VisualisationController extends DraggableWindow implements Initiali
         _CPUSeries = new XYChart.Series();
 
         // add the series data to the chart
-        CPUChart.getData().add(_CPUSeries);
+        _CPUChart.getData().add(_CPUSeries);
     }
 
-
+    /**
+     * Set up both schedule charts and add the charts to their parent components.
+     */
     private void setUpScheduleCharts() {
+
+        _currentScheduleChart = setUpScheduleChart();
+        _currentScheduleParent.getChildren().add(_currentScheduleChart);
+
+        _bestScheduleChart = setUpScheduleChart();
+        _bestScheduleParent.getChildren().add(_bestScheduleChart);
+    }
+
+    /**
+     * Initialise a schedule chart with x-axis and y-axis values and titles.
+     * 
+     * @return The generated ScheduleChart object.
+     */
+    private ScheduleChart<Number, String> setUpScheduleChart() {
+
         // Setting up the y-axis
         List<String> processorsList = new ArrayList<>();
         for (int i = 0; i < _numProcessors; i++) {
@@ -111,21 +134,15 @@ public class VisualisationController extends DraggableWindow implements Initiali
         xAxis.setLabel("Time");
 
         // Setting up the Schedule chart object and their parents (containers)
-        _currentScheduleChart = new ScheduleChart<>(xAxis, yAxis);
-        _bestScheduleChart = new ScheduleChart<>(xAxis, yAxis);
-
-        _bestScheduleChart.setBlockHeight(200 / _numProcessors);
-        _currentScheduleChart.setBlockHeight(200 / _numProcessors);
-
-
-        _bestScheduleParent.getChildren().add(_bestScheduleChart);
-        _currentScheduleParent.getChildren().add(_currentScheduleChart);
-
-        // Setting up the stylesheet for the charts
-        _bestScheduleChart.getStylesheets().add(getClass().getResource("ganttchart/scheduleChart.css").toExternalForm());
-        _currentScheduleChart.getStylesheets().add(getClass().getResource("ganttchart/scheduleChart.css").toExternalForm());
+        ScheduleChart<Number, String> scheduleChart = new ScheduleChart<>(xAxis, yAxis);
+        scheduleChart.setBlockHeight(200 / _numProcessors);
+        return scheduleChart;
     }
 
+    @FXML
+    public void switchTheme() {
+        _themeSwitcher.switchTheme();
+    }
 
     public void shutdown() {
         System.exit(0);
