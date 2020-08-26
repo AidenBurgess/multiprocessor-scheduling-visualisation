@@ -5,7 +5,9 @@ import javafx.util.Pair;
 import java.util.ArrayList;
 
 public class DataStructures {
+
     private ArrayList<ArrayList<Pair<Integer, Integer>>> _adjList, _revAdjList;
+
     private ArrayList<Integer> _topologicalIndex, _taskWeights;
 
     public ArrayList<ArrayList<Pair<Integer, Integer>>> getAdjList() {

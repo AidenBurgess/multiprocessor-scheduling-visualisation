@@ -54,8 +54,14 @@ public abstract class DFS {
     private final void run(int prevTask, int prevProcessor) { // try this for now
         onDFSEntry();
 
+//        // Prune
+//        if (_bound.canPrune(_state._endTime)) {
+//            onDFSExit();
+//            return;
+//        }
+
         // Prune
-        if (_bound.canPrune(_state._endTime)) {
+        if (_bound.canPrune(FFunction.evaluate(_state))) {
             onDFSExit();
             return;
         }
@@ -147,6 +153,7 @@ public abstract class DFS {
                 _state._processorEndTime[processor] = nextTaskEndTime;
                 _state._unassignedTasks--;
                 _state._endTime = Math.max(_state._endTime, nextTaskEndTime);
+                _state._computationalTime += (nextTaskEndTime - prevEndTime) - _dataStructures.getTaskWeights().get(task);
 
                 if (processor == _state._freeProcessor) {
                     _state._freeProcessor++;
@@ -165,6 +172,7 @@ public abstract class DFS {
                 _state._endTime = prevEndTime;
                 _state._freeProcessor = prevFreeProcessor;
                 _state._prevProcessorFirstTask = prevPrevProcessorFirstTask;
+                _state._computationalTime -= (nextTaskEndTime - prevEndTime) - _dataStructures.getTaskWeights().get(task);
             }
         }
 
