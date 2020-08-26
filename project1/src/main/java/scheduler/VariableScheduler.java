@@ -53,7 +53,7 @@ public class VariableScheduler implements Scheduler {
                 : new MinimalDFSListener(_informationHolder);
         _dfs = numParallelCores == Config.SEQUENTIAL_EXECUTION
                 ? new DFS(startingState, _bound, _dataStructures, _dfsListener)
-                : new ParallelDFS(startingState, _bound, _dataStructures, _dfsListener);
+                : new RecursiveParallelDFS(startingState, _bound, _dataStructures, _dfsListener);
 
         // Initialise static thread pool
         if (numParallelCores != Config.SEQUENTIAL_EXECUTION) {
