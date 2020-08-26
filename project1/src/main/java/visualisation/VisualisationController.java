@@ -1,7 +1,11 @@
 package main.java.visualisation;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXToggleButton;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -23,9 +27,9 @@ public class VisualisationController implements Initializable {
     // FXML Fields
 
     @FXML
-    private AreaChart<String, Number> CPUChart;
+    private AreaChart<String, Number> _CPUChart;
     @FXML
-    private AreaChart<Number, Number> RAMChart;
+    private AreaChart<Number, Number> _RAMChart;
     @FXML
     private Text _timeElapsedFigure;
     @FXML
@@ -38,6 +42,8 @@ public class VisualisationController implements Initializable {
     private VBox _bestScheduleParent;
     @FXML
     private VBox _currentScheduleParent;
+    @FXML
+    private JFXToggleButton _switchThemeButton;
 
     // Non-FXML Fields
 
@@ -48,10 +54,15 @@ public class VisualisationController implements Initializable {
     private ScheduleChart<Number, String> _bestScheduleChart;
 
     private int _numProcessors;
-
+    private ThemeSwitcher _themeSwitcher;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Set initial theme when scene is loaded
+        Platform.runLater( () -> {
+            Scene scene = _switchThemeButton.getScene();
+            _themeSwitcher = new ThemeSwitcher(scene,"light-style.css");
+        });
 
         _numProcessors = VisualisationDriver.getNumProcessors();
         // initialise the charts
@@ -75,7 +86,7 @@ public class VisualisationController implements Initializable {
         _RAMSeries = new XYChart.Series();
 
         // add the series data to the chart
-        RAMChart.getData().add(_RAMSeries);
+        _RAMChart.getData().add(_RAMSeries);
     }
 
     /**
@@ -87,7 +98,7 @@ public class VisualisationController implements Initializable {
         _CPUSeries = new XYChart.Series();
 
         // add the series data to the chart
-        CPUChart.getData().add(_CPUSeries);
+        _CPUChart.getData().add(_CPUSeries);
     }
 
 
@@ -112,13 +123,13 @@ public class VisualisationController implements Initializable {
         _bestScheduleChart.setBlockHeight(200 / _numProcessors);
         _currentScheduleChart.setBlockHeight(200 / _numProcessors);
 
-
         _bestScheduleParent.getChildren().add(_bestScheduleChart);
         _currentScheduleParent.getChildren().add(_currentScheduleChart);
+    }
 
-        // Setting up the stylesheet for the charts
-        _bestScheduleChart.getStylesheets().add(getClass().getResource("ganttchart/scheduleChart.css").toExternalForm());
-        _currentScheduleChart.getStylesheets().add(getClass().getResource("ganttchart/scheduleChart.css").toExternalForm());
+    @FXML
+    public void switchTheme() {
+        _themeSwitcher.switchTheme();
     }
 
 
