@@ -15,10 +15,10 @@ public class ThemeSwitcher {
     public void switchTheme() {
         if (_theme.equals("light")) {
             _theme = "dark";
-            setCss("dark-style.css");
+            setCss("css/dark-style.css");
         } else {
             _theme = "light";
-            setCss("light-style.css");
+            setCss("css/light-style.css");
         }
     }
 

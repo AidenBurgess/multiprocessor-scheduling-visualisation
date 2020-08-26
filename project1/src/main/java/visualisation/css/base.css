@@ -1,16 +1,6 @@
-@import "ganttchart/scheduleChart.css";
-
 @font-face {
     font-family: Roboto;
     src: url('Roboto-Regular.ttf');
-}
-
-* {
-    -background-color-primary: #303030;
-    -background-color-secondary: #212121;
-    -text-color-primary: #FFFFFF;
-    -accent-color-primary: #00c5d4;
-    -fx-font-family: Roboto;
 }
 
 .root {
