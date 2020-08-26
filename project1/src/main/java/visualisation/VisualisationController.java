@@ -118,7 +118,7 @@ public class VisualisationController implements Initializable {
 
         // Setting up the stylesheet for the charts
         _bestScheduleChart.getStylesheets().add(getClass().getResource("light-style.css").toExternalForm());
-        _currentScheduleChart.getStylesheets().add(getClass().getResource("dark-style.css").toExternalForm());
+        _currentScheduleChart.getStylesheets().add(getClass().getResource("light-style.css").toExternalForm());
     }
 
 
