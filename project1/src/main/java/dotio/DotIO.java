@@ -65,16 +65,6 @@ public class DotIO {
      *      c −> d      [Weight=1];
      *  }
      *
-     * Some writer example
-     *  PrintWriter writer = new PrintWriter("prog5-grapha.dot");
-     *                 writer.println("digraph program 5");
-     *                 writer.println("{");
-     *                 writer.println("a -> b -> c;");
-     *                 writer.println("b -> d;");
-     *                 writer.println("}");
-     *
-     *  writer.close();
-     *
      * @param outputFile
      * @param taskGraph
      * @param startTimeMap

@@ -4,6 +4,9 @@ import javafx.util.Pair;
 
 import java.util.ArrayList;
 
+/**
+ * this class contains all the data structures used throughout the program.
+ */
 public class DataStructures {
 
     private ArrayList<ArrayList<Pair<Integer, Integer>>> _adjList, _revAdjList;

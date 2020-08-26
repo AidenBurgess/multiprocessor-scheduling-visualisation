@@ -2,6 +2,9 @@ package main.java.dotio;
 
 import java.util.ArrayList;
 
+/**
+ * This class is an object that contains a list of tasks and dependencies.
+ */
 public class TaskGraph {
     private String _name;
     private ArrayList<Task> _tasks; // name and a taskTime

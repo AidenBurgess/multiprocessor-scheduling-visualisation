@@ -48,11 +48,7 @@ public class Config {
     public void setInputFileName(String inputFileName) {
         _inputFileName = inputFileName;
     }
-
-    public boolean isParallelised() {
-        return _isParallelised;
-    }
-
+    
     public void setParallelised(boolean parallelised) {
         _isParallelised = parallelised;
     }

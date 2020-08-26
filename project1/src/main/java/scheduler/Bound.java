@@ -27,7 +27,10 @@ public class Bound {
      * @return true if the DFS should prune.
      */
     public boolean canPrune(int currentBound) {
-        if (_bound == NO_BOUND) return false;
+        if (_bound == NO_BOUND) {
+            return false;
+        }
+
         return (currentBound >= _bound);
     }
 
@@ -37,7 +40,10 @@ public class Bound {
      * @param currentBound the value to update the bound to, if lower.
      */
     public void reduceBound(int currentBound) {
-        if (_bound == NO_BOUND) _bound = currentBound;
-        else _bound = Math.min(_bound, currentBound);
+        if (_bound == NO_BOUND) {
+            _bound = currentBound;
+        } else {
+            _bound = Math.min(_bound, currentBound);
+        }
     }
 }
