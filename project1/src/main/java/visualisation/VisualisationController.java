@@ -1,6 +1,5 @@
 package main.java.visualisation;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXToggleButton;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -9,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.AreaChart;
@@ -22,10 +22,11 @@ import java.net.URL;
 // changed or we want to retain it. Also whether we want the fields
 // in the GanttChart class should start with underscore
 
-public class VisualisationController implements Initializable {
+public class VisualisationController extends DraggableWindow implements Initializable {
 
     // FXML Fields
-
+    @FXML
+    private AnchorPane root;
     @FXML
     private AreaChart<String, Number> _CPUChart;
     @FXML
@@ -59,9 +60,9 @@ public class VisualisationController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Set initial theme when scene is loaded
-        Platform.runLater( () -> {
+        Platform.runLater(() -> {
             Scene scene = _switchThemeButton.getScene();
-            _themeSwitcher = new ThemeSwitcher(scene,"light-style.css");
+            _themeSwitcher = new ThemeSwitcher(scene, "css/light-style.css");
         });
 
         _numProcessors = VisualisationDriver.getNumProcessors();
@@ -70,12 +71,12 @@ public class VisualisationController implements Initializable {
         setUpRAMChart();
         setUpScheduleCharts();
 
-        DisplayUpdater displayUpdater = new DisplayUpdater(_visitedStatesFigure, _completedSchedulesFigure, _activeBranchFigure, _timeElapsedFigure,
-                                                           _currentScheduleChart, _bestScheduleChart, _CPUSeries, _RAMSeries);
+        DisplayUpdater displayUpdater = new DisplayUpdater(_visitedStatesFigure, _completedSchedulesFigure,
+                _activeBranchFigure, _timeElapsedFigure, _currentScheduleChart, _bestScheduleChart, _CPUSeries,
+                _RAMSeries);
 
         InformationPoller informationPoller = new InformationPoller(displayUpdater);
     }
-
 
     /**
      * Sets up the RAM chart
@@ -101,7 +102,6 @@ public class VisualisationController implements Initializable {
         _CPUChart.getData().add(_CPUSeries);
     }
 
-
     /**
      * Set up both schedule charts and add the charts to their parent components.
      */
@@ -116,6 +116,7 @@ public class VisualisationController implements Initializable {
 
     /**
      * Initialise a schedule chart with x-axis and y-axis values and titles.
+     * 
      * @return The generated ScheduleChart object.
      */
     private ScheduleChart<Number, String> setUpScheduleChart() {
@@ -144,6 +145,15 @@ public class VisualisationController implements Initializable {
         _themeSwitcher.switchTheme();
     }
 
+    @FXML
+    public void minimise() {
+        stage.setIconified(true);
+    }
+
+    @FXML
+    public void close() {
+        shutdown();
+    }
 
     public void shutdown() {
         System.exit(0);

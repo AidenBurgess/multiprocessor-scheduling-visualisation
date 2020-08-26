@@ -1,0 +1,10 @@
+@import "../ganttchart/scheduleChart.css";
+@import "base.css";
+
+* {
+    -background-color-primary: #303030;
+    -background-color-secondary: #212121;
+    -text-color-primary: #FFFFFF;
+    -accent-color-primary: #00c5d4;
+    -fx-font-family: Roboto;
+}
