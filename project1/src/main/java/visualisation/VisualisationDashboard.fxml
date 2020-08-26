@@ -47,11 +47,11 @@
             <DropShadow />
          </effect>
       </HBox>
-      <HBox layoutX="1.0" layoutY="446.0" prefHeight="363.0" prefWidth="1438.0">
+      <HBox layoutX="1.0" layoutY="446.0" prefHeight="363.0" prefWidth="1440.0">
          <children>
-            <VBox fx:id="statistics" alignment="CENTER" prefHeight="253.0" prefWidth="397.0">
+            <VBox fx:id="statistics" alignment="CENTER" prefHeight="253.0" prefWidth="400.0">
                <children>
-                  <SplitPane dividerPositions="0.628140703517588" prefHeight="231.0" prefWidth="397.0">
+                  <SplitPane dividerPositions="0.6507537688442211" prefHeight="282.0" prefWidth="474.0">
                     <items>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                            <children>
@@ -146,7 +146,7 @@
                   <Insets left="20.0" />
                </HBox.margin>
             </VBox>
-            <VBox fx:id="CPUParent" prefHeight="200.0" prefWidth="425.0">
+            <VBox fx:id="CPUParent" prefHeight="200.0" prefWidth="520.0">
                <children>
                   <AreaChart fx:id="_CPUChart" legendVisible="false" title="CPU Usage">
                     <xAxis>
@@ -164,7 +164,7 @@
                   </AreaChart>
                </children>
             </VBox>
-            <VBox fx:id="RAMParent" prefHeight="200.0" prefWidth="425.0">
+            <VBox fx:id="RAMParent" prefHeight="200.0" prefWidth="520.0">
                <children>
                   <AreaChart fx:id="_RAMChart" legendVisible="false" title="RAM Usage">
                     <xAxis>
