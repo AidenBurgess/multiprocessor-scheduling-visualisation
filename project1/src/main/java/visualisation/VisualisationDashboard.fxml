@@ -210,7 +210,7 @@
                            </tickLabelFont></CategoryAxis>
                     </xAxis>
                     <yAxis>
-                      <NumberAxis label="Usage %" prefHeight="231.0" prefWidth="58.0" side="LEFT">
+                      <NumberAxis label="Usage %" prefHeight="231.0" prefWidth="60.0" side="LEFT">
                            <tickLabelFont>
                               <Font size="11.0" />
                            </tickLabelFont></NumberAxis>
