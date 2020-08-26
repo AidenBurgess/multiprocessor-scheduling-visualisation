@@ -13,8 +13,9 @@ public class InformationPoller {
     private Timer _timer;
     private DisplayUpdater _displayUpdater;
     private long _displayUpdateDelay = 0;
-    private long _graphsUpdatePeriod = 500;
-    private long _statsUpdatePeriod = 25;
+    private long _schedulesUpdatePeriod = 100;
+    private long _cpuRamUpdatePeriod = 500;
+    private long _statsUpdatePeriod = 100;
     private SystemPerformanceRetriever _performanceRetriever;
     private InformationHolder _informationHolder = VisualisationDriver.getInformationHolder();
 
@@ -33,8 +34,8 @@ public class InformationPoller {
     private void startTimer() {
 
         _timer = new Timer();
-        _timer.schedule(new ScheduleUpdateTask(), _displayUpdateDelay, _graphsUpdatePeriod);
-        _timer.schedule(new GraphUpdateTask(), _displayUpdateDelay, _graphsUpdatePeriod);
+        _timer.schedule(new ScheduleUpdateTask(), _displayUpdateDelay, _schedulesUpdatePeriod);
+        _timer.schedule(new GraphUpdateTask(), _displayUpdateDelay, _cpuRamUpdatePeriod);
         _timer.schedule(new StatsUpdateTask(), _displayUpdateDelay, _statsUpdatePeriod);
 
     }
