@@ -29,8 +29,8 @@ public class VariableScheduler implements Scheduler {
 
     private DataStructures _dataStructures;
 
-    private DFSExecutor _dfsExecutor;
-    private StatisticToggle _statisticToggle;
+    private Searcher _searcher;
+    private DFSGetter _dfsGetter;
     private final InformationHolder _informationHolder;
 
     private VariableScheduler(TaskGraph taskGraph, int numProcessors) {
@@ -46,8 +46,10 @@ public class VariableScheduler implements Scheduler {
         this(taskGraph, numProcessors);
 
         // Determine which implementations
-        _statisticToggle = recordStatistics ? new YesStatisticToggle() : new NoStatisticToggle();
-        _dfsExecutor = numParallelCores == Config.SEQUENTIAL_EXECUTION ? new NormalDFSExecutor() : new ParallelDFSExecutor(numParallelCores);
+        _dfsGetter = recordStatistics ?
+                new StatisticDFSGetter(_bound, _dataStructures, _informationHolder) :
+                new MinimalDFSGetter(_bound, _dataStructures, _informationHolder);
+        _searcher = numParallelCores == Config.SEQUENTIAL_EXECUTION ? new SequentialSearcher() : new ParallelSearcher(numParallelCores);
     }
 
     private void initializeDataStructures() {
@@ -142,9 +144,7 @@ public class VariableScheduler implements Scheduler {
         _informationHolder.setSchedulerStatus(InformationHolder.RUNNING);
         State state = new State(_numTasks, _numProcessors, _dataStructures);
 
-        _dfsExecutor.runDFS(_statisticToggle.getDFS(state, _bound, _dataStructures, _informationHolder));
-
-        _dfsExecutor.waitForFinish(); // This is called to let the executor clean up
+        _searcher.optimalScheduleSearch(state, _dfsGetter);
         _informationHolder.setSchedulerStatus(InformationHolder.FINISHED);
     }
 
