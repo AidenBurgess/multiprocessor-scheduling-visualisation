@@ -185,7 +185,7 @@
          </children>
       </HBox>
       <JFXToggleButton fx:id="_switchThemeButton" focusTraversable="false" layoutX="32.0" layoutY="9.0" onAction="#switchTheme" text="Switch Theme" toggleColor="#00c5d4" toggleLineColor="#75dde6" />
-      <JFXButton buttonType="RAISED" layoutX="1059.0" layoutY="17.0" onAction="#minimise" prefHeight="39.0" prefWidth="39.0">
+      <JFXButton buttonType="RAISED" layoutX="1320.0" layoutY="17.0" onAction="#minimise" prefHeight="39.0" prefWidth="39.0">
          <graphic>
             <ImageView fitHeight="15.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -194,7 +194,7 @@
             </ImageView>
          </graphic>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="1170.0" layoutY="17.0" onAction="#close" prefHeight="39.0" prefWidth="39.0">
+      <JFXButton buttonType="RAISED" layoutX="1369.0" layoutY="17.0" onAction="#close" prefHeight="39.0" prefWidth="39.0">
          <graphic>
             <ImageView fitHeight="15.0" pickOnBounds="true" preserveRatio="true">
                <image>
