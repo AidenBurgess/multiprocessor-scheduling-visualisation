@@ -1,9 +1,5 @@
 package main.java.scheduler;
 
-import javafx.util.Pair;
-
-import java.util.ArrayList;
-
 /**
  * The State class holds information that defines an allocation of tasks on processors.
  */
