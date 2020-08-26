@@ -29,7 +29,7 @@
             </VBox>
          </children>
       </HBox>
-      <HBox fx:id="titleBackground" alignment="CENTER" prefHeight="75.0" prefWidth="1280.0">
+      <HBox fx:id="titleBackground" alignment="CENTER" layoutX="-69.0" layoutY="-10.0" prefHeight="85.0" prefWidth="1386.0">
          <children>
             <Text fx:id="visualisationTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="Scheduling Statistics">
                <font>
