@@ -133,7 +133,6 @@ public class VisualisationController extends DraggableWindow implements Initiali
         }
         CategoryAxis yAxis = new CategoryAxis();
         yAxis.setCategories(FXCollections.observableArrayList(processorsList));
-        yAxis.setLabel("Processors");
 
         // Setting up the x-axis
         NumberAxis xAxis = new NumberAxis();
