@@ -42,6 +42,10 @@ AreaChart {
     -fx-text-fill: -text-color-primary;
 }
 
+.jfx-button:hover {
+    -fx-background-color: #75dde6;
+}
+
 .toggle-button {
     -fx-text-fill: -text-color-primary;
 }

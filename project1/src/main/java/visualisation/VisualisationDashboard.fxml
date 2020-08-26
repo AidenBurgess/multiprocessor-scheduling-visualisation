@@ -8,14 +8,14 @@
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
 <AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="1440.0" styleClass="root" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.visualisation.VisualisationController">
    <children>
       <HBox layoutY="90.0" prefHeight="335.0" prefWidth="1440.0">
@@ -185,7 +185,7 @@
          </children>
       </HBox>
       <JFXToggleButton fx:id="_switchThemeButton" focusTraversable="false" layoutX="32.0" layoutY="9.0" onAction="#switchTheme" text="Switch Theme" toggleColor="#00c5d4" toggleLineColor="#75dde6" />
-      <JFXButton buttonType="RAISED" layoutX="1320.0" layoutY="17.0" onAction="#minimise" prefHeight="39.0" prefWidth="39.0">
+      <JFXButton buttonType="RAISED" focusTraversable="false" layoutX="1320.0" layoutY="17.0" onAction="#minimise" prefHeight="39.0" prefWidth="39.0" ripplerFill="BLACK">
          <graphic>
             <ImageView fitHeight="15.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -194,7 +194,7 @@
             </ImageView>
          </graphic>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="1369.0" layoutY="17.0" onAction="#close" prefHeight="39.0" prefWidth="39.0">
+      <JFXButton buttonType="RAISED" focusTraversable="false" layoutX="1369.0" layoutY="17.0" onAction="#close" prefHeight="39.0" prefWidth="39.0" ripplerFill="BLACK">
          <graphic>
             <ImageView fitHeight="15.0" pickOnBounds="true" preserveRatio="true">
                <image>
