@@ -13,19 +13,21 @@ import java.util.ArrayList;
  * context to determine the next possible moves.
  */
 
-public abstract class DFS {
+public class DFS {
     private int _numTasks;
     protected State _state;
     protected Bound _bound;
     protected DataStructures _dataStructures;
     protected InformationHolder _informationHolder;
+    protected DFSListener _dfsListener;
 
-    public DFS(State state, Bound bound, DataStructures dataStructures, InformationHolder informationHolder) {
+    public DFS(State state, Bound bound, DataStructures dataStructures, InformationHolder informationHolder, DFSListener dfsListener) {
         _state = state;
         _bound = bound;
         _dataStructures = dataStructures;
         _numTasks = _state._numTasks;
         _informationHolder = informationHolder;
+        _dfsListener = dfsListener;
     }
 
     /**
@@ -52,11 +54,12 @@ public abstract class DFS {
     }
 
     private final void run(int prevTask, int prevProcessor) { // try this for now
-        onDFSEntry();
+        _dfsListener.onDFSEntry();
+        _dfsListener.onPartialSchedule(_state, _bound);
 
         // Prune
         if (_bound.canPrune(FFunction.evaluate(_state))) {
-            onDFSExit();
+            _dfsListener.onDFSExit();
             return;
         }
 
@@ -64,8 +67,8 @@ public abstract class DFS {
         if (_state._unassignedTasks == 0) {
             _bound.reduceBound(_state._endTime);
 
-            onCompleteSchedule();
-            onDFSExit();
+            _dfsListener.onCompleteSchedule(_state, _bound);
+            _dfsListener.onDFSExit();
             return;
         }
 
@@ -95,7 +98,7 @@ public abstract class DFS {
             for (int processor = 0; processor < _state._numProcessors; processor++) {
                 // Prune
                 if (_bound.canPrune(_state._endTime)) {
-                    onDFSExit();
+                    _dfsListener.onDFSExit();
                     return;
                 }
 
@@ -169,24 +172,6 @@ public abstract class DFS {
             }
         }
 
-        onDFSExit();
+        _dfsListener.onDFSExit();
     }
-
-    /**
-     * Hook method that is called on every run() entry
-     * Responsible for updating information in the InformationHolder, if necessary
-     */
-    protected abstract void onDFSEntry();
-
-    /**
-     * Hook method that is called on every run() exit
-     * Responsible for updating information in the InformationHolder, if necessary
-     */
-    protected abstract void onDFSExit();
-
-    /**
-     * Hook method that is called on every new complete schedule that is found
-     * Responsible for updating information in the InformationHolder, if necessary
-     */
-    protected abstract void onCompleteSchedule();
 }

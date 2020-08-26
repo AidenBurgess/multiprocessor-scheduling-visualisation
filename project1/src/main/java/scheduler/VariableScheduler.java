@@ -30,7 +30,7 @@ public class VariableScheduler implements Scheduler {
     private DataStructures _dataStructures;
 
     private Searcher _searcher;
-    private DFSGetter _dfsGetter;
+    private DFSListener _dfsListener;
     private final InformationHolder _informationHolder;
 
     private VariableScheduler(TaskGraph taskGraph, int numProcessors) {
@@ -46,9 +46,9 @@ public class VariableScheduler implements Scheduler {
         this(taskGraph, numProcessors);
 
         // Determine which implementations
-        _dfsGetter = recordStatistics ?
-                new StatisticDFSGetter(_bound, _dataStructures, _informationHolder) :
-                new MinimalDFSGetter(_bound, _dataStructures, _informationHolder);
+        _dfsListener = recordStatistics ?
+                new StatisticDFSListener(_informationHolder) :
+                new MinimalDFSListener(_informationHolder);
         _searcher = numParallelCores == Config.SEQUENTIAL_EXECUTION ? new SequentialSearcher() : new ParallelSearcher(numParallelCores);
     }
 
@@ -144,7 +144,7 @@ public class VariableScheduler implements Scheduler {
         _informationHolder.setSchedulerStatus(InformationHolder.RUNNING);
         State state = new State(_numTasks, _numProcessors, _dataStructures);
 
-        _searcher.optimalScheduleSearch(state, _dfsGetter);
+        _searcher.optimalScheduleSearch(state, _bound, _dataStructures, _informationHolder, _dfsListener);
         _informationHolder.setSchedulerStatus(InformationHolder.FINISHED);
     }
 
