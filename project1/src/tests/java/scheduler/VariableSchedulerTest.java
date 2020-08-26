@@ -14,23 +14,24 @@ public class VariableSchedulerTest {
 
     @Test
     public void runSingleFile() throws FileNotFoundException, DotIOException {
-        String testName = "N11-M1.dot";
-        int expectedResult = 54;
+        String testName = "N13-M3.dot";
+        int expectedResult = 64;
 
         TaskGraph tg = DotIO.read(System.getProperty("user.dir") + "/dots/" + testName);
+
+        boolean[] stats = {false};
+        int[] threads = {-1, 2, 3, 3, 2, -1};
         // Statistics, Processors
-        for (boolean stats = false; ; stats = true) {
-            for (int threads = 3; threads >= 1; threads--) {
+        for (boolean stat : stats) {
+            for (int thread : threads) {
                 long totalTime = 0;
-                for (int tests = 0; tests < 3; tests++) {
-                    Scheduler sc = new VariableScheduler(tg, 3, stats, threads);
+                for (int tests = 0; tests < 2; tests++) {
+                    Scheduler sc = new VariableScheduler(tg, 3, stat, thread);
                     totalTime += measureExecutionTime(sc);
                     assertEquals(sc.getInformationHolder().getCurrentBound(), expectedResult);
                 }
-                System.out.println(testName + ". Stats: " + stats + ", threads: " + threads + ". Time: " + totalTime/3);
+                System.out.println(testName + ". Stats: " + stat + ", threads: " + thread + ". Time: " + totalTime/3);
             }
-
-            if (stats == true) break;
         }
 
 

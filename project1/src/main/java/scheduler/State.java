@@ -56,16 +56,16 @@ public class State {
      */
     public State copy() {
         State next = new State(_numTasks, _numProcessors);
-        for (int i = 0; i < _numTasks; i++) {
-            next._assignedProcessorId[i] = _assignedProcessorId[i];
-            next._taskEndTime[i] = _taskEndTime[i];
-        }
-        for (int i = 0; i < _numProcessors; i++) {
-            next._processorEndTime[i] = _processorEndTime[i];
-        }
+
+        System.arraycopy(_taskEndTime, 0, next._taskEndTime, 0, _numTasks);
+        System.arraycopy(_assignedProcessorId, 0, next._assignedProcessorId, 0, _numTasks);
+        System.arraycopy(_processorEndTime, 0, next._processorEndTime, 0, _numProcessors);
 
         next._endTime = _endTime;
         next._unassignedTasks = _unassignedTasks;
+        next._computationalTime = _computationalTime;
+        next._freeProcessor = _freeProcessor;
+        next._prevProcessorFirstTask = _prevProcessorFirstTask;
         return next;
     }
 }

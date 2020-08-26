@@ -70,7 +70,8 @@ public class OptimalityTest {
 
     @Test(timeout=200)
     public void test() {
-        Scheduler scheduler = new VariableScheduler(_taskGraph, _processors, false, Config.SEQUENTIAL_EXECUTION);
+        Scheduler scheduler = new VariableScheduler(_taskGraph, _processors,
+                false, Config.SEQUENTIAL_EXECUTION);
         System.out.println(_file.getName());
         scheduler.execute();
         long actual = scheduler.getInformationHolder().getCurrentBound();

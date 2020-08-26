@@ -18,42 +18,36 @@ public class DFS {
     protected State _state;
     protected Bound _bound;
     protected DataStructures _dataStructures;
-    protected InformationHolder _informationHolder;
     protected DFSListener _dfsListener;
 
-    public DFS(State state, Bound bound, DataStructures dataStructures, InformationHolder informationHolder, DFSListener dfsListener) {
+    public DFS(State state, Bound bound, DataStructures dataStructures, DFSListener dfsListener) {
         _state = state;
         _bound = bound;
         _dataStructures = dataStructures;
         _numTasks = _state._numTasks;
-        _informationHolder = informationHolder;
         _dfsListener = dfsListener;
     }
 
     /**
      * Performs DFS.
-     *
+     * <p>
      * If the current State is complete, it will update
      * -    bound,
      * -    bestProcessorMap,
      * -    bestStartTimeMap
      * in the ReducedStateScheduler.
-     *
+     * <p>
      * If the current state is not complete, it will try place each task on each processor, if legal.
      * The placement is legal if:
      * -    All the task's dependencies have been met
      * -    The task is not already assigned
      * On a successful placement, the current state is updated and run() is called. When run() finishes
      * executing, the state is restored.
-     *
+     * <p>
      * If at any stage, the current state's endTime exceeds the bound, DFS will "prune" and the current
      * run() will return.
      */
-    protected final void run() {
-        run(-1, -1);
-    }
-
-    private final void run(int prevTask, int prevProcessor) { // try this for now
+    protected void run(int prevTask, int prevProcessor) { // try this for now
         _dfsListener.onDFSEntry();
         _dfsListener.onPartialSchedule(_state, _bound);
 
@@ -173,5 +167,13 @@ public class DFS {
         }
 
         _dfsListener.onDFSExit();
+    }
+
+    public void run() {
+        run(-1, -1);
+    }
+
+    protected void waitForFinish() {
+
     }
 }

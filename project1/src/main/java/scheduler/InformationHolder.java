@@ -95,6 +95,7 @@ public class InformationHolder {
 
     private HashMap<String, Integer> getStartTimeMap(State state) {
         HashMap<String, Integer> startTimeMap = new HashMap<>();
+        if (state == null) return startTimeMap;
         for (int i = 0; i < state._numTasks; i++) {
             // Do not put a task that is unassigned on this map.
             if (state._assignedProcessorId[i] == State.UNSCHEDULED) continue;
@@ -115,6 +116,7 @@ public class InformationHolder {
 
     private HashMap<String, Integer> getProcessorMap(State state) {
         HashMap<String, Integer> processorMap = new HashMap<>();
+        if (state == null) return processorMap;
         for (int i = 0; i < state._numTasks; i++) {
             // Do not put a task that is unassigned on this map.
             if (state._assignedProcessorId[i] == State.UNSCHEDULED) continue;

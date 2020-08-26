@@ -29,7 +29,7 @@ public class VariableScheduler implements Scheduler {
 
     private DataStructures _dataStructures;
 
-    private Searcher _searcher;
+    private DFS _dfs;
     private DFSListener _dfsListener;
     private final InformationHolder _informationHolder;
 
@@ -45,11 +45,20 @@ public class VariableScheduler implements Scheduler {
     public VariableScheduler(TaskGraph taskGraph, int numProcessors, boolean recordStatistics, int numParallelCores) {
         this(taskGraph, numProcessors);
 
+        State startingState = new State(_numTasks, _numProcessors, _dataStructures);
+
         // Determine which implementations
-        _dfsListener = recordStatistics ?
-                new StatisticDFSListener(_informationHolder) :
-                new MinimalDFSListener(_informationHolder);
-        _searcher = numParallelCores == Config.SEQUENTIAL_EXECUTION ? new SequentialSearcher() : new ParallelSearcher(numParallelCores);
+        _dfsListener = recordStatistics
+                ? new StatisticDFSListener(_informationHolder)
+                : new MinimalDFSListener(_informationHolder);
+        _dfs = numParallelCores == Config.SEQUENTIAL_EXECUTION
+                ? new DFS(startingState, _bound, _dataStructures, _dfsListener)
+                : new ParallelDFS(startingState, _bound, _dataStructures, _dfsListener);
+
+        // Initialise static thread pool
+        if (numParallelCores != Config.SEQUENTIAL_EXECUTION) {
+            ParallelDFS.initialiseThreadPool(numParallelCores);
+        }
     }
 
     private void initializeDataStructures() {
@@ -142,9 +151,10 @@ public class VariableScheduler implements Scheduler {
     @Override
     public void execute() {
         _informationHolder.setSchedulerStatus(InformationHolder.RUNNING);
-        State state = new State(_numTasks, _numProcessors, _dataStructures);
 
-        _searcher.optimalScheduleSearch(state, _bound, _dataStructures, _informationHolder, _dfsListener);
+        _dfs.run();
+        _dfs.waitForFinish();
+
         _informationHolder.setSchedulerStatus(InformationHolder.FINISHED);
     }
 

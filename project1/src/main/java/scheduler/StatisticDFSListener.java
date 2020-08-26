@@ -9,8 +9,6 @@ import java.util.ArrayList;
  * An implementation of DFS where statistics are measured and updated in the InformationHolder instance.
  */
 public class StatisticDFSListener extends MinimalDFSListener {
-    InformationHolder _informationHolder;
-
     public StatisticDFSListener(InformationHolder informationHolder) {
         super(informationHolder);
     }
@@ -32,10 +30,12 @@ public class StatisticDFSListener extends MinimalDFSListener {
     public void onCompleteSchedule(State state, Bound bound) {
         super.onCompleteSchedule(state, bound);
         _informationHolder.incrementCompleteStates();
+
     }
 
     @Override
     public void onPartialSchedule(State state, Bound bound) {
         super.onPartialSchedule(state, bound);
+        _informationHolder.setCurrentState(state.copy());
     }
 }

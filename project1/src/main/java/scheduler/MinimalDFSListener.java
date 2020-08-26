@@ -9,7 +9,8 @@ import java.util.ArrayList;
  * Only responsible for updating the best found state.
  */
 public class MinimalDFSListener implements DFSListener {
-    InformationHolder _informationHolder;
+    protected InformationHolder _informationHolder;
+
     public MinimalDFSListener(InformationHolder informationHolder) {
         _informationHolder = informationHolder;
     }
