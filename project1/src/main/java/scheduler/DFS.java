@@ -54,12 +54,6 @@ public abstract class DFS {
     private final void run(int prevTask, int prevProcessor) { // try this for now
         onDFSEntry();
 
-//        // Prune
-//        if (_bound.canPrune(_state._endTime)) {
-//            onDFSExit();
-//            return;
-//        }
-
         // Prune
         if (_bound.canPrune(FFunction.evaluate(_state))) {
             onDFSExit();
@@ -81,21 +75,17 @@ public abstract class DFS {
             if (_state._assignedProcessorId[task] != State.UNSCHEDULED) continue;
 
             // If the task still has unscheduled dependencies, ignore
-            boolean dependenciesMet = true;
-            boolean isPrevTasksChild = false;
+            if (_state._taskInDegree[task] != 0) continue;
 
+            // Determine if the task is the previously placed task's child
+            boolean isPrevTasksChild = false;
             ArrayList<Pair<Integer, Integer>> revTask = _dataStructures.getRevAdjList().get(task);
             int numRevTasks = revTask.size();
             for (int i = 0; i < numRevTasks; i++) {
                 Pair<Integer, Integer> dependency = revTask.get(i);
                 int parent = dependency.getKey();
-                if (_state._assignedProcessorId[parent] == State.UNSCHEDULED) {
-                    dependenciesMet = false;
-                    break;
-                }
                 if (parent == prevTask) isPrevTasksChild = true;
             }
-            if (!dependenciesMet) continue;
 
             // For each processor,
             for (int processor = 0; processor < _state._numProcessors; processor++) {
@@ -105,7 +95,8 @@ public abstract class DFS {
                     return;
                 }
 
-                // Duplicate state.... ?
+                // The task is only allowed to be placed in an earlier processor
+                // if it was a child of the parent
                 if (processor < prevProcessor && !isPrevTasksChild) continue;
 
                 // You can only put a task on an empty processor if the currentTask is larger than
@@ -149,7 +140,12 @@ public abstract class DFS {
                 // Update current state
                 _state._taskEndTime[task] = nextTaskEndTime;
                 _state._assignedProcessorId[task] = processor;
-                _state._taskInDegree[task]--;
+
+                ArrayList<Pair<Integer, Integer>> children = _dataStructures.getAdjList().get(task);
+                for (int child = 0; child < children.size(); child++) {
+                    _state._taskInDegree[children.get(child).getKey()]--;
+                }
+
                 _state._processorEndTime[processor] = nextTaskEndTime;
                 _state._unassignedTasks--;
                 _state._endTime = Math.max(_state._endTime, nextTaskEndTime);
@@ -166,7 +162,11 @@ public abstract class DFS {
                 // Restore current state
                 _state._taskEndTime[task] = State.UNSCHEDULED;
                 _state._assignedProcessorId[task] = State.UNSCHEDULED;
-                _state._taskInDegree[task]++;
+
+                for (int child = 0; child < children.size(); child++) {
+                    _state._taskInDegree[children.get(child).getKey()]++;
+                }
+
                 _state._processorEndTime[processor] = processorPrevEndTime;
                 _state._unassignedTasks++;
                 _state._endTime = prevEndTime;
