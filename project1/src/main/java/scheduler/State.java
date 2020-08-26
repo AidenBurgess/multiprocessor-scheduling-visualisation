@@ -52,7 +52,7 @@ public class State {
     /**
      * Returns a deep copy of the current State
      *
-     * @return a new State instance with the same values.
+     * @return a new State instance with the same field values.
      */
     public State copy() {
         State next = new State(_numTasks, _numProcessors);

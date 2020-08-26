@@ -5,12 +5,11 @@ import javafx.util.Pair;
 import java.util.ArrayList;
 
 /**
- * this class contains all the data structures used throughout the program.
+ * Contains all the data structures used throughout the DFS.
+ * Initialised in VariableScheduler
  */
 public class DataStructures {
-
     private ArrayList<ArrayList<Pair<Integer, Integer>>> _adjList, _revAdjList;
-
     private ArrayList<Integer> _topologicalIndex, _taskWeights;
 
     public ArrayList<ArrayList<Pair<Integer, Integer>>> getAdjList() {

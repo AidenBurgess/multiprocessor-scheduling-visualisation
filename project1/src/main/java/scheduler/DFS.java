@@ -9,8 +9,7 @@ import java.util.ArrayList;
  * The class holds a state, and on every 'branch', it adjusts the state in-place.
  * -    In-place adjustment = O(1), much better than making a new copy of State
  *
- * The class has a copy of the revAdjList and taskTimes from the VariableScheduler to provide
- * context to determine the next possible moves.
+ * On its changes, it will alert the DFSListener object.
  */
 
 public class DFS {
@@ -29,22 +28,22 @@ public class DFS {
     }
 
     /**
-     * TODO: 27/08/20 fix comments
      * Performs DFS.
-     * <p>
-     * If the current State is complete, it will update
-     * -    bound,
-     * -    bestProcessorMap,
-     * -    bestStartTimeMap
-     * in the ReducedStateScheduler.
-     * <p>
+     *
+     * On:
+     * - enter DFS
+     * - exit DFS
+     * - complete schedule
+     * - partial schedule
+     * the DFSListener will be alerted.
+     *
      * If the current state is not complete, it will try place each task on each processor, if legal.
      * The placement is legal if:
      * -    All the task's dependencies have been met
      * -    The task is not already assigned
      * On a successful placement, the current state is updated and run() is called. When run() finishes
      * executing, the state is restored.
-     * <p>
+     *
      * If at any stage, the current state's endTime exceeds the bound, DFS will "prune" and the current
      * run() will return.
      */
@@ -190,7 +189,7 @@ public class DFS {
     }
 
     /**
-     * initial run method.
+     * First external run() call
      */
     public void run() {
         run(-1, -1);

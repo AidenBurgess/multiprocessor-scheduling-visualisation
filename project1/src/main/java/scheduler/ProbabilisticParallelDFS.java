@@ -2,6 +2,10 @@ package main.java.scheduler;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Uses probability to determine whether the current DFS should be split.
+ * On split, a DFS (original, not ParallelDFS) instance is made to search through the branch
+ */
 public class ProbabilisticParallelDFS extends ParallelDFS {
     public ProbabilisticParallelDFS(State state, Bound bound, DataStructures dataStructures, DFSListener dfsListener) {
         super(state, bound, dataStructures, dfsListener);
@@ -9,13 +13,14 @@ public class ProbabilisticParallelDFS extends ParallelDFS {
 
     protected void run(int prevTask, int prevProcessor) {
         double prob = Math.random();
-        boolean split = prob >= 1. / _numParallelCores;
-        // cores = 1, prob = 0 (never split)
-        // cores = 2, prob = 0.5
-        // cores = 3, prob = 0.66
-        // the higher the core count, the more likely the split
+        // We should split if prob is less than 1/cores.
+        // E.g. if cores = 2, chance = 50%
+        //      if cores = 3, chance = 66%
+        // The more cores, the most favourable a split is.
+        boolean split = prob <= (1 - 1. / _numParallelCores);
 
-        if (_state._unassignedTasks >= 6 && split) {
+        // Can only split if there are at least half the tree left to search
+        if (_state._unassignedTasks >= (_state._numTasks / 2) && split) {
             DFS dfs = new DFS(_state.copy(), _bound, _dataStructures, _dfsListener);
             _pool.submit(() -> {
                 dfs.run(prevTask, prevProcessor);
@@ -27,7 +32,10 @@ public class ProbabilisticParallelDFS extends ParallelDFS {
 
     @Override
     protected void waitForFinish() {
+        // When control reaches here, all the threads will be created.
+        // Pool shutdown closes the pool from accepting new tasks
         _pool.shutdown();
+        // Control blocks here until all tasks are completed.
         try {
             _pool.awaitTermination(60000, TimeUnit.SECONDS);
         } catch (InterruptedException e) {

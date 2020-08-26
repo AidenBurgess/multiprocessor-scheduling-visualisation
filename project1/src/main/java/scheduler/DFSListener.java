@@ -1,27 +1,26 @@
 package main.java.scheduler;
 
+/**
+ * Listens to events from DFS.
+ */
 public interface DFSListener {
     /**
-     * Hook method that is called on every run() entry
-     * Responsible for updating information in the InformationHolder, if necessary
+     * Called on entry of DFS
      */
     void onDFSEntry();
 
     /**
-     * Hook method that is called on every run() exit
-     * Responsible for updating information in the InformationHolder, if necessary
+     * Called on exit of DFS
      */
     void onDFSExit();
 
     /**
-     * Hook method that is called on every new complete schedule that is found
-     * Responsible for updating information in the InformationHolder, if necessary
+     * Called when a completed schedule is found
      */
     void onCompleteSchedule(State state, Bound bound);
 
     /**
-     * Hook method that is called on every partial schedule that is found
-     * Responsible for updating information in the InformationHolder, if necessary
+     * Called when a partial schedule is found
      */
     void onPartialSchedule(State state, Bound bound);
 }
