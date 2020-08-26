@@ -1,0 +1,77 @@
+* {
+    -color-background-primary: #303030;
+    -color-background-secondary: #212121;
+    -text-color-primary: #FFFFFF;
+}
+
+.root {
+    -fx-background-color: -color-background-primary !important;
+}
+
+#titleBackground {
+    -fx-background-color: -color-background-secondary;
+}
+
+Text {
+    -fx-fill: -text-color-primary;
+}
+
+.root VBox {
+    -fx-background-color: -color-background-primary;
+}
+
+HBox {
+    -fx-background-color: -color-background-primary;
+}
+
+AreaChart {
+    -fx-background-color: -color-background-secondary;
+}
+
+.chart {
+    -fx-background-color: -color-background-primary;
+}
+
+.chart-plot-background {
+    -fx-background-color: -color-background-secondary;
+}
+
+.chart .chart-title .text {
+    -fx-fill: -text-color-primary;
+}
+
+.split-pane:horizontal .split-pane-divider {
+    -fx-background-color: -color-background-primary;
+}
+
+.split-pane {
+    -fx-border-color: -color-background-primary;
+    -fx-background-color: -color-background-primary;
+}
+
+.axis:bottom .axis-label .text,
+.axis:left .axis-label .text {
+    -fx-fill: white;
+}
+
+#RAMParent .chart-series-area-fill {
+    -fx-fill: green;
+    -fx-opacity: 30%;
+}
+
+#RAMParent .chart-series-area-line {
+    -fx-stroke: green;
+}
+
+#RAMParent .chart-area-symbol {
+    -fx-background-color: green, white;
+}
+
+.chart-vertical-grid-lines,
+.chart-horizontal-grid-lines {
+    -fx-stroke: #565656;
+}
+
+.jfx-button {
+    -fx-background-color: #565656;
+}
