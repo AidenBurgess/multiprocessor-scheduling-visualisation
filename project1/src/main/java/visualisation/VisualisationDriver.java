@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import main.java.dotio.TaskGraph;
 import main.java.scheduler.InformationHolder;
 
@@ -38,6 +39,8 @@ public class VisualisationDriver extends Application {
         stage.setScene(scene);
         // Make window a fixed size
         stage.setResizable(false);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
         stage.setOnHidden(e -> controller.shutdown());
         stage.show();
     }

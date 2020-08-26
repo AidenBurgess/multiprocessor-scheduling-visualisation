@@ -21,7 +21,7 @@ public class DraggableWindow {
             });
             root.setOnMouseDragged(event-> {
                 stage.setX(event.getScreenX() - xOffset);
-                stage.setY(event.getScreenY() - yOffset - 25);
+                stage.setY(event.getScreenY() - yOffset);
                 stage.setOpacity(0.8f);
             });
             root.setOnDragDone((e) -> {
