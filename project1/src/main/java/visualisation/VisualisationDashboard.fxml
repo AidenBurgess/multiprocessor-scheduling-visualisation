@@ -178,6 +178,6 @@
             </VBox>
          </children>
       </HBox>
-      <JFXToggleButton fx:id="_switchThemeButton" focusTraversable="false" layoutX="1109.0" layoutY="9.0" onAction="#switchTheme" text="Switch Theme" />
+      <JFXToggleButton fx:id="_switchThemeButton" focusTraversable="false" layoutX="1109.0" layoutY="9.0" onAction="#switchTheme" text="Switch Theme" toggleColor="#00c5d4" toggleLineColor="#75dde6" />
    </children>
 </AnchorPane>

@@ -123,7 +123,6 @@ public class VisualisationController implements Initializable {
         _bestScheduleChart.setBlockHeight(200 / _numProcessors);
         _currentScheduleChart.setBlockHeight(200 / _numProcessors);
 
-
         _bestScheduleParent.getChildren().add(_bestScheduleChart);
         _currentScheduleParent.getChildren().add(_currentScheduleChart);
     }
