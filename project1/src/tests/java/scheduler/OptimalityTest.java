@@ -30,7 +30,8 @@ public class OptimalityTest {
             File lengthFile = new File(lengthFileName);
 
             // Some condition, if you only want to test some inputs
-            if (!fileNameNoDot.contains("Nodes_")) continue;
+
+            if (!fileNameNoDot.contains("Nodes")) continue;
 
             int processors = 0, tens = 1;
             for (int i = fileNameNoDot.length() - 1; i >= 0; i--) {
@@ -76,10 +77,4 @@ public class OptimalityTest {
 
         assertEquals(_expected, actual);
     }
-
-
-
-
-
-
 }
