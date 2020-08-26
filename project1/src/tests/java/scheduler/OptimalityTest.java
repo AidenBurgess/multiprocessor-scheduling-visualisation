@@ -31,7 +31,7 @@ public class OptimalityTest {
 
             // Some condition, if you only want to test some inputs
 
-            if (!fileNameNoDot.contains("Nodes")) continue;
+            // if (!fileNameNoDot.contains("Nodes")) continue;
 
             int processors = 0, tens = 1;
             for (int i = fileNameNoDot.length() - 1; i >= 0; i--) {
@@ -68,7 +68,7 @@ public class OptimalityTest {
         _expected = expected;
     }
 
-    @Test(timeout=100000)
+    @Test(timeout=200)
     public void test() {
         Scheduler scheduler = new VariableScheduler(_taskGraph, _processors, false, Config.SEQUENTIAL_EXECUTION);
         System.out.println(_file.getName());

@@ -10,7 +10,6 @@ public class State {
 
     protected int[] _assignedProcessorId; // assignedProcessorId[taskId] -> processorId
     protected int[] _taskEndTime; // taskEndTime[taskId] -> end time of task
-    protected int[] _taskInDegree; // taskInDegree[taskId] -> how many dependencies task is waiting on
     protected int[] _processorEndTime; // processorEndTime[processorId] -> end time of processor
 
     protected int _endTime; // end time of the last processor
@@ -29,7 +28,6 @@ public class State {
         _processorEndTime = new int[numProcessors];
         _assignedProcessorId = new int[numTasks];
         _taskEndTime = new int[numTasks];
-        _taskInDegree = new int[numTasks];
 
         for (int i = 0; i < numTasks; i++) {
             _taskEndTime[i] = UNSCHEDULED;
@@ -46,7 +44,6 @@ public class State {
         int taskWeight = 0;
         for (int i = 0; i < numTasks; i++) {
             taskWeight += dataStructures.getTaskWeights().get(i);
-            _taskInDegree[i] = dataStructures.getRevAdjList().get(i).size();
         }
 
         _computationalTime = taskWeight;

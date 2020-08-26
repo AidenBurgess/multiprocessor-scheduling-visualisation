@@ -75,7 +75,7 @@ public abstract class DFS {
             if (_state._assignedProcessorId[task] != State.UNSCHEDULED) continue;
 
             // If the task still has unscheduled dependencies, ignore
-            if (_state._taskInDegree[task] != 0) continue;
+            boolean dependenciesMet = true;
 
             // Determine if the task is the previously placed task's child
             boolean isPrevTasksChild = false;
@@ -85,8 +85,12 @@ public abstract class DFS {
                 Pair<Integer, Integer> dependency = revTask.get(i);
                 int parent = dependency.getKey();
                 if (parent == prevTask) isPrevTasksChild = true;
+                if (_state._taskEndTime[parent] == State.UNSCHEDULED) {
+                    dependenciesMet = false;
+                    break;
+                }
             }
-
+            if (!dependenciesMet) continue;
             // For each processor,
             for (int processor = 0; processor < _state._numProcessors; processor++) {
                 // Prune
@@ -140,12 +144,6 @@ public abstract class DFS {
                 // Update current state
                 _state._taskEndTime[task] = nextTaskEndTime;
                 _state._assignedProcessorId[task] = processor;
-
-                ArrayList<Pair<Integer, Integer>> children = _dataStructures.getAdjList().get(task);
-                for (int child = 0; child < children.size(); child++) {
-                    _state._taskInDegree[children.get(child).getKey()]--;
-                }
-
                 _state._processorEndTime[processor] = nextTaskEndTime;
                 _state._unassignedTasks--;
                 _state._endTime = Math.max(_state._endTime, nextTaskEndTime);
@@ -162,11 +160,6 @@ public abstract class DFS {
                 // Restore current state
                 _state._taskEndTime[task] = State.UNSCHEDULED;
                 _state._assignedProcessorId[task] = State.UNSCHEDULED;
-
-                for (int child = 0; child < children.size(); child++) {
-                    _state._taskInDegree[children.get(child).getKey()]++;
-                }
-
                 _state._processorEndTime[processor] = processorPrevEndTime;
                 _state._unassignedTasks++;
                 _state._endTime = prevEndTime;

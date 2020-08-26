@@ -18,7 +18,7 @@ public class DriverTest {
     @Test (timeout = 200000)
     public void runtimeTesting() {
         int maxProcessors = 5;
-        int maxTasks = 10;
+        int maxTasks = 12;
 
         System.out.println("\t\t\t\t Number of processors (time in ms)");
         System.out.format("Filename");
