@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class State {
     protected static final int UNSCHEDULED = -1;
     protected final int _numTasks, _numProcessors;
-
+    protected int _computationalTime;
 
     protected int[] _assignedProcessorId; // assignedProcessorId[taskId] -> processorId
     protected int[] _taskEndTime; // taskEndTime[taskId] -> end time of task
@@ -47,9 +47,13 @@ public class State {
 
     public State(int numTasks, int numProcessors, DataStructures dataStructures) {
         this(numTasks, numProcessors);
+        int taskWeight = 0;
         for (int i = 0; i < numTasks; i++) {
+            taskWeight += dataStructures.getTaskWeights().get(i);
             _taskInDegree[i] = dataStructures.getRevAdjList().get(i).size();
         }
+
+        _computationalTime = taskWeight;
     }
 
     /**
