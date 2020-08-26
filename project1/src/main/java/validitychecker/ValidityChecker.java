@@ -6,6 +6,12 @@ import main.java.dotio.Task;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * this class checks whether and output schedule is valid. It will check
+ * the dependencies of the children tasks and ensure they are scheduled
+ * when allowed and then check if there are any overlap of tasks on the
+ * same processor.
+ */
 public class ValidityChecker {
 
     private ArrayList<Task> _tasks;
@@ -22,7 +28,7 @@ public class ValidityChecker {
 
         _taskStartTime = new HashMap<String, Integer>();
 
-        // intialise the task start time
+        // intialise the task start times
         for (Task task : tasks) {
             _taskStartTime.put(task.getName(), task.getTaskTime());
         }
@@ -34,7 +40,9 @@ public class ValidityChecker {
      */
     public boolean check() {
 
+        // check each dependency
         for (Dependency dependency : _dependencies) {
+
             String source = dependency.getSource();
             String dest = dependency.getDest();
             int communicationTime = dependency.getCommunicationTime();
@@ -45,6 +53,7 @@ public class ValidityChecker {
                 delay = communicationTime;
             }
 
+            // get the parent end time and the possible child start time.
             int parentEndTime = _bestStartTimeMap.get(source) + _taskStartTime.get(source) + delay;
             int childStartTime = _bestStartTimeMap.get(dest);
 
