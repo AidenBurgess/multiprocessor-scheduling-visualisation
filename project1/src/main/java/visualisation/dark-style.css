@@ -9,6 +9,7 @@
     -background-color-primary: #303030;
     -background-color-secondary: #212121;
     -text-color-primary: #FFFFFF;
+    -accent-color-primary: #00c5d4;
     -fx-font-family: Roboto;
 }
 
@@ -34,6 +35,11 @@ HBox {
 
 AreaChart {
     -fx-background-color: -background-color-secondary;
+}
+
+.jfx-button {
+    -fx-background-color: -accent-color-primary;
+    -fx-text-fill: -text-color-primary;
 }
 
 .toggle-button {
@@ -82,8 +88,4 @@ AreaChart {
 .chart-vertical-grid-lines,
 .chart-horizontal-grid-lines {
     -fx-stroke: #565656;
-}
-
-.jfx-button {
-    -fx-background-color: #565656;
 }

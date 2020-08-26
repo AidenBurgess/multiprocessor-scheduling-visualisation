@@ -8,13 +8,16 @@ import javafx.stage.Stage;
 public class DraggableWindow {
 
     @FXML
-    private AnchorPane root;
+    AnchorPane root;
+
+    Stage stage;
+
     double xOffset = 20;
     double yOffset = 20;
 
     public void makeStageDraggable() {
         Platform.runLater(() -> {
-            Stage stage = (Stage) root.getScene().getWindow();
+            stage = (Stage) root.getScene().getWindow();
             root.setOnMousePressed(event-> {
                 xOffset = event.getSceneX();
                 yOffset = event.getSceneY();

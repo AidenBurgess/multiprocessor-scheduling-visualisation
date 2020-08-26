@@ -147,7 +147,7 @@ public class VisualisationController extends DraggableWindow implements Initiali
 
     @FXML
     public void minimise() {
-        _themeSwitcher.switchTheme();
+        stage.setIconified(true);
     }
 
     @FXML
