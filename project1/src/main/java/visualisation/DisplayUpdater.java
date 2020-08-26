@@ -9,6 +9,7 @@ import javafx.util.Duration;
 import main.java.dotio.Task;
 import main.java.visualisation.ganttchart.ScheduleChart;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 
@@ -79,8 +80,8 @@ public class DisplayUpdater {
      * Updates the statistics such as the visited states and the completed schedules
      */
     protected void updateStatistics(long visitedStates, long completedSchedules, long activeBranches) {
-
-        _visitedStatesFigure.setText(Long.toString(visitedStates));
+        DecimalFormat formatter = new DecimalFormat("#,###");
+        _visitedStatesFigure.setText(formatter.format(visitedStates));
         _completedSchedulesFigure.setText(Long.toString(completedSchedules));
         _activeBranchFigure.setText(Long.toString(activeBranches));
     }
