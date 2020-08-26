@@ -144,5 +144,4 @@ public class DisplayUpdater {
             scheduleChart.getData().add(seriesArray[i]);
         }
     }
-
 }
