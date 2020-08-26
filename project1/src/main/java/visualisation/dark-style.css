@@ -9,6 +9,7 @@
     -background-color-primary: #303030;
     -background-color-secondary: #212121;
     -text-color-primary: #FFFFFF;
+    -fx-font-family: Roboto;
 }
 
 .root {
@@ -33,6 +34,10 @@ HBox {
 
 AreaChart {
     -fx-background-color: -background-color-secondary;
+}
+
+.toggle-button {
+    -fx-text-fill: -text-color-primary;
 }
 
 .chart {

@@ -37,6 +37,10 @@ AreaChart {
     -fx-background-color: -background-color-secondary;
 }
 
+.toggle-button {
+    -fx-text-fill: -text-color-primary;
+}
+
 .chart {
     -fx-background-color: -background-color-primary;
 }
