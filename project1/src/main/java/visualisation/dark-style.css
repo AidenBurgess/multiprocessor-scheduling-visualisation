@@ -1,15 +1,15 @@
 * {
-    -color-background-primary: #303030;
-    -color-background-secondary: #212121;
+    -background-color-primary: #303030;
+    -background-color-secondary: #212121;
     -text-color-primary: #FFFFFF;
 }
 
 .root {
-    -fx-background-color: -color-background-primary !important;
+    -fx-background-color: -background-color-primary !important;
 }
 
 #titleBackground {
-    -fx-background-color: -color-background-secondary;
+    -fx-background-color: -background-color-secondary;
 }
 
 Text {
@@ -17,23 +17,23 @@ Text {
 }
 
 .root VBox {
-    -fx-background-color: -color-background-primary;
+    -fx-background-color: -background-color-primary;
 }
 
 HBox {
-    -fx-background-color: -color-background-primary;
+    -fx-background-color: -background-color-primary;
 }
 
 AreaChart {
-    -fx-background-color: -color-background-secondary;
+    -fx-background-color: -background-color-secondary;
 }
 
 .chart {
-    -fx-background-color: -color-background-primary;
+    -fx-background-color: -background-color-primary;
 }
 
 .chart-plot-background {
-    -fx-background-color: -color-background-secondary;
+    -fx-background-color: -background-color-secondary;
 }
 
 .chart .chart-title .text {
@@ -41,17 +41,17 @@ AreaChart {
 }
 
 .split-pane:horizontal .split-pane-divider {
-    -fx-background-color: -color-background-primary;
+    -fx-background-color: -background-color-primary;
 }
 
 .split-pane {
-    -fx-border-color: -color-background-primary;
-    -fx-background-color: -color-background-primary;
+    -fx-border-color: -background-color-primary;
+    -fx-background-color: -background-color-primary;
 }
 
 .axis:bottom .axis-label .text,
 .axis:left .axis-label .text {
-    -fx-fill: white;
+    -fx-fill: -text-color-primary;
 }
 
 #RAMParent .chart-series-area-fill {

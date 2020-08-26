@@ -1,51 +1,66 @@
+@import "ganttchart/scheduleChart.css";
+
+@font-face {
+    font-family: Roboto;
+    src: url('Roboto-Regular.ttf');
+}
+
+* {
+    -background-color-primary: #FAFAFA;
+    -background-color-secondary: #F5F5F5;
+    -text-color-primary: rgba(0,0,0, 0.87);
+    -text-color-secondary: rgba(0,0,0, 0.54);
+    -fx-font-family: Roboto;
+}
+
 .root {
-    -fx-background-color: #121212 !important;
+    -fx-background-color: -background-color-primary !important;
 }
 
 #titleBackground {
-    -fx-background-color: #272727;
+    -fx-background-color: -background-color-secondary;
 }
 
 Text {
-    -fx-fill: white;
+    -fx-fill: -text-color-primary;
 }
 
 .root VBox {
-    -fx-background-color: #121212;
+    -fx-background-color: -background-color-primary;
 }
 
 HBox {
-    -fx-background-color: #121212;
+    -fx-background-color: -background-color-primary;
 }
 
 AreaChart {
-    -fx-background-color: #272727;
+    -fx-background-color: -background-color-secondary;
 }
 
 .chart {
-    -fx-background-color: #121212;
+    -fx-background-color: -background-color-primary;
 }
 
 .chart-plot-background {
-    -fx-background-color: #272727;
+    -fx-background-color: -background-color-secondary;
 }
 
 .chart .chart-title .text {
-    -fx-fill: white;
+    -fx-fill: -text-color-primary;
 }
 
 .split-pane:horizontal .split-pane-divider {
-    -fx-background-color: #121212;
+    -fx-background-color: -background-color-primary;
 }
 
 .split-pane {
-    -fx-border-color: #121212;
-    -fx-background-color: #121212;
+    -fx-border-color: -background-color-primary;
+    -fx-background-color: -background-color-primary;
 }
 
 .axis:bottom .axis-label .text,
 .axis:left .axis-label .text {
-    -fx-fill: white;
+    -fx-fill: -text-color-primary;
 }
 
 #RAMParent .chart-series-area-fill {

@@ -117,12 +117,13 @@ public class VisualisationController implements Initializable {
         _currentScheduleParent.getChildren().add(_currentScheduleChart);
 
         // Setting up the stylesheet for the charts
-        _bestScheduleChart.getStylesheets().add(getClass().getResource("ganttchart/scheduleChart.css").toExternalForm());
-        _currentScheduleChart.getStylesheets().add(getClass().getResource("ganttchart/scheduleChart.css").toExternalForm());
+        _bestScheduleChart.getStylesheets().add(getClass().getResource("light-style.css").toExternalForm());
+        _currentScheduleChart.getStylesheets().add(getClass().getResource("dark-style.css").toExternalForm());
     }
 
 
     public void shutdown() {
+
         System.exit(0);
     }
 }
