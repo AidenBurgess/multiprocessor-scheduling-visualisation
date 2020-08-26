@@ -32,6 +32,12 @@ public class OptimalityTest {
             // Some condition, if you only want to test some inputs
 
             // if (!fileNameNoDot.contains("Nodes")) continue;
+            String[] ignore = {"16", "20", "22"};
+            boolean ok = true;
+            for (String ig : ignore) {
+                if (fileNameNoDot.contains(ig)) ok = false;
+            }
+            if (!ok) continue;
 
             int processors = 0, tens = 1;
             for (int i = fileNameNoDot.length() - 1; i >= 0; i--) {
@@ -68,7 +74,7 @@ public class OptimalityTest {
         _expected = expected;
     }
 
-    @Test(timeout=200)
+    @Test(timeout=1000)
     public void test() {
         Scheduler scheduler = new VariableScheduler(_taskGraph, _processors,
                 false, 3);
