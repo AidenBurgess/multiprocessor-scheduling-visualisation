@@ -189,7 +189,7 @@
          <graphic>
             <ImageView fitHeight="15.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@minimise.png" />
+                  <Image url="@icons/minimise.png" />
                </image>
             </ImageView>
          </graphic>
@@ -198,7 +198,7 @@
          <graphic>
             <ImageView fitHeight="15.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@close.png" />
+                  <Image url="@icons/close.png" />
                </image>
             </ImageView>
          </graphic>
