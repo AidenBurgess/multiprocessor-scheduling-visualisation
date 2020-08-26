@@ -126,10 +126,6 @@ public class VisualisationController implements Initializable {
 
         _bestScheduleParent.getChildren().add(_bestScheduleChart);
         _currentScheduleParent.getChildren().add(_currentScheduleChart);
-
-        // Setting up the stylesheet for the charts
-        _bestScheduleChart.getStylesheets().add(getClass().getResource("light-style.css").toExternalForm());
-        _currentScheduleChart.getStylesheets().add(getClass().getResource("light-style.css").toExternalForm());
     }
 
     @FXML
