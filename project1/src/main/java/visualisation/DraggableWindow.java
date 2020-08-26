@@ -9,8 +9,8 @@ public class DraggableWindow {
 
     @FXML
     private AnchorPane root;
-    double xOffset = 0;
-    double yOffset = 0;
+    double xOffset = 20;
+    double yOffset = 20;
 
     public void makeStageDraggable() {
         Platform.runLater(() -> {
@@ -21,11 +21,13 @@ public class DraggableWindow {
             });
             root.setOnMouseDragged(event-> {
                 stage.setX(event.getScreenX() - xOffset);
-                stage.setY(event.getScreenY() - yOffset);
+                stage.setY(event.getScreenY() - yOffset - 25);
                 stage.setOpacity(0.8f);
             });
             root.setOnDragDone((e) -> {
                 stage.setOpacity(1.0f);
+                xOffset = 20;
+                yOffset = 20;
             });
             root.setOnMouseReleased((e) -> {
                 stage.setOpacity(1.0f);
