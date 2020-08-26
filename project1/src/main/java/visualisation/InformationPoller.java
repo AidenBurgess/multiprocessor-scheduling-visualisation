@@ -26,7 +26,9 @@ public class InformationPoller {
     }
 
     /**
-     * starts the timer for the total time and updates every 10 milliseconds.
+     * starts the timer which runs scheduled tasks with a delay and a period
+     * - Delay: initial delay before a task is first performed
+     * - Period: delay period between two occurences of the same task
      */
     private void startTimer() {
 
