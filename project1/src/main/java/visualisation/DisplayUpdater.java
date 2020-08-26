@@ -1,5 +1,6 @@
 package main.java.visualisation;
 
+import com.jfoenix.controls.JFXSpinner;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -24,6 +25,8 @@ public class DisplayUpdater {
     private Text _completedSchedulesFigure;
     private Text _activeBranchFigure;
     private Text _timeElapsedFigure;
+    private Text _status;
+    private JFXSpinner _statusSpinner;
 
     //Information on tasks and processors from the driver
     private int _numProcessors = VisualisationDriver.getNumProcessors();
@@ -37,13 +40,15 @@ public class DisplayUpdater {
 
 
     public DisplayUpdater(Text visitedStatesFigure, Text completedSchedulesFigure, Text activeBranchFigure, Text timeElapsedFigure,
-                          ScheduleChart<Number, String> currentScheduleChart, ScheduleChart<Number, String> bestScheduleChart,
+                          Text status, JFXSpinner statusSpinner, ScheduleChart<Number, String> currentScheduleChart, ScheduleChart<Number, String> bestScheduleChart,
                           XYChart.Series CPUSeries, XYChart.Series RAMSeries) {
 
         _visitedStatesFigure = visitedStatesFigure;
         _completedSchedulesFigure = completedSchedulesFigure;
         _activeBranchFigure = activeBranchFigure;
         _timeElapsedFigure = timeElapsedFigure;
+        _status = status;
+        _statusSpinner = statusSpinner;
         _currentScheduleChart = currentScheduleChart;
         _bestScheduleChart = bestScheduleChart;
         _CPUSeries = CPUSeries;
@@ -83,6 +88,9 @@ public class DisplayUpdater {
         _visitedStatesFigure.setText(formatter.format(visitedStates));
         _completedSchedulesFigure.setText(Long.toString(completedSchedules));
         _activeBranchFigure.setText(Long.toString(activeBranches));
+        // Hide status spinner when finished
+        if (_schedulerDone) _statusSpinner.setVisible(false);
+        _status.setText(_schedulerDone ? "Finished! ✅" : "");
     }
 
     /**
