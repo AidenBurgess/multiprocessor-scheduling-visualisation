@@ -29,6 +29,7 @@ public class DFS {
     }
 
     /**
+     * TODO: 27/08/20 fix comments
      * Performs DFS.
      * <p>
      * If the current State is complete, it will update
@@ -47,7 +48,7 @@ public class DFS {
      * If at any stage, the current state's endTime exceeds the bound, DFS will "prune" and the current
      * run() will return.
      */
-    protected void run(int prevTask, int prevProcessor) { // try this for now
+    protected void run(int prevTask, int prevProcessor) {
         _dfsListener.onDFSEntry();
         _dfsListener.onPartialSchedule(_state, _bound);
 
@@ -76,40 +77,59 @@ public class DFS {
 
             // Determine if the task is the previously placed task's child
             boolean isPrevTasksChild = false;
-            ArrayList<Pair<Integer, Integer>> revTask = _dataStructures.getRevAdjList().get(task);
-            int numRevTasks = revTask.size();
-            for (int i = 0; i < numRevTasks; i++) {
-                Pair<Integer, Integer> dependency = revTask.get(i);
+
+            // get all the parent tasks from the child
+            ArrayList<Pair<Integer, Integer>> parentTasks = _dataStructures.getRevAdjList().get(task);
+            int numParentTasks = parentTasks.size();
+            for (int i = 0; i < numParentTasks; i++) {
+                Pair<Integer, Integer> dependency = parentTasks.get(i);
                 int parent = dependency.getKey();
+
+                // if the current task is the previous tasks child
                 if (parent == prevTask) isPrevTasksChild = true;
+
+                // if unscheduled, then we can schedule
                 if (_state._taskEndTime[parent] == State.UNSCHEDULED) {
                     dependenciesMet = false;
                     break;
                 }
             }
-            if (!dependenciesMet) continue;
+
+            if (!dependenciesMet) {
+                continue;
+            }
+
             // For each processor,
             for (int processor = 0; processor < _state._numProcessors; processor++) {
+
                 // Prune
-                if (_bound.canPrune(_state._endTime)) {
+                if (_bound.canPrune(FFunction.evaluate(_state))) {
                     _dfsListener.onDFSExit();
                     return;
                 }
 
                 // The task is only allowed to be placed in an earlier processor
                 // if it was a child of the parent
-                if (processor < prevProcessor && !isPrevTasksChild) continue;
+                if (processor < prevProcessor && !isPrevTasksChild) {
+                    continue;
+                }
 
                 // You can only put a task on an empty processor if the currentTask is larger than
                 // the firstTask of the previous processor
                 // todo check if tasks are allowed to be weight 0
                 if (_state._processorEndTime[processor] == 0) {
-                    if (processor != _state._freeProcessor) break; // if this is not the freeProcessor
+
+                    // if this is not the freeProcessor
+                    if (processor != _state._freeProcessor) {
+                        break;
+                    }
                     if (processor != 0) {
                         int curTopologicalIndex = _dataStructures.getTopologicalIndex().get(task);
                         int prevTopologicalIndex = _dataStructures.getTopologicalIndex().get(_state._prevProcessorFirstTask);
 
-                        if (curTopologicalIndex < prevTopologicalIndex) continue;
+                        if (curTopologicalIndex < prevTopologicalIndex) {
+                            continue;
+                        }
                     }
                 }
 
@@ -117,10 +137,10 @@ public class DFS {
                 // For each of its dependencies, make sure that there is enough delay.
                 int nextTaskStartTime = _state._processorEndTime[processor];
 
-                revTask = _dataStructures.getRevAdjList().get(task);
-                numRevTasks = revTask.size();
-                for (int i = 0; i < numRevTasks; i++) {
-                    Pair<Integer, Integer> dependency = revTask.get(i);
+                parentTasks = _dataStructures.getRevAdjList().get(task);
+                numParentTasks = parentTasks.size();
+                for (int i = 0; i < numParentTasks; i++) {
+                    Pair<Integer, Integer> dependency = parentTasks.get(i);
                     int parent = dependency.getKey();
                     int delay = dependency.getValue();
 
@@ -137,7 +157,6 @@ public class DFS {
                 int prevFreeProcessor = _state._freeProcessor;
                 int prevPrevProcessorFirstTask = _state._prevProcessorFirstTask;
 
-
                 // Update current state
                 _state._taskEndTime[task] = nextTaskEndTime;
                 _state._assignedProcessorId[task] = processor;
@@ -146,6 +165,7 @@ public class DFS {
                 _state._endTime = Math.max(_state._endTime, nextTaskEndTime);
                 _state._computationalTime += (nextTaskEndTime - prevEndTime) - _dataStructures.getTaskWeights().get(task);
 
+                // if there this processor is a free processor, increase the free processor
                 if (processor == _state._freeProcessor) {
                     _state._freeProcessor++;
                     _state._prevProcessorFirstTask = task;
@@ -169,6 +189,9 @@ public class DFS {
         _dfsListener.onDFSExit();
     }
 
+    /**
+     * initial run method.
+     */
     public void run() {
         run(-1, -1);
     }
