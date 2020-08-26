@@ -49,7 +49,6 @@ public class DisplayUpdater {
         _CPUSeries = CPUSeries;
         _RAMSeries = RAMSeries;
         startTimer();
-
     }
 
     private void startTimer() {
