@@ -1,5 +1,6 @@
 package main.java.visualisation;
 
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import main.java.visualisation.ganttchart.ScheduleChart;
 
@@ -23,8 +24,10 @@ public class ThemeSwitcher {
     }
 
     private void setCss(String cssFile) {
-        _scene.getStylesheets().clear();
-        _scene.getStylesheets().add(getClass().getResource(cssFile).toExternalForm());
+        Platform.runLater(() -> {
+            _scene.getStylesheets().clear();
+            _scene.getStylesheets().add(getClass().getResource(cssFile).toExternalForm());
+        });
     }
 
 }
