@@ -243,7 +243,7 @@
             <Insets bottom="10.0" />
          </padding>
       </HBox>
-      <JFXButton focusTraversable="false" layoutX="1271.0" layoutY="17.0" onAction="#switchTheme" prefHeight="39.0" prefWidth="39.0">
+      <JFXButton buttonType="RAISED" focusTraversable="false" layoutX="1271.0" layoutY="17.0" onAction="#switchTheme" prefHeight="39.0" prefWidth="39.0" ripplerFill="BLACK">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
