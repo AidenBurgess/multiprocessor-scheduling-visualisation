@@ -13,3 +13,8 @@
 .chart {
     -fx-legend-visible: false;
 }
+
+.axis {
+    -fx-font-size: 16px;
+    -fx-tick-label-font-size: 14px;
+}
