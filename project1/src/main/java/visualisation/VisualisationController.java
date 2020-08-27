@@ -1,5 +1,6 @@
 package main.java.visualisation;
 
+import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXToggleButton;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -38,6 +39,10 @@ public class VisualisationController extends DraggableWindow implements Initiali
     @FXML
     private Text _visitedStatesFigure;
     @FXML
+    private Text _status;
+    @FXML
+    private JFXSpinner _statusSpinner;
+    @FXML
     private Text _completedSchedulesFigure;
     @FXML
     private VBox _bestScheduleParent;
@@ -72,7 +77,7 @@ public class VisualisationController extends DraggableWindow implements Initiali
         setUpScheduleCharts();
 
         DisplayUpdater displayUpdater = new DisplayUpdater(_visitedStatesFigure, _completedSchedulesFigure,
-                _activeBranchFigure, _timeElapsedFigure, _currentScheduleChart, _bestScheduleChart, _CPUSeries,
+                _activeBranchFigure, _timeElapsedFigure, _status, _statusSpinner, _currentScheduleChart, _bestScheduleChart, _CPUSeries,
                 _RAMSeries);
 
         InformationPoller informationPoller = new InformationPoller(displayUpdater);
@@ -128,7 +133,6 @@ public class VisualisationController extends DraggableWindow implements Initiali
         }
         CategoryAxis yAxis = new CategoryAxis();
         yAxis.setCategories(FXCollections.observableArrayList(processorsList));
-        yAxis.setLabel("Processors");
 
         // Setting up the x-axis
         NumberAxis xAxis = new NumberAxis();
