@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXSpinner?>
 <?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.chart.AreaChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.effect.DropShadow?>
@@ -243,7 +244,10 @@
             <Insets bottom="10.0" />
          </padding>
       </HBox>
-      <JFXToggleButton fx:id="_switchThemeButton" focusTraversable="false" layoutX="32.0" layoutY="9.0" onAction="#switchTheme" text="Switch Theme" toggleColor="#00c5d4" toggleLineColor="#75dde6" />
+      <JFXToggleButton fx:id="_switchThemeButton" focusTraversable="false" layoutX="32.0" layoutY="9.0" onAction="#switchTheme" text="Switch Theme" toggleColor="#00c5d4" toggleLineColor="#75dde6">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></JFXToggleButton>
       <JFXButton buttonType="RAISED" focusTraversable="false" layoutX="1320.0" layoutY="17.0" onAction="#minimise" prefHeight="39.0" prefWidth="39.0" ripplerFill="BLACK">
          <graphic>
             <ImageView fitHeight="15.0" pickOnBounds="true" preserveRatio="true">
@@ -252,6 +256,9 @@
                </image>
             </ImageView>
          </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </JFXButton>
       <JFXButton buttonType="RAISED" focusTraversable="false" layoutX="1369.0" layoutY="17.0" onAction="#close" prefHeight="39.0" prefWidth="39.0" ripplerFill="BLACK">
          <graphic>
@@ -261,6 +268,9 @@
                </image>
             </ImageView>
          </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </JFXButton>
       <JFXSpinner fx:id="_statusSpinner" layoutX="413.0" layoutY="720.0" prefHeight="32.0" prefWidth="31.0" />
    </children>
