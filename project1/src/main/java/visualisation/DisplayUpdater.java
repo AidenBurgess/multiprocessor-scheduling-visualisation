@@ -67,7 +67,7 @@ public class DisplayUpdater {
         _timeElapsed += 0.01;
 
         if (!_schedulerDone)
-            _timeElapsedFigure.setText(String.format("%2.2f", _timeElapsed));
+            _timeElapsedFigure.setText(String.format("%.2f", _timeElapsed));
     }
 
     /**
