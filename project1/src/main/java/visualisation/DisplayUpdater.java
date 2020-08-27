@@ -55,6 +55,10 @@ public class DisplayUpdater {
         startTimer();
     }
 
+    /**
+     * Creates a new timeline, immediately calls the updateTime() method and then calls
+     * it after every 10ms
+     */
     private void startTimer() {
         _timeline = new Timeline(new KeyFrame(Duration.millis(0),
                 e -> updateTime()),
@@ -67,8 +71,11 @@ public class DisplayUpdater {
         _schedulerDone = true;
     }
 
+    /**
+     * Updates the _timeElapsed field every centisecond and if the scheduler is not finished yet
+     * then update the time elapsed in the stats section of the visualization window
+     */
     protected void updateTime() {
-
         _timeElapsed += 0.01;
 
         if (!_schedulerDone)
@@ -104,10 +111,7 @@ public class DisplayUpdater {
         // get the machine's CPU Usage data
         _CPUSeries.getData().add(new XYChart.Data(_timeElapsed, CPUUsage));
     }
-
-
-    //todo make sure that the following case related to this method is handled: When the scheduler has not found a
-    // best schedule yet and this method is called. Either prevent this from happening or handle this situation inside the method
+    
     protected void refreshScheduleCharts(HashMap<String, Integer> currentProcessorMap, HashMap<String, Integer> bestProcessorMap,
                                          HashMap<String, Integer> currentStartTimeMap, HashMap<String, Integer> bestStartTimeMap) {
 
