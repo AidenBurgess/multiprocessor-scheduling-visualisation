@@ -104,7 +104,7 @@ public class VisualisationController extends DraggableWindow implements Initiali
             chart.getYAxis().setAnimated(false);
         });
 
-        // add the series data to the chart
+        // add the series data to the chart and set axis bound and tick unit
         _RAMChart.getData().add(_RAMSeries);
         NumberAxis yAxis = (NumberAxis) _RAMChart.getYAxis();
         yAxis.setUpperBound(Math.ceil(_performanceRetriever.getTotalRAMGigaBytes()));
@@ -126,9 +126,12 @@ public class VisualisationController extends DraggableWindow implements Initiali
             chart.getYAxis().setAnimated(false);
         });
 
-        // add the series data to the chart
+        // add the series data to the chart and set maximum bound and tick unit
         _CPUChart.getData().add(_CPUSeries);
-        ((NumberAxis)_CPUChart.getYAxis()).setUpperBound(100);
+        NumberAxis yAxis = (NumberAxis) _CPUChart.getYAxis();
+        yAxis.setUpperBound(100);
+        yAxis.setTickUnit(10);
+
     }
 
     /**
