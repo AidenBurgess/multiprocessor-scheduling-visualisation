@@ -60,5 +60,4 @@ public class ThemeSwitcher {
             _scene.getStylesheets().add(getClass().getResource(cssFile).toExternalForm());
         });
     }
-
 }
