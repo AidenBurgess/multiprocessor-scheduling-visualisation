@@ -244,10 +244,18 @@
             <Insets bottom="10.0" />
          </padding>
       </HBox>
-      <JFXToggleButton fx:id="_switchThemeButton" focusTraversable="false" layoutX="32.0" layoutY="9.0" onAction="#switchTheme" text="Switch Theme" toggleColor="#00c5d4" toggleLineColor="#75dde6">
+      <JFXButton focusTraversable="false" layoutX="1271.0" layoutY="17.0" onAction="#switchTheme" prefHeight="39.0" prefWidth="39.0">
          <cursor>
             <Cursor fx:constant="HAND" />
-         </cursor></JFXToggleButton>
+         </cursor>
+         <graphic>
+            <ImageView fx:id="_switchThemeIcon" fitHeight="20.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@icons/dark-theme.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
       <JFXButton buttonType="RAISED" focusTraversable="false" layoutX="1320.0" layoutY="17.0" onAction="#minimise" prefHeight="39.0" prefWidth="39.0" ripplerFill="BLACK">
          <graphic>
             <ImageView fitHeight="15.0" pickOnBounds="true" preserveRatio="true">

@@ -4,17 +4,18 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXToggleButton;
 import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import main.java.visualisation.ganttchart.ScheduleChart;
 
 public class ThemeSwitcher {
     private String _theme = "light";
     private Scene _scene;
-    private JFXToggleButton _switchThemeButton;
+    private ImageView _switchThemeButton;
 
-    public ThemeSwitcher(Scene scene, JFXToggleButton switchThemeButton, String initialCss) {
+    public ThemeSwitcher(Scene scene, ImageView switchThemeButton, String initialCss) {
         _scene = scene;
         _switchThemeButton = switchThemeButton;
-        _switchThemeButton.setText("Dark Mode");
         setCss(initialCss);
     }
 
@@ -22,11 +23,11 @@ public class ThemeSwitcher {
         if (_theme.equals("light")) {
             _theme = "dark";
             setCss("css/dark-style.css");
-            _switchThemeButton.setText("Light Mode");
+            _switchThemeButton.setImage(new Image("main/java/visualisation/icons/light-theme.png"));
         } else {
             _theme = "light";
             setCss("css/light-style.css");
-            _switchThemeButton.setText("Dark Mode");
+            _switchThemeButton.setImage(new Image("main/java/visualisation/icons/dark-theme.png"));
         }
     }
 
