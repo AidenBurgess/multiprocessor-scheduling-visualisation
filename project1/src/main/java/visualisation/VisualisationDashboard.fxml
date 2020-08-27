@@ -79,7 +79,7 @@
                <children>
                   <VBox alignment="CENTER_LEFT" prefHeight="360.0" prefWidth="210.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time Elapsed">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time Elapsed (s)">
                            <font>
                               <Font size="22.0" />
                            </font>
