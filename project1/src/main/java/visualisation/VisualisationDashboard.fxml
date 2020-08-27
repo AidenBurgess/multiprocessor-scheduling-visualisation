@@ -251,7 +251,7 @@
          <graphic>
             <ImageView fx:id="_switchThemeIcon" fitHeight="20.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@icons/dark-theme.png" />
+                  <Image url="@icons/light-theme.png" />
                </image>
             </ImageView>
          </graphic>

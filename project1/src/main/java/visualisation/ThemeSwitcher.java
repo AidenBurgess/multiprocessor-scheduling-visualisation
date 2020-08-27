@@ -23,11 +23,11 @@ public class ThemeSwitcher {
         if (_theme.equals("light")) {
             _theme = "dark";
             setCss("css/dark-style.css");
-            _switchThemeButton.setImage(new Image("main/java/visualisation/icons/light-theme.png"));
+            _switchThemeButton.setImage(new Image("main/java/visualisation/icons/dark-theme.png"));
         } else {
             _theme = "light";
             setCss("css/light-style.css");
-            _switchThemeButton.setImage(new Image("main/java/visualisation/icons/dark-theme.png"));
+            _switchThemeButton.setImage(new Image("main/java/visualisation/icons/light-theme.png"));
         }
     }
 
