@@ -40,6 +40,10 @@ public class DisplayUpdater {
     private int _seconds = 0;
     private boolean _schedulerDone = false;
 
+    // Fields for storing the previous best schedule information
+    private HashMap<String, Integer> _previousBestProcessorMap;
+    private HashMap<String, Integer> _previousBestStartTimeMap;
+
 
     public DisplayUpdater(Text visitedStatesFigure, Text completedSchedulesFigure, Text activeBranchFigure, Text timeElapsedFigure,
                           Text status, JFXSpinner statusSpinner, ScheduleChart<Number, String> currentScheduleChart, ScheduleChart<Number, String> bestScheduleChart,
@@ -55,6 +59,8 @@ public class DisplayUpdater {
         _bestScheduleChart = bestScheduleChart;
         _CPUSeries = CPUSeries;
         _RAMSeries = RAMSeries;
+        _previousBestProcessorMap = new HashMap<String, Integer>();
+        _previousBestStartTimeMap = new HashMap<String, Integer>();
         startTimer();
     }
 
@@ -121,7 +127,11 @@ public class DisplayUpdater {
     protected void refreshScheduleCharts(HashMap<String, Integer> currentProcessorMap, HashMap<String, Integer> bestProcessorMap,
                                          HashMap<String, Integer> currentStartTimeMap, HashMap<String, Integer> bestStartTimeMap) {
 
-        refreshScheduleChart(_bestScheduleChart, bestProcessorMap, bestStartTimeMap);
+        if (!bestProcessorMap.equals(_previousBestProcessorMap) || !bestStartTimeMap.equals(_previousBestStartTimeMap)) {
+            refreshScheduleChart(_bestScheduleChart, bestProcessorMap, bestStartTimeMap);
+            _previousBestProcessorMap = bestProcessorMap;
+            _previousBestStartTimeMap = bestStartTimeMap;
+        }
         if (_schedulerDone) {
             _currentScheduleChart.getData().clear();
         } else {
