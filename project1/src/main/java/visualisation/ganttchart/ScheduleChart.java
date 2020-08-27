@@ -33,11 +33,13 @@ public class ScheduleChart<X,Y> extends XYChart<X,Y> {
 
         public long length;
         public String styleClass;
+        public String taskName;
 
-        public ExtraData(int taskTime, String styleClass) {
+        public ExtraData(String taskName, int taskTime, String styleClass) {
             super();
             this.length = taskTime;
             this.styleClass = styleClass;
+            this.taskName = taskName;
         }
         public long getLength() {
             return length;
@@ -51,7 +53,9 @@ public class ScheduleChart<X,Y> extends XYChart<X,Y> {
         public void setStyleClass(String styleClass) {
             this.styleClass = styleClass;
         }
-
+        public String getTaskName() {
+            return taskName;
+        }
     }
 
     private double blockHeight = 10;

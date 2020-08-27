@@ -132,7 +132,7 @@ public class DisplayUpdater {
             if (startTimeMap.containsKey(task.getName()) && processorMap.containsKey(task.getName())) {
                 int taskProcessor = processorMap.get(task.getName());
                 int taskStartTime = startTimeMap.get(task.getName());
-                XYChart.Data taskData = new XYChart.Data(taskStartTime, "Processor ".concat(Integer.toString(taskProcessor)), new ScheduleChart.ExtraData(taskTime, "task"));
+                XYChart.Data taskData = new XYChart.Data(taskStartTime, "Processor ".concat(Integer.toString(taskProcessor)), new ScheduleChart.ExtraData(task.getName(), taskTime, "task"));
                 // -1 has been used below because the seriesArray is 0 indexed whereas the processor numbers are 1 indexed
                 seriesArray[taskProcessor - 1].getData().add(taskData);
             }
