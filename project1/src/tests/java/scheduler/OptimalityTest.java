@@ -4,6 +4,7 @@ import main.java.commandparser.Config;
 import main.java.dotio.*;
 import main.java.scheduler.Scheduler;
 import main.java.scheduler.VariableScheduler;
+import main.java.validitychecker.ValidityChecker;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
@@ -82,6 +83,13 @@ public class OptimalityTest {
         scheduler.execute();
         long actual = scheduler.getInformationHolder().getCurrentBound();
 
+        ValidityChecker validityChecker = new ValidityChecker(
+                _taskGraph.getTasks(),
+                _taskGraph.getDependencies(),
+                scheduler.getInformationHolder().getBestProcessorMap(),
+                scheduler.getInformationHolder().getBestStartTimeMap());
+
+        assertTrue(validityChecker.check());
         assertEquals(_expected, actual);
     }
 }
