@@ -2,7 +2,7 @@
     -fx-font-family: Consolas;
 }
 
-.root {
+#root {
     -fx-background-color: -bg-color-bg !important;
 }
 
