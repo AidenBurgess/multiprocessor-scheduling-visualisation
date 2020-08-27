@@ -5,7 +5,7 @@
 }
 
 .best-task {
-    -fx-background-color: rgba(255, 255, 0, 0.5);
+    -fx-background-color: rgba(255, 255, 0, 0.65);
     -fx-border-width: 2px;
     -fx-border-color: #272727;
 }
