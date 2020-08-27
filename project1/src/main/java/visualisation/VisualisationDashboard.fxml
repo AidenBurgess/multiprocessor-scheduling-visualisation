@@ -27,7 +27,7 @@
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Current Schedule">
                      <font>
-                        <Font size="22.0" />
+                        <Font size="24.0" />
                      </font>
                      <VBox.margin>
                         <Insets left="60.0" />
@@ -43,7 +43,7 @@
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Best Schedule">
                      <font>
-                        <Font size="22.0" />
+                        <Font size="24.0" />
                      </font>
                      <VBox.margin>
                         <Insets left="100.0" />
