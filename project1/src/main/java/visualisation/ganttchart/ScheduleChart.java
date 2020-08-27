@@ -30,35 +30,34 @@ import javafx.scene.shape.Rectangle;
 public class ScheduleChart<X,Y> extends XYChart<X,Y> {
 
     public static class ExtraData {
-
-        public long length;
-        public String styleClass;
-        public String taskName;
+        private long _length;
+        private String _styleClass;
+        private String _taskName;
 
         public ExtraData(String taskName, int taskTime, String styleClass) {
             super();
-            this.length = taskTime;
-            this.styleClass = styleClass;
-            this.taskName = taskName;
+            _length = taskTime;
+            _styleClass = styleClass;
+            _taskName = taskName;
         }
         public long getLength() {
-            return length;
+            return _length;
         }
         public void setLength(long length) {
-            this.length = length;
+            this._length = length;
         }
         public String getStyleClass() {
-            return styleClass;
+            return _styleClass;
         }
         public void setStyleClass(String styleClass) {
-            this.styleClass = styleClass;
+            this._styleClass = styleClass;
         }
         public String getTaskName() {
-            return taskName;
+            return _taskName;
         }
     }
 
-    private double blockHeight = 10;
+    private double _blockHeight = 10;
 
     public ScheduleChart(@NamedArg("xAxis") Axis<X> xAxis, @NamedArg("yAxis") Axis<Y> yAxis) {
         this(xAxis, yAxis, FXCollections.<Series<X, Y>>observableArrayList());
@@ -128,11 +127,11 @@ public class ScheduleChart<X,Y> extends XYChart<X,Y> {
     }
 
     public double getBlockHeight() {
-        return blockHeight;
+        return _blockHeight;
     }
 
     public void setBlockHeight( double blockHeight) {
-        this.blockHeight = blockHeight;
+        this._blockHeight = blockHeight;
     }
 
     @Override protected void dataItemAdded(Series<X,Y> series, int itemIndex, Data<X,Y> item) {
@@ -166,17 +165,14 @@ public class ScheduleChart<X,Y> extends XYChart<X,Y> {
 
     }
 
-
     private Node createContainer(Series<X, Y> series, int seriesIndex, final Data<X,Y> item, int itemIndex) {
-
         Node container = item.getNode();
 
         if (container == null) {
             container = new StackPane();
             item.setNode(container);
         }
-
-        container.getStyleClass().add( getStyleClass( item.getExtraValue()));
+        container.getStyleClass().add(getStyleClass(item.getExtraValue()));
 
         return container;
     }
@@ -204,5 +200,4 @@ public class ScheduleChart<X,Y> extends XYChart<X,Y> {
             if(yData != null) ya.invalidateRange(yData);
         }
     }
-
 }
