@@ -114,7 +114,7 @@
                         </Text>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Status">
                            <font>
-                              <Font size="24.0" />
+                              <Font size="22.0" />
                            </font>
                            <VBox.margin>
                               <Insets bottom="30.0" left="10.0" top="15.0" />
