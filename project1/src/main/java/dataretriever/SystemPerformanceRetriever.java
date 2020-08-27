@@ -20,7 +20,7 @@ public class SystemPerformanceRetriever {
      * @return double representing the RAM usage in gigabytes
      */
     public double getRAMUsageGigaBytes() {
-        return ((totalRAM - statsRetriever.getFreePhysicalMemorySize()) / (double)1e9);
+        return ((totalRAM - statsRetriever.getFreePhysicalMemorySize()) / (double)1.074e9);
     }
 
     /**
@@ -31,10 +31,10 @@ public class SystemPerformanceRetriever {
     }
 
     /**
-     * @return long representing the total RAM available in bytes
+     * @return double representing the total RAM available in gigabytes
      */
-    public long getTotalRAMBytes() {
-        return totalRAM;
+    public double getTotalRAMGigaBytes() {
+        return (totalRAM  / (double)1.074e9);
     }
 
 }

@@ -14,6 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.text.Text;
+import main.java.dataretriever.SystemPerformanceRetriever;
 import main.java.visualisation.ganttchart.ScheduleChart;
 
 import java.util.*;
@@ -59,12 +60,16 @@ public class VisualisationController extends DraggableWindow implements Initiali
     private ScheduleChart<Number, String> _currentScheduleChart;
     private ScheduleChart<Number, String> _bestScheduleChart;
 
+    private SystemPerformanceRetriever _performanceRetriever;
+
     private int _numProcessors;
     private ThemeSwitcher _themeSwitcher;
     private static final int TASK_HEIGHT_DETERMINANT = 200;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        _performanceRetriever = new SystemPerformanceRetriever();
+
         // Set initial theme when scene is loaded
         Platform.runLater(() -> {
             Scene scene = _switchThemeButton.getScene();
@@ -81,7 +86,7 @@ public class VisualisationController extends DraggableWindow implements Initiali
                 _activeBranchFigure, _timeElapsedFigure, _status, _statusSpinner, _currentScheduleChart, _bestScheduleChart, _CPUSeries,
                 _RAMSeries);
 
-        InformationPoller informationPoller = new InformationPoller(displayUpdater);
+        InformationPoller informationPoller = new InformationPoller(displayUpdater, _performanceRetriever);
     }
 
     /**
@@ -99,8 +104,11 @@ public class VisualisationController extends DraggableWindow implements Initiali
             chart.getYAxis().setAnimated(false);
         });
 
-        // add the series data to the chart
+        // add the series data to the chart and set axis bound and tick unit
         _RAMChart.getData().add(_RAMSeries);
+        NumberAxis yAxis = (NumberAxis) _RAMChart.getYAxis();
+        yAxis.setUpperBound(Math.ceil(_performanceRetriever.getTotalRAMGigaBytes()));
+        yAxis.setTickUnit(1);
     }
 
     /**
@@ -118,8 +126,12 @@ public class VisualisationController extends DraggableWindow implements Initiali
             chart.getYAxis().setAnimated(false);
         });
 
-        // add the series data to the chart
+        // add the series data to the chart and set maximum bound and tick unit
         _CPUChart.getData().add(_CPUSeries);
+        NumberAxis yAxis = (NumberAxis) _CPUChart.getYAxis();
+        yAxis.setUpperBound(100);
+        yAxis.setTickUnit(10);
+
     }
 
     /**

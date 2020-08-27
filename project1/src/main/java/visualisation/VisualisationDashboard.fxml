@@ -179,7 +179,7 @@
                         <Insets left="50.0" />
                      </VBox.margin>
                   </Text>
-                  <AreaChart fx:id="_CPUChart" legendVisible="false">
+                  <AreaChart fx:id="_CPUChart" legendVisible="false" createSymbols="false">
                     <xAxis>
                       <NumberAxis label="Time (s)" prefHeight="50.0" prefWidth="366.0" minorTickVisible="false">
                            <tickLabelFont>
@@ -188,10 +188,11 @@
                       </NumberAxis>
                     </xAxis>
                     <yAxis>
-                      <NumberAxis label="Usage %" prefHeight="231.0" prefWidth="60.0" side="LEFT">
+                      <NumberAxis label="Usage %" prefHeight="231.0" prefWidth="60.0" side="LEFT" minorTickVisible="false" autoRanging="false">
                            <tickLabelFont>
                               <Font size="11.0" />
-                           </tickLabelFont></NumberAxis>
+                           </tickLabelFont>
+                      </NumberAxis>
                     </yAxis>
                      <VBox.margin>
                         <Insets />
@@ -213,7 +214,7 @@
                         <Insets left="50.0" />
                      </VBox.margin>
                   </Text>
-                  <AreaChart fx:id="_RAMChart" legendVisible="false">
+                  <AreaChart fx:id="_RAMChart" legendVisible="false" createSymbols="false">
                     <xAxis>
                       <NumberAxis label="Time (s)" prefHeight="50.0" prefWidth="366.0" minorTickVisible="false">
                            <tickLabelFont>
@@ -222,7 +223,7 @@
                       </NumberAxis>
                     </xAxis>
                     <yAxis>
-                      <NumberAxis label="Usage (GB)" prefHeight="245.0" prefWidth="60.0" side="LEFT">
+                      <NumberAxis label="Usage (GB)" prefHeight="245.0" prefWidth="60.0" side="LEFT" minorTickVisible="false" autoRanging="false">
                            <tickLabelFont>
                               <Font size="11.0" />
                            </tickLabelFont>
