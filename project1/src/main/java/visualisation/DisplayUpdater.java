@@ -4,7 +4,9 @@ import com.jfoenix.controls.JFXSpinner;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Tooltip;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import main.java.dotio.Task;
@@ -37,6 +39,10 @@ public class DisplayUpdater {
     private float _timeElapsed = 0;
     private boolean _schedulerDone = false;
 
+    // Fields for storing the previous best schedule information
+    private HashMap<String, Integer> _previousBestProcessorMap;
+    private HashMap<String, Integer> _previousBestStartTimeMap;
+
 
     public DisplayUpdater(Text visitedStatesFigure, Text completedSchedulesFigure, Text activeBranchFigure, Text timeElapsedFigure,
                           Text status, JFXSpinner statusSpinner, ScheduleChart<Number, String> currentScheduleChart, ScheduleChart<Number, String> bestScheduleChart,
@@ -52,6 +58,8 @@ public class DisplayUpdater {
         _bestScheduleChart = bestScheduleChart;
         _CPUSeries = CPUSeries;
         _RAMSeries = RAMSeries;
+        _previousBestProcessorMap = new HashMap<String, Integer>();
+        _previousBestStartTimeMap = new HashMap<String, Integer>();
         startTimer();
     }
 
@@ -115,7 +123,11 @@ public class DisplayUpdater {
     protected void refreshScheduleCharts(HashMap<String, Integer> currentProcessorMap, HashMap<String, Integer> bestProcessorMap,
                                          HashMap<String, Integer> currentStartTimeMap, HashMap<String, Integer> bestStartTimeMap) {
 
-        refreshScheduleChart(_bestScheduleChart, bestProcessorMap, bestStartTimeMap);
+        if (!bestProcessorMap.equals(_previousBestProcessorMap) || !bestStartTimeMap.equals(_previousBestStartTimeMap)) {
+            refreshScheduleChart(_bestScheduleChart, bestProcessorMap, bestStartTimeMap);
+            _previousBestProcessorMap = bestProcessorMap;
+            _previousBestStartTimeMap = bestStartTimeMap;
+        }
         if (_schedulerDone) {
             _currentScheduleChart.getData().clear();
         } else {
@@ -138,7 +150,7 @@ public class DisplayUpdater {
             if (startTimeMap.containsKey(task.getName()) && processorMap.containsKey(task.getName())) {
                 int taskProcessor = processorMap.get(task.getName());
                 int taskStartTime = startTimeMap.get(task.getName());
-                XYChart.Data taskData = new XYChart.Data(taskStartTime, "Processor ".concat(Integer.toString(taskProcessor)), new ScheduleChart.ExtraData(taskTime, "task"));
+                XYChart.Data taskData = new XYChart.Data(taskStartTime, "Processor ".concat(Integer.toString(taskProcessor)), new ScheduleChart.ExtraData(task.getName(), taskTime, "task"));
                 // -1 has been used below because the seriesArray is 0 indexed whereas the processor numbers are 1 indexed
                 seriesArray[taskProcessor - 1].getData().add(taskData);
             }
@@ -147,6 +159,15 @@ public class DisplayUpdater {
         scheduleChart.getData().clear();
         for (int i = 0; i < seriesArray.length; i++) {
             scheduleChart.getData().add(seriesArray[i]);
+        }
+
+        for (int i = 0; i < seriesArray.length; i++) {
+            ObservableList<XYChart.Data> dataList = seriesArray[i].getData();
+            for (XYChart.Data taskData : dataList) {
+                ScheduleChart.ExtraData taskExtraData = ((ScheduleChart.ExtraData)taskData.getExtraValue());
+                Tooltip t = new Tooltip("Name: ".concat(taskExtraData.getTaskName().concat("\n"+"Length: ".concat(Long.toString(taskExtraData.getLength())))));
+                Tooltip.install(taskData.getNode(), t);
+            }
         }
     }
 }
