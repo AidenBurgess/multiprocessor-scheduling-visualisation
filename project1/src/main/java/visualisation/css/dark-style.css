@@ -2,8 +2,11 @@
 @import "base.css";
 
 * {
-    -background-color-primary: #303030;
-    -background-color-secondary: #212121;
-    -text-color-primary: #FFFFFF;
+    -bg-color-bg: #303030;
+    -bg-color-bar: #212121;
+    -bg-color-card: #424242;
+
+    -text-color-primary: rgba(255,255,255,1.0);
+    -text-color-secondary: rgba(255,255,255,0.7);
     -accent-color-primary: #00c5d4;
 }

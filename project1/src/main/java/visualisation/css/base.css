@@ -3,11 +3,11 @@
 }
 
 .root {
-    -fx-background-color: -background-color-primary !important;
+    -fx-background-color: -bg-color-bg !important;
 }
 
 #titleBackground {
-    -fx-background-color: -background-color-secondary;
+    -fx-background-color: -bg-color-bar;
 }
 
 Text {
@@ -15,15 +15,15 @@ Text {
 }
 
 .root VBox {
-    -fx-background-color: -background-color-primary;
+    -fx-background-color: -bg-color-bg;
 }
 
 HBox {
-    -fx-background-color: -background-color-primary;
+    -fx-background-color: -bg-color-bg;
 }
 
 AreaChart {
-    -fx-background-color: -background-color-secondary;
+    -fx-background-color: -bg-color-bar;
 }
 
 .jfx-button {
@@ -40,11 +40,11 @@ AreaChart {
 }
 
 .chart {
-    -fx-background-color: -background-color-primary;
+    -fx-background-color: -bg-color-bg;
 }
 
 .chart-plot-background {
-    -fx-background-color: -background-color-secondary;
+    -fx-background-color: -bg-color-bar;
 }
 
 .chart .chart-title .text {
@@ -52,12 +52,12 @@ AreaChart {
 }
 
 .split-pane:horizontal .split-pane-divider {
-    -fx-background-color: -background-color-primary;
+    -fx-background-color: -bg-color-bg;
 }
 
 .split-pane {
-    -fx-border-color: -background-color-primary;
-    -fx-background-color: -background-color-primary;
+    -fx-border-color: -bg-color-bg;
+    -fx-background-color: -bg-color-bg;
 }
 
 .axis:bottom .axis-label .text,

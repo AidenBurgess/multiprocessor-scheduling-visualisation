@@ -29,7 +29,7 @@ public class VisualisationController extends DraggableWindow implements Initiali
     @FXML
     private AnchorPane root;
     @FXML
-    private AreaChart<String, Number> _CPUChart;
+    private AreaChart<Number, Number> _CPUChart;
     @FXML
     private AreaChart<Number, Number> _RAMChart;
     @FXML
@@ -61,6 +61,7 @@ public class VisualisationController extends DraggableWindow implements Initiali
 
     private int _numProcessors;
     private ThemeSwitcher _themeSwitcher;
+    private static final int TASK_HEIGHT_DETERMINANT = 200;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -140,7 +141,7 @@ public class VisualisationController extends DraggableWindow implements Initiali
 
         // Setting up the Schedule chart object and their parents (containers)
         ScheduleChart<Number, String> scheduleChart = new ScheduleChart<>(xAxis, yAxis);
-        scheduleChart.setBlockHeight(200 / _numProcessors);
+        scheduleChart.setBlockHeight(TASK_HEIGHT_DETERMINANT/_numProcessors);
         return scheduleChart;
     }
 

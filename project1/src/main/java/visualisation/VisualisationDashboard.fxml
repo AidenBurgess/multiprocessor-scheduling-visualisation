@@ -7,7 +7,6 @@
 <?import javafx.scene.chart.AreaChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -21,7 +20,7 @@
    <children>
       <HBox layoutY="90.0" prefHeight="350.0" prefWidth="1440.0">
          <children>
-            <VBox prefHeight="350.0" prefWidth="35.0" />
+            <VBox prefHeight="350.0" prefWidth="45.0" />
             <VBox fx:id="_currentScheduleParent" alignment="TOP_CENTER" prefHeight="350.0" prefWidth="680.0">
                <HBox.margin>
                   <Insets left="20.0" right="20.0" />
@@ -76,121 +75,99 @@
       </HBox>
       <HBox layoutX="1.0" layoutY="446.0" prefHeight="360.0" prefWidth="1440.0">
          <children>
-            <VBox prefHeight="360.0" prefWidth="35.0" />
-            <VBox fx:id="statistics" alignment="CENTER" prefHeight="360.0" prefWidth="390.0">
-
+            <VBox prefHeight="360.0" prefWidth="45.0" />
+            <HBox prefHeight="360.0" prefWidth="390.0">
                <children>
-                  <SplitPane dividerPositions="0.6204379562043795" prefHeight="317.0" prefWidth="506.0">
-                    <items>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                           <children>
-                              <VBox alignment="CENTER_LEFT" layoutX="64.0" layoutY="17.0" prefHeight="295.0" prefWidth="246.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time Elapsed">
-                                       <font>
-                                          <Font size="22.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets bottom="15.0" left="10.0" top="30.0" />
-                                       </VBox.margin>
-                                    </Text>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Active Branches">
-                                       <font>
-                                          <Font size="22.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets bottom="15.0" left="10.0" top="15.0" />
-                                       </VBox.margin>
-                                    </Text>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Visited States">
-                                       <font>
-                                          <Font size="22.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets bottom="15.0" left="10.0" top="15.0" />
-                                       </VBox.margin>
-                                    </Text>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Status">
-                                       <font>
-                                          <Font size="24.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets bottom="15.0" left="10.0" top="15.0" />
-                                       </VBox.margin>
-                                    </Text>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Completed Schedules">
-                                       <font>
-                                          <Font size="22.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets bottom="30.0" left="10.0" top="15.0" />
-                                       </VBox.margin>
-                                    </Text>
-                                 </children>
-                              </VBox>
-                           </children>
-                        </AnchorPane>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="266.0" prefWidth="275.0">
-                           <children>
-                              <VBox alignment="CENTER" layoutX="-10.0" layoutY="31.0" prefHeight="348.0" prefWidth="162.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <Text fx:id="_timeElapsedFigure" strokeType="OUTSIDE" strokeWidth="0.0" text="0.00s">
-                                       <font>
-                                          <Font size="22.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets bottom="15.0" top="30.0" />
-                                       </VBox.margin>
-                                    </Text>
-                                    <Text fx:id="_activeBranchFigure" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
-                                       <font>
-                                          <Font size="22.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets bottom="15.0" top="15.0" />
-                                       </VBox.margin>
-                                    </Text>
-                                    <Text fx:id="_visitedStatesFigure" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
-                                       <font>
-                                          <Font size="22.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets bottom="15.0" top="15.0" />
-                                       </VBox.margin>
-                                    </Text>
-                                    <Text fx:id="_status" strokeType="OUTSIDE" strokeWidth="0.0">
-                                       <font>
-                                          <Font size="22.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets bottom="15.0" top="15.0" />
-                                       </VBox.margin>
-                                    </Text>
-                                    <Text fx:id="_completedSchedulesFigure" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
-                                       <font>
-                                          <Font size="22.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets bottom="30.0" top="15.0" />
-                                       </VBox.margin>
-                                    </Text>
-                                 </children>
-                              </VBox>
-                           </children>
-                        </AnchorPane>
-                    </items>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </SplitPane>
+                  <VBox alignment="CENTER_LEFT" prefHeight="360.0" prefWidth="210.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time Elapsed">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="15.0" left="10.0" top="30.0" />
+                           </VBox.margin>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Active Branches">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="15.0" left="10.0" top="15.0" />
+                           </VBox.margin>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Visited States">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="15.0" left="10.0" top="15.0" />
+                           </VBox.margin>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Status">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="15.0" left="10.0" top="15.0" />
+                           </VBox.margin>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Completed Schedules">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="30.0" left="10.0" top="15.0" />
+                           </VBox.margin>
+                        </Text>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" prefHeight="260.0" prefWidth="180.0">
+                     <children>
+                        <Text fx:id="_timeElapsedFigure" strokeType="OUTSIDE" strokeWidth="0.0" text="0.00s" textAlignment="RIGHT" wrappingWidth="180.0">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="15.0" top="30.0" />
+                           </VBox.margin>
+                        </Text>
+                        <Text fx:id="_activeBranchFigure" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="180.0">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="15.0" top="15.0" />
+                           </VBox.margin>
+                        </Text>
+                        <Text fx:id="_visitedStatesFigure" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="180.0">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="15.0" top="15.0" />
+                           </VBox.margin>
+                        </Text>
+                        <Text fx:id="_status" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="RIGHT" wrappingWidth="180.0">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="15.0" top="15.0" />
+                           </VBox.margin>
+                        </Text>
+                        <Text fx:id="_completedSchedulesFigure" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="180.0">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="30.0" top="15.0" />
+                           </VBox.margin>
+                        </Text>
+                     </children>
+                  </VBox>
                </children>
-               <HBox.margin>
-                  <Insets left="20.0" />
-               </HBox.margin>
-            </VBox>
+            </HBox>
             <VBox prefHeight="360.0" prefWidth="30.0" />
             <VBox fx:id="CPUParent" alignment="CENTER" prefHeight="360.0" prefWidth="470.0">
                <children>
@@ -204,10 +181,11 @@
                   </Text>
                   <AreaChart fx:id="_CPUChart" legendVisible="false">
                     <xAxis>
-                      <CategoryAxis label="Time (s)" prefHeight="50.0" prefWidth="366.0">
+                      <NumberAxis label="Time (s)" prefHeight="50.0" prefWidth="366.0" minorTickVisible="false">
                            <tickLabelFont>
                               <Font size="11.0" />
-                           </tickLabelFont></CategoryAxis>
+                           </tickLabelFont>
+                      </NumberAxis>
                     </xAxis>
                     <yAxis>
                       <NumberAxis label="Usage %" prefHeight="231.0" prefWidth="60.0" side="LEFT">
@@ -237,11 +215,11 @@
                   </Text>
                   <AreaChart fx:id="_RAMChart" legendVisible="false">
                     <xAxis>
-                      <CategoryAxis label="Time (s)" prefHeight="50.0" prefWidth="366.0">
+                      <NumberAxis label="Time (s)" prefHeight="50.0" prefWidth="366.0" minorTickVisible="false">
                            <tickLabelFont>
                               <Font size="11.0" />
                            </tickLabelFont>
-                        </CategoryAxis>
+                      </NumberAxis>
                     </xAxis>
                     <yAxis>
                       <NumberAxis label="Usage (GB)" prefHeight="245.0" prefWidth="60.0" side="LEFT">
@@ -284,6 +262,6 @@
             </ImageView>
          </graphic>
       </JFXButton>
-      <JFXSpinner fx:id="_statusSpinner" layoutX="320.0" layoutY="664.0" prefHeight="32.0" prefWidth="31.0" />
+      <JFXSpinner fx:id="_statusSpinner" layoutX="429.0" layoutY="657.0" prefHeight="32.0" prefWidth="31.0" />
    </children>
 </AnchorPane>
