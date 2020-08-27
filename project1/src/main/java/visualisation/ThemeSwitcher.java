@@ -55,9 +55,7 @@ public class ThemeSwitcher {
      * @param cssFile contains the theme to apply
      */
     private void setCss(String cssFile) {
-        Platform.runLater(() -> {
-            _scene.getStylesheets().clear();
-            _scene.getStylesheets().add(getClass().getResource(cssFile).toExternalForm());
-        });
+        _scene.getStylesheets().clear();
+        _scene.getStylesheets().add(getClass().getResource(cssFile).toExternalForm());
     }
 }
