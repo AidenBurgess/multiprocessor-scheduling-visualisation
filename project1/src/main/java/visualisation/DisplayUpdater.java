@@ -165,7 +165,7 @@ public class DisplayUpdater {
             ObservableList<XYChart.Data> dataList = seriesArray[i].getData();
             for (XYChart.Data taskData : dataList) {
                 ScheduleChart.ExtraData taskExtraData = ((ScheduleChart.ExtraData)taskData.getExtraValue());
-                Tooltip t = new Tooltip("Name: "+taskExtraData.getTaskName()+"\n"+"Length: "+taskExtraData.getLength());
+                Tooltip t = new Tooltip("Name: ".concat(taskExtraData.getTaskName().concat("\n"+"Length: ".concat(Long.toString(taskExtraData.getLength())))));
                 Tooltip.install(taskData.getNode(), t);
             }
         }
