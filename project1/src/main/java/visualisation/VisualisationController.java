@@ -30,6 +30,8 @@ public class VisualisationController extends DraggableWindow implements Initiali
     @FXML
     private AnchorPane root;
     @FXML
+    private Text _bestScheduleTitle;
+    @FXML
     private AreaChart<Number, Number> _CPUChart;
     @FXML
     private AreaChart<Number, Number> _RAMChart;
@@ -83,7 +85,7 @@ public class VisualisationController extends DraggableWindow implements Initiali
         setUpScheduleCharts();
 
         DisplayUpdater displayUpdater = new DisplayUpdater(_visitedStatesFigure, _completedSchedulesFigure,
-                _activeBranchFigure, _timeElapsedFigure, _status, _statusSpinner, _currentScheduleChart, _bestScheduleChart, _CPUSeries,
+                _activeBranchFigure, _timeElapsedFigure, _status, _statusSpinner, _currentScheduleChart, _bestScheduleChart, _bestScheduleTitle, _CPUSeries,
                 _RAMSeries);
 
         InformationPoller informationPoller = new InformationPoller(displayUpdater, _performanceRetriever);

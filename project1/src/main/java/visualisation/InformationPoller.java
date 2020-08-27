@@ -16,6 +16,7 @@ public class InformationPoller {
     private long _schedulesUpdatePeriod = 100;
     private long _cpuRamUpdatePeriod = 500;
     private long _statsUpdatePeriod = 100;
+    private long _currentBound;
     private SystemPerformanceRetriever _performanceRetriever;
     private InformationHolder _informationHolder = VisualisationDriver.getInformationHolder();
 
@@ -53,8 +54,9 @@ public class InformationPoller {
                 HashMap<String, Integer> bestProcessorMap = _informationHolder.getBestProcessorMap();
                 HashMap<String, Integer> currentStartTimeMap = _informationHolder.getCurrentStartTimeMap();
                 HashMap<String, Integer> bestStartTimeMap = _informationHolder.getBestStartTimeMap();
+                long currentBound = _informationHolder.getCurrentBound();
 
-                _displayUpdater.refreshScheduleCharts(currentProcessorMap, bestProcessorMap, currentStartTimeMap, bestStartTimeMap);
+                _displayUpdater.refreshScheduleCharts(currentProcessorMap, bestProcessorMap, currentStartTimeMap, bestStartTimeMap, currentBound);
 
             });
 
