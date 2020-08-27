@@ -1,9 +1,13 @@
-.task {
-    -fx-background-color: #FFFF00;
-    -fx-opacity: 0.7;
+.current-task {
+    -fx-background-color: rgba(174, 174, 174, 0.5);
     -fx-border-width: 2px;
     -fx-border-color: #272727;
-    -fx-effect: dropshadow(three-pass-box, rgba(255, 255, 255, 255), 10, 0, 0, 0);
+}
+
+.best-task {
+    -fx-background-color: rgba(255, 255, 0, 0.5);
+    -fx-border-width: 2px;
+    -fx-border-color: #272727;
 }
 
 .axis:bottom .axis-label .text,

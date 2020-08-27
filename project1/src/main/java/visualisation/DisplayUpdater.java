@@ -124,18 +124,18 @@ public class DisplayUpdater {
                                          HashMap<String, Integer> currentStartTimeMap, HashMap<String, Integer> bestStartTimeMap) {
 
         if (!bestProcessorMap.equals(_previousBestProcessorMap) || !bestStartTimeMap.equals(_previousBestStartTimeMap)) {
-            refreshScheduleChart(_bestScheduleChart, bestProcessorMap, bestStartTimeMap);
+            refreshScheduleChart(_bestScheduleChart, bestProcessorMap, bestStartTimeMap, "best-task");
             _previousBestProcessorMap = bestProcessorMap;
             _previousBestStartTimeMap = bestStartTimeMap;
         }
         if (_schedulerDone) {
             _currentScheduleChart.getData().clear();
         } else {
-            refreshScheduleChart(_currentScheduleChart, currentProcessorMap, currentStartTimeMap);
+            refreshScheduleChart(_currentScheduleChart, currentProcessorMap, currentStartTimeMap, "current-task");
         }
     }
 
-    private void refreshScheduleChart(ScheduleChart<Number, String> scheduleChart, HashMap<String, Integer> processorMap, HashMap<String, Integer> startTimeMap) {
+    private void refreshScheduleChart(ScheduleChart<Number, String> scheduleChart, HashMap<String, Integer> processorMap, HashMap<String, Integer> startTimeMap, String styleClass) {
         // Create Series object. The object will act as a row in the respective chart
         XYChart.Series[] seriesArray = new XYChart.Series[_numProcessors];
         for (int i = 0; i < _numProcessors; i++) {
@@ -150,7 +150,7 @@ public class DisplayUpdater {
             if (startTimeMap.containsKey(task.getName()) && processorMap.containsKey(task.getName())) {
                 int taskProcessor = processorMap.get(task.getName());
                 int taskStartTime = startTimeMap.get(task.getName());
-                XYChart.Data taskData = new XYChart.Data(taskStartTime, "Processor ".concat(Integer.toString(taskProcessor)), new ScheduleChart.ExtraData(task.getName(), taskTime, "task"));
+                XYChart.Data taskData = new XYChart.Data(taskStartTime, "Processor ".concat(Integer.toString(taskProcessor)), new ScheduleChart.ExtraData(task.getName(), taskTime, styleClass));
                 // -1 has been used below because the seriesArray is 0 indexed whereas the processor numbers are 1 indexed
                 seriesArray[taskProcessor - 1].getData().add(taskData);
             }
