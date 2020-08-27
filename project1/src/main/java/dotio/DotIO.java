@@ -94,7 +94,7 @@ public class DotIO {
             PrintWriter writer = new PrintWriter(outputFile);
 
             // write the first line
-            sb.append("digraph ").append(taskGraph.getName()).append(" {\n");
+            sb.append("digraph \"").append(taskGraph.getName()).append("\" {\n");
 
             // iterate through the task graph tasks
             ArrayList<Task> tasks = taskGraph.getTasks();
