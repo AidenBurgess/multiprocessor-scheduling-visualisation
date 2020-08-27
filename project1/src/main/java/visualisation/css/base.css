@@ -1,9 +1,6 @@
-* {
-    -fx-font-family: Consolas;
-}
-
 #root {
     -fx-background-color: -bg-color-bg !important;
+    -fx-font-family: Consolas;
 }
 
 #titleBackground {
