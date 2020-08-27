@@ -261,6 +261,6 @@
             </ImageView>
          </graphic>
       </JFXButton>
-      <JFXSpinner fx:id="_statusSpinner" layoutX="320.0" layoutY="664.0" prefHeight="32.0" prefWidth="31.0" />
+      <JFXSpinner fx:id="_statusSpinner" layoutX="419.0" layoutY="664.0" prefHeight="32.0" prefWidth="31.0" />
    </children>
 </AnchorPane>
