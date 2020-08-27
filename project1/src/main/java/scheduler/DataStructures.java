@@ -13,19 +13,32 @@ import java.util.LinkedList;
  * Initialised in VariableScheduler
  */
 public class DataStructures {
+    private final TaskGraph _taskGraph;
     private int _numTasks;
     private ArrayList<ArrayList<Pair<Integer, Integer>>> adjList, revAdjList;
     private ArrayList<Integer> topologicalOrder, topologicalIndex, taskWeights;
+    private HashMap<String, Integer> _taskNameToIdMap;
 
     public DataStructures(TaskGraph taskGraph) {
-        _numTasks = taskGraph.getTasks().size();
+        _taskGraph = taskGraph;
+
+        initIdMapping();
+        initAdjLists();
+        initTopologicalOrderIndex();
+        initTaskWeights();
+    }
+
+    private void initIdMapping() {
+        _numTasks = _taskGraph.getTasks().size();
 
         // Mapping each Task object to an integer id. 0-indexed.
-        HashMap<String, Integer> taskNameToIdMap = new HashMap<>();
-        for (int i = 0; i < taskGraph.getTasks().size(); i++) {
-            taskNameToIdMap.put(taskGraph.getTasks().get(i).getName(), i);
+        _taskNameToIdMap = new HashMap<>();
+        for (int i = 0; i < _taskGraph.getTasks().size(); i++) {
+            _taskNameToIdMap.put(_taskGraph.getTasks().get(i).getName(), i);
         }
+    }
 
+    private void initAdjLists() {
         // Instantiating the adjacency list and reverse adjacency list.
         adjList = new ArrayList<>(_numTasks);
         revAdjList = new ArrayList<>(_numTasks);
@@ -33,19 +46,20 @@ public class DataStructures {
             adjList.add(new ArrayList<>());
             revAdjList.add(new ArrayList<>());
         }
-
         // Substantiate the adjList and revAdjList.
         // The adjLists use the name -> id mapping from taskNameToIdMap
-        ArrayList<Dependency> dependencies = taskGraph.getDependencies();
+        ArrayList<Dependency> dependencies = _taskGraph.getDependencies();
         int dependenciesSize = dependencies.size();
         for (int i = 0; i < dependenciesSize; i++) {
             Dependency dependency = dependencies.get(i);
-            int source = taskNameToIdMap.get(dependency.getSource());
-            int dest = taskNameToIdMap.get(dependency.getDest());
+            int source = _taskNameToIdMap.get(dependency.getSource());
+            int dest = _taskNameToIdMap.get(dependency.getDest());
             adjList.get(source).add(new Pair<>(dest, dependency.getCommunicationTime()));
             revAdjList.get(dest).add(new Pair<>(source, dependency.getCommunicationTime()));
         }
+    }
 
+    private void initTopologicalOrderIndex() {
         // Topological Ordering. The below code finds one valid topological ordering.
         // This also ensures that the TaskGraph input has no cyclic dependencies.
         topologicalOrder = new ArrayList<>();
@@ -90,10 +104,12 @@ public class DataStructures {
         for (int i = 0; i < _numTasks; i++) {
             topologicalIndex.set(topologicalOrder.get(i), i);
         }
+    }
 
+    private void initTaskWeights() {
         taskWeights = new ArrayList<>();
         for (int i = 0; i < _numTasks; i++) {
-            taskWeights.add(taskGraph.getTasks().get(i).getTaskTime());
+            taskWeights.add(_taskGraph.getTasks().get(i).getTaskTime());
         }
     }
 
