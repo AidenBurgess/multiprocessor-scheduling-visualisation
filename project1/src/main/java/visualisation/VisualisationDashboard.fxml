@@ -181,7 +181,7 @@
                   </Text>
                   <AreaChart fx:id="_CPUChart" createSymbols="false" legendVisible="false">
                     <xAxis>
-                      <NumberAxis label="Time (s)" minorTickVisible="false" prefHeight="50.0" prefWidth="366.0">
+                      <NumberAxis label="Time (s)" minorTickVisible="false" prefHeight="60.0" prefWidth="365.0">
                            <tickLabelFont>
                               <Font size="11.0" />
                            </tickLabelFont>
@@ -216,7 +216,7 @@
                   </Text>
                   <AreaChart fx:id="_RAMChart" createSymbols="false" legendVisible="false">
                     <xAxis>
-                      <NumberAxis label="Time (s)" minorTickVisible="false" prefHeight="50.0" prefWidth="366.0">
+                      <NumberAxis label="Time (s)" minorTickVisible="false" prefHeight="60.0" prefWidth="365.0">
                            <tickLabelFont>
                               <Font size="11.0" />
                            </tickLabelFont>
