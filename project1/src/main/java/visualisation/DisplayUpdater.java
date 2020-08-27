@@ -3,7 +3,9 @@ package main.java.visualisation;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Tooltip;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import main.java.dotio.Task;
@@ -141,6 +143,15 @@ public class DisplayUpdater {
         scheduleChart.getData().clear();
         for (int i = 0; i < seriesArray.length; i++) {
             scheduleChart.getData().add(seriesArray[i]);
+        }
+
+        for (int i = 0; i < seriesArray.length; i++) {
+            ObservableList<XYChart.Data> dataList = seriesArray[i].getData();
+            for (XYChart.Data taskData : dataList) {
+                Tooltip t = new Tooltip(((ScheduleChart.ExtraData)taskData.getExtraValue()).getTaskName());
+                System.out.println(((ScheduleChart.ExtraData)taskData.getExtraValue()).getTaskName());
+                Tooltip.install(taskData.getNode(), t);
+            }
         }
     }
 }
