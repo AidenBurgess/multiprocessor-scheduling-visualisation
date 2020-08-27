@@ -23,9 +23,9 @@ public class ThemeSwitcher {
     /**
      * Constructor for ThemeSwitcher, which needs the scene to change the stylesheets for, the switchThemeButton
      * to change the image, and the initialCss which determines which theme is shown on startup.
-     * @param scene
-     * @param switchThemeButton
-     * @param initialCss
+     * @param scene the scene to switch the css for
+     * @param switchThemeButton the button to change the image for
+     * @param initialCss which theme should be displayed initially
      */
     public ThemeSwitcher(Scene scene, ImageView switchThemeButton, String initialCss) {
         _scene = scene;
