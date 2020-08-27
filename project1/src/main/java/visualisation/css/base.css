@@ -1,6 +1,5 @@
 #root {
     -fx-background-color: -bg-color-bg !important;
-    -fx-font-family: Consolas;
 }
 
 #titleBackground {
@@ -9,7 +8,6 @@
 
 Text {
     -fx-fill: -text-color-primary;
-    -fx-font-family: Consolas;
 }
 
 .root VBox {
@@ -27,7 +25,6 @@ AreaChart {
 .jfx-button {
     -fx-background-color: -accent-color-primary;
     -fx-text-fill: -text-color-primary;
-    -fx-font-family: Consolas;
 }
 
 .jfx-button:hover {
@@ -37,7 +34,6 @@ AreaChart {
 .toggle-button {
     -fx-text-fill: -text-color-primary;
     -fx-font-size: 16px;
-    -fx-font-family: Consolas;
 }
 
 .chart {
@@ -86,7 +82,6 @@ AreaChart {
 
 .tooltip {
     -fx-text-fill: -text-color-primary;
-    -fx-font-family: Consolas;
     -fx-font-size: 13px;
 
     -fx-background-color: -bg-color-card;
