@@ -10,11 +10,6 @@
     -fx-border-color: #272727;
 }
 
-.axis:bottom .axis-label .text,
-.axis:left .axis-label .text {
-    -fx-fill: yellow;
-}
-
 .chart {
     -fx-legend-visible: false;
 }
