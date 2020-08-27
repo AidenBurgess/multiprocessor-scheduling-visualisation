@@ -34,8 +34,7 @@ public class DisplayUpdater {
 
     //Fields used for timing purposes
     Timeline _timeline;
-    private int _milliseconds = 0;
-    private int _seconds = 0;
+    private float _timeElapsed = 0;
     private boolean _schedulerDone = false;
 
 
@@ -56,6 +55,10 @@ public class DisplayUpdater {
         startTimer();
     }
 
+    /**
+     * Creates a new timeline, immediately calls the updateTime() method and then calls
+     * it after every 10ms
+     */
     private void startTimer() {
         _timeline = new Timeline(new KeyFrame(Duration.millis(0),
                 e -> updateTime()),
@@ -68,16 +71,15 @@ public class DisplayUpdater {
         _schedulerDone = true;
     }
 
+    /**
+     * Updates the _timeElapsed field every centisecond and if the scheduler is not finished yet
+     * then update the time elapsed in the stats section of the visualization window
+     */
     protected void updateTime() {
-        if (_milliseconds < 99) {
-            _milliseconds++;
-        } else {
-            _milliseconds = 0;
-            _seconds++;
-        }
+        _timeElapsed += 0.01;
 
         if (!_schedulerDone)
-            _timeElapsedFigure.setText(Integer.toString(_seconds).concat(".").concat(Integer.toString(_milliseconds)).concat("s"));
+            _timeElapsedFigure.setText(String.format("%.2f", _timeElapsed));
     }
 
     /**
@@ -97,9 +99,8 @@ public class DisplayUpdater {
      * Adds ram data to the series and updates the chart.
      */
     protected void refreshRAMChart(double RAMUsageInBytes) {
-
         // get the machine's CPU Usage data
-        _RAMSeries.getData().add(new XYChart.Data(Integer.toString(_seconds), RAMUsageInBytes));
+        _RAMSeries.getData().add(new XYChart.Data(_timeElapsed, RAMUsageInBytes));
     }
 
 
@@ -107,15 +108,10 @@ public class DisplayUpdater {
      * Adds CPU data to the series and updates the chart.
      */
     protected void refreshCPUChart(double CPUUsage) {
-
         // get the machine's CPU Usage data
-
-        _CPUSeries.getData().add(new XYChart.Data(Integer.toString(_seconds), CPUUsage));
+        _CPUSeries.getData().add(new XYChart.Data(_timeElapsed, CPUUsage));
     }
-
-
-    //todo make sure that the following case related to this method is handled: When the scheduler has not found a
-    // best schedule yet and this method is called. Either prevent this from happening or handle this situation inside the method
+    
     protected void refreshScheduleCharts(HashMap<String, Integer> currentProcessorMap, HashMap<String, Integer> bestProcessorMap,
                                          HashMap<String, Integer> currentStartTimeMap, HashMap<String, Integer> bestStartTimeMap) {
 

@@ -29,7 +29,7 @@ public class VisualisationController extends DraggableWindow implements Initiali
     @FXML
     private AnchorPane root;
     @FXML
-    private AreaChart<String, Number> _CPUChart;
+    private AreaChart<Number, Number> _CPUChart;
     @FXML
     private AreaChart<Number, Number> _RAMChart;
     @FXML

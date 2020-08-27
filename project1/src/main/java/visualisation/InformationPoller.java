@@ -12,9 +12,10 @@ public class InformationPoller {
 
     private Timer _timer;
     private DisplayUpdater _displayUpdater;
-    private long _scheduleRefreshRate = 1000;
-    private long _statsRefreshRate = 1000;
-    private long _graphRefreshRate = 1000;
+    private long _displayUpdateDelay = 0;
+    private long _schedulesUpdatePeriod = 100;
+    private long _cpuRamUpdatePeriod = 500;
+    private long _statsUpdatePeriod = 100;
     private SystemPerformanceRetriever _performanceRetriever;
     private InformationHolder _informationHolder = VisualisationDriver.getInformationHolder();
 
@@ -26,14 +27,18 @@ public class InformationPoller {
     }
 
     /**
-     * starts the timer for the total time and updates every 10 milliseconds.
+     * starts the timer which runs scheduled tasks with a delay and a period
+     * - Delay: initial delay before a task is first performed
+     * - Period: delay period between two occurences of the same task
      */
     private void startTimer() {
 
+        _displayUpdater.refreshCPUChart(_performanceRetriever.getCPUUsagePercent());
+        _displayUpdater.refreshRAMChart(_performanceRetriever.getRAMUsageGigaBytes());
         _timer = new Timer();
-        _timer.schedule(new ScheduleUpdateTask(), _scheduleRefreshRate, 1000);
-        _timer.schedule(new GraphUpdateTask(), _graphRefreshRate, 1000);
-        _timer.schedule(new StatsUpdateTask(), _statsRefreshRate, 1000);
+        _timer.schedule(new ScheduleUpdateTask(), _displayUpdateDelay, _schedulesUpdatePeriod);
+        _timer.schedule(new GraphUpdateTask(), _displayUpdateDelay, _cpuRamUpdatePeriod);
+        _timer.schedule(new StatsUpdateTask(), _displayUpdateDelay, _statsUpdatePeriod);
 
     }
 

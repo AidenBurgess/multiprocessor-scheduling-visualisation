@@ -181,10 +181,11 @@
                   </Text>
                   <AreaChart fx:id="_CPUChart" legendVisible="false">
                     <xAxis>
-                      <CategoryAxis label="Time (s)" prefHeight="50.0" prefWidth="366.0">
+                      <NumberAxis label="Time (s)" prefHeight="50.0" prefWidth="366.0" minorTickVisible="false">
                            <tickLabelFont>
                               <Font size="11.0" />
-                           </tickLabelFont></CategoryAxis>
+                           </tickLabelFont>
+                      </NumberAxis>
                     </xAxis>
                     <yAxis>
                       <NumberAxis label="Usage %" prefHeight="231.0" prefWidth="60.0" side="LEFT">
@@ -214,11 +215,11 @@
                   </Text>
                   <AreaChart fx:id="_RAMChart" legendVisible="false">
                     <xAxis>
-                      <CategoryAxis label="Time (s)" prefHeight="50.0" prefWidth="366.0">
+                      <NumberAxis label="Time (s)" prefHeight="50.0" prefWidth="366.0" minorTickVisible="false">
                            <tickLabelFont>
                               <Font size="11.0" />
                            </tickLabelFont>
-                        </CategoryAxis>
+                      </NumberAxis>
                     </xAxis>
                     <yAxis>
                       <NumberAxis label="Usage (GB)" prefHeight="245.0" prefWidth="60.0" side="LEFT">
