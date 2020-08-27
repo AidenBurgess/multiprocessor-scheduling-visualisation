@@ -223,7 +223,7 @@
                       </NumberAxis>
                     </xAxis>
                     <yAxis>
-                      <NumberAxis label="Usage (GB)" prefHeight="245.0" prefWidth="60.0" side="LEFT" autoRanging="false">
+                      <NumberAxis label="Usage (GB)" prefHeight="245.0" prefWidth="60.0" side="LEFT" minorTickVisible="false" autoRanging="false">
                            <tickLabelFont>
                               <Font size="11.0" />
                            </tickLabelFont>
