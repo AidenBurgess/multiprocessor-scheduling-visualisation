@@ -1,16 +1,5 @@
-@import "ganttchart/scheduleChart.css";
-
-@font-face {
-    font-family: Roboto;
-    src: url('Roboto-Regular.ttf');
-}
-
 * {
-    -background-color-primary: #FAFAFA;
-    -background-color-secondary: #F5F5F5;
-    -text-color-primary: rgba(0,0,0, 0.87);
-    -text-color-secondary: rgba(0,0,0, 0.54);
-    -fx-font-family: Roboto;
+    -fx-font-family: Consolas;
 }
 
 .root {
@@ -35,6 +24,15 @@ HBox {
 
 AreaChart {
     -fx-background-color: -background-color-secondary;
+}
+
+.jfx-button {
+    -fx-background-color: -accent-color-primary;
+    -fx-text-fill: -text-color-primary;
+}
+
+.jfx-button:hover {
+    -fx-background-color: #75dde6;
 }
 
 .toggle-button {
@@ -83,8 +81,4 @@ AreaChart {
 .chart-vertical-grid-lines,
 .chart-horizontal-grid-lines {
     -fx-stroke: #565656;
-}
-
-.jfx-button {
-    -fx-background-color: #565656;
 }

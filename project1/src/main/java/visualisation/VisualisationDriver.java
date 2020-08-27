@@ -5,9 +5,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import main.java.dotio.TaskGraph;
 import main.java.scheduler.InformationHolder;
-import main.java.scheduler.Scheduler;
+
 import java.io.IOException;
 
 
@@ -32,11 +33,14 @@ public class VisualisationDriver extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("VisualisationDashboard.fxml"));
         Parent root = loader.load();
         VisualisationController controller = loader.getController();
+        controller.makeStageDraggable();
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         stage.setScene(scene);
         // Make window a fixed size
         stage.setResizable(false);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
         stage.setOnHidden(e -> controller.shutdown());
         stage.show();
     }

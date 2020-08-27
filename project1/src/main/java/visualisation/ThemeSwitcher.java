@@ -1,5 +1,6 @@
 package main.java.visualisation;
 
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import main.java.visualisation.ganttchart.ScheduleChart;
 
@@ -15,16 +16,18 @@ public class ThemeSwitcher {
     public void switchTheme() {
         if (_theme.equals("light")) {
             _theme = "dark";
-            setCss("dark-style.css");
+            setCss("css/dark-style.css");
         } else {
             _theme = "light";
-            setCss("light-style.css");
+            setCss("css/light-style.css");
         }
     }
 
     private void setCss(String cssFile) {
-        _scene.getStylesheets().clear();
-        _scene.getStylesheets().add(getClass().getResource(cssFile).toExternalForm());
+        Platform.runLater(() -> {
+            _scene.getStylesheets().clear();
+            _scene.getStylesheets().add(getClass().getResource(cssFile).toExternalForm());
+        });
     }
 
 }
