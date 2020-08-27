@@ -34,6 +34,7 @@ AreaChart {
 
 .toggle-button {
     -fx-text-fill: -text-color-primary;
+    -fx-font-size: 16px;
 }
 
 .chart {
