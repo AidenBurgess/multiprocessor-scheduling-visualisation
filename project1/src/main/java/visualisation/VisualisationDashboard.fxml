@@ -17,7 +17,7 @@
 
 <AnchorPane id="root" fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="1440.0" styleClass="root" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.visualisation.VisualisationController">
    <children>
-      <HBox layoutY="100.0" prefHeight="360.0" prefWidth="1440.0">
+      <HBox fx:id="_upperHBox" alignment="CENTER" layoutY="100.0" prefHeight="360.0" prefWidth="1440.0">
          <children>
             <VBox prefHeight="350.0" prefWidth="45.0" />
             <VBox fx:id="_currentScheduleParent" alignment="TOP_CENTER" prefHeight="350.0" prefWidth="680.0">

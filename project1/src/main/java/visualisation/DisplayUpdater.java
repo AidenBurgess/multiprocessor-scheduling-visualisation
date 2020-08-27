@@ -7,6 +7,7 @@ import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Tooltip;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import main.java.dotio.Task;
@@ -30,6 +31,7 @@ public class DisplayUpdater {
     private Text _timeElapsedFigure;
     private Text _status;
     private JFXSpinner _statusSpinner;
+    private HBox _upperHBox;
 
     //Information on tasks and processors from the driver
     private int _numProcessors = VisualisationDriver.getNumProcessors();
@@ -47,7 +49,7 @@ public class DisplayUpdater {
 
     public DisplayUpdater(Text visitedStatesFigure, Text completedSchedulesFigure, Text activeBranchFigure, Text timeElapsedFigure,
                           Text status, JFXSpinner statusSpinner, ScheduleChart<Number, String> currentScheduleChart, ScheduleChart<Number, String> bestScheduleChart,
-                          Text bestScheduleTitle, XYChart.Series CPUSeries, XYChart.Series RAMSeries) {
+                          Text bestScheduleTitle, XYChart.Series CPUSeries, XYChart.Series RAMSeries, HBox upperHBox) {
 
         _visitedStatesFigure = visitedStatesFigure;
         _completedSchedulesFigure = completedSchedulesFigure;
@@ -62,6 +64,7 @@ public class DisplayUpdater {
         _RAMSeries = RAMSeries;
         _previousBestProcessorMap = new HashMap<String, Integer>();
         _previousBestStartTimeMap = new HashMap<String, Integer>();
+        _upperHBox = upperHBox;
         startTimer();
     }
 
@@ -133,7 +136,11 @@ public class DisplayUpdater {
 
         // Once best schedule is found, remove current schedule and update best schedule title to show end time
         if (_schedulerDone) {
-            _currentScheduleChart.getData().clear();
+            if (_upperHBox.getChildren().size() > 2) { // if current schedule is being displayed
+                _upperHBox.getChildren().remove(0); // remove the first spacer vBox
+                _upperHBox.getChildren().remove(0); // remove the current schedule node
+                _upperHBox.getChildren().remove(0); // remove the middle spacer vBox
+            }
             _bestScheduleTitle.setText(String.format("Optimal Schedule: End Time = %d", currentBound));
         } else {
             refreshScheduleChart(_currentScheduleChart, currentProcessorMap, currentStartTimeMap, "current-task");
