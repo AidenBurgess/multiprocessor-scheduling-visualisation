@@ -5,7 +5,6 @@
 <?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.AreaChart?>
-<?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
@@ -181,7 +180,7 @@
                   </Text>
                   <AreaChart fx:id="_CPUChart" legendVisible="false" createSymbols="false">
                     <xAxis>
-                      <NumberAxis label="Time (s)" prefHeight="50.0" prefWidth="366.0" minorTickVisible="false">
+                      <NumberAxis label="Time (s)" minorTickVisible="false" prefHeight="50.0" prefWidth="366.0">
                            <tickLabelFont>
                               <Font size="11.0" />
                            </tickLabelFont>
@@ -216,7 +215,7 @@
                   </Text>
                   <AreaChart fx:id="_RAMChart" legendVisible="false" createSymbols="false">
                     <xAxis>
-                      <NumberAxis label="Time (s)" prefHeight="50.0" prefWidth="366.0" minorTickVisible="false">
+                      <NumberAxis label="Time (s)" minorTickVisible="false" prefHeight="50.0" prefWidth="366.0">
                            <tickLabelFont>
                               <Font size="11.0" />
                            </tickLabelFont>
@@ -263,6 +262,6 @@
             </ImageView>
          </graphic>
       </JFXButton>
-      <JFXSpinner fx:id="_statusSpinner" layoutX="429.0" layoutY="657.0" prefHeight="32.0" prefWidth="31.0" />
+      <JFXSpinner fx:id="_statusSpinner" layoutX="409.0" layoutY="657.0" prefHeight="32.0" prefWidth="31.0" />
    </children>
 </AnchorPane>

@@ -73,7 +73,7 @@ public class VisualisationController extends DraggableWindow implements Initiali
         // Set initial theme when scene is loaded
         Platform.runLater(() -> {
             Scene scene = _switchThemeButton.getScene();
-            _themeSwitcher = new ThemeSwitcher(scene, "css/light-style.css");
+            _themeSwitcher = new ThemeSwitcher(scene, _switchThemeButton, "css/light-style.css");
         });
 
         _numProcessors = VisualisationDriver.getNumProcessors();
