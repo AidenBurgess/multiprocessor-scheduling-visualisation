@@ -82,3 +82,13 @@ AreaChart {
 .chart-horizontal-grid-lines {
     -fx-stroke: #565656;
 }
+
+.tooltip {
+    -fx-text-fill: -text-color-primary;
+    -fx-background-color: -bg-color-card;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-padding: 0.667em 0.75em 0.667em 0.75em; /* 10px */
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.5) , 10, 0.0 , 0 , 3 );
+    -fx-font-size: 0.85em;
+}
