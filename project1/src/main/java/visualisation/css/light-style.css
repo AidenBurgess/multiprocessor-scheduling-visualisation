@@ -10,3 +10,7 @@
     -text-color-secondary: rgba(0,0,0, 0.54);
     -accent-color-primary: #00c5d4;
 }
+
+.best-task:hover {
+    -fx-background-color: rgba(200, 200, 26, 0.8);
+}
