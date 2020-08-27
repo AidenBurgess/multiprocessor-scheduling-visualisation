@@ -10,6 +10,7 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.AreaChart;
@@ -50,6 +51,8 @@ public class VisualisationController extends DraggableWindow implements Initiali
     @FXML
     private VBox _currentScheduleParent;
     @FXML
+    private HBox _upperHBox;
+    @FXML
     private JFXToggleButton _switchThemeButton;
 
     // Non-FXML Fields
@@ -84,7 +87,7 @@ public class VisualisationController extends DraggableWindow implements Initiali
 
         DisplayUpdater displayUpdater = new DisplayUpdater(_visitedStatesFigure, _completedSchedulesFigure,
                 _activeBranchFigure, _timeElapsedFigure, _status, _statusSpinner, _currentScheduleChart, _bestScheduleChart, _CPUSeries,
-                _RAMSeries);
+                _RAMSeries, _upperHBox);
 
         InformationPoller informationPoller = new InformationPoller(displayUpdater, _performanceRetriever);
     }
