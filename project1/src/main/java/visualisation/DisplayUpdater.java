@@ -169,14 +169,14 @@ public class DisplayUpdater {
         }
 
         scheduleChart.getData().clear();
-        for (int i = 0; i < seriesArray.length; i++) {
-            scheduleChart.getData().add(seriesArray[i]);
+        for (XYChart.Series value : seriesArray) {
+            scheduleChart.getData().add(value);
         }
 
-        for (int i = 0; i < seriesArray.length; i++) {
-            ObservableList<XYChart.Data> dataList = seriesArray[i].getData();
+        for (XYChart.Series series : seriesArray) {
+            ObservableList<XYChart.Data> dataList = series.getData();
             for (XYChart.Data taskData : dataList) {
-                ScheduleChart.ExtraData taskExtraData = ((ScheduleChart.ExtraData)taskData.getExtraValue());
+                ScheduleChart.ExtraData taskExtraData = ((ScheduleChart.ExtraData) taskData.getExtraValue());
                 String toolTipText = String.format("Name: %s\nLength: %d", taskExtraData.getTaskName(), taskExtraData.getLength());
                 Tooltip t = new Tooltip(toolTipText);
                 Tooltip.install(taskData.getNode(), t);
