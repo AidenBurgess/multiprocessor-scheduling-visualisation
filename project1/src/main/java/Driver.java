@@ -45,12 +45,8 @@ public class Driver {
             boolean isValid = validityChecker.check();
 
             if (!isValid) {
-                // throw an exception or output and sout
-//                throw new RuntimeException("output schedule is not valid");
-                System.out.println("the output schedule is not valid");
+                // todo throw
                 return;
-            } else {
-                System.out.println("Output schedule is valid");
             }
         }
 

@@ -83,4 +83,40 @@ public class CommandParserTest {
         Config resConfig = CommandParser.parse(simpleArgs);
         assertEquals(expectedConfig, resConfig);
     }
+
+    @Test
+    public void help() {
+        String[] simpleArgs = {"--help"};
+        CommandParser.parse(simpleArgs);
+        fail();
+    }
+
+    @Test
+    public void invalidProcessorNumber() {
+        String[] simpleArgs = {"filename.dot", "not-a-number"};
+        CommandParser.parse(simpleArgs);
+        fail();
+    }
+
+    @Test
+    public void invalidParallelCoresNumber() {
+        String[] simpleArgs = {"filename.dot", "3", "-p", "a"};
+        CommandParser.parse(simpleArgs);
+        fail();
+    }
+
+    @Test
+    public void invalidOption() {
+        String[] simpleArgs = {"filename.dot", "3", "-hello"};
+        CommandParser.parse(simpleArgs);
+        fail();
+    }
+
+    @Test
+    public void noFileSpecifiedAfterOutput() {
+        String[] simpleArgs = {"filename.dot", "3", "-o"};
+        CommandParser.parse(simpleArgs);
+        fail();
+    }
+
 }
