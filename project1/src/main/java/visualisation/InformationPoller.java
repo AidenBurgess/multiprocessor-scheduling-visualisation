@@ -20,9 +20,9 @@ public class InformationPoller {
     private InformationHolder _informationHolder = VisualisationDriver.getInformationHolder();
 
 
-    public InformationPoller(DisplayUpdater displayUpdater) {
+    public InformationPoller(DisplayUpdater displayUpdater, SystemPerformanceRetriever performanceRetriever) {
         _displayUpdater = displayUpdater;
-        _performanceRetriever = new SystemPerformanceRetriever();
+        _performanceRetriever = performanceRetriever;
         startTimer();
     }
 
