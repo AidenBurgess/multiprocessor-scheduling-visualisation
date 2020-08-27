@@ -75,6 +75,15 @@ AreaChart {
     -fx-background-color: green, white;
 }
 
+#RAMParent .chart-series-area-fill:hover {
+    -fx-fill: #13d013;
+}
+
+#CPUParent .chart-series-area-fill:hover {
+    -fx-fill: #de3b3b;
+    -fx-opacity: 38%;
+}
+
 .chart-vertical-grid-lines,
 .chart-horizontal-grid-lines {
     -fx-stroke: #565656;
