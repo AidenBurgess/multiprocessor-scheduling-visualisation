@@ -33,6 +33,8 @@ public class InformationPoller {
      */
     private void startTimer() {
 
+        _displayUpdater.refreshCPUChart(_performanceRetriever.getCPUUsagePercent());
+        _displayUpdater.refreshRAMChart(_performanceRetriever.getRAMUsageGigaBytes());
         _timer = new Timer();
         _timer.schedule(new ScheduleUpdateTask(), _displayUpdateDelay, _schedulesUpdatePeriod);
         _timer.schedule(new GraphUpdateTask(), _displayUpdateDelay, _cpuRamUpdatePeriod);

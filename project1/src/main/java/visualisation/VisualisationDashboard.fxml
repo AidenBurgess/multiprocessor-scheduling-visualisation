@@ -147,7 +147,7 @@
                <children>
                   <AreaChart fx:id="_CPUChart" legendVisible="false" title="CPU Usage">
                     <xAxis>
-                      <CategoryAxis label="Time (s)" side="BOTTOM" />
+                      <NumberAxis label="Time (s)" side="BOTTOM" minorTickVisible="false" />
                     </xAxis>
                     <yAxis>
                       <NumberAxis label="\%" side="LEFT" />
@@ -165,7 +165,7 @@
                <children>
                   <AreaChart fx:id="_RAMChart" legendVisible="false" title="RAM Usage">
                     <xAxis>
-                      <CategoryAxis label="Time (s)" side="BOTTOM" />
+                      <NumberAxis label="Time (s)" side="BOTTOM" minorTickVisible="false" />
                     </xAxis>
                     <yAxis>
                       <NumberAxis label="GigaBytes (GB)" side="LEFT" />

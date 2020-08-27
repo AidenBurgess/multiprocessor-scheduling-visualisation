@@ -85,7 +85,7 @@ public class DisplayUpdater {
      */
     protected void refreshRAMChart(double RAMUsageInBytes) {
         // get the machine's CPU Usage data
-        _RAMSeries.getData().add(new XYChart.Data(String.format("%.2f", _timeElapsed), RAMUsageInBytes));
+        _RAMSeries.getData().add(new XYChart.Data(_timeElapsed, RAMUsageInBytes));
     }
 
 
@@ -94,7 +94,7 @@ public class DisplayUpdater {
      */
     protected void refreshCPUChart(double CPUUsage) {
         // get the machine's CPU Usage data
-        _CPUSeries.getData().add(new XYChart.Data(String.format("%.2f", _timeElapsed), CPUUsage));
+        _CPUSeries.getData().add(new XYChart.Data(_timeElapsed, CPUUsage));
     }
 
 
