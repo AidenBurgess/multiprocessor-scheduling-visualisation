@@ -130,6 +130,8 @@ public class DisplayUpdater {
             _previousBestProcessorMap = bestProcessorMap;
             _previousBestStartTimeMap = bestStartTimeMap;
         }
+
+        // Once best schedule is found, remove current schedule and update best schedule title to show end time
         if (_schedulerDone) {
             _currentScheduleChart.getData().clear();
             _bestScheduleTitle.setText(String.format("Best Schedule: End Time = %d", currentBound));
