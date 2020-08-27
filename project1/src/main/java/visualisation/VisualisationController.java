@@ -1,5 +1,6 @@
 package main.java.visualisation;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXToggleButton;
 import javafx.application.Platform;
@@ -9,6 +10,8 @@ import javafx.scene.Scene;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -30,6 +33,8 @@ public class VisualisationController extends DraggableWindow implements Initiali
     // FXML Fields
     @FXML
     private AnchorPane root;
+    @FXML
+    private Text _bestScheduleTitle;
     @FXML
     private AreaChart<Number, Number> _CPUChart;
     @FXML
@@ -53,7 +58,7 @@ public class VisualisationController extends DraggableWindow implements Initiali
     @FXML
     private HBox _upperHBox;
     @FXML
-    private JFXToggleButton _switchThemeButton;
+    private ImageView _switchThemeIcon;
 
     // Non-FXML Fields
 
@@ -75,8 +80,8 @@ public class VisualisationController extends DraggableWindow implements Initiali
 
         // Set initial theme when scene is loaded
         Platform.runLater(() -> {
-            Scene scene = _switchThemeButton.getScene();
-            _themeSwitcher = new ThemeSwitcher(scene, _switchThemeButton, "css/light-style.css");
+            Scene scene = root.getScene();
+            _themeSwitcher = new ThemeSwitcher(scene, _switchThemeIcon, "css/light-style.css");
         });
 
         _numProcessors = VisualisationDriver.getNumProcessors();
@@ -86,9 +91,8 @@ public class VisualisationController extends DraggableWindow implements Initiali
         setUpScheduleCharts();
 
         DisplayUpdater displayUpdater = new DisplayUpdater(_visitedStatesFigure, _completedSchedulesFigure,
-                _activeBranchFigure, _timeElapsedFigure, _status, _statusSpinner, _currentScheduleChart, _bestScheduleChart, _CPUSeries,
+                _activeBranchFigure, _timeElapsedFigure, _status, _statusSpinner, _currentScheduleChart, _bestScheduleChart, _bestScheduleTitle, _CPUSeries,
                 _RAMSeries, _upperHBox);
-
         InformationPoller informationPoller = new InformationPoller(displayUpdater, _performanceRetriever);
     }
 

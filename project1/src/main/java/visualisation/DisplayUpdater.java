@@ -22,6 +22,7 @@ public class DisplayUpdater {
     // FX Components from passed in from the controller class
     private ScheduleChart<Number, String> _currentScheduleChart;
     private ScheduleChart<Number, String> _bestScheduleChart;
+    private Text _bestScheduleTitle;
     private XYChart.Series _CPUSeries;
     private XYChart.Series _RAMSeries;
     private Text _visitedStatesFigure;
@@ -48,7 +49,7 @@ public class DisplayUpdater {
 
     public DisplayUpdater(Text visitedStatesFigure, Text completedSchedulesFigure, Text activeBranchFigure, Text timeElapsedFigure,
                           Text status, JFXSpinner statusSpinner, ScheduleChart<Number, String> currentScheduleChart, ScheduleChart<Number, String> bestScheduleChart,
-                          XYChart.Series CPUSeries, XYChart.Series RAMSeries, HBox upperHBox) {
+                          Text bestScheduleTitle, XYChart.Series CPUSeries, XYChart.Series RAMSeries, HBox upperHBox) {
 
         _visitedStatesFigure = visitedStatesFigure;
         _completedSchedulesFigure = completedSchedulesFigure;
@@ -58,6 +59,7 @@ public class DisplayUpdater {
         _statusSpinner = statusSpinner;
         _currentScheduleChart = currentScheduleChart;
         _bestScheduleChart = bestScheduleChart;
+        _bestScheduleTitle = bestScheduleTitle;
         _CPUSeries = CPUSeries;
         _RAMSeries = RAMSeries;
         _previousBestProcessorMap = new HashMap<String, Integer>();
@@ -124,19 +126,22 @@ public class DisplayUpdater {
     }
     
     protected void refreshScheduleCharts(HashMap<String, Integer> currentProcessorMap, HashMap<String, Integer> bestProcessorMap,
-                                         HashMap<String, Integer> currentStartTimeMap, HashMap<String, Integer> bestStartTimeMap) {
+                                         HashMap<String, Integer> currentStartTimeMap, HashMap<String, Integer> bestStartTimeMap, long currentBound) {
 
         if (!bestProcessorMap.equals(_previousBestProcessorMap) || !bestStartTimeMap.equals(_previousBestStartTimeMap)) {
             refreshScheduleChart(_bestScheduleChart, bestProcessorMap, bestStartTimeMap, "best-task");
             _previousBestProcessorMap = bestProcessorMap;
             _previousBestStartTimeMap = bestStartTimeMap;
         }
+
+        // Once best schedule is found, remove current schedule and update best schedule title to show end time
         if (_schedulerDone) {
             if (_upperHBox.getChildren().size() > 2) { // if current schedule is being displayed
                 _upperHBox.getChildren().remove(0); // remove the first spacer vBox
                 _upperHBox.getChildren().remove(0); // remove the current schedule node
                 _upperHBox.getChildren().remove(0); // remove the middle spacer vBox
             }
+            _bestScheduleTitle.setText(String.format("Optimal Schedule: End Time = %d", currentBound));
         } else {
             refreshScheduleChart(_currentScheduleChart, currentProcessorMap, currentStartTimeMap, "current-task");
         }
