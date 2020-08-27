@@ -92,6 +92,13 @@ public class VisualisationController extends DraggableWindow implements Initiali
         // create the series data instance
         _RAMSeries = new XYChart.Series();
 
+        // Remove animations from axes
+        Platform.runLater(() -> {
+            XYChart chart = _RAMSeries.getChart();
+            chart.getXAxis().setAnimated(false);
+            chart.getYAxis().setAnimated(false);
+        });
+
         // add the series data to the chart
         _RAMChart.getData().add(_RAMSeries);
     }
@@ -103,6 +110,13 @@ public class VisualisationController extends DraggableWindow implements Initiali
 
         // create the series data instance
         _CPUSeries = new XYChart.Series();
+
+        // Remove animations from axes
+        Platform.runLater(() -> {
+            XYChart chart = _CPUSeries.getChart();
+            chart.getXAxis().setAnimated(false);
+            chart.getYAxis().setAnimated(false);
+        });
 
         // add the series data to the chart
         _CPUChart.getData().add(_CPUSeries);
@@ -133,11 +147,14 @@ public class VisualisationController extends DraggableWindow implements Initiali
             processorsList.add("Processor ".concat(Integer.toString(i + 1)));
         }
         CategoryAxis yAxis = new CategoryAxis();
+        yAxis.setAnimated(false);
         yAxis.setCategories(FXCollections.observableArrayList(processorsList));
 
         // Setting up the x-axis
         NumberAxis xAxis = new NumberAxis();
         xAxis.setLabel("Time");
+        xAxis.setAnimated(false);
+
 
         // Setting up the Schedule chart object and their parents (containers)
         ScheduleChart<Number, String> scheduleChart = new ScheduleChart<>(xAxis, yAxis);
