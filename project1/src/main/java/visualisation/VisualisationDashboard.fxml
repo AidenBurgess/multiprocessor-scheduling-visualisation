@@ -243,7 +243,7 @@
             <Insets bottom="10.0" />
          </padding>
       </HBox>
-      <JFXButton buttonType="RAISED" focusTraversable="false" layoutX="1271.0" layoutY="17.0" onAction="#switchTheme" prefHeight="39.0" prefWidth="39.0" ripplerFill="BLACK">
+      <JFXButton buttonType="RAISED" focusTraversable="false" layoutX="1262.0" layoutY="17.0" onAction="#switchTheme" prefHeight="39.0" prefWidth="39.0" ripplerFill="BLACK">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -255,7 +255,7 @@
             </ImageView>
          </graphic>
       </JFXButton>
-      <JFXButton buttonType="RAISED" focusTraversable="false" layoutX="1320.0" layoutY="17.0" onAction="#minimise" prefHeight="39.0" prefWidth="39.0" ripplerFill="BLACK">
+      <JFXButton buttonType="RAISED" focusTraversable="false" layoutX="1311.0" layoutY="17.0" onAction="#minimise" prefHeight="39.0" prefWidth="39.0" ripplerFill="BLACK">
          <graphic>
             <ImageView fitHeight="15.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -267,7 +267,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton buttonType="RAISED" focusTraversable="false" layoutX="1369.0" layoutY="17.0" onAction="#close" prefHeight="39.0" prefWidth="39.0" ripplerFill="BLACK">
+      <JFXButton buttonType="RAISED" focusTraversable="false" layoutX="1360.0" layoutY="17.0" onAction="#close" prefHeight="39.0" prefWidth="39.0" ripplerFill="BLACK">
          <graphic>
             <ImageView fitHeight="15.0" pickOnBounds="true" preserveRatio="true">
                <image>
