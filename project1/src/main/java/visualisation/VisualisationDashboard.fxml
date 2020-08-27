@@ -179,7 +179,7 @@
                         <Insets left="50.0" />
                      </VBox.margin>
                   </Text>
-                  <AreaChart fx:id="_CPUChart" legendVisible="false">
+                  <AreaChart fx:id="_CPUChart" legendVisible="false" createSymbols="false">
                     <xAxis>
                       <NumberAxis label="Time (s)" prefHeight="50.0" prefWidth="366.0" minorTickVisible="false">
                            <tickLabelFont>
@@ -213,7 +213,7 @@
                         <Insets left="50.0" />
                      </VBox.margin>
                   </Text>
-                  <AreaChart fx:id="_RAMChart" legendVisible="false">
+                  <AreaChart fx:id="_RAMChart" legendVisible="false" createSymbols="false">
                     <xAxis>
                       <NumberAxis label="Time (s)" prefHeight="50.0" prefWidth="366.0" minorTickVisible="false">
                            <tickLabelFont>
