@@ -31,7 +31,7 @@ public class SystemPerformanceRetriever {
     }
 
     /**
-     * @return long representing the total RAM available in bytes
+     * @return double representing the total RAM available in gigabytes
      */
     public double getTotalRAMGigaBytes() {
         return (totalRAM  / (double)1.074e9);
