@@ -44,6 +44,8 @@ public class TaskGraph {
         _dependencies.add(dependency);
     }
 
+    // ------------------ Getters and Setters ------------------- //
+
     public void setName(String name) {
         _name = name;
     }
