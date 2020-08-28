@@ -209,11 +209,16 @@ public class DisplayUpdater {
     }
 
     /**
-     * Change the default tooltip behaviour to be faster.
-     * @param openDelay
-     * @param visibleDuration
-     * @param closeDelay
-     * @param hideOnExit
+     * Change the default tooltip behaviour.
+     * @param openDelay time for tooltip to appear in ms.
+     * @param visibleDuration time tooltip stays open in ms.
+     * @param closeDelay time for tooltip to disappear in ms.
+     * @param hideOnExit whether to keep tooltip on screen.
+     *
+     * Source code credit to user 'Nicolas Filotto' from StackOverflow. This code is licensed under the Attribution-ShareAlike
+     * 3.0 Unported. It is free to be used and adapted for any purposes.
+     * Link: https://stackoverflow.com/a/42759066
+     * The source code was modified to match the requirements of our application.
      */
     private static void updateTooltipBehavior(double openDelay, double visibleDuration,
                                               double closeDelay, boolean hideOnExit) {
