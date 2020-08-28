@@ -5,17 +5,24 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+/**
+ * Allows a window to be draggable anywhere.
+ */
 public class DraggableWindow {
-
     @FXML
     AnchorPane root;
-
+    // The stage to make draggable
     Stage stage;
-
+    // Variables record how far our current mouse is from the initial.
     double xOffset = 20;
     double yOffset = 20;
 
+    /**
+     * Adds listeners to the root of the stage, allowing it to be dragged.
+     * Should be called after initialisation.
+     */
     public void makeStageDraggable() {
+        // Add these handlers after application is initialised.
         Platform.runLater(() -> {
             stage = (Stage) root.getScene().getWindow();
             root.setOnMousePressed(event-> {
@@ -25,6 +32,7 @@ public class DraggableWindow {
             root.setOnMouseDragged(event-> {
                 stage.setX(event.getScreenX() - xOffset);
                 stage.setY(event.getScreenY() - yOffset);
+                // Make stage opaque when being dragged.
                 stage.setOpacity(0.8f);
             });
             root.setOnDragDone((e) -> {
@@ -36,6 +44,5 @@ public class DraggableWindow {
                 stage.setOpacity(1.0f);
             });
         });
-
     }
 }
