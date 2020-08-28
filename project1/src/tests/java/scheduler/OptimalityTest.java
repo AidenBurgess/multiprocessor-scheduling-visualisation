@@ -86,8 +86,8 @@ public class OptimalityTest {
         ValidityChecker validityChecker = new ValidityChecker(
                 _taskGraph.getTasks(),
                 _taskGraph.getDependencies(),
-                scheduler.getInformationHolder().getBestProcessorMap(),
-                scheduler.getInformationHolder().getBestStartTimeMap());
+                scheduler.getInformationHolder().getScheduleStateMaps().getBestProcessorMap(),
+                scheduler.getInformationHolder().getScheduleStateMaps().getBestStartTimeMap());
 
         assertTrue(validityChecker.check());
         assertEquals(_expected, actual);

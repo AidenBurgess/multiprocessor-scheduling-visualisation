@@ -41,7 +41,7 @@ public class Driver {
 
         // check for the validity.
         if (config.isCheckValid()) {
-            ValidityChecker validityChecker = new ValidityChecker(taskGraph.getTasks(), taskGraph.getDependencies(), informationHolder.getBestProcessorMap(), informationHolder.getBestStartTimeMap());
+            ValidityChecker validityChecker = new ValidityChecker(taskGraph.getTasks(), taskGraph.getDependencies(), informationHolder.getScheduleStateMaps().getBestProcessorMap(), informationHolder.getScheduleStateMaps().getBestStartTimeMap());
             boolean isValid = validityChecker.check();
 
             if (!isValid) {
@@ -82,8 +82,8 @@ public class Driver {
      * @param config the original config settings.
      */
     private static void writeDotFile(InformationHolder informationHolder, TaskGraph taskGraph, Config config) {
-        HashMap<String, Integer> startTimeMap = informationHolder.getBestStartTimeMap();
-        HashMap<String, Integer> processorMap = informationHolder.getBestProcessorMap();
+        HashMap<String, Integer> startTimeMap = informationHolder.getScheduleStateMaps().getBestStartTimeMap();
+        HashMap<String, Integer> processorMap = informationHolder.getScheduleStateMaps().getBestProcessorMap();
 
         try {
             DotIO.write(config.getOutputFileName(), taskGraph, startTimeMap, processorMap);
