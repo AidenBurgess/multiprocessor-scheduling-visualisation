@@ -19,6 +19,12 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * A class which is responsible for refreshing/updating the visualisation elements. These include the
+ * current and best schedules, the CPU and RAM graphs and the statistics. The methods of this class
+ * are invoked from the InformationPoller object, which periodically refreshes the visualisation elements
+ * via the DisplayUpdater object. 
+ */
 public class DisplayUpdater {
 
     // FX Components from passed in from the controller class
