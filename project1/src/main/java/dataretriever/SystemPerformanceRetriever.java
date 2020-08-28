@@ -7,6 +7,7 @@ import com.sun.management.OperatingSystemMXBean;
  * Gets the system performance statistics at runtime. Currently used to extract the CPU and RAM from the computer.
  */
 public class SystemPerformanceRetriever {
+
     // Get OS management object
     private final OperatingSystemMXBean statsRetriever = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
     // Get total RAM to calculate used RAM later
