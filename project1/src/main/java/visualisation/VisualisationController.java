@@ -22,8 +22,7 @@ import java.util.*;
 import java.net.URL;
 
 public class VisualisationController extends DraggableWindow implements Initializable {
-
-    // FXML Fields
+    // The nodes in VisualisationDashboard.fxml
     @FXML
     private AnchorPane root;
     @FXML
@@ -53,36 +52,37 @@ public class VisualisationController extends DraggableWindow implements Initiali
     @FXML
     private ImageView _switchThemeIcon;
 
-    // Non-FXML Fields
-
+    // The data for the charts and chart objects
     private XYChart.Series _CPUSeries;
     private XYChart.Series _RAMSeries;
-
+    private int _numProcessors;
+    private static final int TASK_HEIGHT_DETERMINANT = 200;
     private ScheduleChart<Number, String> _currentScheduleChart;
     private ScheduleChart<Number, String> _bestScheduleChart;
 
+    // Related to the retrieval of CPU and RAM information
     private SystemPerformanceRetriever _performanceRetriever;
 
-    private int _numProcessors;
+    // Styling
     private ThemeSwitcher _themeSwitcher;
-    private static final int TASK_HEIGHT_DETERMINANT = 200;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        _performanceRetriever = new SystemPerformanceRetriever();
-
-        // Set initial theme when scene is loaded
+        // Set the light theme when the scene is loaded
         Platform.runLater(() -> {
             Scene scene = root.getScene();
             _themeSwitcher = new ThemeSwitcher(scene, _switchThemeIcon, "css/light-style.css");
         });
 
+        // Initialise the charts after initialising the fields required by them
+        _performanceRetriever = new SystemPerformanceRetriever();
         _numProcessors = VisualisationDriver.getNumProcessors();
-        // initialise the charts
         setUpCPUChart();
         setUpRAMChart();
         setUpScheduleCharts();
 
+        // The information poller once created starts polling the scheduler for information to display
+        // on the visualisation module. The display updater methods are called by the information poller.
         DisplayUpdater displayUpdater = new DisplayUpdater(_visitedStatesFigure, _completedSchedulesFigure,
                 _activeBranchFigure, _timeElapsedFigure, _status, _statusSpinner, _currentScheduleChart, _bestScheduleChart, _bestScheduleTitle, _CPUSeries,
                 _RAMSeries, _upperHBox);
@@ -94,7 +94,7 @@ public class VisualisationController extends DraggableWindow implements Initiali
      */
     private void setUpRAMChart() {
 
-        // create the series data instance
+        // Contains the data which will be fed to the RAM chart.
         _RAMSeries = new XYChart.Series();
 
         // Remove animations from axes
@@ -103,7 +103,7 @@ public class VisualisationController extends DraggableWindow implements Initiali
             chart.getXAxis().setAnimated(false);
             chart.getYAxis().setAnimated(false);
         });
-
+        
         // Add the series data to the chart
         _RAMChart.getData().add(_RAMSeries);
         NumberAxis yAxis = (NumberAxis) _RAMChart.getYAxis();
