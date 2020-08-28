@@ -2,7 +2,9 @@ package main.java.scheduler;
 
 import javafx.util.Pair;
 import main.java.dotio.Dependency;
+import main.java.dotio.Task;
 import main.java.dotio.TaskGraph;
+import main.java.exception.SchedulerException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +23,7 @@ public class DataStructures {
 
     public DataStructures(TaskGraph taskGraph) {
         _taskGraph = taskGraph;
+        checkValidWeights();
 
         initIdMapping();
         initAdjLists();
@@ -35,6 +38,19 @@ public class DataStructures {
         _taskNameToIdMap = new HashMap<>();
         for (int i = 0; i < _taskGraph.getTasks().size(); i++) {
             _taskNameToIdMap.put(_taskGraph.getTasks().get(i).getName(), i);
+        }
+    }
+
+    private void checkValidWeights() {
+        for (Task task : _taskGraph.getTasks()) {
+            if (task.getTaskTime() <= 0) { // todo check!!!
+                throw new SchedulerException("The task weight must be positive.");
+            }
+        }
+        for (Dependency dependency : _taskGraph.getDependencies()) {
+            if (dependency.getCommunicationTime() < 0) {
+                throw new SchedulerException("The dependency communication time must be non-negative.");
+            }
         }
     }
 
@@ -96,7 +112,9 @@ public class DataStructures {
         }
 
         // If ind != n, there are some tasks that have dependencies on each other.
-        if (topologicalOrder.size() != _numTasks) throw new RuntimeException("No topological ordering found"); // todo what we want to happen?
+        if (topologicalOrder.size() != _numTasks) {
+            throw new SchedulerException("This is not a DAG, hence no valid schedule exists.");
+        }
 
         topologicalIndex = new ArrayList<>();
         for (int i = 0; i < _numTasks; i++) topologicalIndex.add(0);

@@ -17,9 +17,6 @@ import main.java.visualisation.VisualisationDriver;
 import java.util.HashMap;
 
 public class Driver {
-
-    private final static int EXIT_FAILURE = 1;
-
     public static void main(String[] args) {
         try {
             // Read the arguments from command line into config
