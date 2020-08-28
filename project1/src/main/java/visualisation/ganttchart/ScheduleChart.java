@@ -1,4 +1,13 @@
-package main.java.visualisation;
+/*
+ * Source code credit to user 'Roland' from StackOverflow. This code is licensed under the  Attribution-ShareAlike
+ * 4.0 International license. It is free to be used and adapted for any purposes.
+ * Link: https://stackoverflow.com/questions/27975898/gantt-chart-from-scratch
+ * The source code was modified to match the requirements of our application.
+ * Original class name: GanttChart
+ * Modified class name: ScheduleChart
+ */
+
+package main.java.visualisation.ganttchart;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -16,39 +25,39 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 
 /**
- * Source code credit to 'Roland' from StackOverflow. Link: https://stackoverflow.com/questions/27975898/gantt-chart-from-scratch
- * The source code was slightly modified to match the requirements of our application.
- * Original class name: GanttChart
- * Modified class name: ScheduleChart
+ * Modified version of a Gantt chart used to display the schedule of tasks on processors.
  */
 public class ScheduleChart<X,Y> extends XYChart<X,Y> {
 
     public static class ExtraData {
+        private long _length;
+        private String _styleClass;
+        private String _taskName;
 
-        public long length;
-        public String styleClass;
-
-        public ExtraData(int taskTime, String styleClass) {
+        public ExtraData(String taskName, int taskTime, String styleClass) {
             super();
-            this.length = taskTime;
-            this.styleClass = styleClass;
+            _length = taskTime;
+            _styleClass = styleClass;
+            _taskName = taskName;
         }
         public long getLength() {
-            return length;
+            return _length;
         }
         public void setLength(long length) {
-            this.length = length;
+            this._length = length;
         }
         public String getStyleClass() {
-            return styleClass;
+            return _styleClass;
         }
         public void setStyleClass(String styleClass) {
-            this.styleClass = styleClass;
+            this._styleClass = styleClass;
         }
-
+        public String getTaskName() {
+            return _taskName;
+        }
     }
 
-    private double blockHeight = 10;
+    private double _blockHeight = 10;
 
     public ScheduleChart(@NamedArg("xAxis") Axis<X> xAxis, @NamedArg("yAxis") Axis<Y> yAxis) {
         this(xAxis, yAxis, FXCollections.<Series<X, Y>>observableArrayList());
@@ -118,11 +127,11 @@ public class ScheduleChart<X,Y> extends XYChart<X,Y> {
     }
 
     public double getBlockHeight() {
-        return blockHeight;
+        return _blockHeight;
     }
 
     public void setBlockHeight( double blockHeight) {
-        this.blockHeight = blockHeight;
+        this._blockHeight = blockHeight;
     }
 
     @Override protected void dataItemAdded(Series<X,Y> series, int itemIndex, Data<X,Y> item) {
@@ -156,17 +165,14 @@ public class ScheduleChart<X,Y> extends XYChart<X,Y> {
 
     }
 
-
     private Node createContainer(Series<X, Y> series, int seriesIndex, final Data<X,Y> item, int itemIndex) {
-
         Node container = item.getNode();
 
         if (container == null) {
             container = new StackPane();
             item.setNode(container);
         }
-
-        container.getStyleClass().add( getStyleClass( item.getExtraValue()));
+        container.getStyleClass().add(getStyleClass(item.getExtraValue()));
 
         return container;
     }
@@ -194,5 +200,4 @@ public class ScheduleChart<X,Y> extends XYChart<X,Y> {
             if(yData != null) ya.invalidateRange(yData);
         }
     }
-
 }

@@ -1,0 +1,20 @@
+.current-task {
+    -fx-background-color: rgba(174, 174, 174, 0.5);
+    -fx-border-width: 2px;
+    -fx-border-color: #272727;
+}
+
+.best-task {
+    -fx-background-color: rgba(255, 255, 0, 0.65);
+    -fx-border-width: 2px;
+    -fx-border-color: #272727;
+}
+
+.chart {
+    -fx-legend-visible: false;
+}
+
+.axis {
+    -fx-font-size: 16px;
+    -fx-tick-label-font-size: 14px;
+}

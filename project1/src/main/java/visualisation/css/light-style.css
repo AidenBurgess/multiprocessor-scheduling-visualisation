@@ -1,0 +1,16 @@
+@import "../ganttchart/scheduleChart.css";
+@import "base.css";
+
+* {
+    -bg-color-bg: #FAFAFA;
+    -bg-color-bar: #F5F5F5;
+    -bg-color-card: #FFFFFF;
+
+    -text-color-primary: rgba(0,0,0, 0.87);
+    -text-color-secondary: rgba(0,0,0, 0.54);
+    -accent-color-primary: #00c5d4;
+}
+
+.best-task:hover {
+    -fx-background-color: rgba(200, 200, 26, 0.8);
+}
