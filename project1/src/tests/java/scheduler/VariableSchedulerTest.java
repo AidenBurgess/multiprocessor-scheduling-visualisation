@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 public class VariableSchedulerTest {
 
     @Test
-    public void runSingleFile() throws FileNotFoundException, DotIOException {
+    public void runSingleFile() throws FileNotFoundException {
         String testName = "N13-M3.dot";
         int expectedResult = 64;
 

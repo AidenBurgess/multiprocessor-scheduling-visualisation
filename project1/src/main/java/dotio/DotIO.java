@@ -2,6 +2,7 @@ package main.java.dotio;
 
 import main.java.dotio.antlr.DOTLexer;
 import main.java.dotio.antlr.DOTParser;
+import main.java.exception.DotIOException;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -36,9 +37,8 @@ public class DotIO {
      *
      * @param inputFile The name of the file to be read.
      * @return The TaskGraph object
-     * @throws DotIOException If there is an issue with reading the file, or an issue with the .dot syntax of the file.
      */
-    public static TaskGraph read(String inputFile) throws DotIOException {
+    public static TaskGraph read(String inputFile) {
         TaskGraph graph = new TaskGraph();
         try {
             //Instantiate ANTLR lexer and parser, and parse through file with adapted dot listener.

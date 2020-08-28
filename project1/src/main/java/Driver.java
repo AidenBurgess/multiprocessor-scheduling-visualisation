@@ -3,15 +3,13 @@ package main.java;
 import main.java.commandparser.Config;
 import main.java.commandparser.CommandParser;
 import main.java.dotio.DotIO;
-import main.java.dotio.DotIOException;
 import main.java.dotio.TaskGraph;
+import main.java.exception.DotIOException;
 import main.java.scheduler.InformationHolder;
 import main.java.scheduler.Scheduler;
 import main.java.scheduler.VariableScheduler;
 import main.java.validitychecker.ValidityChecker;
 import main.java.visualisation.VisualisationDriver;
-
-import java.io.FileNotFoundException;
 
 import java.util.HashMap;
 

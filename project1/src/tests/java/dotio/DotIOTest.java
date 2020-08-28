@@ -2,6 +2,7 @@ package tests.java.dotio;
 
 import main.java.dotio.*;
 
+import main.java.exception.DotIOException;
 import org.junit.Rule;
 import org.junit.Test;
 
