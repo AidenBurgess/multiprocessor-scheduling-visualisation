@@ -32,8 +32,6 @@ public class VariableSchedulerTest {
                 System.out.println(testName + ". Stats: " + stat + ", threads: " + thread + ". Time: " + totalTime/3);
             }
         }
-
-
     }
 
     private long measureExecutionTime(Scheduler sc) {
