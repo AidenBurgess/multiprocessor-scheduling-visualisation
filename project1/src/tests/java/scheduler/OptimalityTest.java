@@ -89,7 +89,7 @@ public class OptimalityTest {
                 scheduler.getInformationHolder().getScheduleStateMaps().getBestProcessorMap(),
                 scheduler.getInformationHolder().getScheduleStateMaps().getBestStartTimeMap());
 
-        assertTrue(validityChecker.check());
+        validityChecker.check();
         assertEquals(_expected, actual);
     }
 }

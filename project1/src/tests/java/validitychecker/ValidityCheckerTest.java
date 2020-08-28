@@ -2,6 +2,7 @@ package tests.java.validitychecker;
 
 import main.java.dotio.Dependency;
 import main.java.dotio.Task;
+import main.java.exception.ValidityCheckerException;
 import main.java.validitychecker.ValidityChecker;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,11 +44,9 @@ public class ValidityCheckerTest {
         _bestStartTimeMap.put("A", 0);
         _bestStartTimeMap.put("B", 2);
 
-        validityChecker = new ValidityChecker(_tasks, _dependencies, _bestStartTimeMap, _bestProcessorMap);
+        validityChecker = new ValidityChecker(_tasks, _dependencies, _bestProcessorMap, _bestStartTimeMap);
 
-        boolean res = validityChecker.check();
-
-        assertEquals(res, true);
+        validityChecker.check();
     }
 
     @Test
@@ -64,11 +63,9 @@ public class ValidityCheckerTest {
         _bestStartTimeMap.put("A", 0);
         _bestStartTimeMap.put("B", 3);
 
-        validityChecker = new ValidityChecker(_tasks, _dependencies, _bestStartTimeMap, _bestProcessorMap);
+        validityChecker = new ValidityChecker(_tasks, _dependencies, _bestProcessorMap, _bestStartTimeMap);
 
-        boolean res = validityChecker.check();
-
-        assertEquals(res, true);
+        validityChecker.check();
     }
 
     @Test
@@ -85,11 +82,14 @@ public class ValidityCheckerTest {
         _bestStartTimeMap.put("A", 0);
         _bestStartTimeMap.put("B", 1);
 
-        validityChecker = new ValidityChecker(_tasks, _dependencies, _bestStartTimeMap, _bestProcessorMap);
+        validityChecker = new ValidityChecker(_tasks, _dependencies, _bestProcessorMap, _bestStartTimeMap);
 
-        boolean res = validityChecker.check();
+        try {
+            validityChecker.check();
+            fail();
+        } catch (ValidityCheckerException e) {
 
-        assertEquals(res, false);
+        }
     }
 
     @Test
@@ -106,11 +106,14 @@ public class ValidityCheckerTest {
         _bestStartTimeMap.put("A", 0);
         _bestStartTimeMap.put("B", 1);
 
-        validityChecker = new ValidityChecker(_tasks, _dependencies, _bestStartTimeMap, _bestProcessorMap);
+        validityChecker = new ValidityChecker(_tasks, _dependencies, _bestProcessorMap, _bestStartTimeMap);
 
-        boolean res = validityChecker.check();
+        try {
+            validityChecker.check();
+            fail();
+        } catch (ValidityCheckerException e) {
 
-        assertEquals(res, false);
+        }
     }
 
     @Test
@@ -127,10 +130,13 @@ public class ValidityCheckerTest {
         _bestStartTimeMap.put("A", 0);
         _bestStartTimeMap.put("B", 0);
 
-        validityChecker = new ValidityChecker(_tasks, _dependencies, _bestStartTimeMap, _bestProcessorMap);
+        validityChecker = new ValidityChecker(_tasks, _dependencies, _bestProcessorMap, _bestStartTimeMap);
 
-        boolean res = validityChecker.check();
+        try {
+            validityChecker.check();
+            fail();
+        } catch (ValidityCheckerException e) {
 
-        assertEquals(res, false);
+        }
     }
 }

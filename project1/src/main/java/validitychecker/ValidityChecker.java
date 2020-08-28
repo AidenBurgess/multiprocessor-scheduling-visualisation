@@ -2,6 +2,7 @@ package main.java.validitychecker;
 
 import main.java.dotio.Dependency;
 import main.java.dotio.Task;
+import main.java.exception.ValidityCheckerException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,9 +37,15 @@ public class ValidityChecker {
 
     /**
      * checks if a final schedule is valid.
-     * @return boolean, true if it is valid, false otherwise
      */
-    public boolean check() {
+    public void check() {
+
+        // check each node exists in this schedule
+        for (Task task : _tasks) {
+            if (!_bestProcessorMap.containsKey(task.getName()) || !_bestStartTimeMap.containsKey(task.getName())) {
+                throw new ValidityCheckerException(task.getName() + " does not exist in the final schedule.");
+            }
+        }
 
         // check each dependency
         for (Dependency dependency : _dependencies) {
@@ -59,8 +66,7 @@ public class ValidityChecker {
 
             // check if the child starts before the parent finishes
             if (childStartTime < parentEndTime) {
-                // invalid
-                return false;
+                throw new ValidityCheckerException("A dependency was not fulfilled.");
             }
         }
 
@@ -87,11 +93,9 @@ public class ValidityChecker {
 
                 // if there is any overlap return false
                 if (taskAStartTime < taskBEndTime && taskBStartTime < taskAEndTime) {
-                    return false;
+                    throw new ValidityCheckerException("There are overlapping tasks.");
                 }
             }
         }
-
-        return true;
     }
 }
