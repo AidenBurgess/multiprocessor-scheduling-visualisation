@@ -137,7 +137,7 @@ public class VisualisationController extends DraggableWindow implements Initiali
         // add the series data to the chart and set maximum bound and tick unit
         _CPUChart.getData().add(_CPUSeries);
         NumberAxis yAxis = (NumberAxis) _CPUChart.getYAxis();
-        yAxis.setUpperBound(100);
+        yAxis.setUpperBound(110);
         yAxis.setTickUnit(10);
 
     }
