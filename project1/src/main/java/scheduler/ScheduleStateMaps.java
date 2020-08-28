@@ -5,9 +5,16 @@ import main.java.dotio.TaskGraph;
 
 import java.util.HashMap;
 
+/**
+ * Stores all of the state maps and prevents any overlap occurring in the visualisation
+ */
 public class ScheduleStateMaps {
+
+    // processor and start time maps which will be used for the final output and visualisation.
     private HashMap<String, Integer> _currentStartTimeMap, _currentProcessorMap, _bestStartTimeMap, _bestProcessorMap;
     private TaskGraph _taskGraph;
+
+    // initialise the best bound to initially be zero
     private int _bestBound = 0;
 
     public ScheduleStateMaps(State bestState, State currentState, TaskGraph taskGraph) {
@@ -19,6 +26,8 @@ public class ScheduleStateMaps {
 
         _bestBound = bestState._endTime;
     }
+
+    // ------------------ Getters and Setters ------------------- //
 
     HashMap<String, Integer> getStartTimeMap(State state) {
         HashMap<String, Integer> map = new HashMap<>();
