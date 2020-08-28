@@ -16,20 +16,22 @@ import java.util.LinkedList;
  */
 public class DataStructures {
 
-    // task graph object with the name, tasks and dependencies of the graph.
+    // Task graph object with the name, tasks and dependencies of the graph.
     private final TaskGraph _taskGraph;
 
-    // total number of tasks
+    // Total number of tasks
     private int _numTasks;
 
-    // adjacency list which shows all node's children and
-    // adjacency list which shows all the children's parents
+    // Adjacency list which shows all node's children
+    // Adjacency list which shows all the children's parents
     private ArrayList<ArrayList<Pair<Integer, Integer>>> _adjList, _revAdjList;
 
-    // A list containing the topological order, the index of the topological order and the tasks weights
+    // The topological order of the tasks
+    // The index of each tasks in the topological order
+    // The task weights
     private ArrayList<Integer> _topologicalOrder, _topologicalIndex, _taskWeights;
 
-    // map for the task names to their id in the application.
+    // Maps each task's String name to some integer id. This mapping is used throughout the Scheduling
     private HashMap<String, Integer> _taskNameToIdMap;
 
     public DataStructures(TaskGraph taskGraph) {
@@ -146,7 +148,8 @@ public class DataStructures {
             }
         }
 
-        // If ind != n, there are some tasks that have dependencies on each other.
+        // If the size of the topological order is not numTasks, the topological order does not exist
+        // Throws exception
         if (_topologicalOrder.size() != _numTasks) {
             throw new SchedulerException("This is not a DAG, hence no valid schedule exists.");
         }

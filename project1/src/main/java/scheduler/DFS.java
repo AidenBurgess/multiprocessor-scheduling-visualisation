@@ -46,12 +46,19 @@ public class DFS {
      *
      * If at any stage, the current state's endTime exceeds the bound, DFS will "prune" and the current
      * run() will return.
+     *
+     * The prevTask and prevProcessor are remembered for pruning purposes.
+     * If the next placed task is not a child of prevTask, there is potential symmetry to be avoided
+     * regarding which processor you can place the next task in.
+     *
+     * @param prevTask The most recently placed task on the State before this dfs call
+     * @param prevProcessor The most recently placed processor before this dfs call
      */
     protected void run(int prevTask, int prevProcessor) {
         _dfsListener.onDFSEntry(); // Fires an event of entering a DFS method call
         _dfsListener.onPartialSchedule(_state, _bound); // Fires an update of the current schedule
 
-        // Prune
+        // Prune - the current State no longer needs to be searched as it will not provide an optimal schedule
         if (_bound.canPrune(FFunction.evaluate(_state))) {
             _dfsListener.onDFSExit();
             return;
@@ -71,29 +78,30 @@ public class DFS {
             // If the task is scheduled, ignore
             if (_state._assignedProcessorId[task] != State.UNSCHEDULED) continue;
 
-            // If the task still has unscheduled dependencies, ignore
+            // Determine if the task has all its dependencies placed in the State already.
             boolean dependenciesMet = true;
 
             // Determine if the task is the previously placed task's child
             boolean isPrevTasksChild = false;
 
-            // get all the parent tasks from the child
+            // Runs through each of the current task's parents
             ArrayList<Pair<Integer, Integer>> parentTasks = _dataStructures.getRevAdjList().get(task);
             int numParentTasks = parentTasks.size();
             for (int i = 0; i < numParentTasks; i++) {
                 Pair<Integer, Integer> dependency = parentTasks.get(i);
                 int parent = dependency.getKey();
 
-                // if the current task is the previous tasks child
+                // If the previously placed task was the parent of this task, this flag is true
                 if (parent == prevTask) isPrevTasksChild = true;
 
-                // if unscheduled, then we can schedule
+                // If any parent is still unscheduled, the dependencies are not met
                 if (_state._taskEndTime[parent] == State.UNSCHEDULED) {
                     dependenciesMet = false;
                     break;
                 }
             }
 
+            // If not all the dependencies are on the State, ignore.
             if (!dependenciesMet) {
                 continue;
             }
@@ -101,7 +109,7 @@ public class DFS {
             // For each processor,
             for (int processor = 0; processor < _state._numProcessors; processor++) {
 
-                // Prune
+                // Prune - the current State no longer needs to be searched as it will not provide an optimal schedule
                 if (_bound.canPrune(FFunction.evaluate(_state))) {
                     _dfsListener.onDFSExit(); // Fires an event of control leaving the DFS method
                     return;
@@ -110,7 +118,7 @@ public class DFS {
                 // The task is only allowed to be placed in an earlier processor
                 // if the current task is a child of the previous task
                 if (processor < prevProcessor && !isPrevTasksChild) {
-                    continue;
+                    continue; // Prune - duplicate states!
                 }
 
                 // You can only put a task on an empty processor if the current task is later than the previous
@@ -128,7 +136,7 @@ public class DFS {
                         int prevTopologicalIndex = _dataStructures.getTopologicalIndex().get(_state._prevProcessorFirstTask);
 
                         if (curTopologicalIndex < prevTopologicalIndex) {
-                            continue; // If the task comes before, prune
+                            continue; // Prune - symmetrical processors.
                         }
                     }
                 }
