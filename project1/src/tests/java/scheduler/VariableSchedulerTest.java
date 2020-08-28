@@ -6,7 +6,6 @@ import main.java.scheduler.VariableScheduler;
 import org.junit.Test;
 
 import java.io.*;
-import java.util.HashMap;
 
 import static org.junit.Assert.*;
 
@@ -43,7 +42,4 @@ public class VariableSchedulerTest {
         long after = System.nanoTime();
         return (after - before) / 1000000;
     }
-
-
-
 }

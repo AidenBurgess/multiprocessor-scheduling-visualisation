@@ -1,19 +1,16 @@
 package tests.java.scheduler;
 
-import main.java.commandparser.Config;
 import main.java.dotio.*;
 import main.java.scheduler.Scheduler;
 import main.java.scheduler.VariableScheduler;
 import main.java.validitychecker.ValidityChecker;
-import org.junit.Rule;
+
 import org.junit.Test;
-import org.junit.rules.Timeout;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 import java.io.*;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 
@@ -33,6 +30,8 @@ public class OptimalityTest {
             // Some condition, if you only want to test some inputs
 
             // if (!fileNameNoDot.contains("Nodes")) continue;
+
+            // ignore all tests which are 16, 20, or 22 nodes.
             String[] ignore = {"16", "20", "22"};
             boolean ok = true;
             for (String ig : ignore) {
