@@ -13,6 +13,8 @@ import javafx.util.Duration;
 import main.java.dotio.Task;
 import main.java.visualisation.ganttchart.ScheduleChart;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -83,7 +85,8 @@ public class DisplayUpdater {
         _previousBestProcessorMap = new HashMap<>();
         _previousBestStartTimeMap = new HashMap<>();
         _upperHBox = upperHBox;
-
+        // Change default tooltip behaviour, parameters are specified in ms.
+        updateTooltipBehavior(100,10000,100,true);
         // start the DisplayUpdater timer automatically when the object is created
         startTimer();
     }
@@ -93,13 +96,18 @@ public class DisplayUpdater {
      * it after every 10ms
      */
     private void startTimer() {
+        // create a timeline to keep track of the elapsed time being displayed and to plot the CPU and RAM graphs
         _timeline = new Timeline(new KeyFrame(Duration.millis(0),
                 e -> updateTime()),
-                new KeyFrame(Duration.millis(10)));
+                new KeyFrame(Duration.millis(10))); // call the updateTime() method every 10ms
         _timeline.setCycleCount(Animation.INDEFINITE);
+        // start the timeline
         _timeline.play();
     }
 
+    /**
+     * Method used to record the time when the algorithm is complete
+     */
     protected void stopTimer() {
         _schedulerDone = true;
     }
@@ -111,15 +119,22 @@ public class DisplayUpdater {
     protected void updateTime() {
         _timeElapsed += 0.01;
 
+        // if the algorithm isn't complete, keep increasing the elapsed time
         if (!_schedulerDone)
             _timeElapsedFigure.setText(String.format("%.2f", _timeElapsed));
     }
 
     /**
      * Updates the statistics such as the visited states and the completed schedules
+     *
+     * @param visitedStates
+     * @param completedSchedules
+     * @param activeBranches
      */
     protected void updateStatistics(long visitedStates, long completedSchedules, long activeBranches) {
+        // create a decimal formatter to add commas to the number of visited states
         DecimalFormat formatter = new DecimalFormat("#,###");
+        // display the stats
         _visitedStatesFigure.setText(formatter.format(visitedStates));
         _completedSchedulesFigure.setText(Long.toString(completedSchedules));
         _activeBranchFigure.setText(formatter.format(activeBranches));
@@ -130,44 +145,70 @@ public class DisplayUpdater {
 
     /**
      * Adds ram data to the series and updates the chart.
+     *
+     * @param RAMUsageInBytes
      */
     protected void refreshRAMChart(double RAMUsageInBytes) {
-        // get the machine's CPU Usage data
+        // get the machine's CPU Usage data and create a data object for it
         _RAMSeries.getData().add(new XYChart.Data(_timeElapsed, RAMUsageInBytes));
     }
 
 
     /**
      * Adds CPU data to the series and updates the chart.
+     *
+     * @param CPUUsage
      */
     protected void refreshCPUChart(double CPUUsage) {
-        // get the machine's CPU Usage data
+        // get the machine's CPU Usage data and create a data object for it
         _CPUSeries.getData().add(new XYChart.Data(_timeElapsed, CPUUsage));
     }
 
+    /**
+     * Update the current and best schedule charts with the newly available data
+     *
+     * @param currentProcessorMap
+     * @param bestProcessorMap
+     * @param currentStartTimeMap
+     * @param bestStartTimeMap
+     * @param currentBound
+     */
     protected void refreshScheduleCharts(HashMap<String, Integer> currentProcessorMap, HashMap<String, Integer> bestProcessorMap,
                                          HashMap<String, Integer> currentStartTimeMap, HashMap<String, Integer> bestStartTimeMap,
                                          long currentBound) {
 
+        // if the best schedule has not changed since the last time it was updated, retain its state
         if (!bestProcessorMap.equals(_previousBestProcessorMap) || !bestStartTimeMap.equals(_previousBestStartTimeMap)) {
             refreshScheduleChart(_bestScheduleChart, bestProcessorMap, bestStartTimeMap, "best-task");
             _previousBestProcessorMap = bestProcessorMap;
             _previousBestStartTimeMap = bestStartTimeMap;
         }
 
-        // Once best schedule is found, remove current schedule and update best schedule title to show end time
+        // Once optimal schedule is found, remove current schedule and update best schedule title to show end time
         if (_schedulerDone) {
             if (_upperHBox.getChildren().size() > 2) { // if current schedule is being displayed
                 _upperHBox.getChildren().remove(0); // remove the first spacer vBox
                 _upperHBox.getChildren().remove(0); // remove the current schedule node
                 _upperHBox.getChildren().remove(0); // remove the middle spacer vBox
             }
-            _bestScheduleTitle.setText(String.format("Optimal Schedule: End Time = %d", currentBound));
+            _bestScheduleTitle.setText(String.format("Optimal Schedule. Total Time: %d", currentBound));
+            // if the optimal schedule is not found
         } else {
+            // refresh the current schedule being tested by the algorithm
             refreshScheduleChart(_currentScheduleChart, currentProcessorMap, currentStartTimeMap, "current-task");
         }
     }
 
+    /**
+     * Common method used to update a ScheduleChart object. The method is used to update both, current and best
+     * schedule objects, depending on the parameters provided to it. This avoids code duplication which would
+     * occur from having separate methods to update each schedule chart.
+     *
+     * @param scheduleChart
+     * @param processorMap
+     * @param startTimeMap
+     * @param styleClass
+     */
     private void refreshScheduleChart(ScheduleChart<Number, String> scheduleChart, HashMap<String, Integer> processorMap, HashMap<String, Integer> startTimeMap, String styleClass) {
         // Create Series object. The object will act as a row in the respective chart
         XYChart.Series[] seriesArray = new XYChart.Series[_numProcessors];
@@ -183,25 +224,72 @@ public class DisplayUpdater {
             if (startTimeMap.containsKey(task.getName()) && processorMap.containsKey(task.getName())) {
                 int taskProcessor = processorMap.get(task.getName());
                 int taskStartTime = startTimeMap.get(task.getName());
+                // create a new task data object to be displayed
                 XYChart.Data taskData = new XYChart.Data(taskStartTime, "Processor ".concat(Integer.toString(taskProcessor)), new ScheduleChart.ExtraData(task.getName(), taskTime, styleClass));
                 // -1 has been used below because the seriesArray is 0 indexed whereas the processor numbers are 1 indexed
                 seriesArray[taskProcessor - 1].getData().add(taskData);
             }
         }
 
+        // clear the schedule chart and add the new series in
         scheduleChart.getData().clear();
         for (XYChart.Series value : seriesArray) {
             scheduleChart.getData().add(value);
         }
 
+        // For each task being displayed, add a tool tip with its name and time duration (length). The tool
+        // tip is displayed when the mouse is hovered over a particular task. 
         for (XYChart.Series series : seriesArray) {
+            // get the list of tasks on each processor
             ObservableList<XYChart.Data> dataList = series.getData();
+            // for each task, display the tool tip
             for (XYChart.Data taskData : dataList) {
                 ScheduleChart.ExtraData taskExtraData = ((ScheduleChart.ExtraData) taskData.getExtraValue());
-                String toolTipText = String.format("Name: %s\nLength: %d", taskExtraData.getTaskName(), taskExtraData.getLength());
+                // create the tool tip
+                String toolTipText = String.format("Name: %s\nLength: %d\nStart time: %d\nEnd time: %d", taskExtraData.getTaskName(), taskExtraData.getLength(), taskData.getXValue(), (int)taskData.getXValue()+taskExtraData.getLength());
                 Tooltip t = new Tooltip(toolTipText);
+                // add the tool tip to the visualisation window
                 Tooltip.install(taskData.getNode(), t);
             }
+        }
+    }
+
+    /**
+     * Change the default tooltip behaviour.
+     * @param openDelay time for tooltip to appear in ms.
+     * @param visibleDuration time tooltip stays open in ms.
+     * @param closeDelay time for tooltip to disappear in ms.
+     * @param hideOnExit whether to keep tooltip on screen.
+     *
+     * Source code credit to user 'Nicolas Filotto' from StackOverflow. This code is licensed under the Attribution-ShareAlike
+     * 3.0 Unported. It is free to be used and adapted for any purposes.
+     * Link: https://stackoverflow.com/a/42759066
+     * The source code was modified to match the requirements of our application.
+     */
+    private static void updateTooltipBehavior(double openDelay, double visibleDuration,
+                                              double closeDelay, boolean hideOnExit) {
+        try {
+            // Get the non public field "BEHAVIOR"
+            Field fieldBehavior = Tooltip.class.getDeclaredField("BEHAVIOR");
+            // Make the field accessible to be able to get and set its value
+            fieldBehavior.setAccessible(true);
+            // Get the value of the static field
+            Object objBehavior = fieldBehavior.get(null);
+            // Get the constructor of the private static inner class TooltipBehavior
+            Constructor<?> constructor = objBehavior.getClass().getDeclaredConstructor(
+                    Duration.class, Duration.class, Duration.class, boolean.class
+            );
+            // Make the constructor accessible to be able to invoke it
+            constructor.setAccessible(true);
+            // Create a new instance of the private static inner class TooltipBehavior
+            Object tooltipBehavior = constructor.newInstance(
+                    new Duration(openDelay), new Duration(visibleDuration),
+                    new Duration(closeDelay), hideOnExit
+            );
+            // Set the new instance of TooltipBehavior
+            fieldBehavior.set(null, tooltipBehavior);
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
         }
     }
 }
