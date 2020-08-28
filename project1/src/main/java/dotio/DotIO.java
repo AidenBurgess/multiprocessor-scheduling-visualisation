@@ -74,8 +74,6 @@ public class DotIO {
      */
     public static void write(String outputFile, TaskGraph taskGraph, HashMap<String, Integer> startTimeMap, HashMap<String, Integer> processorMap) {
 
-        // Use the task graph to get the ordering of the nodes and edges
-
         // for each node, check if it has a time in the map and which processor it has been assigned to.
 
         StringBuilder sb = new StringBuilder();

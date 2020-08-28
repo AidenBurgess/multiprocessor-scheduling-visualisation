@@ -1,7 +1,7 @@
 package main.java.dotio;
 
 /**
- * This class contains the name and task time of a task.
+ * Contains the name and task time of a task.
  */
 public class Task {
     private String _name;
@@ -11,6 +11,8 @@ public class Task {
         _name = name;
         _taskTime = taskTime;
     }
+
+    // ------------------ Getters ------------------- //
 
     public String getName() {
         return _name;
