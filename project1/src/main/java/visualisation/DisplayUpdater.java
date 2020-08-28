@@ -47,6 +47,24 @@ public class DisplayUpdater {
     private HashMap<String, Integer> _previousBestStartTimeMap;
 
 
+    /**
+     * Constructor used to instantiate the DisplayUpdater object in the VisualisationController.
+     * A reference to the JavaFX elements which need to be updated/refreshed by the DisplayUpdater
+     * are passed into the constructor when being called in the VisualisationController.
+     *
+     * @param visitedStatesFigure
+     * @param completedSchedulesFigure
+     * @param activeBranchFigure
+     * @param timeElapsedFigure
+     * @param status
+     * @param statusSpinner
+     * @param currentScheduleChart
+     * @param bestScheduleChart
+     * @param bestScheduleTitle
+     * @param CPUSeries
+     * @param RAMSeries
+     * @param upperHBox
+     */
     public DisplayUpdater(Text visitedStatesFigure, Text completedSchedulesFigure, Text activeBranchFigure, Text timeElapsedFigure,
                           Text status, JFXSpinner statusSpinner, ScheduleChart<Number, String> currentScheduleChart, ScheduleChart<Number, String> bestScheduleChart,
                           Text bestScheduleTitle, XYChart.Series CPUSeries, XYChart.Series RAMSeries, HBox upperHBox) {
@@ -65,6 +83,8 @@ public class DisplayUpdater {
         _previousBestProcessorMap = new HashMap<>();
         _previousBestStartTimeMap = new HashMap<>();
         _upperHBox = upperHBox;
+
+        // start the DisplayUpdater timer automatically when the object is created
         startTimer();
     }
 
@@ -126,7 +146,8 @@ public class DisplayUpdater {
     }
     
     protected void refreshScheduleCharts(HashMap<String, Integer> currentProcessorMap, HashMap<String, Integer> bestProcessorMap,
-                                         HashMap<String, Integer> currentStartTimeMap, HashMap<String, Integer> bestStartTimeMap, long currentBound) {
+                                         HashMap<String, Integer> currentStartTimeMap, HashMap<String, Integer> bestStartTimeMap,
+                                         long currentBound) {
 
         if (!bestProcessorMap.equals(_previousBestProcessorMap) || !bestStartTimeMap.equals(_previousBestStartTimeMap)) {
             refreshScheduleChart(_bestScheduleChart, bestProcessorMap, bestStartTimeMap, "best-task");
