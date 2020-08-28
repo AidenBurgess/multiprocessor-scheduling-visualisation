@@ -2,6 +2,7 @@ package tests.java.commandparser;
 
 import main.java.commandparser.CommandParser;
 import main.java.commandparser.Config;
+import main.java.exception.CommandParserException;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -87,36 +88,66 @@ public class CommandParserTest {
     @Test
     public void help() {
         String[] simpleArgs = {"--help"};
-        CommandParser.parse(simpleArgs);
-        fail();
+        try {
+            CommandParser.parse(simpleArgs);
+            fail();
+        } catch (CommandParserException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Test
     public void invalidProcessorNumber() {
         String[] simpleArgs = {"filename.dot", "not-a-number"};
-        CommandParser.parse(simpleArgs);
-        fail();
+        try {
+            CommandParser.parse(simpleArgs);
+            fail();
+        } catch (CommandParserException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Test
     public void invalidParallelCoresNumber() {
         String[] simpleArgs = {"filename.dot", "3", "-p", "a"};
-        CommandParser.parse(simpleArgs);
-        fail();
+        try {
+            CommandParser.parse(simpleArgs);
+            fail();
+        } catch (CommandParserException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Test
     public void invalidOption() {
         String[] simpleArgs = {"filename.dot", "3", "-hello"};
-        CommandParser.parse(simpleArgs);
-        fail();
+        try {
+            CommandParser.parse(simpleArgs);
+            fail();
+        } catch (CommandParserException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Test
     public void noFileSpecifiedAfterOutput() {
         String[] simpleArgs = {"filename.dot", "3", "-o"};
-        CommandParser.parse(simpleArgs);
-        fail();
+        try {
+            CommandParser.parse(simpleArgs);
+            fail();
+        } catch (CommandParserException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
+    @Test
+    public void numParallelCoresNotSpecified() {
+        String[] simpleArgs = {"filename.dot", "3", "-p"};
+        try {
+            CommandParser.parse(simpleArgs);
+            fail();
+        } catch (CommandParserException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }

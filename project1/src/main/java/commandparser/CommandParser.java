@@ -6,7 +6,7 @@ import main.java.exception.CommandParserException;
  * This class enables parsing of the command and flags passed (if any) when the program is called from the command line
  */
 public class CommandParser {
-    public static final String invalidMessage = "Invalid arguments. For help, try --help";
+    public static final String invalidMessage = "Invalid arguments. For help, try --help.";
     public static final String helpMessage = "Help Menu:\nUsage: java -jar path/to/scheduler.jar inputFile.dot PROCESSORS [-o outputFile.dot | -v | -p PARALLEL_CORES | --help]";
     /**
      * Reads command line arguments and creates a Config object
