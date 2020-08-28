@@ -13,6 +13,8 @@ import javafx.util.Duration;
 import main.java.dotio.Task;
 import main.java.visualisation.ganttchart.ScheduleChart;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -83,7 +85,8 @@ public class DisplayUpdater {
         _previousBestProcessorMap = new HashMap<>();
         _previousBestStartTimeMap = new HashMap<>();
         _upperHBox = upperHBox;
-
+        // Change default tooltip behaviour, parameters are specified in ms.
+        updateTooltipBehavior(100,10000,100,true);
         // start the DisplayUpdater timer automatically when the object is created
         startTimer();
     }
@@ -134,10 +137,10 @@ public class DisplayUpdater {
         // display the stats
         _visitedStatesFigure.setText(formatter.format(visitedStates));
         _completedSchedulesFigure.setText(Long.toString(completedSchedules));
-        _activeBranchFigure.setText(Long.toString(activeBranches));
+        _activeBranchFigure.setText(formatter.format(activeBranches));
         // Hide status spinner when finished
         if (_schedulerDone) _statusSpinner.setVisible(false);
-        _status.setText(_schedulerDone ? "Finished! ✅" : "");
+        _status.setText(_schedulerDone ? "Finished!" : "");
     }
 
     /**
@@ -188,7 +191,7 @@ public class DisplayUpdater {
                 _upperHBox.getChildren().remove(0); // remove the current schedule node
                 _upperHBox.getChildren().remove(0); // remove the middle spacer vBox
             }
-            _bestScheduleTitle.setText(String.format("Optimal Schedule: End Time = %d", currentBound));
+            _bestScheduleTitle.setText(String.format("Optimal Schedule. Total Time: %d", currentBound));
             // if the optimal schedule is not found
         } else {
             // refresh the current schedule being tested by the algorithm
@@ -243,11 +246,50 @@ public class DisplayUpdater {
             for (XYChart.Data taskData : dataList) {
                 ScheduleChart.ExtraData taskExtraData = ((ScheduleChart.ExtraData) taskData.getExtraValue());
                 // create the tool tip
-                String toolTipText = String.format("Name: %s\nLength: %d", taskExtraData.getTaskName(), taskExtraData.getLength());
+                String toolTipText = String.format("Name: %s\nLength: %d\nStart time: %d\nEnd time: %d", taskExtraData.getTaskName(), taskExtraData.getLength(), taskData.getXValue(), (int)taskData.getXValue()+taskExtraData.getLength());
                 Tooltip t = new Tooltip(toolTipText);
                 // add the tool tip to the visualisation window
                 Tooltip.install(taskData.getNode(), t);
             }
+        }
+    }
+
+    /**
+     * Change the default tooltip behaviour.
+     * @param openDelay time for tooltip to appear in ms.
+     * @param visibleDuration time tooltip stays open in ms.
+     * @param closeDelay time for tooltip to disappear in ms.
+     * @param hideOnExit whether to keep tooltip on screen.
+     *
+     * Source code credit to user 'Nicolas Filotto' from StackOverflow. This code is licensed under the Attribution-ShareAlike
+     * 3.0 Unported. It is free to be used and adapted for any purposes.
+     * Link: https://stackoverflow.com/a/42759066
+     * The source code was modified to match the requirements of our application.
+     */
+    private static void updateTooltipBehavior(double openDelay, double visibleDuration,
+                                              double closeDelay, boolean hideOnExit) {
+        try {
+            // Get the non public field "BEHAVIOR"
+            Field fieldBehavior = Tooltip.class.getDeclaredField("BEHAVIOR");
+            // Make the field accessible to be able to get and set its value
+            fieldBehavior.setAccessible(true);
+            // Get the value of the static field
+            Object objBehavior = fieldBehavior.get(null);
+            // Get the constructor of the private static inner class TooltipBehavior
+            Constructor<?> constructor = objBehavior.getClass().getDeclaredConstructor(
+                    Duration.class, Duration.class, Duration.class, boolean.class
+            );
+            // Make the constructor accessible to be able to invoke it
+            constructor.setAccessible(true);
+            // Create a new instance of the private static inner class TooltipBehavior
+            Object tooltipBehavior = constructor.newInstance(
+                    new Duration(openDelay), new Duration(visibleDuration),
+                    new Duration(closeDelay), hideOnExit
+            );
+            // Set the new instance of TooltipBehavior
+            fieldBehavior.set(null, tooltipBehavior);
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
         }
     }
 }
