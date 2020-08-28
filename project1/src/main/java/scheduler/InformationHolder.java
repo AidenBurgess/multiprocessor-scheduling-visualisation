@@ -17,11 +17,14 @@ import java.util.concurrent.atomic.AtomicLong;
 public class InformationHolder {
     public static int READY = 0, RUNNING = 1, FINISHED = 2, ABORTED = 3;
 
+    // stats for the visualisation class.
     private AtomicLong _activeBranches;
     private long _totalStates;
     private long _completeStates;
     private long _currentBound;
     private int _schedulerStatus;
+
+    // the current task graph and the current and best states.
     private TaskGraph _taskGraph;
     private State _currentState, _bestState;
 
@@ -33,6 +36,25 @@ public class InformationHolder {
         _currentBound = 0;
         _schedulerStatus = READY;
     }
+
+    // --------------- Update the active branches, total states, and completed states ------------- //
+    public void incrementActiveBranches() {
+        _activeBranches.incrementAndGet();
+    }
+
+    public void incrementTotalStates() {
+        _totalStates++;
+    }
+
+    public void decrementActiveBranches() {
+        _activeBranches.decrementAndGet();
+    }
+
+    public void incrementCompleteStates() {
+        _completeStates++;
+    }
+
+    // ------------------ Getters and Setters ------------------- //
 
     public int getSchedulerStatus() {
         return _schedulerStatus;
@@ -52,22 +74,6 @@ public class InformationHolder {
 
     public long getCompleteStates() {
         return _completeStates;
-    }
-
-    public void incrementActiveBranches() {
-        _activeBranches.incrementAndGet();
-    }
-
-    public void incrementTotalStates() {
-        _totalStates++;
-    }
-
-    public void decrementActiveBranches() {
-        _activeBranches.decrementAndGet();
-    }
-
-    public void incrementCompleteStates() {
-        _completeStates++;
     }
 
     public void setCurrentBound(int bound) {

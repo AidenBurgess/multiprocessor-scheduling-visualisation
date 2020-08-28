@@ -115,7 +115,6 @@ public class DFS {
 
                 // You can only put a task on an empty processor if the currentTask is larger than
                 // the firstTask of the previous processor
-                // todo check if tasks are allowed to be weight 0
                 if (_state._processorEndTime[processor] == 0) {
 
                     // if this is not the freeProcessor
@@ -195,6 +194,9 @@ public class DFS {
         run(-1, -1);
     }
 
+    /**
+     * A busy wait for the variable scheduler to wait till dfs is finished.
+     */
     protected void waitForFinish() {
 
     }
