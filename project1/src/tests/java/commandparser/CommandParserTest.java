@@ -8,6 +8,9 @@ import static org.junit.Assert.*;
 
 public class CommandParserTest {
 
+    /**
+     * Tests correctness of a minimal command input
+     */
     @Test
     public void simpleParse() {
         String[] simpleArgs = {"test-input.dot", "5"};
@@ -21,6 +24,9 @@ public class CommandParserTest {
         assertEquals(expectedConfig, resConfig);
     }
 
+    /**
+     * Test visualistaion tag -v is read correctly
+     */
     @Test
     public void hasVisualisationParse() {
         String[] simpleArgs = {"visualisation.dot", "10", "-v"};
@@ -33,6 +39,9 @@ public class CommandParserTest {
         assertEquals(expectedConfig, resConfig);
     }
 
+    /**
+     * Tests output file tag -o is read correctly
+     */
     @Test
     public void outputFileParse() {
         String[] simpleArgs = {"output.dot", "10", "-o", "different.dot"};
@@ -44,6 +53,9 @@ public class CommandParserTest {
         assertEquals(expectedConfig, resConfig);
     }
 
+    /**
+     * Tests the number of parallel cores -p is read correctly
+     */
     @Test
     public void parallelParse() {
         String[] simpleArgs = {"parallel.dot", "10", "-p", "4"};
@@ -57,6 +69,9 @@ public class CommandParserTest {
         assertEquals(expectedConfig, resConfig);
     }
 
+    /**
+     * Tests all the combinations of inputs
+     */
     @Test
     public void allOptionsParse() {
         String[] simpleArgs = {"allOptions.dot", "5", "-o", "none.dot", "-v", "-p", "20"};
@@ -71,6 +86,9 @@ public class CommandParserTest {
         assertEquals(expectedConfig, resConfig);
     }
 
+    /**
+     * Tests the optional arguments (-p, -v, -o) in scrambled order
+     */
     @Test
     public void allOptionsScrambledParse() {
         String[] simpleArgs = {"allOptions.dot", "5", "-v", "-p", "15", "-o", "nothing.dot"};
@@ -85,6 +103,9 @@ public class CommandParserTest {
         assertEquals(expectedConfig, resConfig);
     }
 
+    /**
+     * Tests --help interrupts the code
+     */
     @Test
     public void help() {
         String[] simpleArgs = {"--help"};
@@ -96,6 +117,9 @@ public class CommandParserTest {
         }
     }
 
+    /**
+     * Tests incorrect processors interrupts the code
+     */
     @Test
     public void invalidProcessorNumber() {
         String[] simpleArgs = {"filename.dot", "not-a-number"};
@@ -107,6 +131,9 @@ public class CommandParserTest {
         }
     }
 
+    /**
+     * Tests incorrect number of parallel cores interrupts the code
+     */
     @Test
     public void invalidParallelCoresNumber() {
         String[] simpleArgs = {"filename.dot", "3", "-p", "a"};
@@ -118,6 +145,9 @@ public class CommandParserTest {
         }
     }
 
+    /**
+     * Tests invalid options are picked up
+     */
     @Test
     public void invalidOption() {
         String[] simpleArgs = {"filename.dot", "3", "-hello"};
@@ -129,6 +159,9 @@ public class CommandParserTest {
         }
     }
 
+    /**
+     * Tests when output file is not provided, code is interrupted
+     */
     @Test
     public void noFileSpecifiedAfterOutput() {
         String[] simpleArgs = {"filename.dot", "3", "-o"};
@@ -140,6 +173,9 @@ public class CommandParserTest {
         }
     }
 
+    /**
+     * Tests when num parallel cores is not provided, code is interrupted
+     */
     @Test
     public void numParallelCoresNotSpecified() {
         String[] simpleArgs = {"filename.dot", "3", "-p"};

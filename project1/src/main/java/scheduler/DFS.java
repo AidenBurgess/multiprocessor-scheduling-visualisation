@@ -48,8 +48,8 @@ public class DFS {
      * run() will return.
      */
     protected void run(int prevTask, int prevProcessor) {
-        _dfsListener.onDFSEntry();
-        _dfsListener.onPartialSchedule(_state, _bound);
+        _dfsListener.onDFSEntry(); // Fires an event of entering a DFS method call
+        _dfsListener.onPartialSchedule(_state, _bound); // Fires an update of the current schedule
 
         // Prune
         if (_bound.canPrune(FFunction.evaluate(_state))) {
@@ -61,8 +61,8 @@ public class DFS {
         if (_state._unassignedTasks == 0) {
             _bound.reduceBound(_state._endTime);
 
-            _dfsListener.onCompleteSchedule(_state, _bound);
-            _dfsListener.onDFSExit();
+            _dfsListener.onCompleteSchedule(_state, _bound); // Fires an update of a complete schedule
+            _dfsListener.onDFSExit(); // Fires an event of control leaving the DFS method
             return;
         }
 
@@ -103,30 +103,32 @@ public class DFS {
 
                 // Prune
                 if (_bound.canPrune(FFunction.evaluate(_state))) {
-                    _dfsListener.onDFSExit();
+                    _dfsListener.onDFSExit(); // Fires an event of control leaving the DFS method
                     return;
                 }
 
                 // The task is only allowed to be placed in an earlier processor
-                // if it was a child of the parent
+                // if the current task is a child of the previous task
                 if (processor < prevProcessor && !isPrevTasksChild) {
                     continue;
                 }
 
-                // You can only put a task on an empty processor if the currentTask is larger than
-                // the firstTask of the previous processor
+                // You can only put a task on an empty processor if the current task is later than the previous
+                // task in a topological ordering
+                // There is only one allocated free processor at a time (as they are the same)
                 if (_state._processorEndTime[processor] == 0) {
-
-                    // if this is not the freeProcessor
+                    // If this is not the allocated free processor
                     if (processor != _state._freeProcessor) {
                         break;
                     }
+                    // If the placed processor is not the first one, check that the current task is later than
+                    // the previous task in the topological order.
                     if (processor != 0) {
                         int curTopologicalIndex = _dataStructures.getTopologicalIndex().get(task);
                         int prevTopologicalIndex = _dataStructures.getTopologicalIndex().get(_state._prevProcessorFirstTask);
 
                         if (curTopologicalIndex < prevTopologicalIndex) {
-                            continue;
+                            continue; // If the task comes before, prune
                         }
                     }
                 }
@@ -184,7 +186,7 @@ public class DFS {
             }
         }
 
-        _dfsListener.onDFSExit();
+        _dfsListener.onDFSExit(); // Fires an event of control leaving the DFS method
     }
 
     /**

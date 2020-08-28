@@ -34,7 +34,7 @@ public class CommandParser {
         try {
             config.setNumProcessors(Integer.parseInt(args[1]));
         } catch (NumberFormatException e) {
-            throw new CommandParserException("The number of processes must be an integer.");
+            throw new CommandParserException("The number of processors must be an integer.");
         }
 
         // iterate and find any optional variables.
