@@ -162,7 +162,7 @@ public class DisplayUpdater {
                 _upperHBox.getChildren().remove(0); // remove the current schedule node
                 _upperHBox.getChildren().remove(0); // remove the middle spacer vBox
             }
-            _bestScheduleTitle.setText(String.format("Optimal Schedule: End Time = %d", currentBound));
+            _bestScheduleTitle.setText(String.format("Optimal Schedule. Total Time: %d", currentBound));
         } else {
             refreshScheduleChart(_currentScheduleChart, currentProcessorMap, currentStartTimeMap, "current-task");
         }
