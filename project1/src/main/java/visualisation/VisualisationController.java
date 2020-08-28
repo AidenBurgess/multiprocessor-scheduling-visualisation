@@ -21,6 +21,11 @@ import main.java.visualisation.ganttchart.ScheduleChart;
 import java.util.*;
 import java.net.URL;
 
+/**
+ * This class is the controller for the VisualisationDashboard.fxml. It contains all the information
+ * associated with the components displayed in the visualisation module. All the event handlers associated
+ * with the VisualisationDashboard.fxml are contained here.
+ */
 public class VisualisationController extends DraggableWindow implements Initializable {
     // The nodes in VisualisationDashboard.fxml
     @FXML
@@ -66,6 +71,13 @@ public class VisualisationController extends DraggableWindow implements Initiali
     // Styling
     private ThemeSwitcher _themeSwitcher;
 
+    /**
+     * Called when an object of this class is created.
+     * Initialises the switch theme icon, the CPU, RAM, and Schedule charts. Starts the poller which
+     * polls for information to be displayed on the visualisation module.
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Set the light theme when the scene is loaded
@@ -87,7 +99,7 @@ public class VisualisationController extends DraggableWindow implements Initiali
                 _activeBranchFigure, _timeElapsedFigure, _status, _statusSpinner, _currentScheduleChart, _bestScheduleChart, _bestScheduleTitle, _CPUSeries,
                 _RAMSeries, _upperHBox);
         // The information poller once created starts polling for information to display
-        // on the visualisation module. 
+        // on the visualisation module.
         new InformationPoller(displayUpdater, _performanceRetriever);
     }
 
