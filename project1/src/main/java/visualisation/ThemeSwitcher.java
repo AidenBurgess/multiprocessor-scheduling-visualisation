@@ -18,34 +18,34 @@ public class ThemeSwitcher {
 
     private String _theme = "light";
     private final Scene _scene;
-    private final ImageView _switchThemeButton;
+    private final ImageView _switchThemeImageView;
 
     /**
      * Constructor for ThemeSwitcher, which needs the scene to change the stylesheets for, the switchThemeButton
      * to change the image, and the initialCss which determines which theme is shown on startup.
      * @param scene the scene to switch the css for
-     * @param switchThemeButton the button to change the image for
+     * @param switchThemeImageView the imageview to change the image for
      * @param initialCss which theme should be displayed initially
      */
-    public ThemeSwitcher(Scene scene, ImageView switchThemeButton, String initialCss) {
+    public ThemeSwitcher(Scene scene, ImageView switchThemeImageView, String initialCss) {
         _scene = scene;
-        _switchThemeButton = switchThemeButton;
+        _switchThemeImageView = switchThemeImageView;
         setCss(initialCss);
     }
 
     /**
      * Toggles the theme of the scene depending on the current _theme.
-     * Also changes the image of the _switchThemeButton to what clicking it will do.
+     * Also changes the image of the _switchThemeImageView to what clicking it will do.
      */
     public void switchTheme() {
         if (_theme.equals("light")) {
             _theme = "dark";
             setCss(darkCss);
-            _switchThemeButton.setImage(darkImage);
+            _switchThemeImageView.setImage(darkImage);
         } else {
             _theme = "light";
             setCss(lightCss);
-            _switchThemeButton.setImage(lightImage);
+            _switchThemeImageView.setImage(lightImage);
         }
     }
 
