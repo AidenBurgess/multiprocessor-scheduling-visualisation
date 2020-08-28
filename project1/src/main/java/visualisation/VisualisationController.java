@@ -1,8 +1,6 @@
 package main.java.visualisation;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSpinner;
-import com.jfoenix.controls.JFXToggleButton;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -10,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -23,10 +20,6 @@ import main.java.visualisation.ganttchart.ScheduleChart;
 
 import java.util.*;
 import java.net.URL;
-
-//todo Ask the group if we want the GanttChart class named to be
-// changed or we want to retain it. Also whether we want the fields
-// in the GanttChart class should start with underscore
 
 public class VisualisationController extends DraggableWindow implements Initializable {
 
@@ -111,9 +104,10 @@ public class VisualisationController extends DraggableWindow implements Initiali
             chart.getYAxis().setAnimated(false);
         });
 
-        // add the series data to the chart and set axis bound and tick unit
+        // Add the series data to the chart
         _RAMChart.getData().add(_RAMSeries);
         NumberAxis yAxis = (NumberAxis) _RAMChart.getYAxis();
+        // Set the axis upper bound and the vertical step size
         yAxis.setUpperBound(Math.ceil(_performanceRetriever.getTotalRAMGigaBytes()));
         yAxis.setTickUnit(1);
     }
