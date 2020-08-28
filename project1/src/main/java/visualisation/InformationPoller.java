@@ -33,7 +33,8 @@ public class InformationPoller {
     /**
      * Constructs a poller object with the specified updater and performance retriever. The timer for this poller is
      * started upon construction.
-     * @param displayUpdater The {@link DisplayUpdater} object used to update/refresh UI components.
+     *
+     * @param displayUpdater       The {@link DisplayUpdater} object used to update/refresh UI components.
      * @param performanceRetriever The {@link SystemPerformanceRetriever} object used to get RAM and CPU usage info.
      */
     public InformationPoller(DisplayUpdater displayUpdater, SystemPerformanceRetriever performanceRetriever) {
@@ -103,7 +104,7 @@ public class InformationPoller {
         @Override
         public void run() {
             // Retrieve scheduler statistics from InformationHolder
-            long visitedBranches =  _informationHolder.getTotalStates();
+            long visitedBranches = _informationHolder.getTotalStates();
             long completedSchedules = _informationHolder.getCompleteStates();
             long activeBranches = _informationHolder.getActiveBranches();
 

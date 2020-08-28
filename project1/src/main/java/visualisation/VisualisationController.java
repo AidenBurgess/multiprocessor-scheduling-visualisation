@@ -192,8 +192,10 @@ public class VisualisationController extends DraggableWindow implements Initiali
 
         // Setting up the Schedule chart object and their parents (containers)
         ScheduleChart<Number, String> scheduleChart = new ScheduleChart<>(xAxis, yAxis);
+
         // Setting up the height of the schedule chart
-        scheduleChart.setBlockHeight(TASK_HEIGHT_DETERMINANT/_numProcessors);
+        scheduleChart.setBlockHeight(TASK_HEIGHT_DETERMINANT / _numProcessors);     
+
         return scheduleChart;
     }
 
