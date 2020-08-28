@@ -29,7 +29,7 @@ public class ScheduleStateMaps {
 
     // ------------------ Getters and Setters ------------------- //
 
-    HashMap<String, Integer> getStartTimeMap(State state) {
+    public HashMap<String, Integer> getStartTimeMap(State state) {
         HashMap<String, Integer> map = new HashMap<>();
         if (state == null) return map;
 
@@ -43,7 +43,7 @@ public class ScheduleStateMaps {
         return map;
     }
 
-    HashMap<String, Integer> getProcessorMap(State state) {
+    public HashMap<String, Integer> getProcessorMap(State state) {
         HashMap<String, Integer> map = new HashMap<>();
         if (state == null) return map;
 
