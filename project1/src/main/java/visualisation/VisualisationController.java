@@ -81,19 +81,20 @@ public class VisualisationController extends DraggableWindow implements Initiali
         setUpRAMChart();
         setUpScheduleCharts();
 
-        // The information poller once created starts polling the scheduler for information to display
-        // on the visualisation module. The display updater methods are called by the information poller.
+        // The display updater methods are called by the information poller to update
+        // the display.
         DisplayUpdater displayUpdater = new DisplayUpdater(_visitedStatesFigure, _completedSchedulesFigure,
                 _activeBranchFigure, _timeElapsedFigure, _status, _statusSpinner, _currentScheduleChart, _bestScheduleChart, _bestScheduleTitle, _CPUSeries,
                 _RAMSeries, _upperHBox);
-        InformationPoller informationPoller = new InformationPoller(displayUpdater, _performanceRetriever);
+        // The information poller once created starts polling for information to display
+        // on the visualisation module. 
+        new InformationPoller(displayUpdater, _performanceRetriever);
     }
 
     /**
      * Sets up the RAM chart
      */
     private void setUpRAMChart() {
-
         // Contains the data which will be fed to the RAM chart.
         _RAMSeries = new XYChart.Series();
 
@@ -103,7 +104,7 @@ public class VisualisationController extends DraggableWindow implements Initiali
             chart.getXAxis().setAnimated(false);
             chart.getYAxis().setAnimated(false);
         });
-        
+
         // Add the series data to the chart
         _RAMChart.getData().add(_RAMSeries);
         NumberAxis yAxis = (NumberAxis) _RAMChart.getYAxis();
@@ -116,8 +117,7 @@ public class VisualisationController extends DraggableWindow implements Initiali
      * Sets up the CPU chart.
      */
     private void setUpCPUChart() {
-
-        // create the series data instance
+        // Contains the data which will be fed to the RAM chart.
         _CPUSeries = new XYChart.Series();
 
         // Remove animations from axes
@@ -127,19 +127,18 @@ public class VisualisationController extends DraggableWindow implements Initiali
             chart.getYAxis().setAnimated(false);
         });
 
-        // add the series data to the chart and set maximum bound and tick unit
+        // Add the series data to the chart
         _CPUChart.getData().add(_CPUSeries);
         NumberAxis yAxis = (NumberAxis) _CPUChart.getYAxis();
+        // Set the axis upper bound and the vertical step size
         yAxis.setUpperBound(100);
         yAxis.setTickUnit(10);
-
     }
 
     /**
      * Set up both schedule charts and add the charts to their parent components.
      */
     private void setUpScheduleCharts() {
-
         _currentScheduleChart = setUpScheduleChart();
         _currentScheduleParent.getChildren().add(_currentScheduleChart);
 
@@ -149,11 +148,9 @@ public class VisualisationController extends DraggableWindow implements Initiali
 
     /**
      * Initialise a schedule chart with x-axis and y-axis values and titles.
-     * 
      * @return The generated ScheduleChart object.
      */
     private ScheduleChart<Number, String> setUpScheduleChart() {
-
         // Setting up the y-axis
         List<String> processorsList = new ArrayList<>();
         for (int i = 0; i < _numProcessors; i++) {
@@ -171,6 +168,7 @@ public class VisualisationController extends DraggableWindow implements Initiali
 
         // Setting up the Schedule chart object and their parents (containers)
         ScheduleChart<Number, String> scheduleChart = new ScheduleChart<>(xAxis, yAxis);
+        // Setting up the height of the schedule chart
         scheduleChart.setBlockHeight(TASK_HEIGHT_DETERMINANT/_numProcessors);
         return scheduleChart;
     }
