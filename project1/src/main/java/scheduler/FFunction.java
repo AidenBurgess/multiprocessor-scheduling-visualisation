@@ -4,7 +4,7 @@ public class FFunction {
 
     /**
      * Returns the minimum time the current State will take to complete.
-     * Uses load balancing to calculate the best expected time if all tasks were shared perfectly.
+     * Uses load balancing to calculate the best expected time if all tasks were shared perfectly between processors.
      * @param state State to determine the FFunction value
      * @return An estimation of the minimum time required for state to complete.
      */

@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
- * Contains all the data structures used throughout the DFS.
+ * Contains all the data structures used throughout the DFS class.
  * Initialised in VariableScheduler
  */
 public class DataStructures {
@@ -22,8 +22,8 @@ public class DataStructures {
     // Total number of tasks
     private int _numTasks;
 
-    // Adjacency list which shows all node's children
-    // Adjacency list which shows all the children's parents
+    // Adjacency list which shows all node's children. _adjList[task] -> all of task's children
+    // Adjacency list which shows all the children's parents. _revAdjList[task] -> all of task's parents
     private ArrayList<ArrayList<Pair<Integer, Integer>>> _adjList, _revAdjList;
 
     // The topological order of the tasks

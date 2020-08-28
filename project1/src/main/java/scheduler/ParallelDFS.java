@@ -18,7 +18,7 @@ public abstract class ParallelDFS extends DFS {
     }
 
     /**
-     * Initialises the ThreadPool. Called at the start of Driver.
+     * Initialises the ThreadPool. Called in VariableScheduler
      * @param numParallelCores
      */
     public static void initialiseThreadPool(int numParallelCores) {

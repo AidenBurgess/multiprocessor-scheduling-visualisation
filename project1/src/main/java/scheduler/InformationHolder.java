@@ -22,7 +22,7 @@ public class InformationHolder {
     private long _currentBound;
     private int _schedulerStatus;
 
-    // the current task graph and the current and best states.
+    // the task graph and the current and best states.
     private TaskGraph _taskGraph;
     private State _currentState, _bestState;
 

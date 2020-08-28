@@ -9,7 +9,8 @@ public class State {
     // the total number of tasks and processors
     protected final int _numTasks, _numProcessors;
 
-    // total computational time used for the FFunction
+    // the computational time is the total time used in the schedule, including the time in the gaps
+    // between tasks.
     protected int _computationalTime;
 
     protected int[] _assignedProcessorId; // assignedProcessorId[taskId] -> processorId
@@ -79,17 +80,17 @@ public class State {
      * @return a new State instance with the same field values.
      */
     public State copy() {
-        State next = new State(_numTasks, _numProcessors);
+        State stateCopy = new State(_numTasks, _numProcessors);
 
-        System.arraycopy(_taskEndTime, 0, next._taskEndTime, 0, _numTasks);
-        System.arraycopy(_assignedProcessorId, 0, next._assignedProcessorId, 0, _numTasks);
-        System.arraycopy(_processorEndTime, 0, next._processorEndTime, 0, _numProcessors);
+        System.arraycopy(_taskEndTime, 0, stateCopy._taskEndTime, 0, _numTasks);
+        System.arraycopy(_assignedProcessorId, 0, stateCopy._assignedProcessorId, 0, _numTasks);
+        System.arraycopy(_processorEndTime, 0, stateCopy._processorEndTime, 0, _numProcessors);
 
-        next._endTime = _endTime;
-        next._unassignedTasks = _unassignedTasks;
-        next._computationalTime = _computationalTime;
-        next._freeProcessor = _freeProcessor;
-        next._prevProcessorFirstTask = _prevProcessorFirstTask;
-        return next;
+        stateCopy._endTime = _endTime;
+        stateCopy._unassignedTasks = _unassignedTasks;
+        stateCopy._computationalTime = _computationalTime;
+        stateCopy._freeProcessor = _freeProcessor;
+        stateCopy._prevProcessorFirstTask = _prevProcessorFirstTask;
+        return stateCopy;
     }
 }

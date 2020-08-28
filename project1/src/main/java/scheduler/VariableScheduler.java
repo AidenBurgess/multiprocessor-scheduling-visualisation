@@ -21,15 +21,17 @@ public class VariableScheduler implements Scheduler {
     private final Bound _bound = new Bound();
     private final TaskGraph _taskGraph;
 
+    // Holds the data structures used throughout the Scheduling, such as adjacency lists.
     private DataStructures _dataStructures;
 
-    // dfs instance which will run the dfs on a state
+    // DFS instance which will run the dfs on a state
     private DFS _dfs;
 
-    // listener to the dfs
+    // Listener to the DFS Instance
     private DFSListener _dfsListener;
 
-    // information holder
+    // Holds the middle-man information. The DFS instances can pass data into this class for external classes
+    // to access.
     private final InformationHolder _informationHolder;
 
     private VariableScheduler(TaskGraph taskGraph, int numProcessors) {
@@ -52,10 +54,12 @@ public class VariableScheduler implements Scheduler {
 
         State startingState = new State(_numTasks, _numProcessors, _dataStructures);
 
-        // Determine which implementations
+        // Determine which implementations will be used when performing DFS.
+        // Record/not record statistics
         _dfsListener = recordStatistics
                 ? new StatisticDFSListener(_informationHolder)
                 : new MinimalDFSListener(_informationHolder);
+        // Parallel/non parallel implementations
         _dfs = numParallelCores == Config.SEQUENTIAL_EXECUTION
                 ? new DFS(startingState, _bound, _dataStructures, _dfsListener)
                 : new RecursiveParallelDFS(startingState, _bound, _dataStructures, _dfsListener);

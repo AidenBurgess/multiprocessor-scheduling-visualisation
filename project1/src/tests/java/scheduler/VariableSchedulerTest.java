@@ -11,6 +11,11 @@ import static org.junit.Assert.*;
 
 public class VariableSchedulerTest {
 
+    /**
+     * Runs one specified file with varying statistics and parallel core numbers to compare performance
+     * All output time is measured in ms.
+     * @throws FileNotFoundException
+     */
     @Test
     public void runSingleFile() throws FileNotFoundException {
         String testName = "N13-M3.dot";
@@ -29,7 +34,7 @@ public class VariableSchedulerTest {
                     totalTime += measureExecutionTime(sc);
                     assertEquals(sc.getInformationHolder().getCurrentBound(), expectedResult);
                 }
-                System.out.println(testName + ". Stats: " + stat + ", threads: " + thread + ". Time: " + totalTime/3);
+                System.out.println(testName + ". Stats: " + stat + ", threads: " + thread + ". Time: " + totalTime/2);
             }
         }
     }
