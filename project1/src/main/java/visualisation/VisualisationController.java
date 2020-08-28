@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.text.Text;
+import javafx.util.StringConverter;
 import main.java.dataretriever.SystemPerformanceRetriever;
 import main.java.visualisation.ganttchart.ScheduleChart;
 
@@ -143,7 +144,7 @@ public class VisualisationController extends DraggableWindow implements Initiali
         _CPUChart.getData().add(_CPUSeries);
         NumberAxis yAxis = (NumberAxis) _CPUChart.getYAxis();
         // Set the axis upper bound and the vertical step size
-        yAxis.setUpperBound(100);
+        yAxis.setUpperBound(110);
         yAxis.setTickUnit(10);
     }
 
@@ -174,6 +175,17 @@ public class VisualisationController extends DraggableWindow implements Initiali
 
         // Setting up the x-axis
         NumberAxis xAxis = new NumberAxis();
+        // Use only whole numbers for axis
+        xAxis.setTickLabelFormatter(new StringConverter<Number>() {
+            @Override
+            public String toString(Number object) {
+                return Integer.toString(object.intValue());
+            }
+            @Override
+            public Number fromString(String string) {
+                return Integer.valueOf(string);
+            }
+        });
         xAxis.setLabel("Time");
         xAxis.setAnimated(false);
 
