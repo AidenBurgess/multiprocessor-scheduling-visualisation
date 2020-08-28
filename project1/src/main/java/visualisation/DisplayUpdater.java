@@ -125,7 +125,7 @@ public class DisplayUpdater {
         _activeBranchFigure.setText(Long.toString(activeBranches));
         // Hide status spinner when finished
         if (_schedulerDone) _statusSpinner.setVisible(false);
-        _status.setText(_schedulerDone ? "Finished! ✅" : "");
+        _status.setText(_schedulerDone ? "Finished!" : "");
     }
 
     /**
