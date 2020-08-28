@@ -85,7 +85,7 @@ public class DisplayUpdater {
         _previousBestProcessorMap = new HashMap<>();
         _previousBestStartTimeMap = new HashMap<>();
         _upperHBox = upperHBox;
-        // Change default tooltip behaviour
+        // Change default tooltip behaviour, parameters are specified in ms.
         updateTooltipBehavior(100,10000,100,true);
         // start the DisplayUpdater timer automatically when the object is created
         startTimer();
