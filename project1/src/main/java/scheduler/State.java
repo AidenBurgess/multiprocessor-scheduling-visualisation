@@ -5,22 +5,40 @@ package main.java.scheduler;
  */
 public class State {
     protected static final int UNSCHEDULED = -1;
+
+    // the total number of tasks and processors
     protected final int _numTasks, _numProcessors;
+
+    // total computational time used for the FFunction
     protected int _computationalTime;
 
     protected int[] _assignedProcessorId; // assignedProcessorId[taskId] -> processorId
     protected int[] _taskEndTime; // taskEndTime[taskId] -> end time of task
     protected int[] _processorEndTime; // processorEndTime[processorId] -> end time of processor
 
-    protected int _endTime; // end time of the last processor
-    protected int _unassignedTasks; // number of tasks still unassigned
-    protected int _freeProcessor, _prevProcessorFirstTask;
+    // end time of the last processor
+    protected int _endTime;
 
+    // number of tasks still unassigned
+    protected int _unassignedTasks;
+
+    // current free processor
+    protected int _freeProcessor;
+
+    // the first task of the previous processor
+    protected int _prevProcessorFirstTask;
+
+    /**
+     * Initialises all of the fields to be used later.
+     * @param numTasks
+     * @param numProcessors
+     */
     private State(int numTasks, int numProcessors) {
         _numTasks = numTasks;
         _numProcessors = numProcessors;
 
-        _unassignedTasks = numTasks; // initially n tasks are unassigned
+        // initially n tasks are unassigned
+        _unassignedTasks = numTasks;
         _endTime = 0;
         _freeProcessor = 0;
         _prevProcessorFirstTask = UNSCHEDULED;
@@ -39,6 +57,12 @@ public class State {
         }
     }
 
+    /**
+     * Initialises the total task weight when the data structures are added.
+     * @param numTasks
+     * @param numProcessors
+     * @param dataStructures
+     */
     public State(int numTasks, int numProcessors, DataStructures dataStructures) {
         this(numTasks, numProcessors);
         int taskWeight = 0;
