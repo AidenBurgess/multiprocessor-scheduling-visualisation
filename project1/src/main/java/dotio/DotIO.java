@@ -72,7 +72,7 @@ public class DotIO {
      *
      * @write to a .dot file
      */
-    public static void write(String outputFile, TaskGraph taskGraph, HashMap<String, Integer> startTimeMap, HashMap<String, Integer> processorMap) throws DotIOException {
+    public static void write(String outputFile, TaskGraph taskGraph, HashMap<String, Integer> startTimeMap, HashMap<String, Integer> processorMap) {
 
         // Use the task graph to get the ordering of the nodes and edges
 
