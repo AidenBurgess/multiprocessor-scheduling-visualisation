@@ -23,8 +23,13 @@ public class VariableScheduler implements Scheduler {
 
     private DataStructures _dataStructures;
 
+    // dfs instance which will run the dfs on a state
     private DFS _dfs;
+
+    // listener to the dfs
     private DFSListener _dfsListener;
+
+    // information holder
     private final InformationHolder _informationHolder;
 
     private VariableScheduler(TaskGraph taskGraph, int numProcessors) {
@@ -35,6 +40,13 @@ public class VariableScheduler implements Scheduler {
         _dataStructures = new DataStructures(taskGraph);
     }
 
+    /**
+     * Overriden constructor if statistics are required and the number of cores
+     * @param taskGraph
+     * @param numProcessors
+     * @param recordStatistics
+     * @param numParallelCores
+     */
     public VariableScheduler(TaskGraph taskGraph, int numProcessors, boolean recordStatistics, int numParallelCores) {
         this(taskGraph, numProcessors);
 
@@ -54,6 +66,10 @@ public class VariableScheduler implements Scheduler {
         }
     }
 
+    /**
+     * executor method which will set the status of the information holder
+     * and then runs dfs.
+     */
     @Override
     public void execute() {
         _informationHolder.setSchedulerStatus(InformationHolder.RUNNING);
@@ -64,6 +80,10 @@ public class VariableScheduler implements Scheduler {
         _informationHolder.setSchedulerStatus(InformationHolder.FINISHED);
     }
 
+    /**
+     * Getter for the information holder.
+     * @return InformationHolder the information holder
+     */
     @Override
     public InformationHolder getInformationHolder() {
         return _informationHolder;
