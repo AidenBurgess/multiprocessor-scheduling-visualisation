@@ -144,7 +144,7 @@ public class DisplayUpdater {
         // get the machine's CPU Usage data
         _CPUSeries.getData().add(new XYChart.Data(_timeElapsed, CPUUsage));
     }
-    
+
     protected void refreshScheduleCharts(HashMap<String, Integer> currentProcessorMap, HashMap<String, Integer> bestProcessorMap,
                                          HashMap<String, Integer> currentStartTimeMap, HashMap<String, Integer> bestStartTimeMap,
                                          long currentBound) {

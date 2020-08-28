@@ -25,6 +25,7 @@ public class VisualisationDriver extends Application {
     /**
      * Starts the JavaFX GUI thread by calling launch().
      * Inputs are stored as static variables to be used by the visualisation.
+     *
      * @param informationHolder
      * @param taskGraph
      * @param numProcessors
@@ -39,6 +40,7 @@ public class VisualisationDriver extends Application {
     /**
      * Hook method called by JavaFX after GUI thread has started.
      * Specifies the window to be a fixed size, with no borders.
+     *
      * @param primaryStage
      * @throws IOException if fxml file can not be found
      */
@@ -64,6 +66,7 @@ public class VisualisationDriver extends Application {
 
     /**
      * Retrieve the information holder object which has has information about the running scheduler.
+     *
      * @return information holder object
      */
     public static InformationHolder getInformationHolder() {
@@ -72,6 +75,7 @@ public class VisualisationDriver extends Application {
 
     /**
      * Retrieves the task graph which stores the input tasks and dependencies.
+     *
      * @return task graph object
      */
     public static TaskGraph getTaskGraph() {
@@ -80,6 +84,7 @@ public class VisualisationDriver extends Application {
 
     /**
      * Retrieves the number of processors to schedule the tasks on.
+     *
      * @return number of processors
      */
     public static int getNumProcessors() {

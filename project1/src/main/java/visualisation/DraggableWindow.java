@@ -25,11 +25,11 @@ public class DraggableWindow {
         // Add these handlers after application is initialised.
         Platform.runLater(() -> {
             stage = (Stage) root.getScene().getWindow();
-            root.setOnMousePressed(event-> {
+            root.setOnMousePressed(event -> {
                 xOffset = event.getSceneX();
                 yOffset = event.getSceneY();
             });
-            root.setOnMouseDragged(event-> {
+            root.setOnMouseDragged(event -> {
                 stage.setX(event.getScreenX() - xOffset);
                 stage.setY(event.getScreenY() - yOffset);
                 // Make stage opaque when being dragged.

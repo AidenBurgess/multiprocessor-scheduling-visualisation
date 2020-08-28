@@ -155,7 +155,7 @@ public class VisualisationController extends DraggableWindow implements Initiali
 
     /**
      * Initialise a schedule chart with x-axis and y-axis values and titles.
-     * 
+     *
      * @return The generated ScheduleChart object.
      */
     private ScheduleChart<Number, String> setUpScheduleChart() {
@@ -177,7 +177,7 @@ public class VisualisationController extends DraggableWindow implements Initiali
 
         // Setting up the Schedule chart object and their parents (containers)
         ScheduleChart<Number, String> scheduleChart = new ScheduleChart<>(xAxis, yAxis);
-        scheduleChart.setBlockHeight(TASK_HEIGHT_DETERMINANT/_numProcessors);
+        scheduleChart.setBlockHeight(TASK_HEIGHT_DETERMINANT / _numProcessors);
         return scheduleChart;
     }
 
