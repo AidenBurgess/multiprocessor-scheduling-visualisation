@@ -11,6 +11,12 @@ public class ProbabilisticParallelDFS extends ParallelDFS {
         super(state, bound, dataStructures, dfsListener);
     }
 
+    /**
+     * Runs dfs and with a specific probability, will create a thread.
+     * Otherwise, run dfs as normal.
+     * @param prevTask
+     * @param prevProcessor
+     */
     protected void run(int prevTask, int prevProcessor) {
         double prob = Math.random();
         // We should split if prob is less than 1/cores.
@@ -30,6 +36,9 @@ public class ProbabilisticParallelDFS extends ParallelDFS {
         }
     }
 
+    /**
+     * on dfs finish, shuts down the thread pool.
+     */
     @Override
     protected void waitForFinish() {
         // When control reaches here, all the threads will be created.
