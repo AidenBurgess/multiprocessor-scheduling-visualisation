@@ -17,16 +17,28 @@ public class RecursiveParallelDFS extends ParallelDFS {
      */
     private static AtomicInteger _taskCount = new AtomicInteger(0);
 
+    /**
+     * runs dfs and everytime there is a free thread, a copy of the state is made and dfs
+     * is run on the new thread from that position.
+     * Otherwise, it will run as normal.
+     * @param prevTask
+     * @param prevProcessor
+     */
     @Override
     protected void run(int prevTask, int prevProcessor) {
         _taskCount.incrementAndGet();
         // If there is "space" in the ThreadPool, queue the task in.
         if (_state._unassignedTasks >= (_state._numTasks/2) && _taskCount.get() < _numParallelCores) {
-            _taskCount.incrementAndGet(); // Increment count on queueing
+
+            // Increment count on queueing
+            _taskCount.incrementAndGet();
+
             DFS dfs = new RecursiveParallelDFS(_state.copy(), _bound, _dataStructures, _dfsListener);
             _pool.submit(() -> {
                 dfs.run(prevTask, prevProcessor);
-                _taskCount.decrementAndGet(); // Decrement count on completion
+
+                // Decrement count on completion
+                _taskCount.decrementAndGet();
             });
         } else {
             super.run(prevTask, prevProcessor);
@@ -34,6 +46,9 @@ public class RecursiveParallelDFS extends ParallelDFS {
         _taskCount.decrementAndGet();
     }
 
+    /**
+     * on dfs finish, blocks till there are no active tasks and shuts down the thread pool.
+     */
     @Override
     protected void waitForFinish() {
         // Block until there are no active tasks.
