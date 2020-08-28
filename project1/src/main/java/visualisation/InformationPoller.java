@@ -47,9 +47,11 @@ public class InformationPoller {
      * constant and remain unchanged throughout execution.
      */
     private void startTimer() {
-
+        //Plot initial points on the CPU and RAM line charts before the timer starts.
         _displayUpdater.refreshCPUChart(_performanceRetriever.getCPUUsagePercent());
         _displayUpdater.refreshRAMChart(_performanceRetriever.getRAMUsageGigaBytes());
+
+        //Instantiate the timer and schedule all tasks on it. The timer starts running when it is constructed.
         _timer = new Timer();
         _timer.schedule(new ScheduleUpdateTask(), _displayUpdateDelay, _schedulesUpdatePeriod);
         _timer.schedule(new GraphUpdateTask(), _displayUpdateDelay, _cpuRamUpdatePeriod);
@@ -62,7 +64,6 @@ public class InformationPoller {
      * the UI with information retrieved from the {@link InformationHolder}.
      */
     private class ScheduleUpdateTask extends TimerTask {
-
         @Override
         public void run() {
             Platform.runLater(() -> {
@@ -73,10 +74,9 @@ public class InformationPoller {
                 HashMap<String, Integer> bestStartTimeMap = _informationHolder.getBestStartTimeMap();
                 long currentBound = _informationHolder.getCurrentBound();
 
+                // Refresh the schedule charts using the retrieved information.
                 _displayUpdater.refreshScheduleCharts(currentProcessorMap, bestProcessorMap, currentStartTimeMap, bestStartTimeMap, currentBound);
-
             });
-
         }
     }
 
@@ -85,10 +85,9 @@ public class InformationPoller {
      * usage graph with information retrieved from the {@link SystemPerformanceRetriever}.
      */
     private class GraphUpdateTask extends TimerTask {
-
         @Override
         public void run() {
-            // queue tasks on the other thread
+            // Run updating methods in GUI thread
             Platform.runLater(() -> {
                 _displayUpdater.refreshCPUChart(_performanceRetriever.getCPUUsagePercent());
                 _displayUpdater.refreshRAMChart(_performanceRetriever.getRAMUsageGigaBytes());
@@ -101,21 +100,22 @@ public class InformationPoller {
      * with information retrieved from the {@link InformationHolder}
      */
     private class StatsUpdateTask extends TimerTask {
-
         @Override
         public void run() {
+            // Retrieve scheduler statistics from InformationHolder
             long visitedBranches =  _informationHolder.getTotalStates();
             long completedSchedules = _informationHolder.getCompleteStates();
             long activeBranches = _informationHolder.getActiveBranches();
 
+            // Run updating methods in GUI thread
             Platform.runLater(() -> {
                 _displayUpdater.updateStatistics(visitedBranches, completedSchedules, activeBranches);
 
+                //If the scheduler has competed the search, notify the DisplayUpdater so that it stops updating the displayed time.
                 if ((_informationHolder.getSchedulerStatus() == _informationHolder.FINISHED)) {
                     _displayUpdater.stopTimer();
                 }
             });
-
         }
     }
 }
