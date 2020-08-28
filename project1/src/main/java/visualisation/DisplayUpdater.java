@@ -102,7 +102,7 @@ public class DisplayUpdater {
         DecimalFormat formatter = new DecimalFormat("#,###");
         _visitedStatesFigure.setText(formatter.format(visitedStates));
         _completedSchedulesFigure.setText(Long.toString(completedSchedules));
-        _activeBranchFigure.setText(Long.toString(activeBranches));
+        _activeBranchFigure.setText(formatter.format(activeBranches));
         // Hide status spinner when finished
         if (_schedulerDone) _statusSpinner.setVisible(false);
         _status.setText(_schedulerDone ? "Finished! ✅" : "");
