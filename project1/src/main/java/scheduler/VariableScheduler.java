@@ -1,13 +1,7 @@
 package main.java.scheduler;
 
-import javafx.util.Pair;
 import main.java.commandparser.Config;
-import main.java.dotio.Dependency;
 import main.java.dotio.TaskGraph;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
 
 /**
  * An implementation of Scheduler that uses DFS Branch and Bound.

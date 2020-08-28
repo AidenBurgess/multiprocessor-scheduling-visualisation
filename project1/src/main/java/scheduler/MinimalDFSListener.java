@@ -1,9 +1,5 @@
 package main.java.scheduler;
 
-import javafx.util.Pair;
-
-import java.util.ArrayList;
-
 /**
  * Provides a minimal implementation of DFSListener.
  * Only responsible for updating the best found state.
