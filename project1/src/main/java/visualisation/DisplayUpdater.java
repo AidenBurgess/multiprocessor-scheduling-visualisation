@@ -13,6 +13,8 @@ import javafx.util.Duration;
 import main.java.dotio.Task;
 import main.java.visualisation.ganttchart.ScheduleChart;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -83,7 +85,8 @@ public class DisplayUpdater {
         _previousBestProcessorMap = new HashMap<>();
         _previousBestStartTimeMap = new HashMap<>();
         _upperHBox = upperHBox;
-
+        // Change default tooltip behaviour
+        updateTooltipBehavior(100,10000,100,true);
         // start the DisplayUpdater timer automatically when the object is created
         startTimer();
     }
@@ -202,6 +205,40 @@ public class DisplayUpdater {
                 Tooltip t = new Tooltip(toolTipText);
                 Tooltip.install(taskData.getNode(), t);
             }
+        }
+    }
+
+    /**
+     * Change the default tooltip behaviour to be faster.
+     * @param openDelay
+     * @param visibleDuration
+     * @param closeDelay
+     * @param hideOnExit
+     */
+    private static void updateTooltipBehavior(double openDelay, double visibleDuration,
+                                              double closeDelay, boolean hideOnExit) {
+        try {
+            // Get the non public field "BEHAVIOR"
+            Field fieldBehavior = Tooltip.class.getDeclaredField("BEHAVIOR");
+            // Make the field accessible to be able to get and set its value
+            fieldBehavior.setAccessible(true);
+            // Get the value of the static field
+            Object objBehavior = fieldBehavior.get(null);
+            // Get the constructor of the private static inner class TooltipBehavior
+            Constructor<?> constructor = objBehavior.getClass().getDeclaredConstructor(
+                    Duration.class, Duration.class, Duration.class, boolean.class
+            );
+            // Make the constructor accessible to be able to invoke it
+            constructor.setAccessible(true);
+            // Create a new instance of the private static inner class TooltipBehavior
+            Object tooltipBehavior = constructor.newInstance(
+                    new Duration(openDelay), new Duration(visibleDuration),
+                    new Duration(closeDelay), hideOnExit
+            );
+            // Set the new instance of TooltipBehavior
+            fieldBehavior.set(null, tooltipBehavior);
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
         }
     }
 }
