@@ -175,21 +175,34 @@ public class VisualisationController extends DraggableWindow implements Initiali
         return scheduleChart;
     }
 
+    // Methods called when events are fired by nodes in the VisualisationDashboard.fxml
+    /**
+     * Switches between the light and dark themes
+     */
     @FXML
     public void switchTheme() {
         _themeSwitcher.switchTheme();
     }
 
+    /**
+     * Minimises the visualisation module window
+     */
     @FXML
     public void minimise() {
         stage.setIconified(true);
     }
 
+    /**
+     * Closes the visualisation module window
+     */
     @FXML
     public void close() {
         shutdown();
     }
 
+    /**
+     * Exits the current thread when called
+     */
     public void shutdown() {
         System.exit(0);
     }
