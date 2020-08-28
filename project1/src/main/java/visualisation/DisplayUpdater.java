@@ -62,8 +62,8 @@ public class DisplayUpdater {
         _bestScheduleTitle = bestScheduleTitle;
         _CPUSeries = CPUSeries;
         _RAMSeries = RAMSeries;
-        _previousBestProcessorMap = new HashMap<String, Integer>();
-        _previousBestStartTimeMap = new HashMap<String, Integer>();
+        _previousBestProcessorMap = new HashMap<>();
+        _previousBestStartTimeMap = new HashMap<>();
         _upperHBox = upperHBox;
         startTimer();
     }
