@@ -36,7 +36,7 @@ public class CommandParser {
                     // set the number of processors
                     config.setNumProcessors(Integer.parseInt(args[1]));
                 } catch (NumberFormatException e) {
-                    String helpMessage = "The number of processors must be a number.";
+                    String helpMessage = "The number of processors must be an integer.";
                     exitMessage(helpMessage);
                 }
 
@@ -56,7 +56,7 @@ public class CommandParser {
                                 String helpMessage = "-p argument must have an argument following for the number of processors.";
                                 exitMessage(helpMessage);
                             } catch (NumberFormatException e) {
-                                String helpMessage = "The argument following -p must be a number.";
+                                String helpMessage = "The argument following -p must be an integer.";
                                 exitMessage(helpMessage);
                             }
                             i++;
