@@ -6,7 +6,11 @@ import java.util.concurrent.*;
  * ParallelDFS extends DFS and provides a parallelised form of DFS#run
  */
 public abstract class ParallelDFS extends DFS {
+
+    // the total number of threads to use
     protected static int _numParallelCores;
+
+    // thread pool that will deal with all the threads
     protected static ThreadPoolExecutor _pool = null;
 
     public ParallelDFS(State state, Bound bound, DataStructures dataStructures, DFSListener dfsListener) {
