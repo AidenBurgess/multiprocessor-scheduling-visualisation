@@ -19,6 +19,7 @@ public class RecursiveParallelDFS extends ParallelDFS {
 
     @Override
     protected void run(int prevTask, int prevProcessor) {
+        _taskCount.incrementAndGet();
         // If there is "space" in the ThreadPool, queue the task in.
         if (_state._unassignedTasks >= (_state._numTasks/2) && _taskCount.get() < _numParallelCores) {
             _taskCount.incrementAndGet(); // Increment count on queueing
@@ -30,6 +31,7 @@ public class RecursiveParallelDFS extends ParallelDFS {
         } else {
             super.run(prevTask, prevProcessor);
         }
+        _taskCount.decrementAndGet();
     }
 
     @Override
