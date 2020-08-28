@@ -9,6 +9,7 @@ public class FFunction {
      * @return An estimation of the minimum time required for state to complete.
      */
     public static int evaluate(State state) {
+
         int loadBalancedTime = (int)Math.ceil((state._computationalTime)/(double)state._numProcessors);
 
         return Math.max(loadBalancedTime, state._endTime);

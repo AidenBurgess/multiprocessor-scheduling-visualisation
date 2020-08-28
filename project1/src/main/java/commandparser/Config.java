@@ -33,7 +33,6 @@ public class Config {
 
     // ------------------ Getters and Setters ------------------- //
 
-
     public int getNumProcessors() {
         return _numProcessors;
     }

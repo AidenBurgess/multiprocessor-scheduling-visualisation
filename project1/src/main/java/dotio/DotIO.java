@@ -4,13 +4,11 @@ import main.java.dotio.antlr.DOTLexer;
 import main.java.dotio.antlr.DOTParser;
 import main.java.exception.DotIOException;
 import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import java.io.*;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 
