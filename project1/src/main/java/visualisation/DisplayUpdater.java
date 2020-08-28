@@ -106,7 +106,7 @@ public class DisplayUpdater {
 
     /**
      * Updates the _timeElapsed field every centisecond and if the scheduler is not finished yet
-     * then update the time elapsed in the stats section of the visualization window
+     * then update the time elapsed in the stats section of the visualisation window
      */
     protected void updateTime() {
         _timeElapsed += 0.01;
