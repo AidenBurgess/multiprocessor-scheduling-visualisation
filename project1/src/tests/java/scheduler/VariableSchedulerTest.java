@@ -24,7 +24,7 @@ public class VariableSchedulerTest {
         for (boolean stat : stats) {
             for (int thread : threads) {
                 long totalTime = 0;
-                for (int tests = 0; tests < 2; tests++) {
+                for (int tests = 0; tests < 3; tests++) {
                     Scheduler sc = new VariableScheduler(tg, 3, stat, thread);
                     totalTime += measureExecutionTime(sc);
                     assertEquals(sc.getInformationHolder().getCurrentBound(), expectedResult);

@@ -16,7 +16,21 @@ import main.java.visualisation.VisualisationDriver;
 
 import java.util.HashMap;
 
+/**
+ * Entry to the program. Responsible for passing control through each of the main components.
+ */
 public class Driver {
+    /**
+     * Responsible for:
+     * - Read command line
+     * - Read DOT file
+     * - Open Visualisation, if applicable
+     * - Run Scheduler
+     * - Write DOT file
+     * When a RuntimeException is thrown, main catches it and handles it responsibly.
+     *
+     * @param args Arguments/Options from the command line.
+     */
     public static void main(String[] args) {
         try {
             // Read the arguments from command line into config

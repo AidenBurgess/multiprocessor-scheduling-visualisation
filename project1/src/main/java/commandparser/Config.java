@@ -18,17 +18,13 @@ public class Config {
     public static final int SEQUENTIAL_EXECUTION = -1;
 
     // Optional parameters
-    private boolean _isParallelised;
     private int _numParallelCores;
     private boolean _hasVisualisation;
-    private boolean _checkValid;
 
     public Config() {
         // Default values
-        _isParallelised = false;
         _numParallelCores = SEQUENTIAL_EXECUTION;
         _hasVisualisation = false;
-        _checkValid = false;
     }
 
     // ------------------ Getters and Setters ------------------- //
@@ -47,18 +43,6 @@ public class Config {
 
     public void setInputFileName(String inputFileName) {
         _inputFileName = inputFileName;
-    }
-    
-    public void setParallelised(boolean parallelised) {
-        _isParallelised = parallelised;
-    }
-
-    public void setCheckValid(boolean checkValid) {
-        _checkValid = checkValid;
-    }
-
-    public boolean isCheckValid() {
-        return _checkValid;
     }
 
     public int getNumParallelCores() {
@@ -101,11 +85,9 @@ public class Config {
         return "Config{" +
                 "numProcessors=" + _numProcessors +
                 ", inputFileName='" + _inputFileName + '\'' +
-                ", isParallelised=" + _isParallelised +
                 ", numParallelCores=" + _numParallelCores +
                 ", hasVisualisation=" + _hasVisualisation +
                 ", outputFileName='" + _outputFileName + '\'' +
-                ", isCheckValid=" + _checkValid +
                 '}';
     }
 
@@ -121,12 +103,10 @@ public class Config {
         if (o == null || getClass() != o.getClass()) return false;
         Config config = (Config) o;
         return _numProcessors == config._numProcessors &&
-                _isParallelised == config._isParallelised &&
                 _numParallelCores == config._numParallelCores &&
                 _hasVisualisation == config._hasVisualisation &&
                 _inputFileName.equals(config._inputFileName) &&
-                _outputFileName.equals(config._outputFileName) &&
-                (_checkValid == config._checkValid);
+                _outputFileName.equals(config._outputFileName);
     }
 
     /**
@@ -135,6 +115,6 @@ public class Config {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(_numProcessors, _inputFileName, _isParallelised, _numParallelCores, _hasVisualisation, _outputFileName);
+        return Objects.hash(_numProcessors, _inputFileName, _numParallelCores, _hasVisualisation, _outputFileName);
     }
 }

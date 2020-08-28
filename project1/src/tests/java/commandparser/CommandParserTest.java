@@ -18,7 +18,6 @@ public class CommandParserTest {
         expectedConfig.setInputFileName("test-input.dot");
         expectedConfig.setNumProcessors(5);
         expectedConfig.setOutputFileName("test-input-output.dot");
-        expectedConfig.setParallelised(false);
         expectedConfig.setHasVisualisation(false);
         Config resConfig = CommandParser.parse(simpleArgs);
         assertEquals(expectedConfig, resConfig);
@@ -63,7 +62,6 @@ public class CommandParserTest {
         expectedConfig.setInputFileName("parallel.dot");
         expectedConfig.setNumProcessors(10);
         expectedConfig.setNumParallelCores(4);
-        expectedConfig.setParallelised(true);
         expectedConfig.setOutputFileName("parallel-output.dot");
         Config resConfig = CommandParser.parse(simpleArgs);
         assertEquals(expectedConfig, resConfig);
@@ -79,7 +77,6 @@ public class CommandParserTest {
         expectedConfig.setInputFileName("allOptions.dot");
         expectedConfig.setNumProcessors(5);
         expectedConfig.setNumParallelCores(20);
-        expectedConfig.setParallelised(true);
         expectedConfig.setHasVisualisation(true);
         expectedConfig.setOutputFileName("none.dot");
         Config resConfig = CommandParser.parse(simpleArgs);
@@ -96,7 +93,6 @@ public class CommandParserTest {
         expectedConfig.setInputFileName("allOptions.dot");
         expectedConfig.setNumProcessors(5);
         expectedConfig.setNumParallelCores(15);
-        expectedConfig.setParallelised(true);
         expectedConfig.setHasVisualisation(true);
         expectedConfig.setOutputFileName("nothing.dot");
         Config resConfig = CommandParser.parse(simpleArgs);

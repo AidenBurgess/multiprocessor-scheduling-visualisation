@@ -45,7 +45,6 @@ public class CommandParser {
                     config.setHasVisualisation(true);
                     break;
                 case "-p":
-                    config.setParallelised(true);
                     try {
                         config.setNumParallelCores(Integer.parseInt(args[i + 1]));
                     } catch (ArrayIndexOutOfBoundsException e) {
