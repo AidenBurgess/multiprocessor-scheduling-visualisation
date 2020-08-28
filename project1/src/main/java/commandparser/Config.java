@@ -33,6 +33,9 @@ public class Config {
         _checkValid = false;
     }
 
+    // ------------------ Getters and Setters ------------------- //
+
+
     public int getNumProcessors() {
         return _numProcessors;
     }
@@ -92,6 +95,10 @@ public class Config {
         _outputFileName = _inputFileName.substring(0, _inputFileName.length() - 4).concat("-output.dot");
     }
 
+    /**
+     * Overriden to string to show the specific fields and values in the config
+     * @return
+     */
     @Override
     public String toString() {
         return "Config{" +
@@ -101,11 +108,18 @@ public class Config {
                 ", numParallelCores=" + _numParallelCores +
                 ", hasVisualisation=" + _hasVisualisation +
                 ", outputFileName='" + _outputFileName + '\'' +
+                ", isCheckValid=" + _checkValid +
                 '}';
     }
 
+    /**
+     * compares different configs with each other.
+     * @param o other config object
+     * @return boolean, true if they are identical, otherwise false.
+     */
     @Override
     public boolean equals(Object o) {
+
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Config config = (Config) o;
@@ -114,9 +128,14 @@ public class Config {
                 _numParallelCores == config._numParallelCores &&
                 _hasVisualisation == config._hasVisualisation &&
                 _inputFileName.equals(config._inputFileName) &&
-                _outputFileName.equals(config._outputFileName);
+                _outputFileName.equals(config._outputFileName) &&
+                (_checkValid == config._checkValid);
     }
 
+    /**
+     * Hashes the config class
+     * @return
+     */
     @Override
     public int hashCode() {
         return Objects.hash(_numProcessors, _inputFileName, _isParallelised, _numParallelCores, _hasVisualisation, _outputFileName);
