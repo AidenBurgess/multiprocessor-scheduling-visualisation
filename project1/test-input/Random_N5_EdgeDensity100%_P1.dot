@@ -1,0 +1,17 @@
+digraph "Random_N5_EdgeDensity100%_P1.dot" {
+	1	[Weight=37];
+	2	[Weight=20];
+	3	[Weight=28];
+	4	[Weight=36];
+	5	[Weight=37];
+	1 -> 2 [Weight=6];
+	1 -> 4 [Weight=20];
+	1 -> 5 [Weight=6];
+	3 -> 1 [Weight=19];
+	3 -> 2 [Weight=3];
+	3 -> 4 [Weight=12];
+	3 -> 5 [Weight=15];
+	4 -> 2 [Weight=2];
+	5 -> 2 [Weight=13];
+	5 -> 4 [Weight=9];
+}

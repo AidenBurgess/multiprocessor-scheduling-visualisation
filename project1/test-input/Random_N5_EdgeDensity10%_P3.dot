@@ -1,0 +1,8 @@
+digraph "Random_N5_EdgeDensity10%_P3.dot" {
+	1	[Weight=13];
+	2	[Weight=25];
+	3	[Weight=32];
+	4	[Weight=13];
+	5	[Weight=29];
+	3 -> 4 [Weight=1];
+}

@@ -18,7 +18,7 @@ public class DriverTest {
     @Test (timeout = 200000)
     public void runtimeTesting() {
         int maxProcessors = 5;
-        int maxTasks = 10;
+        int maxTasks = 12;
 
         System.out.println("\t\t\t\t Number of processors (time in ms)");
         System.out.format("Filename");
@@ -51,7 +51,7 @@ public class DriverTest {
         String filename = "dots/N9-M1.dot";
         String numProcessors = "3";
 
-        String[] input = {filename, numProcessors};
+        String[] input = {filename, numProcessors, "-p", "3"};
         long startTime = System.nanoTime();
         Driver.main(input);
         long duration = (System.nanoTime() - startTime)/1000;

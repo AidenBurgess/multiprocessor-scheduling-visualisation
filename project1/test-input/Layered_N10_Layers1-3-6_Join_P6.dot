@@ -1,0 +1,16 @@
+digraph "Layered_N10_Layers1-3-6_Join_P6.dot" {
+	1	[Weight=13];
+	2	[Weight=11];
+	3	[Weight=26];
+	4	[Weight=32];
+	5	[Weight=29];
+	6	[Weight=16];
+	7	[Weight=13];
+	8	[Weight=31];
+	9	[Weight=38];
+	10	[Weight=35];
+	1 -> 2 [Weight=12];
+	2 -> 9 [Weight=15];
+	3 -> 7 [Weight=5];
+	4 -> 6 [Weight=5];
+}

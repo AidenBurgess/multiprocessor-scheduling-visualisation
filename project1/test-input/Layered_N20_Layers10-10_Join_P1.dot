@@ -1,0 +1,32 @@
+digraph "Layered_N20_Layers10-10_Join_P1.dot" {
+	1	[Weight=21];
+	2	[Weight=12];
+	3	[Weight=24];
+	4	[Weight=14];
+	5	[Weight=16];
+	6	[Weight=11];
+	7	[Weight=11];
+	8	[Weight=27];
+	9	[Weight=22];
+	10	[Weight=35];
+	11	[Weight=25];
+	12	[Weight=15];
+	13	[Weight=40];
+	14	[Weight=34];
+	15	[Weight=26];
+	16	[Weight=15];
+	17	[Weight=33];
+	18	[Weight=38];
+	19	[Weight=29];
+	20	[Weight=36];
+	1 -> 20 [Weight=14];
+	2 -> 19 [Weight=20];
+	3 -> 18 [Weight=2];
+	4 -> 19 [Weight=8];
+	5 -> 14 [Weight=13];
+	6 -> 12 [Weight=8];
+	7 -> 19 [Weight=18];
+	8 -> 13 [Weight=10];
+	9 -> 20 [Weight=3];
+	10 -> 11 [Weight=15];
+}

@@ -1,16 +1,12 @@
 package tests.java.dotio;
 
 import main.java.dotio.*;
-
-import org.junit.Rule;
-import org.junit.Test;
-
-import org.junit.rules.TemporaryFolder;
-
+import main.java.exception.DotIOException;
 
 import java.io.*;
 import java.util.HashMap;
 
+import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class DotIOTest {
@@ -102,9 +98,6 @@ public class DotIOTest {
             fail();
         } catch (DotIOException e) {}
     }
-
-    @Rule
-    public TemporaryFolder folder = new TemporaryFolder();
 
     /*      a           [Weight=2];
      *      b           [Weight=3];
