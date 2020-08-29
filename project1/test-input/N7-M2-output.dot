@@ -1,0 +1,11 @@
+digraph "N7M2" {
+	JBBQFLBHBNEADTHWBMOX			[Weight=13, Start=0, Processor=1];
+	MEAEIMBARWVGWASHFKTM			[Weight=12, Start=0, Processor=2];
+	QNWYAJXFSNCPCEVJERZA			[Weight=18, Start=13, Processor=1];
+	ZBCJNSHENNGHIKWDJYHR			[Weight=12, Start=31, Processor=1];
+	GLIKCHKZGVTKSZFCAAGU			[Weight=12, Start=12, Processor=2];
+	JJZNQXVURLBARZYVNKOE			[Weight=11, Start=24, Processor=2];
+	GJFCHAJOBCOZWPLGIFCD			[Weight=20, Start=0, Processor=3];
+	QNWYAJXFSNCPCEVJERZA -> ZBCJNSHENNGHIKWDJYHR		[Weight=11];
+	JBBQFLBHBNEADTHWBMOX -> QNWYAJXFSNCPCEVJERZA		[Weight=14];
+}

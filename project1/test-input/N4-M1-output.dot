@@ -1,0 +1,7 @@
+digraph "N4M1" {
+	VMQANQVGYETQXNXZXMBA			[Weight=19, Start=0, Processor=1];
+	LRKYOBDLHILRMXMJLYXM			[Weight=13, Start=0, Processor=2];
+	AGVRAYVVIYBPTEMCXYQV			[Weight=16, Start=19, Processor=1];
+	KXCAORJNXVIYUZKEVLXD			[Weight=20, Start=13, Processor=2];
+	VMQANQVGYETQXNXZXMBA -> AGVRAYVVIYBPTEMCXYQV		[Weight=10];
+}

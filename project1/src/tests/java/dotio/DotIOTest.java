@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 public class DotIOTest {
 
     private static String testDir = System.getProperty("user.dir") + "/src/tests/java/dotio/";
-    private static String dotExampleDir = System.getProperty("user.dir") + "/example-dots/";
+    private static String dotExampleDir = System.getProperty("user.dir") + "/test-input/";
 
     /**
      * Helper method developed to make testing files easier.

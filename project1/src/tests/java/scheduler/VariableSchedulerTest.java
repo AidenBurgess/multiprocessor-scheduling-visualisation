@@ -22,7 +22,7 @@ public class VariableSchedulerTest {
         String testName = "N13-M3.dot";
         int expectedResult = 64;
 
-        TaskGraph tg = DotIO.read(System.getProperty("user.dir") + "/dots/" + testName);
+        TaskGraph tg = DotIO.read(System.getProperty("user.dir") + "/test-input/" + testName);
 
         boolean[] stats = {false};
         int[] threads = {Config.SEQUENTIAL_EXECUTION, 2, 3, 3, 2, Config.SEQUENTIAL_EXECUTION};

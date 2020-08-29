@@ -1,0 +1,10 @@
+digraph "N8M0" {
+	BBBMIDWYWRVEQYAEXEEA			[Weight=17, Start=0, Processor=1];
+	YZXGJTSNRURBWDTVDMVY			[Weight=13, Start=0, Processor=2];
+	OHTFAPOPPLQKVNOAZFAJ			[Weight=13, Start=13, Processor=2];
+	JLHDWXYYVPICJQSJWIAK			[Weight=13, Start=0, Processor=3];
+	ZXXHTYZJKZYRJSZSFTMW			[Weight=15, Start=0, Processor=4];
+	FFYQGOWOPBTBYDCHRKCH			[Weight=14, Start=15, Processor=4];
+	KPRERWTMGDZQZRKUKVKM			[Weight=18, Start=0, Processor=5];
+	JSCCHUOKLRXXJYSLGCLB			[Weight=16, Start=13, Processor=3];
+}

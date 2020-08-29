@@ -1,0 +1,10 @@
+digraph "N6M2" {
+	SRUKZBRVSGLQOBKQHHLP			[Weight=12, Start=0, Processor=1];
+	EPLXSDJKNYMLQFFOVJOC			[Weight=17, Start=12, Processor=1];
+	PTSLCOYCLLVHVDPWNTVM			[Weight=16, Start=29, Processor=1];
+	PSSSGDBNPOAYIEWKAGRQ			[Weight=12, Start=0, Processor=2];
+	AUISPDPYLXZOBPAYPTKG			[Weight=16, Start=0, Processor=3];
+	XKPMARSWSWWJMQXMEASQ			[Weight=19, Start=27, Processor=2];
+	PSSSGDBNPOAYIEWKAGRQ -> XKPMARSWSWWJMQXMEASQ		[Weight=16];
+	AUISPDPYLXZOBPAYPTKG -> XKPMARSWSWWJMQXMEASQ		[Weight=11];
+}
