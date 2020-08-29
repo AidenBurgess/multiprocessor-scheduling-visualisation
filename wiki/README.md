@@ -22,4 +22,4 @@ This wiki contains documentation regarding the design, architecture, references 
 - [Planning](Planning.md)
 - Architecture & Class Structure
 - [Meeting Minutes](minutes/README.md)
-- References
+- [References](References.md)
