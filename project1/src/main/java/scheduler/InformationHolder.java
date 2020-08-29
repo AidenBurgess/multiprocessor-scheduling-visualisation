@@ -1,9 +1,8 @@
 package main.java.scheduler;
 
-import main.java.dotio.Task;
 import main.java.dotio.TaskGraph;
 
-import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Provides a way for other classes to access the Scheduler's information.
@@ -16,22 +15,44 @@ import java.util.HashMap;
 public class InformationHolder {
     public static int READY = 0, RUNNING = 1, FINISHED = 2, ABORTED = 3;
 
-    private long _activeBranches;
+    // stats for the visualisation class.
+    private AtomicLong _activeBranches;
     private long _totalStates;
     private long _completeStates;
     private long _currentBound;
     private int _schedulerStatus;
+
+    // the task graph and the current and best states.
     private TaskGraph _taskGraph;
     private State _currentState, _bestState;
 
     public InformationHolder(TaskGraph taskGraph) {
         _taskGraph = taskGraph;
-        _activeBranches = 0;
+        _activeBranches = new AtomicLong(0);
         _totalStates = 0;
         _completeStates = 0;
         _currentBound = 0;
         _schedulerStatus = READY;
     }
+
+    // --------------- Update the active branches, total states, and completed states ------------- //
+    public void incrementActiveBranches() {
+        _activeBranches.incrementAndGet();
+    }
+
+    public void incrementTotalStates() {
+        _totalStates++;
+    }
+
+    public void decrementActiveBranches() {
+        _activeBranches.decrementAndGet();
+    }
+
+    public void incrementCompleteStates() {
+        _completeStates++;
+    }
+
+    // ------------------ Getters and Setters ------------------- //
 
     public int getSchedulerStatus() {
         return _schedulerStatus;
@@ -42,7 +63,7 @@ public class InformationHolder {
     }
 
     public long getActiveBranches() {
-        return _activeBranches;
+        return _activeBranches.get();
     }
 
     public long getTotalStates() {
@@ -51,22 +72,6 @@ public class InformationHolder {
 
     public long getCompleteStates() {
         return _completeStates;
-    }
-
-    public void incrementActiveBranches() {
-        _activeBranches++;
-    }
-
-    public void incrementTotalStates() {
-        _totalStates++;
-    }
-
-    public void decrementActiveBranches() {
-        _activeBranches--;
-    }
-
-    public void incrementCompleteStates() {
-        _completeStates++;
     }
 
     public void setCurrentBound(int bound) {
@@ -85,46 +90,7 @@ public class InformationHolder {
         _currentState = state;
     }
 
-    public HashMap<String, Integer> getCurrentStartTimeMap() {
-        return getStartTimeMap(_currentState);
+    public ScheduleStateMaps getScheduleStateMaps() {
+        return new ScheduleStateMaps(_bestState, _currentState, _taskGraph);
     }
-
-    public HashMap<String, Integer> getBestStartTimeMap() {
-        return getStartTimeMap(_bestState);
-    }
-
-    private HashMap<String, Integer> getStartTimeMap(State state) {
-        HashMap<String, Integer> startTimeMap = new HashMap<>();
-        for (int i = 0; i < state._numTasks; i++) {
-            // Do not put a task that is unassigned on this map.
-            if (state._assignedProcessorId[i] == State.UNSCHEDULED) continue;
-
-            Task task = _taskGraph.getTasks().get(i);
-            startTimeMap.put(task.getName(), state._taskEndTime[i] - task.getTaskTime());
-        }
-        return startTimeMap;
-    }
-
-    public HashMap<String, Integer> getCurrentProcessorMap() {
-        return getProcessorMap(_currentState);
-    }
-
-    public HashMap<String, Integer> getBestProcessorMap() {
-        return getProcessorMap(_bestState);
-    }
-
-    private HashMap<String, Integer> getProcessorMap(State state) {
-        HashMap<String, Integer> processorMap = new HashMap<>();
-        for (int i = 0; i < state._numTasks; i++) {
-            // Do not put a task that is unassigned on this map.
-            if (state._assignedProcessorId[i] == State.UNSCHEDULED) continue;
-
-            Task task = _taskGraph.getTasks().get(i);
-            processorMap.put(task.getName(), state._assignedProcessorId[i] + 1); // 1-indexed
-        }
-        return processorMap;
-    }
-
-
-
 }

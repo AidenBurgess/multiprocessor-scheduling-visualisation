@@ -2,14 +2,13 @@ package main.java.dotio;
 
 import main.java.dotio.antlr.DOTLexer;
 import main.java.dotio.antlr.DOTParser;
+import main.java.exception.DotIOException;
 import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import java.io.*;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -36,9 +35,8 @@ public class DotIO {
      *
      * @param inputFile The name of the file to be read.
      * @return The TaskGraph object
-     * @throws DotIOException If there is an issue with reading the file, or an issue with the .dot syntax of the file.
      */
-    public static TaskGraph read(String inputFile) throws DotIOException {
+    public static TaskGraph read(String inputFile) {
         TaskGraph graph = new TaskGraph();
         try {
             //Instantiate ANTLR lexer and parser, and parse through file with adapted dot listener.
@@ -65,16 +63,6 @@ public class DotIO {
      *      c −> d      [Weight=1];
      *  }
      *
-     * Some writer example
-     *  PrintWriter writer = new PrintWriter("prog5-grapha.dot");
-     *                 writer.println("digraph program 5");
-     *                 writer.println("{");
-     *                 writer.println("a -> b -> c;");
-     *                 writer.println("b -> d;");
-     *                 writer.println("}");
-     *
-     *  writer.close();
-     *
      * @param outputFile
      * @param taskGraph
      * @param startTimeMap
@@ -82,9 +70,7 @@ public class DotIO {
      *
      * @write to a .dot file
      */
-    public static void write(String outputFile, TaskGraph taskGraph, HashMap<String, Integer> startTimeMap, HashMap<String, Integer> processorMap) throws DotIOException {
-
-        // Use the task graph to get the ordering of the nodes and edges
+    public static void write(String outputFile, TaskGraph taskGraph, HashMap<String, Integer> startTimeMap, HashMap<String, Integer> processorMap) {
 
         // for each node, check if it has a time in the map and which processor it has been assigned to.
 

@@ -15,19 +15,20 @@ public class Config {
     private String _inputFileName;
     private String _outputFileName;
 
-    public static final int SEQUENTIAL_EXECUTION = -1;
+    // If not defined, there is 1 thread running
+    public static final int SEQUENTIAL_EXECUTION = 1;
 
     // Optional parameters
-    private boolean _isParallelised;
     private int _numParallelCores;
     private boolean _hasVisualisation;
 
     public Config() {
         // Default values
-        _isParallelised = false;
         _numParallelCores = SEQUENTIAL_EXECUTION;
         _hasVisualisation = false;
     }
+
+    // ------------------ Getters and Setters ------------------- //
 
     public int getNumProcessors() {
         return _numProcessors;
@@ -43,14 +44,6 @@ public class Config {
 
     public void setInputFileName(String inputFileName) {
         _inputFileName = inputFileName;
-    }
-
-    public boolean isParallelised() {
-        return _isParallelised;
-    }
-
-    public void setParallelised(boolean parallelised) {
-        _isParallelised = parallelised;
     }
 
     public int getNumParallelCores() {
@@ -84,33 +77,45 @@ public class Config {
         _outputFileName = _inputFileName.substring(0, _inputFileName.length() - 4).concat("-output.dot");
     }
 
+    /**
+     * Overriden to string to show the specific fields and values in the config
+     * @return
+     */
     @Override
     public String toString() {
         return "Config{" +
                 "numProcessors=" + _numProcessors +
                 ", inputFileName='" + _inputFileName + '\'' +
-                ", isParallelised=" + _isParallelised +
                 ", numParallelCores=" + _numParallelCores +
                 ", hasVisualisation=" + _hasVisualisation +
                 ", outputFileName='" + _outputFileName + '\'' +
                 '}';
     }
 
+    /**
+     * compares different configs with each other.
+     * @param o other config object
+     * @return boolean, true if they are identical, otherwise false.
+     */
     @Override
     public boolean equals(Object o) {
+
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Config config = (Config) o;
         return _numProcessors == config._numProcessors &&
-                _isParallelised == config._isParallelised &&
                 _numParallelCores == config._numParallelCores &&
                 _hasVisualisation == config._hasVisualisation &&
                 _inputFileName.equals(config._inputFileName) &&
                 _outputFileName.equals(config._outputFileName);
     }
 
+    /**
+     * Hashes the config class
+     * @return
+     */
     @Override
     public int hashCode() {
-        return Objects.hash(_numProcessors, _inputFileName, _isParallelised, _numParallelCores, _hasVisualisation, _outputFileName);
+        return Objects.hash(_numProcessors, _inputFileName, _numParallelCores, _hasVisualisation, _outputFileName);
     }
 }

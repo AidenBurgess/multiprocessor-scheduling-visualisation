@@ -3,6 +3,7 @@ package main.java.visualisation;
 import javafx.application.Platform;
 import main.java.dataretriever.SystemPerformanceRetriever;
 import main.java.scheduler.InformationHolder;
+import main.java.scheduler.ScheduleStateMaps;
 
 import java.util.HashMap;
 import java.util.Timer;
@@ -69,10 +70,12 @@ public class InformationPoller {
         public void run() {
             Platform.runLater(() -> {
                 // Retrieving the current and the best schedule information
-                HashMap<String, Integer> currentProcessorMap = _informationHolder.getCurrentProcessorMap();
-                HashMap<String, Integer> bestProcessorMap = _informationHolder.getBestProcessorMap();
-                HashMap<String, Integer> currentStartTimeMap = _informationHolder.getCurrentStartTimeMap();
-                HashMap<String, Integer> bestStartTimeMap = _informationHolder.getBestStartTimeMap();
+                ScheduleStateMaps scheduleStateMaps = _informationHolder.getScheduleStateMaps();
+
+                HashMap<String, Integer> currentProcessorMap = scheduleStateMaps.getCurrentProcessorMap();
+                HashMap<String, Integer> bestProcessorMap = scheduleStateMaps.getBestProcessorMap();
+                HashMap<String, Integer> currentStartTimeMap = scheduleStateMaps.getCurrentStartTimeMap();
+                HashMap<String, Integer> bestStartTimeMap = scheduleStateMaps.getBestStartTimeMap();
                 long currentBound = _informationHolder.getCurrentBound();
 
                 // Refresh the schedule charts using the retrieved information.
