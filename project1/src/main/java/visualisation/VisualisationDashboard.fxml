@@ -17,6 +17,21 @@
 
 <AnchorPane id="root" fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="1440.0" styleClass="root" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.visualisation.VisualisationController">
     <children>
+      <HBox alignment="CENTER_LEFT" prefHeight="90.0" prefWidth="1440.0">
+         <children>
+                <Text fx:id="_visualisationTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="Scheduling Statistics" wrappingWidth="1000.0">
+                    <font>
+                        <Font size="40.0" />
+                    </font>
+               <HBox.margin>
+                  <Insets left="45.0" />
+               </HBox.margin>
+                </Text>
+         </children>
+          <effect>
+              <DropShadow />
+          </effect>
+      </HBox>
         <HBox fx:id="_upperHBox" alignment="CENTER" layoutY="100.0" prefHeight="360.0" prefWidth="1440.0">
             <children>
                 <VBox prefHeight="350.0" prefWidth="45.0" />
@@ -56,21 +71,6 @@
             <padding>
                 <Insets bottom="10.0" />
             </padding>
-        </HBox>
-        <HBox fx:id="titleBackground" alignment="CENTER" layoutX="-2.0" layoutY="-3.0" prefHeight="80.0" prefWidth="1440.0">
-            <children>
-                <Text fx:id="_visualisationTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="Scheduling Statistics">
-                    <font>
-                        <Font size="40.0" />
-                    </font>
-                    <HBox.margin>
-                        <Insets right="980.0" />
-                    </HBox.margin>
-                </Text>
-            </children>
-            <effect>
-                <DropShadow />
-            </effect>
         </HBox>
         <HBox layoutX="1.0" layoutY="446.0" prefHeight="360.0" prefWidth="1440.0">
             <children>
@@ -243,18 +243,7 @@
                 <Insets bottom="10.0" />
             </padding>
         </HBox>
-        <JFXButton buttonType="RAISED" focusTraversable="false" layoutX="1262.0" layoutY="17.0" onAction="#switchTheme" prefHeight="39.0" prefWidth="39.0" ripplerFill="BLACK">
-            <cursor>
-                <Cursor fx:constant="HAND" />
-            </cursor>
-            <graphic>
-                <ImageView fx:id="_switchThemeIcon" fitHeight="20.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@icons/light-theme.png" />
-                    </image>
-                </ImageView>
-            </graphic>
-        </JFXButton>
+        <JFXSpinner fx:id="_statusSpinner" layoutX="413.0" layoutY="720.0" prefHeight="32.0" prefWidth="31.0" />
         <JFXButton buttonType="RAISED" focusTraversable="false" layoutX="1311.0" layoutY="17.0" onAction="#minimise" prefHeight="39.0" prefWidth="39.0" ripplerFill="BLACK">
             <graphic>
                 <ImageView fitHeight="15.0" pickOnBounds="true" preserveRatio="true">
@@ -266,6 +255,18 @@
             <cursor>
                 <Cursor fx:constant="HAND" />
             </cursor>
+        </JFXButton>
+        <JFXButton buttonType="RAISED" focusTraversable="false" layoutX="1262.0" layoutY="17.0" onAction="#switchTheme" prefHeight="39.0" prefWidth="39.0" ripplerFill="BLACK">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+            <graphic>
+                <ImageView fx:id="_switchThemeIcon" fitHeight="20.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@icons/light-theme.png" />
+                    </image>
+                </ImageView>
+            </graphic>
         </JFXButton>
         <JFXButton buttonType="RAISED" focusTraversable="false" layoutX="1360.0" layoutY="17.0" onAction="#close" prefHeight="39.0" prefWidth="39.0" ripplerFill="BLACK">
             <graphic>
@@ -279,6 +280,5 @@
                 <Cursor fx:constant="HAND" />
             </cursor>
         </JFXButton>
-        <JFXSpinner fx:id="_statusSpinner" layoutX="413.0" layoutY="720.0" prefHeight="32.0" prefWidth="31.0" />
     </children>
 </AnchorPane>
