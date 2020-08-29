@@ -31,7 +31,7 @@ import java.net.URL;
 public class VisualisationController extends DraggableWindow implements Initializable {
     // The nodes in VisualisationDashboard.fxml
     @FXML
-    private Text _visualisationTitle; 
+    private Text _visualisationTitle;
     @FXML
     private AnchorPane root;
     @FXML
@@ -79,6 +79,7 @@ public class VisualisationController extends DraggableWindow implements Initiali
      * Called when an object of this class is created.
      * Initialises the switch theme icon, the CPU, RAM, and Schedule charts. Starts the poller which
      * polls for information to be displayed on the visualisation module.
+     *
      * @param url
      * @param resourceBundle
      */
@@ -165,6 +166,7 @@ public class VisualisationController extends DraggableWindow implements Initiali
 
     /**
      * Initialise a schedule chart with x-axis and y-axis values and titles.
+     *
      * @return The generated ScheduleChart object.
      */
     private ScheduleChart<Number, String> setUpScheduleChart() {
@@ -185,6 +187,7 @@ public class VisualisationController extends DraggableWindow implements Initiali
             public String toString(Number object) {
                 return Integer.toString(object.intValue());
             }
+
             @Override
             public Number fromString(String string) {
                 return Integer.valueOf(string);
@@ -198,7 +201,7 @@ public class VisualisationController extends DraggableWindow implements Initiali
         ScheduleChart<Number, String> scheduleChart = new ScheduleChart<>(xAxis, yAxis);
 
         // Setting up the height of the schedule chart
-        scheduleChart.setBlockHeight(TASK_HEIGHT_DETERMINANT / _numProcessors);     
+        scheduleChart.setBlockHeight(TASK_HEIGHT_DETERMINANT / _numProcessors);
 
         return scheduleChart;
     }
@@ -220,6 +223,7 @@ public class VisualisationController extends DraggableWindow implements Initiali
     }
 
     // Methods called when events are fired by nodes in the VisualisationDashboard.fxml
+
     /**
      * Switches between the light and dark themes
      */
