@@ -2,6 +2,7 @@ package main.java.scheduler;
 
 import main.java.commandparser.Config;
 import main.java.dotio.TaskGraph;
+import main.java.exception.SchedulerException;
 
 /**
  * An implementation of Scheduler that uses DFS Branch and Bound.
@@ -35,6 +36,10 @@ public class VariableScheduler implements Scheduler {
     private final InformationHolder _informationHolder;
 
     private VariableScheduler(TaskGraph taskGraph, int numProcessors) {
+        // There must be >= 1 processor for there to be a schedule
+        if (numProcessors <= 0) {
+            throw new SchedulerException("The number of processors must be positive.");
+        }
         _informationHolder = new InformationHolder(taskGraph);
         _numTasks = taskGraph.getTasks().size();
         _numProcessors = numProcessors;
