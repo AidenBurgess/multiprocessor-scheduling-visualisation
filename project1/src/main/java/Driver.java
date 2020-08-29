@@ -31,7 +31,7 @@ public class Driver {
 
         // if the config has visualisation, run the FX thread
         if (config.hasVisualisation()) {
-            startVisualisationThread(scheduler.getInformationHolder(), taskGraph, config.getNumProcessors());
+            startVisualisationThread(scheduler.getInformationHolder(), taskGraph, config);
         }
 
         scheduler.execute(); // blocks until finished. the information can be retrieved from scheduler.getInformationHolder().
@@ -40,9 +40,9 @@ public class Driver {
         writeDotFile(informationHolder, taskGraph, config);
     }
 
-    private static void startVisualisationThread(InformationHolder informationHolder, TaskGraph taskGraph, int numProcessors) {
+    private static void startVisualisationThread(InformationHolder informationHolder, TaskGraph taskGraph, Config config) {
         new Thread(() -> {
-            VisualisationDriver.main(informationHolder, taskGraph, numProcessors);
+            VisualisationDriver.main(informationHolder, taskGraph, config);
         }).start();
     }
 
