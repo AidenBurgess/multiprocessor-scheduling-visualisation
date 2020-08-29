@@ -91,4 +91,8 @@ public class VisualisationDriver extends Application {
     public static int getNumProcessors() {
         return _config.getNumProcessors();
     }
+
+    public static int getNumParallelCores() {
+        return _config.getNumParallelCores();
+    }
 }

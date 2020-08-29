@@ -92,6 +92,7 @@ public class VisualisationController extends DraggableWindow implements Initiali
         // Initialise the charts after initialising the fields required by them
         _performanceRetriever = new SystemPerformanceRetriever();
         _numProcessors = VisualisationDriver.getNumProcessors();
+        setUpTitle();
         setUpCPUChart();
         setUpRAMChart();
         setUpScheduleCharts();
@@ -199,6 +200,20 @@ public class VisualisationController extends DraggableWindow implements Initiali
         scheduleChart.setBlockHeight(TASK_HEIGHT_DETERMINANT / _numProcessors);     
 
         return scheduleChart;
+    }
+
+    /**
+     * Set up the title of the window to display whether the algorithm is sequential or parallel
+     */
+    private void setUpTitle() {
+        int numThreads = VisualisationDriver.getNumParallelCores();
+        String suffix;
+        if (numThreads == -1) {
+            suffix = "Sequential Version";
+        } else {
+            suffix = String.format("Parallel Version (%d Threads)", numThreads);
+        }
+        _visualisationTitle.setText(String.format("Scheduler Visualisation - %s", suffix));
     }
 
     // Methods called when events are fired by nodes in the VisualisationDashboard.fxml
