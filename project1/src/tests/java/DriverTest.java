@@ -35,7 +35,7 @@ public class DriverTest {
                 String filename = String.format("N%d-M%d.dot", N, M);
                 System.out.format("%10s", filename);
                 for (int P = 1; P < maxProcessors+1; P++) {
-                    String[] input = {"dots/" + filename, Integer.toString(P)};
+                    String[] input = {"test-input/" + filename, Integer.toString(P)};
                     long startTime = System.nanoTime();
                     Driver.main(input);
                     long duration = (System.nanoTime() - startTime)/1000000;
@@ -48,7 +48,7 @@ public class DriverTest {
 
     @Test
     public void singleFileRuntime() {
-        String filename = "dots/N9-M1.dot";
+        String filename = "test-input/N9-M1.dot";
         String numProcessors = "3";
 
         String[] input = {filename, numProcessors, "-p", "3"};
