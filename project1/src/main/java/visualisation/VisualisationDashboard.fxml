@@ -15,285 +15,270 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="root" fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="810.0" prefWidth="1440.0" styleClass="root" xmlns="http://javafx.com/javafx/11.0.1"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.visualisation.VisualisationController">
+<AnchorPane id="root" fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="1440.0" styleClass="root" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.visualisation.VisualisationController">
     <children>
         <HBox fx:id="_upperHBox" alignment="CENTER" layoutY="100.0" prefHeight="360.0" prefWidth="1440.0">
             <children>
-                <VBox prefHeight="350.0" prefWidth="45.0"/>
+                <VBox prefHeight="350.0" prefWidth="45.0" />
                 <VBox fx:id="_currentScheduleParent" alignment="TOP_CENTER" prefHeight="350.0" prefWidth="680.0">
                     <HBox.margin>
-                        <Insets left="20.0" right="20.0"/>
+                        <Insets left="20.0" right="20.0" />
                     </HBox.margin>
                     <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Current Schedule">
                             <font>
-                                <Font size="24.0"/>
+                                <Font size="24.0" />
                             </font>
                             <VBox.margin>
-                                <Insets left="60.0"/>
+                                <Insets left="60.0" />
                             </VBox.margin>
                         </Text>
                     </children>
                 </VBox>
-                <VBox prefHeight="350.0" prefWidth="30.0"/>
+                <VBox prefHeight="350.0" prefWidth="30.0" />
                 <VBox fx:id="_bestScheduleParent" alignment="TOP_CENTER" prefHeight="350.0" prefWidth="680.0">
                     <HBox.margin>
-                        <Insets left="20.0" right="20.0"/>
+                        <Insets left="20.0" right="20.0" />
                     </HBox.margin>
                     <children>
                         <Text fx:id="_bestScheduleTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="Best Schedule">
                             <font>
-                                <Font size="24.0"/>
+                                <Font size="24.0" />
                             </font>
                             <VBox.margin>
-                                <Insets left="100.0"/>
+                                <Insets left="100.0" />
                             </VBox.margin>
                         </Text>
                     </children>
                 </VBox>
-                <VBox prefHeight="350.0" prefWidth="35.0"/>
+                <VBox prefHeight="350.0" prefWidth="35.0" />
             </children>
             <padding>
-                <Insets bottom="10.0"/>
+                <Insets bottom="10.0" />
             </padding>
         </HBox>
-        <HBox fx:id="titleBackground" alignment="CENTER" layoutX="-2.0" layoutY="-3.0" prefHeight="80.0"
-              prefWidth="1440.0">
+        <HBox fx:id="titleBackground" alignment="CENTER" layoutX="-2.0" layoutY="-3.0" prefHeight="80.0" prefWidth="1440.0">
             <children>
-                <Text fx:id="visualisationTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="Scheduling Statistics">
+                <Text fx:id="_visualisationTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="Scheduling Statistics">
                     <font>
-                        <Font size="40.0"/>
+                        <Font size="40.0" />
                     </font>
                     <HBox.margin>
-                        <Insets right="980.0"/>
+                        <Insets right="980.0" />
                     </HBox.margin>
                 </Text>
             </children>
             <effect>
-                <DropShadow/>
+                <DropShadow />
             </effect>
         </HBox>
         <HBox layoutX="1.0" layoutY="446.0" prefHeight="360.0" prefWidth="1440.0">
             <children>
-                <VBox prefHeight="360.0" prefWidth="45.0"/>
+                <VBox prefHeight="360.0" prefWidth="45.0" />
                 <HBox prefHeight="360.0" prefWidth="390.0">
                     <children>
                         <VBox alignment="CENTER_LEFT" prefHeight="360.0" prefWidth="210.0">
                             <children>
                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time Elapsed (s)">
                                     <font>
-                                        <Font size="22.0"/>
+                                        <Font size="22.0" />
                                     </font>
                                     <VBox.margin>
-                                        <Insets bottom="15.0" left="10.0" top="30.0"/>
+                                        <Insets bottom="15.0" left="10.0" top="30.0" />
                                     </VBox.margin>
                                 </Text>
                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Active Branches">
                                     <font>
-                                        <Font size="22.0"/>
+                                        <Font size="22.0" />
                                     </font>
                                     <VBox.margin>
-                                        <Insets bottom="15.0" left="10.0" top="15.0"/>
+                                        <Insets bottom="15.0" left="10.0" top="15.0" />
                                     </VBox.margin>
                                 </Text>
                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Visited States">
                                     <font>
-                                        <Font size="22.0"/>
+                                        <Font size="22.0" />
                                     </font>
                                     <VBox.margin>
-                                        <Insets bottom="15.0" left="10.0" top="15.0"/>
+                                        <Insets bottom="15.0" left="10.0" top="15.0" />
                                     </VBox.margin>
                                 </Text>
                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Completed Schedules">
                                     <font>
-                                        <Font size="22.0"/>
+                                        <Font size="22.0" />
                                     </font>
                                     <VBox.margin>
-                                        <Insets bottom="15.0" left="10.0" top="15.0"/>
+                                        <Insets bottom="15.0" left="10.0" top="15.0" />
                                     </VBox.margin>
                                 </Text>
                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Status">
                                     <font>
-                                        <Font size="22.0"/>
+                                        <Font size="22.0" />
                                     </font>
                                     <VBox.margin>
-                                        <Insets bottom="30.0" left="10.0" top="15.0"/>
+                                        <Insets bottom="30.0" left="10.0" top="15.0" />
                                     </VBox.margin>
                                 </Text>
                             </children>
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="260.0" prefWidth="180.0">
                             <children>
-                                <Text fx:id="_timeElapsedFigure" strokeType="OUTSIDE" strokeWidth="0.0" text="0.00s"
-                                      textAlignment="RIGHT" wrappingWidth="180.0">
+                                <Text fx:id="_timeElapsedFigure" strokeType="OUTSIDE" strokeWidth="0.0" text="0.00s" textAlignment="RIGHT" wrappingWidth="180.0">
                                     <font>
-                                        <Font size="22.0"/>
+                                        <Font size="22.0" />
                                     </font>
                                     <VBox.margin>
-                                        <Insets bottom="15.0" top="30.0"/>
+                                        <Insets bottom="15.0" top="30.0" />
                                     </VBox.margin>
                                 </Text>
-                                <Text fx:id="_activeBranchFigure" strokeType="OUTSIDE" strokeWidth="0.0" text="0"
-                                      textAlignment="RIGHT" wrappingWidth="180.0">
+                                <Text fx:id="_activeBranchFigure" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="180.0">
                                     <font>
-                                        <Font size="22.0"/>
+                                        <Font size="22.0" />
                                     </font>
                                     <VBox.margin>
-                                        <Insets bottom="15.0" top="15.0"/>
+                                        <Insets bottom="15.0" top="15.0" />
                                     </VBox.margin>
                                 </Text>
-                                <Text fx:id="_visitedStatesFigure" strokeType="OUTSIDE" strokeWidth="0.0" text="0"
-                                      textAlignment="RIGHT" wrappingWidth="180.0">
+                                <Text fx:id="_visitedStatesFigure" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="180.0">
                                     <font>
-                                        <Font size="22.0"/>
+                                        <Font size="22.0" />
                                     </font>
                                     <VBox.margin>
-                                        <Insets bottom="15.0" top="15.0"/>
+                                        <Insets bottom="15.0" top="15.0" />
                                     </VBox.margin>
                                 </Text>
-                                <Text fx:id="_completedSchedulesFigure" strokeType="OUTSIDE" strokeWidth="0.0" text="0"
-                                      textAlignment="RIGHT" wrappingWidth="180.0">
+                                <Text fx:id="_completedSchedulesFigure" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="180.0">
                                     <font>
-                                        <Font size="22.0"/>
+                                        <Font size="22.0" />
                                     </font>
                                     <VBox.margin>
-                                        <Insets bottom="15.0" top="15.0"/>
+                                        <Insets bottom="15.0" top="15.0" />
                                     </VBox.margin>
                                 </Text>
-                                <Text fx:id="_status" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="RIGHT"
-                                      wrappingWidth="180.0">
+                                <Text fx:id="_status" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="RIGHT" wrappingWidth="180.0">
                                     <font>
-                                        <Font size="22.0"/>
+                                        <Font size="22.0" />
                                     </font>
                                     <VBox.margin>
-                                        <Insets bottom="30.0" top="15.0"/>
+                                        <Insets bottom="30.0" top="15.0" />
                                     </VBox.margin>
                                 </Text>
                             </children>
                         </VBox>
                     </children>
                 </HBox>
-                <VBox prefHeight="360.0" prefWidth="30.0"/>
+                <VBox prefHeight="360.0" prefWidth="30.0" />
                 <VBox fx:id="CPUParent" alignment="CENTER" prefHeight="360.0" prefWidth="470.0">
                     <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="CPU Usage">
                             <font>
-                                <Font size="22.0"/>
+                                <Font size="22.0" />
                             </font>
                             <VBox.margin>
-                                <Insets left="50.0"/>
+                                <Insets left="50.0" />
                             </VBox.margin>
                         </Text>
                         <AreaChart fx:id="_CPUChart" createSymbols="false" legendVisible="false">
                             <xAxis>
-                                <NumberAxis label="Time (s)" minorTickVisible="false" prefHeight="60.0"
-                                            prefWidth="365.0">
+                                <NumberAxis label="Time (s)" minorTickVisible="false" prefHeight="60.0" prefWidth="365.0">
                                     <tickLabelFont>
-                                        <Font size="11.0"/>
+                                        <Font size="11.0" />
                                     </tickLabelFont>
                                 </NumberAxis>
                             </xAxis>
                             <yAxis>
-                                <NumberAxis autoRanging="false" label="Usage %" minorTickVisible="false"
-                                            prefHeight="231.0" prefWidth="60.0" side="LEFT">
+                                <NumberAxis autoRanging="false" label="Usage %" minorTickVisible="false" prefHeight="231.0" prefWidth="60.0" side="LEFT">
                                     <tickLabelFont>
-                                        <Font size="11.0"/>
+                                        <Font size="11.0" />
                                     </tickLabelFont>
                                 </NumberAxis>
                             </yAxis>
                             <VBox.margin>
-                                <Insets/>
+                                <Insets />
                             </VBox.margin>
                             <padding>
-                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                             </padding>
                         </AreaChart>
                     </children>
                 </VBox>
-                <VBox prefHeight="360.0" prefWidth="20.0"/>
+                <VBox prefHeight="360.0" prefWidth="20.0" />
                 <VBox fx:id="RAMParent" alignment="CENTER" prefHeight="360.0" prefWidth="470.0">
                     <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="RAM Usage">
                             <font>
-                                <Font size="22.0"/>
+                                <Font size="22.0" />
                             </font>
                             <VBox.margin>
-                                <Insets left="50.0"/>
+                                <Insets left="50.0" />
                             </VBox.margin>
                         </Text>
                         <AreaChart fx:id="_RAMChart" createSymbols="false" legendVisible="false">
                             <xAxis>
-                                <NumberAxis label="Time (s)" minorTickVisible="false" prefHeight="60.0"
-                                            prefWidth="365.0">
+                                <NumberAxis label="Time (s)" minorTickVisible="false" prefHeight="60.0" prefWidth="365.0">
                                     <tickLabelFont>
-                                        <Font size="11.0"/>
+                                        <Font size="11.0" />
                                     </tickLabelFont>
                                 </NumberAxis>
                             </xAxis>
                             <yAxis>
-                                <NumberAxis autoRanging="false" label="Usage (GB)" minorTickVisible="false"
-                                            prefHeight="245.0" prefWidth="60.0" side="LEFT">
+                                <NumberAxis autoRanging="false" label="Usage (GB)" minorTickVisible="false" prefHeight="245.0" prefWidth="60.0" side="LEFT">
                                     <tickLabelFont>
-                                        <Font size="11.0"/>
+                                        <Font size="11.0" />
                                     </tickLabelFont>
                                 </NumberAxis>
                             </yAxis>
                             <VBox.margin>
-                                <Insets/>
+                                <Insets />
                             </VBox.margin>
                             <padding>
-                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                             </padding>
                         </AreaChart>
                     </children>
                 </VBox>
-                <VBox prefHeight="360.0" prefWidth="35.0"/>
+                <VBox prefHeight="360.0" prefWidth="35.0" />
             </children>
             <padding>
-                <Insets bottom="10.0"/>
+                <Insets bottom="10.0" />
             </padding>
         </HBox>
-        <JFXButton buttonType="RAISED" focusTraversable="false" layoutX="1262.0" layoutY="17.0" onAction="#switchTheme"
-                   prefHeight="39.0" prefWidth="39.0" ripplerFill="BLACK">
+        <JFXButton buttonType="RAISED" focusTraversable="false" layoutX="1262.0" layoutY="17.0" onAction="#switchTheme" prefHeight="39.0" prefWidth="39.0" ripplerFill="BLACK">
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
             <graphic>
                 <ImageView fx:id="_switchThemeIcon" fitHeight="20.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@icons/light-theme.png"/>
+                        <Image url="@icons/light-theme.png" />
                     </image>
                 </ImageView>
             </graphic>
         </JFXButton>
-        <JFXButton buttonType="RAISED" focusTraversable="false" layoutX="1311.0" layoutY="17.0" onAction="#minimise"
-                   prefHeight="39.0" prefWidth="39.0" ripplerFill="BLACK">
+        <JFXButton buttonType="RAISED" focusTraversable="false" layoutX="1311.0" layoutY="17.0" onAction="#minimise" prefHeight="39.0" prefWidth="39.0" ripplerFill="BLACK">
             <graphic>
                 <ImageView fitHeight="15.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@icons/minimise.png"/>
+                        <Image url="@icons/minimise.png" />
                     </image>
                 </ImageView>
             </graphic>
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
         </JFXButton>
-        <JFXButton buttonType="RAISED" focusTraversable="false" layoutX="1360.0" layoutY="17.0" onAction="#close"
-                   prefHeight="39.0" prefWidth="39.0" ripplerFill="BLACK">
+        <JFXButton buttonType="RAISED" focusTraversable="false" layoutX="1360.0" layoutY="17.0" onAction="#close" prefHeight="39.0" prefWidth="39.0" ripplerFill="BLACK">
             <graphic>
                 <ImageView fitHeight="15.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@icons/close.png"/>
+                        <Image url="@icons/close.png" />
                     </image>
                 </ImageView>
             </graphic>
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
         </JFXButton>
-        <JFXSpinner fx:id="_statusSpinner" layoutX="413.0" layoutY="720.0" prefHeight="32.0" prefWidth="31.0"/>
+        <JFXSpinner fx:id="_statusSpinner" layoutX="413.0" layoutY="720.0" prefHeight="32.0" prefWidth="31.0" />
     </children>
 </AnchorPane>

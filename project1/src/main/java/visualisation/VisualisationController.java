@@ -30,6 +30,8 @@ import java.net.URL;
 public class VisualisationController extends DraggableWindow implements Initializable {
     // The nodes in VisualisationDashboard.fxml
     @FXML
+    private Text _visualisationTitle; 
+    @FXML
     private AnchorPane root;
     @FXML
     private Text _bestScheduleTitle;
