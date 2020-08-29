@@ -11,6 +11,9 @@ The file "scheduler.jar" contains the full project, including all dependencies. 
 | INPUT.dot | File path to a task graph with integer weights in .dot format |
 | P | The number of processors to schedule the input graph on |
 | _-o OUTPUT_ | Path to write output to |
+| _-v_ | Enable schedule visualisation |
+| _-p NUMBEROFTHREADS_ | Number of parallel cores to use for execution |
+| _--help_ | Help menu |
 
 If you want to compile the code, the .jar files in `/project1/resources` will have to be added as libraries for the project.
 
