@@ -15,7 +15,8 @@ public class Config {
     private String _inputFileName;
     private String _outputFileName;
 
-    public static final int SEQUENTIAL_EXECUTION = -1;
+    // If not defined, there is 1 thread running
+    public static final int SEQUENTIAL_EXECUTION = 1;
 
     // Optional parameters
     private int _numParallelCores;

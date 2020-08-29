@@ -23,6 +23,6 @@ public abstract class ParallelDFS extends DFS {
      */
     public static void initialiseThreadPool(int numParallelCores) {
         _numParallelCores = numParallelCores;
-        _pool = (ThreadPoolExecutor) Executors.newFixedThreadPool(numParallelCores);
+        _pool = (ThreadPoolExecutor) Executors.newFixedThreadPool(numParallelCores - 1); // Allow numParallelCores - 1 extra threads to be made
     }
 }
