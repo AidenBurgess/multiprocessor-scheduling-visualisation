@@ -16,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.text.Text;
 import javafx.util.StringConverter;
+import main.java.commandparser.Config;
 import main.java.dataretriever.SystemPerformanceRetriever;
 import main.java.visualisation.ganttchart.ScheduleChart;
 
@@ -208,7 +209,9 @@ public class VisualisationController extends DraggableWindow implements Initiali
     private void setUpTitle() {
         int numThreads = VisualisationDriver.getNumParallelCores();
         String suffix;
-        if (numThreads == -1) {
+        // change the visualisation title suffix based on whether the sequential or the parallel
+        // version of the algorithm is being run
+        if (numThreads == Config.SEQUENTIAL_EXECUTION) {
             suffix = "Sequential Version";
         } else {
             suffix = String.format("Parallel Version (%d Threads)", numThreads);
