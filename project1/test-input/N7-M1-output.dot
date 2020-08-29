@@ -1,0 +1,10 @@
+digraph "N7M1" {
+	FTVRDQYVVNUHOTPNKPBE			[Weight=17, Start=0, Processor=1];
+	ZDKSGIRDRZTBSUPSVQPK			[Weight=11, Start=0, Processor=2];
+	NMIJAJCEDMOKRXMNBDVN			[Weight=13, Start=0, Processor=3];
+	SCFCAFSBGYDEMZOUBZKX			[Weight=17, Start=0, Processor=4];
+	YRDCJKCERJUKHNJNFVPN			[Weight=15, Start=11, Processor=2];
+	UHSVLDSKSLTGIFJOFSHF			[Weight=14, Start=0, Processor=5];
+	GRGFOZXYZYDCOHIWYMID			[Weight=13, Start=13, Processor=3];
+	ZDKSGIRDRZTBSUPSVQPK -> YRDCJKCERJUKHNJNFVPN		[Weight=18];
+}

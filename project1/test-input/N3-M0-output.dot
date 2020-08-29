@@ -1,0 +1,5 @@
+digraph "N3M0" {
+	MLDRIKHSLQAMJAIOVVNJ			[Weight=12, Start=0, Processor=1];
+	DIIRKROFDKPFUTFFMPKV			[Weight=17, Start=0, Processor=2];
+	CRUOMPPYCXSTKUWSBBEJ			[Weight=17, Start=0, Processor=3];
+}

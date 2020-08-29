@@ -1,0 +1,13 @@
+digraph "N10M1" {
+	WVNDYJUDPTUHOOEOKVAJ			[Weight=19, Start=0, Processor=1];
+	IDBUAKJPZWRSCRSFDJML			[Weight=12, Start=19, Processor=1];
+	ELSAMYLJSNCFQUXDPFOW			[Weight=14, Start=0, Processor=2];
+	DZJSBBYLXEXSXLNYDRMG			[Weight=11, Start=0, Processor=3];
+	WZGLZYBZKWQTUGPRKGNS			[Weight=14, Start=0, Processor=4];
+	ACARJLEBZIJDWZBVVPZH			[Weight=19, Start=11, Processor=3];
+	NPFPXVBGGXKWFUBTPBVI			[Weight=17, Start=14, Processor=2];
+	RNLNRDRNZNUWQVPBREXQ			[Weight=17, Start=0, Processor=5];
+	FGZQHERLGWCYFNYZTWSS			[Weight=18, Start=14, Processor=4];
+	KHJEPRCPIAOCHLTKTXWP			[Weight=12, Start=17, Processor=5];
+	WZGLZYBZKWQTUGPRKGNS -> FGZQHERLGWCYFNYZTWSS		[Weight=20];
+}

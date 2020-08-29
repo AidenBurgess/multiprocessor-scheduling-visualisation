@@ -1,0 +1,12 @@
+digraph "N8M2" {
+	ZDMMFKHBEBVMQOGPFWYE			[Weight=13, Start=0, Processor=1];
+	PZWHBXOEAZHXQEXOXXFX			[Weight=13, Start=13, Processor=1];
+	QJPSUVNJEPSGGKPJYSMD			[Weight=10, Start=0, Processor=2];
+	MIGAXTVBUZIEUGEVYBLW			[Weight=16, Start=10, Processor=2];
+	KMZYILASEOYGJASVRAIX			[Weight=16, Start=0, Processor=3];
+	OPYMEKJGYHOGFDAUNUZF			[Weight=15, Start=26, Processor=1];
+	KJRPBMAVXDLIAPKUPOHN			[Weight=11, Start=16, Processor=3];
+	TLEFYWOAYJBGUTQDARJS			[Weight=13, Start=27, Processor=3];
+	ZDMMFKHBEBVMQOGPFWYE -> OPYMEKJGYHOGFDAUNUZF		[Weight=16];
+	PZWHBXOEAZHXQEXOXXFX -> OPYMEKJGYHOGFDAUNUZF		[Weight=14];
+}

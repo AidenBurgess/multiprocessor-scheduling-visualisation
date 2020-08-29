@@ -1,0 +1,6 @@
+digraph "N3M1" {
+	IUIIFETVBLLZLWZZXJVF			[Weight=11, Start=0, Processor=1];
+	YPYNCEQRAYQTIVINRBBR			[Weight=14, Start=11, Processor=1];
+	UKHERQDNRIXBKEYCOMGK			[Weight=10, Start=0, Processor=2];
+	IUIIFETVBLLZLWZZXJVF -> YPYNCEQRAYQTIVINRBBR		[Weight=12];
+}

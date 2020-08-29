@@ -1,0 +1,4 @@
+digraph "N2M0" {
+	XBDXDPFPYHDGXJAPNPSR			[Weight=20, Start=0, Processor=1];
+	MPOYNBJTQFPQGSLOKFLC			[Weight=18, Start=0, Processor=2];
+}
