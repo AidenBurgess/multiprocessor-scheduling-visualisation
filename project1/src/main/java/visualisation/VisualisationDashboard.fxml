@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane id="root" fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="810.0" prefWidth="1440.0" styleClass="root" xmlns="http://javafx.com/javafx/11.0.1"
+            prefHeight="810.0" prefWidth="1440.0" styleClass="root" xmlns="http://javafx.com/javafx/"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.visualisation.VisualisationController">
     <children>
         <HBox alignment="CENTER_LEFT" prefHeight="90.0" prefWidth="1440.0">
