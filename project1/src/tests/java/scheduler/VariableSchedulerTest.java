@@ -1,5 +1,6 @@
 package tests.java.scheduler;
 
+import main.java.commandparser.Config;
 import main.java.dotio.*;
 import main.java.scheduler.Scheduler;
 import main.java.scheduler.VariableScheduler;
@@ -24,7 +25,7 @@ public class VariableSchedulerTest {
         TaskGraph tg = DotIO.read(System.getProperty("user.dir") + "/dots/" + testName);
 
         boolean[] stats = {false};
-        int[] threads = {-1, 2, 3, 3, 2, -1};
+        int[] threads = {Config.SEQUENTIAL_EXECUTION, 2, 3, 3, 2, Config.SEQUENTIAL_EXECUTION};
         // Statistics, Processors
         for (boolean stat : stats) {
             for (int thread : threads) {
