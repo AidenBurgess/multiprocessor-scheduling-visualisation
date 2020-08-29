@@ -17,3 +17,17 @@ If you want to compile the code, the .jar files in `/project1/resources` will ha
 ## Wiki
 
 The wiki can be found in `/wiki`. The markdown file for the home page is found [here](wiki/README.md)
+
+
+## References
+
+External dependencies can be found [here](wiki/References.md)
+
+### Summary
+JavaFX and JFoenix were used for the visualisation.  
+JUnit3 was used for testing.  
+ANTLR was used for parsing input graphs.  
+StackOverflow for general code snippets.  
+Material for the color theme.  
+
+
