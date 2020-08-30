@@ -44,7 +44,7 @@ public class Driver {
 
             // Start FX thread if applicable
             if (config.hasVisualisation()) {
-                startVisualisationThread(scheduler.getInformationHolder(), taskGraph, config.getNumProcessors());
+                startVisualisationThread(scheduler.getInformationHolder(), taskGraph, config);
             }
 
             // Start searching for an optimal solution. Blocks until finished.
@@ -84,9 +84,9 @@ public class Driver {
         }
     }
 
-    private static void startVisualisationThread(InformationHolder informationHolder, TaskGraph taskGraph, int numProcessors) {
+    private static void startVisualisationThread(InformationHolder informationHolder, TaskGraph taskGraph, Config config) {
         new Thread(() -> {
-            VisualisationDriver.main(informationHolder, taskGraph, numProcessors);
+            VisualisationDriver.main(informationHolder, taskGraph, config);
         }).start();
     }
 }

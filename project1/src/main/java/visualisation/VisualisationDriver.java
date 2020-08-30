@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import main.java.commandparser.Config;
 import main.java.dotio.TaskGraph;
 import main.java.scheduler.InformationHolder;
 
@@ -20,7 +21,7 @@ import java.io.IOException;
 public class VisualisationDriver extends Application {
     private static InformationHolder _informationHolder = null;
     private static TaskGraph _taskGraph = null;
-    private static int _numProcessors = 0;
+    private static Config _config;
 
     /**
      * Starts the JavaFX GUI thread by calling launch().
@@ -28,12 +29,12 @@ public class VisualisationDriver extends Application {
      *
      * @param informationHolder
      * @param taskGraph
-     * @param numProcessors
+     * @param config
      */
-    public static void main(InformationHolder informationHolder, TaskGraph taskGraph, int numProcessors) {
+    public static void main(InformationHolder informationHolder, TaskGraph taskGraph, Config config) {
         _informationHolder = informationHolder;
         _taskGraph = taskGraph;
-        _numProcessors = numProcessors;
+        _config = config;
         launch();
     }
 
@@ -88,6 +89,10 @@ public class VisualisationDriver extends Application {
      * @return number of processors
      */
     public static int getNumProcessors() {
-        return _numProcessors;
+        return _config.getNumProcessors();
+    }
+
+    public static int getNumParallelCores() {
+        return _config.getNumParallelCores();
     }
 }
