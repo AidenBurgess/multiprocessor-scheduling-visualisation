@@ -92,7 +92,6 @@ public class DisplayUpdater {
         _previousBestStartTimeMap = new HashMap<>();
         _upperHBox = upperHBox;
         // Change default tooltip behaviour, parameters are specified in ms.
-        updateTooltipBehavior(100,10000,100,true);
         // start the DisplayUpdater timer automatically when the object is created
         startTimer();
     }
@@ -255,47 +254,9 @@ public class DisplayUpdater {
                 String toolTipText = String.format("Name: %s\nLength: %d\nStart time: %d\nEnd time: %d", taskExtraData.getTaskName(), taskExtraData.getLength(), taskData.getXValue(), (int)taskData.getXValue()+taskExtraData.getLength());
                 Tooltip t = new Tooltip(toolTipText);
                 // add the tool tip to the visualisation window
+                t.setShowDelay(Duration.seconds(0.1));
                 Tooltip.install(taskData.getNode(), t);
             }
-        }
-    }
-
-    /**
-     * Change the default tooltip behaviour.
-     * @param openDelay time for tooltip to appear in ms.
-     * @param visibleDuration time tooltip stays open in ms.
-     * @param closeDelay time for tooltip to disappear in ms.
-     * @param hideOnExit whether to keep tooltip on screen.
-     *
-     * Source code credit to user 'Nicolas Filotto' from StackOverflow. This code is licensed under the Attribution-ShareAlike
-     * 3.0 Unported. It is free to be used and adapted for any purposes.
-     * Link: https://stackoverflow.com/a/42759066
-     * The source code was modified to match the requirements of our application.
-     */
-    private static void updateTooltipBehavior(double openDelay, double visibleDuration,
-                                              double closeDelay, boolean hideOnExit) {
-        try {
-            // Get the non public field "BEHAVIOR"
-            Field fieldBehavior = Tooltip.class.getDeclaredField("BEHAVIOR");
-            // Make the field accessible to be able to get and set its value
-            fieldBehavior.setAccessible(true);
-            // Get the value of the static field
-            Object objBehavior = fieldBehavior.get(null);
-            // Get the constructor of the private static inner class TooltipBehavior
-            Constructor<?> constructor = objBehavior.getClass().getDeclaredConstructor(
-                    Duration.class, Duration.class, Duration.class, boolean.class
-            );
-            // Make the constructor accessible to be able to invoke it
-            constructor.setAccessible(true);
-            // Create a new instance of the private static inner class TooltipBehavior
-            Object tooltipBehavior = constructor.newInstance(
-                    new Duration(openDelay), new Duration(visibleDuration),
-                    new Duration(closeDelay), hideOnExit
-            );
-            // Set the new instance of TooltipBehavior
-            fieldBehavior.set(null, tooltipBehavior);
-        } catch (Exception e) {
-            throw new IllegalStateException(e);
         }
     }
 }
