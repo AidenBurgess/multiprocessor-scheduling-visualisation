@@ -1,5 +1,47 @@
 # Shih-Hao's Work Log
 
+## 29/08/20
+
+-   Merged optimal-test into master
+-   General robustness - edge cases (e.g. negative values)
+
+## 28/08/20
+
+-   Introduced DataStructure class to allow for flexibility
+-   Improved CommandParser robustness and added testing
+-   Driver now handles exceptions from all components
+
+## 27/08/20
+
+-   Made RecursiveParallelDFS
+-   Made ProbabilisticParallelDFS
+-   Compared performance
+
+## 26/08/20
+
+-   Implemented processor symmetry
+-   Implemented repeated states
+-   Refactored and created DFSListeners
+
+## 24/08/20
+
+-   Refined Optimality test to use JUnit Params to automate checking
+
+## 23/08/20
+
+-   Implemented versions of Parallel DFSBB
+
+## 20/08/20
+
+-   Added middleman InformationHolder class
+-   Refactored VariableScheduler to determine statistics and parallel cores at runtime
+
+## 19/08/20
+
+-   Added testing for optimality
+
+---
+
 ## 18/08/20
 
 -   Refactored the Scheduler class into an interface.
