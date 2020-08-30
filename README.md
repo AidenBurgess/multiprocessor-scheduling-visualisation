@@ -1,6 +1,8 @@
 # SOFTENG 306 Project 1
 
-This is the repository for **Team 5 - Anubhav's Cheerleaders**. This includes the project code, the wiki and the executable file for the project, "scheduler.jar"
+This is the repository for **Team 5 - Anubhav's Cheerleaders**. This includes the project code, the wiki and the executable file for the project, "scheduler.jar"  
+
+The environment to run the releases on are Windows and Linux, with Java 11.
 
 ## Instructions
 
