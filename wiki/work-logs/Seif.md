@@ -1,5 +1,20 @@
 # Seif's Work Log
 
+## 30/08/20
+
+- Finalising wiki for submission
+- Read through current draft of report to see what could be changed/added
+
+---
+
+## 29/08/20
+
+- Added more info to wiki, meeting minutes and architecture/class structure pages.
+- More reviewing on pull requests containing minor changes and tweaks to various components.
+- Worked on final minor adjustments to visualisation.
+
+---
+
 ## 28/08/20
 
 - More visualisation work, just minor tweaks and fixes before merging all the new changes back to master
