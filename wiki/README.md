@@ -20,6 +20,7 @@ This wiki contains documentation regarding the design, architecture, references 
 ## Main Pages
 
 - [Planning](Planning.md)
-- Architecture & Class Structure
+- [Architecture & Class Structure](Architecture.md)
+- [Algorithm](Algorithm.md)
 - [Meeting Minutes](minutes/README.md)
-- References
+- [References](References.md)

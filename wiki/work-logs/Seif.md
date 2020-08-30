@@ -1,5 +1,41 @@
 # Seif's Work Log
 
+## 28/08/20
+
+- More visualisation work, just minor tweaks and fixes before merging all the new changes back to master
+- Reviewed the branch containing optimisations to the algorithm and validity tests.
+- Worked on "Testing" section of final report. Wrote an initial draft, but will make changes later/after feedback
+
+---
+
+## 27/08/20
+
+- Met again with Anubhav, Sree and Aiden to discuss priorities for remaining tasks for the visualisation
+- Worked on and reviewed miscellaneous fixes and additions to the UI components. A lot of styling changes and refactoring.
+
+---
+
+## 25/08/20
+
+- Peer programming session with Sree, worked on refactoring visualisation controller class.
+- Moved some code into the informaiton poller, and the display updater classes to improve abstraction/encapsulation.
+
+---
+
+## 21/08/20
+
+- Finished up changes to new parser.
+- Wrote more test cases for Dot I/O and did some manual testing as well.
+
+---
+
+## 20/08/20
+
+- Started working on a new parser for .dot files using ANTLR
+- Added client-provided input files to repository to use for testing.
+
+---
+
 ## 18/08/20
 
 - Meeting with Sam and Aiden to discuss optimisations for algorithm, such as parallelising the scheduler.

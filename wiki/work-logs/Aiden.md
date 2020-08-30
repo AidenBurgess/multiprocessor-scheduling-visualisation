@@ -1,5 +1,50 @@
 # Aiden's Work Log
 
+## 28/08/20
+- Add comments to DraggableWindow, ThemeSwitcher, VisualisationDriver
+- Review PR for algorithm branch milestone 2
+
+---
+
+## 27/08/20
+- Add status statistic and spinner 
+- Clear current schedule when optimal is found
+- Remove animation from axes
+- Add on hover for graphs and tasks
+- Update best schedule title when optimal found
+- Review some PRs
+
+---
+
+
+## 26/08/20
+- Make window draggable, remove top, add minimise and close buttons
+- Make dark and light themes, add theme switcher
+
+---
+
+## 24/08/20
+- Make window size fixed, shutdown controller properly on exiting visualisation
+
+---
+
+## 23/08/20
+- Review Sam's PR for refactor
+
+---
+
+## 20/08/20
+- Replace enhanced for loops with indexed
+
+---
+
+
+## 19/08/20
+- Make bash script for comparing jars
+- Review Sam's PR for improved scheduler
+
+---
+
 ## 18/08/20
 
 -   Develop SystemPerformanceRetriever to grab system information to be used by the visualisation.
