@@ -1,14 +1,20 @@
 package main.java.dotio;
 
+import main.java.dotio.antlr.DOTLexer;
+import main.java.dotio.antlr.DOTParser;
+import main.java.exception.DotIOException;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
+
 import java.io.*;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Read a string of the file name and extract the contents to return a task graph.
- *
+ * This static class handles the reading and writing of .dot syntax. It handles all the reading and writing of files,
+ * as well as any syntax or error checking when it comes to the actual .dot file format.
  */
 public class DotIO {
 
@@ -28,131 +34,19 @@ public class DotIO {
      * }
      *
      * @param inputFile The name of the file to be read.
-     * @return
+     * @return The TaskGraph object
      */
-    public static TaskGraph read(String inputFile) throws DotIOException, FileNotFoundException {
-
-        TaskGraph graph;
+    public static TaskGraph read(String inputFile) {
+        TaskGraph graph = new TaskGraph();
         try {
-            //Initialize stream tokenizer to read from the specified file
-            StreamTokenizer tk = new StreamTokenizer(new BufferedReader(new FileReader(inputFile, StandardCharsets.UTF_8)));
-            tk.whitespaceChars(';',';');
-            tk.nextToken();
-
-            //Check that input graph is a digraph.
-            if ((tk.ttype == StreamTokenizer.TT_WORD) && tk.sval.equalsIgnoreCase("digraph")) {
-                tk.nextToken();
-            } else {
-                throw new DotIOException("Input is not digraph"); //Error: input is not digraph
-            }
-
-            //Read name of graph, can either be in quotes or without quotes
-            if ((tk.ttype == '"') || (tk.ttype == StreamTokenizer.TT_WORD)) {
-                graph = new TaskGraph(tk.sval);
-                    tk.nextToken();
-            } else {
-                throw new DotIOException("graph name is not specified"); //Error: graph name is not specified.
-            }
-
-            //Read the "{" character, and start going through each node/edge until "}" character
-            if (tk.ttype == '{') {
-                tk.nextToken();
-            } else {
-                throw new DotIOException("no '{' character was found"); //Error: no '{' character was found
-            }
-
-            //Read each node/edge and add them to TaskGraph object.
-            while (tk.ttype != '}') {
-                if (tk.ttype == StreamTokenizer.TT_EOF) {
-                    throw new DotIOException("reached end of file before '}'"); //Error: reached end of file before "}"
-                }
-                readGraphObject(tk, graph);
-            }
-            return graph;
-
+            //Instantiate ANTLR lexer and parser, and parse through file with adapted dot listener.
+            DOTLexer lexer = new DOTLexer(CharStreams.fromStream(new FileInputStream(inputFile)));
+            DOTParser parser = new DOTParser(new CommonTokenStream(lexer));
+            ParseTreeWalker.DEFAULT.walk(new AdaptedDotListener(graph), parser.graph());
         } catch (IOException e) {
-            throw new DotIOException("Java IO error occured.");
+            throw new DotIOException("Ensure that the file \"" + inputFile + "\" exists and is a valid text file.");
         }
-    }
-
-    /**
-     * Read an individual graph object (i.e. a node or an edge) from a dot file and add it to the specified graph object
-     * @param tk The StreamTokenizer object being used to parse the input file.
-     * @param graph The TaskGraph object being created to encapsulate the graph from the .dot file.
-     * @throws IOException If an IOException is thrown by the StreamTokenizer object.
-     * @throws DotIOException If the .dot syntax is invalid or incorrect.
-     */
-    private static void readGraphObject(StreamTokenizer tk, TaskGraph graph) throws IOException, DotIOException {
-
-        String srcNode = null;
-        String destNode = null;
-        int weight = 0;
-
-        //Check for first word: the name of the node, or the name of the source node of the edge
-        if (tk.ttype == StreamTokenizer.TT_WORD) {
-            srcNode = tk.sval;
-            tk.nextToken();
-        } else {
-            throw new DotIOException("First token in the line wasn't a node name"); //Error: First token in the line wasn't a node name
-        }
-
-        //Check if the element is an edge by checking for the '->' sequence. If it is, then parse the dest node.
-        //Note: also checks for different type of hyphen character: as we're not sure if input is '−' or '-'
-        if ((tk.ttype == '-') || ((tk.ttype == StreamTokenizer.TT_WORD) && tk.sval.equals("−"))) {
-            tk.nextToken();
-            if (tk.ttype == '>') {
-                tk.nextToken();
-            } else {
-                throw new DotIOException("Found other character when expecting '>'");
-            }
-            if (tk.ttype == StreamTokenizer.TT_WORD) {
-                destNode = tk.sval;
-                tk.nextToken();
-            } else {
-                throw new DotIOException("destination of edge is not a word"); //Error: destination of edge is not a word"
-            }
-        }
-
-        //Check for the '[' symbol before the weight property.
-        if (tk.ttype == '[') {
-            tk.nextToken();
-        } else {
-            throw new DotIOException("Found other character when expecting '['"); //Error: found other character when expecting '['
-        }
-
-        //Check that the weight of the node is correctly notated.
-        if ((tk.ttype == StreamTokenizer.TT_WORD) && tk.sval.equalsIgnoreCase("Weight")) {
-            tk.nextToken();
-        } else {
-            throw new DotIOException("Weight of node/edge not specified"); //Error: Weight of node/edge not specified.
-        }
-
-        if (tk.ttype == '=') {
-            tk.nextToken();
-        } else {
-            throw new DotIOException("Found other character when expecting '='");
-        }
-
-        if (tk.ttype == StreamTokenizer.TT_NUMBER) {
-            weight = (int) tk.nval;
-            tk.nextToken();
-        } else {
-            throw new DotIOException("Weight value for node is not a number.");
-        }
-
-        //Check that there is a ']' character after weight property.
-        if (tk.ttype == ']') {
-            tk.nextToken();
-        } else {
-            throw new DotIOException("Couldn't find ']' character"); //Error: Couldn't find ']' character
-        }
-
-        //Determine whether to add task or dependency by checking if destNode has been changed or not.
-        if (destNode == null) {
-            graph.insertTask(new Task(srcNode, weight));
-        } else {
-            graph.insertDependency(new Dependency(srcNode, destNode, weight));
-        }
+        return graph;
     }
 
     /**
@@ -169,16 +63,6 @@ public class DotIO {
      *      c −> d      [Weight=1];
      *  }
      *
-     * Some writer example
-     *  PrintWriter writer = new PrintWriter("prog5-grapha.dot");
-     *                 writer.println("digraph program 5");
-     *                 writer.println("{");
-     *                 writer.println("a -> b -> c;");
-     *                 writer.println("b -> d;");
-     *                 writer.println("}");
-     *
-     *  writer.close();
-     *
      * @param outputFile
      * @param taskGraph
      * @param startTimeMap
@@ -186,9 +70,7 @@ public class DotIO {
      *
      * @write to a .dot file
      */
-    public static void write(String outputFile, TaskGraph taskGraph, HashMap<String, Integer> startTimeMap, HashMap<String, Integer> processorMap) throws DotIOException {
-
-        // Use the task graph to get the ordering of the nodes and edges
+    public static void write(String outputFile, TaskGraph taskGraph, HashMap<String, Integer> startTimeMap, HashMap<String, Integer> processorMap) {
 
         // for each node, check if it has a time in the map and which processor it has been assigned to.
 
@@ -198,7 +80,7 @@ public class DotIO {
             PrintWriter writer = new PrintWriter(outputFile);
 
             // write the first line
-            sb.append("digraph ").append(taskGraph.getName()).append(" {\n");
+            sb.append("digraph \"").append(taskGraph.getName()).append("\" {\n");
 
             // iterate through the task graph tasks
             ArrayList<Task> tasks = taskGraph.getTasks();

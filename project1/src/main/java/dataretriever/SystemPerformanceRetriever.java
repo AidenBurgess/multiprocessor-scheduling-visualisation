@@ -3,7 +3,11 @@ package main.java.dataretriever;
 import java.lang.management.ManagementFactory;
 import com.sun.management.OperatingSystemMXBean;
 
+/**
+ * Gets the system performance statistics at runtime. Currently used to extract the CPU and RAM from the computer.
+ */
 public class SystemPerformanceRetriever {
+
     // Get OS management object
     private final OperatingSystemMXBean statsRetriever = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
     // Get total RAM to calculate used RAM later
@@ -20,7 +24,7 @@ public class SystemPerformanceRetriever {
      * @return double representing the RAM usage in gigabytes
      */
     public double getRAMUsageGigaBytes() {
-        return ((totalRAM - statsRetriever.getFreePhysicalMemorySize()) / (double)1e9);
+        return ((totalRAM - statsRetriever.getFreePhysicalMemorySize()) / (double)1.074e9);
     }
 
     /**
@@ -31,10 +35,10 @@ public class SystemPerformanceRetriever {
     }
 
     /**
-     * @return long representing the total RAM available in bytes
+     * @return double representing the total RAM available in gigabytes
      */
-    public long getTotalRAMBytes() {
-        return totalRAM;
+    public double getTotalRAMGigaBytes() {
+        return (totalRAM  / (double)1.074e9);
     }
 
 }

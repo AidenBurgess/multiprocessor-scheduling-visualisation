@@ -3,6 +3,8 @@ package tests.java;
 import main.java.Driver;
 import org.junit.Test;
 
+import java.util.Collections;
+
 public class DriverTest {
 
     @Test
@@ -16,7 +18,7 @@ public class DriverTest {
     @Test (timeout = 200000)
     public void runtimeTesting() {
         int maxProcessors = 5;
-        int maxTasks = 10;
+        int maxTasks = 12;
 
         System.out.println("\t\t\t\t Number of processors (time in ms)");
         System.out.format("Filename");
@@ -24,7 +26,7 @@ public class DriverTest {
             System.out.format("%10d", i);
         }
         System.out.println();
-        System.out.println("-".repeat(16+10*maxProcessors));
+        System.out.println(String.join("", Collections.nCopies(16+10*maxProcessors, "-")));
 
         for (int N = 1; N < maxTasks+1; N++) {
             int maxDependencies = (N*(N-1))/2 + 1;
@@ -33,7 +35,7 @@ public class DriverTest {
                 String filename = String.format("N%d-M%d.dot", N, M);
                 System.out.format("%10s", filename);
                 for (int P = 1; P < maxProcessors+1; P++) {
-                    String[] input = {"dots/" + filename, Integer.toString(P)};
+                    String[] input = {"test-input/" + filename, Integer.toString(P)};
                     long startTime = System.nanoTime();
                     Driver.main(input);
                     long duration = (System.nanoTime() - startTime)/1000000;
@@ -46,10 +48,10 @@ public class DriverTest {
 
     @Test
     public void singleFileRuntime() {
-        String filename = "dots/N11-M1.dot";
+        String filename = "test-input/N9-M1.dot";
         String numProcessors = "3";
 
-        String[] input = {filename, numProcessors};
+        String[] input = {filename, numProcessors, "-p", "3"};
         long startTime = System.nanoTime();
         Driver.main(input);
         long duration = (System.nanoTime() - startTime)/1000;

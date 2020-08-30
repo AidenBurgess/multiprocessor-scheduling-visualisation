@@ -1,0 +1,16 @@
+digraph "N11M3" {
+	BDOXQAFESCQOZZXDQBSO			[Weight=10, Start=0, Processor=1];
+	WJZMNCSVTYYTLNNLAKPJ			[Weight=14, Start=10, Processor=1];
+	CKVTWBOEWGKBDDXWUUIX			[Weight=19, Start=0, Processor=2];
+	CQUKRKSLGRKJUVEMENLY			[Weight=17, Start=19, Processor=2];
+	JEWIXFNVFNLOFEAEUSLX			[Weight=15, Start=0, Processor=3];
+	EUWMPBFUTUGVKXLDKASY			[Weight=15, Start=15, Processor=3];
+	RNXXSQIDGYOXXUBYFNVR			[Weight=17, Start=0, Processor=4];
+	SUVVEPTBAIELFRBFCDCC			[Weight=20, Start=0, Processor=5];
+	OVLDNDUMMYTOSAVGGFUO			[Weight=20, Start=20, Processor=5];
+	YBCWWNINESTPNCGWCXPW			[Weight=12, Start=24, Processor=1];
+	OMVIDEFUQGJAPSTVRESY			[Weight=12, Start=17, Processor=4];
+	SUVVEPTBAIELFRBFCDCC -> OVLDNDUMMYTOSAVGGFUO		[Weight=18];
+	JEWIXFNVFNLOFEAEUSLX -> EUWMPBFUTUGVKXLDKASY		[Weight=18];
+	BDOXQAFESCQOZZXDQBSO -> YBCWWNINESTPNCGWCXPW		[Weight=13];
+}

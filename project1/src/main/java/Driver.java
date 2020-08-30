@@ -3,78 +3,90 @@ package main.java;
 import main.java.commandparser.Config;
 import main.java.commandparser.CommandParser;
 import main.java.dotio.DotIO;
-import main.java.dotio.DotIOException;
 import main.java.dotio.TaskGraph;
-import main.java.scheduler.ReducedStateScheduler;
+import main.java.exception.CommandParserException;
+import main.java.exception.DotIOException;
+import main.java.exception.SchedulerException;
+import main.java.exception.ValidityCheckerException;
+import main.java.scheduler.InformationHolder;
 import main.java.scheduler.Scheduler;
+import main.java.scheduler.VariableScheduler;
+import main.java.validitychecker.ValidityChecker;
 import main.java.visualisation.VisualisationDriver;
-
-import java.io.FileNotFoundException;
 
 import java.util.HashMap;
 
+/**
+ * Entry to the program. Responsible for passing control through each of the main components.
+ */
 public class Driver {
+    /**
+     * Responsible for:
+     * - Read command line
+     * - Read DOT file
+     * - Open Visualisation, if applicable
+     * - Run Scheduler
+     * - Write DOT file
+     * When a RuntimeException is thrown, main catches it and handles it responsibly.
+     *
+     * @param args Arguments/Options from the command line.
+     */
     public static void main(String[] args) {
-
-        // read the arguments and gets the config object with all attributes
-        Config config = CommandParser.parse(args);
-
-        // read the file out from the input file
-        TaskGraph taskGraph = readTaskGraph(config);
-
-        // create a scheduler with the number of processors
-        Scheduler scheduler = new ReducedStateScheduler(taskGraph, config.getNumProcessors());
-
-        // Uncomment this to force visualisation on
-        // config.hasVisualisation = true;
-        if (config.hasVisualisation()) {
-            startVisualisationThread(scheduler, taskGraph, config.getNumProcessors());
-        }
-
-        scheduler.execute(); // blocks until finished, can be queried by dashboardcontroller
-        writeDotFile(scheduler, taskGraph, config);
-    }
-
-    private static void startVisualisationThread(Scheduler scheduler, TaskGraph taskGraph, int numProcessors) {
-        new Thread(() -> {
-            VisualisationDriver.main(scheduler, taskGraph, numProcessors);
-        }).start();
-    }
-
-    /**
-     * Reads the config file and converts it to a task graph to be used by other methods/classes.
-     * @param config
-     * @return TaskGraph
-     */
-    private static TaskGraph readTaskGraph(Config config) {
-        TaskGraph taskGraph = null;
         try {
-            taskGraph = DotIO.read(config.getInputFileName());
-        } catch (FileNotFoundException e) {
-            System.err.println("Error: File " + config.getInputFileName() + " does not exist");
-            System.exit(1);
-        } catch (DotIOException e) {
-            System.err.println("Error with dot syntax of input file: " + e.getMessage());
-            System.exit(1);
-        }
-        return taskGraph;
-    }
+            // Read the arguments from command line into config
+            Config config = CommandParser.parse(args);
 
-    /**
-     * Writes the output schedule to a dot file.
-     * @param scheduler
-     * @param taskGraph
-     * @param config
-     */
-    private static void writeDotFile(Scheduler scheduler, TaskGraph taskGraph, Config config) {
-        HashMap<String, Integer> startTimeMap = scheduler.getBestStartTimeMap();
-        HashMap<String, Integer> processorMap = scheduler.getBestProcessorMap();
+            // Read the file out from the input file
+            TaskGraph taskGraph = DotIO.read(config.getInputFileName());
 
-        try {
+            // Create a scheduler with correct statistics/processors arguments
+            Scheduler scheduler = new VariableScheduler(taskGraph, config.getNumProcessors(), config.hasVisualisation(), config.getNumParallelCores());
+
+            // Start FX thread if applicable
+            if (config.hasVisualisation()) {
+                startVisualisationThread(scheduler.getInformationHolder(), taskGraph, config);
+            }
+
+            // Start searching for an optimal solution. Blocks until finished.
+            // Information can be accessed from scheduler.getInformationHolder();
+            scheduler.execute();
+
+            // Retrieve solution.
+            InformationHolder informationHolder = scheduler.getInformationHolder();
+            HashMap<String, Integer> startTimeMap = informationHolder.getScheduleStateMaps().getBestStartTimeMap();
+            HashMap<String, Integer> processorMap = informationHolder.getScheduleStateMaps().getBestProcessorMap();
+
+            // Check if solution is valid. Throws ValidCheckerException if not.
+            ValidityChecker validityChecker = new ValidityChecker(taskGraph.getTasks(), taskGraph.getDependencies(), informationHolder.getScheduleStateMaps().getBestProcessorMap(), informationHolder.getScheduleStateMaps().getBestStartTimeMap());
+            validityChecker.check();
+
+            // Writes answer to output
             DotIO.write(config.getOutputFileName(), taskGraph, startTimeMap, processorMap);
-        } catch (DotIOException e) {
-            System.err.println("Error writing output file: " + e.getMessage());
+
+        } catch (CommandParserException e) {
+            System.out.println(e.getMessage());
             System.exit(1);
+        } catch (DotIOException e) {
+            System.err.println("Something went wrong while reading/writing the DOT files.");
+            System.err.println(e.getMessage());
+            System.exit(1);
+        } catch (SchedulerException e) {
+            System.err.println("Something went wrong while trying to find an optimum schedule.");
+            System.err.println(e.getMessage());
+            System.exit(1);
+        } catch (ValidityCheckerException e) {
+            System.err.println("The result that we have produced may not be valid.");
+            System.err.println(e.getMessage());
+            System.exit(1);
+        } catch (RuntimeException e) {
+            System.err.println("An unexpected error has happened. Exiting...");
+            throw e;
         }
+    }
+
+    private static void startVisualisationThread(InformationHolder informationHolder, TaskGraph taskGraph, Config config) {
+        new Thread(() -> {
+            VisualisationDriver.main(informationHolder, taskGraph, config);
+        }).start();
     }
 }

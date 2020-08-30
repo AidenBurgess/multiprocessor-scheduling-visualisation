@@ -1,0 +1,6 @@
+digraph "N4M0" {
+	GNXCCDTIZJZKUZRFRARD			[Weight=19, Start=0, Processor=1];
+	HMMIBANLFFPRTMPDTOTB			[Weight=13, Start=0, Processor=2];
+	YKQZGAZYEPVJBESSBKSQ			[Weight=20, Start=0, Processor=3];
+	HVXBWCQRGHFPILMBMOOA			[Weight=15, Start=0, Processor=4];
+}

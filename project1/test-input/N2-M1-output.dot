@@ -1,0 +1,5 @@
+digraph "N2M1" {
+	MNKIKHMEDTKDQKRNBHST			[Weight=12, Start=0, Processor=1];
+	APYDYNQAUSKJXOOIZYLJ			[Weight=17, Start=12, Processor=1];
+	MNKIKHMEDTKDQKRNBHST -> APYDYNQAUSKJXOOIZYLJ		[Weight=20];
+}

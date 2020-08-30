@@ -1,0 +1,101 @@
+#root {
+    -fx-background-color: -bg-color-bg !important;
+}
+
+#titleBackground {
+    -fx-background-color: -bg-color-bar;
+}
+
+Text {
+    -fx-fill: -text-color-primary;
+}
+
+.root VBox {
+    -fx-background-color: -bg-color-bg;
+}
+
+HBox {
+    -fx-background-color: -bg-color-bg;
+}
+
+AreaChart {
+    -fx-background-color: -bg-color-bar;
+}
+
+.jfx-button {
+    -fx-background-color: -accent-color-primary;
+    -fx-text-fill: -text-color-primary;
+}
+
+.jfx-button:hover {
+    -fx-background-color: #75dde6;
+}
+
+.toggle-button {
+    -fx-text-fill: -text-color-primary;
+    -fx-font-size: 16px;
+}
+
+.chart {
+    -fx-background-color: -bg-color-bg;
+}
+
+.chart-plot-background {
+    -fx-background-color: -bg-color-bar;
+}
+
+.chart .chart-title .text {
+    -fx-fill: -text-color-primary;
+}
+
+.split-pane:horizontal .split-pane-divider {
+    -fx-background-color: -bg-color-bg;
+}
+
+.split-pane {
+    -fx-border-color: -bg-color-bg;
+    -fx-background-color: -bg-color-bg;
+}
+
+.axis:bottom .axis-label .text,
+.axis:left .axis-label .text {
+    -fx-fill: -text-color-primary;
+}
+
+#RAMParent .chart-series-area-fill {
+    -fx-fill: green;
+    -fx-opacity: 30%;
+}
+
+#RAMParent .chart-series-area-line {
+    -fx-stroke: green;
+}
+
+#RAMParent .chart-area-symbol {
+    -fx-background-color: green, white;
+}
+
+#RAMParent .chart-series-area-fill:hover {
+    -fx-fill: #13d013;
+}
+
+#CPUParent .chart-series-area-fill:hover {
+    -fx-fill: #de3b3b;
+    -fx-opacity: 38%;
+}
+
+.chart-vertical-grid-lines,
+.chart-horizontal-grid-lines {
+    -fx-stroke: #565656;
+}
+
+.tooltip {
+    -fx-text-fill: -text-color-primary;
+    -fx-font-size: 13px;
+
+    -fx-background-color: -bg-color-card;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-padding: 0.667em 0.75em 0.667em 0.75em; /* 10px */
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 10, 0.0, 0, 3);
+}

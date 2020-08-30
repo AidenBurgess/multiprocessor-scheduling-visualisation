@@ -1,0 +1,24 @@
+digraph "Layered_N20_Layers18-2_Fork_P1.dot" {
+	1	[Weight=14];
+	2	[Weight=39];
+	3	[Weight=23];
+	4	[Weight=36];
+	5	[Weight=33];
+	6	[Weight=36];
+	7	[Weight=38];
+	8	[Weight=37];
+	9	[Weight=35];
+	10	[Weight=18];
+	11	[Weight=19];
+	12	[Weight=14];
+	13	[Weight=25];
+	14	[Weight=35];
+	15	[Weight=29];
+	16	[Weight=26];
+	17	[Weight=28];
+	18	[Weight=26];
+	19	[Weight=27];
+	20	[Weight=22];
+	5 -> 20 [Weight=7];
+	11 -> 19 [Weight=7];
+}

@@ -1,0 +1,8 @@
+digraph "N5M1" {
+	LFPDRZMEGKFNYBMEJNWX			[Weight=20, Start=0, Processor=1];
+	OWKBTBGCTDYNTATMGCNC			[Weight=20, Start=0, Processor=2];
+	XPYXZOELNKFQYJRLKGRZ			[Weight=12, Start=20, Processor=1];
+	OUMGVSMADGOVWXFYFRGJ			[Weight=17, Start=0, Processor=3];
+	WTAEQKDJSHLZFGIFIMRY			[Weight=10, Start=17, Processor=3];
+	LFPDRZMEGKFNYBMEJNWX -> XPYXZOELNKFQYJRLKGRZ		[Weight=11];
+}
