@@ -197,7 +197,7 @@ public class DisplayUpdater {
                 _upperHBox.getChildren().remove(0); // remove the current schedule node
                 _upperHBox.getChildren().remove(0); // remove the middle spacer vBox
             }
-            _bestScheduleTitle.setText(String.format("Optimal Schedule. Total Time: %d", currentBound));
+            _bestScheduleTitle.setText(String.format("Optimal Schedule. Length: %d", currentBound));
             // if the optimal schedule is not found
         } else {
             // refresh the current schedule being tested by the algorithm
